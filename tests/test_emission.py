@@ -7,13 +7,14 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 from scipy.ndimage import distance_transform_edt
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from gemsdoe54.emission import emit_spaced_dots  # noqa: E402
-from gemsdoe54.grid import EXPECTED_SHAPE, EXPECTED_TRANSFORM, footprint  # noqa: E402
+from gemsdoe54.grid import EXPECTED_SHAPE, EXPECTED_TRANSFORM, footprint, write_submission  # noqa: E402
 
 
 def test_emitted_dots_are_a_subset_of_candidates() -> None:
@@ -72,6 +73,34 @@ def test_rejects_bad_spacing() -> None:
         print(f"  OK  zero spacing rejected: {exc}")
         return
     raise AssertionError("spacing_px=0 was not rejected")
+
+
+def test_submission_writer_encodes_nan_only_outside_footprint(tmp_path) -> None:
+    labels = ROOT / "data/grid/labels.tif"
+    if not labels.exists():
+        print("  SKIP data/grid/labels.tif not present")
+        return
+    foot = footprint(labels)
+    values = np.zeros(EXPECTED_SHAPE, dtype=np.float32)
+    values[foot] = 0.25
+    out = tmp_path / "submission.tif"
+    write_submission(out, values, footprint=foot)
+    import rasterio
+    with rasterio.open(out) as src:
+        saved = src.read(1)
+        assert src.dtypes[0] == "float32"
+        assert np.isnan(src.nodata)
+    assert np.isfinite(saved[foot]).all()
+    assert np.all(saved[foot] == np.float32(0.25))
+    assert np.isnan(saved[~foot]).all()
+
+
+def test_submission_writer_rejects_empty_footprint_and_non_float32() -> None:
+    values = np.zeros(EXPECTED_SHAPE, dtype=np.float32)
+    with pytest.raises(ValueError, match="footprint must contain"):
+        write_submission("unused.tif", values, footprint=np.zeros(EXPECTED_SHAPE, dtype=bool))
+    with pytest.raises(ValueError, match="dtype must be float32"):
+        write_submission("unused.tif", values, footprint=np.ones(EXPECTED_SHAPE, dtype=bool), dtype="float64")
 
 
 def test_placed_grid_matches_the_contract() -> None:

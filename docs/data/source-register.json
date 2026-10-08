@@ -1,14 +1,14 @@
 {
   "schema": "gemsdoe54.source-register.v1",
-  "status_note": "Links are retained for manual review. A link supplied by the user is not marked verified unless it was accessible and inspected in this session.",
+  "status_note": "Official problem, rules, data-login redirect, leaderboard, and GDR pages were fetched/read on 2026-10-08 as recorded. Leaderboard rows are public-page observations without submission-page receipts; exact external-data coverage and downloads remain unverified.",
   "sources": [
     {
       "id": "drivendata_overview",
       "title": "DOE Geothermal Energy from Mechanisms of Subsurface Systems (GEMS) challenge overview",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
       "source_class": "competition organizer",
-      "session_status": "user-supplied; not fetched in this environment",
-      "use": "Problem framing and organizer metric definitions; verify against the live page before making claims."
+      "session_status": "Fetched/read via page-fetch on 2026-10-08. The page defines the missing-fault target, DTI (alpha 0.2, beta 0.8; 300 m triangular kernel), and submission format including float32 EPSG:32611 100 m and null/NaN outside bounds",
+      "use": "Official problem definition and submission contract; used to correct validators. Does not authenticate current leaderboard values."
     },
     {
       "id": "drivendata_about",
@@ -23,8 +23,8 @@
       "title": "Competition data download page",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
       "source_class": "competition organizer",
-      "session_status": "not authenticated; no files obtained from the portal",
-      "use": "Authoritative route for training features, labels, and sample submission."
+      "session_status": "The page-fetch request redirected to the DrivenData login page on 2026-10-08; no authenticated download was made.",
+      "use": "Authoritative data route; access still requires user competition credentials, which were not available or requested."
     },
     {
       "id": "reference_solution",
@@ -39,16 +39,16 @@
       "title": "Competition leaderboard",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
       "source_class": "competition organizer",
-      "session_status": "user-supplied; not fetched in this environment",
-      "use": "Only live board data or a copied submission receipt can confirm a score."
+      "session_status": "Public leaderboard page fetched on 2026-10-08. It displayed 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13, and 0.2750 at rank 17; no submission-page receipts were copied. These are PUBLIC-LEADERBOARD observations, not ORGANIZER-CONFIRMED receipt scores, and do not establish which owner-site TIFF produced a row. See docs/data/leaderboard-snapshot.json.",
+      "use": "Snapshot corrects the prompt's conflicting current-leader statements; the owner attribution for the historical 0.2778 H33 artifact remains unverified."
     },
     {
       "id": "gdr_ingenious",
       "title": "GDR/DOE INGENIOUS public submission page",
       "url": "https://gdr.openei.org/submissions/1391",
       "source_class": "DOE Geothermal Data Repository (user-supplied link)",
-      "session_status": "not fetched in this environment",
-      "use": "Candidate source for well/spring metadata; exact fields, license, and availability remain unverified."
+      "session_status": "Official GDR page fetched/read on 2026-10-08; it states Publicly accessible and CC BY 4.0, and lists QFaults, volcanics, wells/springs, geochemistry, temperature probes, and paleogeothermal files. Exact binaries/coverage/lineage not checked.",
+      "use": "Official public data lead; do not use a layer in holdout until exact file provenance, local coverage, and overlap with target labels are checked."
     },
     {
       "id": "usgs_geodawn",
@@ -63,8 +63,8 @@
       "title": "GEMS prize challenge submission/data PDF",
       "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
       "source_class": "NREL/DOE (user-supplied link)",
-      "session_status": "not fetched in this environment",
-      "use": "Manual review of data, methods, and submission requirements."
+      "session_status": "Official DOE/NLR rules PDF fetched/read on 2026-10-08; §3.2 confirms one 100 m GeoTIFF, three submissions per week, and generative-AI disclosure in the narrative.",
+      "use": "Rules reference only; does not establish candidate validity or score."
     },
     {
       "id": "gbcge_ingenious",
@@ -127,32 +127,32 @@
       "title": "Copernicus Data Space Ecosystem",
       "url": "https://dataspace.copernicus.eu/",
       "source_class": "EU Copernicus data portal",
-      "session_status": "candidate source link; not checked for exact product coverage or accessibility",
-      "use": "Potential Sentinel-1 time-series data for a future InSAR hypothesis."
+      "session_status": "Official portal page inspected via web search on 2026-10-08; free/open data and browser/API access described; registration required for data access; exact footprint/date coverage not queried",
+      "use": "Potential Sentinel-1 time-series source; no data downloaded."
     },
     {
       "id": "asf_sentinel1",
       "title": "NASA ASF DAAC search portal",
       "url": "https://search.asf.alaska.edu/",
       "source_class": "NASA/ASF DAAC data portal",
-      "session_status": "candidate source link; not checked for exact product coverage or accessibility",
-      "use": "Potential Sentinel-1 time-series data for a future InSAR hypothesis."
+      "session_status": "Official ASF search interface found via search on 2026-10-08; exact footprint/product query not run",
+      "use": "Potential Sentinel-1 access route; no data downloaded."
     },
     {
       "id": "usgs_landsat",
       "title": "USGS Landsat Collection 2",
       "url": "https://www.usgs.gov/landsat-missions/landsat-collection-2",
       "source_class": "USGS data program",
-      "session_status": "candidate source link; not checked for exact product coverage or accessibility",
-      "use": "Potential time-series surface-temperature source for a future thermal-inertia hypothesis."
+      "session_status": "Official USGS page inspected via search on 2026-10-08; global Level-2 surface-temperature products and no-cost open data policy documented; exact footprint/season scenes not queried",
+      "use": "Potential temporal surface-temperature source; no data downloaded."
     },
     {
       "id": "usgs_waterdata",
       "title": "USGS Water Data / NWIS",
       "url": "https://waterdata.usgs.gov/nwis",
       "source_class": "USGS data service",
-      "session_status": "candidate source link; not checked for exact station coverage or accessibility",
-      "use": "Potential groundwater head/discharge source for a future hydrologic hypothesis."
+      "session_status": "Official USGS water-data/API information found via search on 2026-10-08; exact study-area station coverage and time series not queried",
+      "use": "Potential groundwater time series; no data downloaded."
     }
   ]
 }

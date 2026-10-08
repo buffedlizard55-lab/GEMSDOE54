@@ -1,6 +1,20 @@
-# Initial repository review
+# Repository review and current strict-lane result
 
-**Review date:** 2026-10-08 UTC. This review is tied to the Arena checkout that began at commit `ccd0f1a983e0c19ec3d37d6d1e7f054aa9b19923` on `arena/0d3be5e8-gemsdoe54`.
+**Current review date:** 2026-10-08 UTC. **Historical initial review:** this file retains the prior review context below; the current Arena branch is `arena/4adb9f15-gemsdoe54`.
+
+## Current pass: lane gate and negative result
+
+The previous local validator suppressed overlap flags when a registry raster covered more than half of the footprint. That behavior conflicts with the user's literal rule, which says to stop when more than 70% of dots are within 3 px of **any** registry raster. `scripts/validate_submission.py` now applies the threshold to every registry raster, reports high coverage as context only, and exits with code 2 on a lane duplicate.
+
+Revalidation of the historical `gems54-undercomplement-q200.tif` confirms its in-footprint grid/range checks pass, but it has 7,111,787 finite zeroes outside the study footprint where the official page requires null/NaN. It also fails the strict lane check: 0.8888 of its dots are within 3 px of `r11_greedy_mp`, 0.9988 of `r13_lattice_s5_00904`, and 0.7647 of `r14_union_tips10_lat6`. The previous “format-valid/distinct lane” conclusion is withdrawn. The file is not okay to upload.
+
+One new candidate surface, endpoint-tangent continuation from visible catalogue traces, was evaluated only at the required pre-placement lane gate. It had 32,491 positive surface cells, maximum absolute Spearman correlation 0.0585, and maximum 3-px overlap 0.9992 with `r13_lattice_s5_00904`; overlap also exceeded 70% for r11 and r14. Per protocol, this was logged as `DUPLICATE — STOP`; no dots were placed, no holdout was run, and no TIF was written. Receipt: [`endpoint-continuation-preflight.json`](../../evidence/endpoint-continuation-preflight.json). The negative run card is [`../data/run-card.json`](../data/run-card.json).
+
+The candidate is not judged scientifically or by DTI in this pass. No `HOLDOUT-DTI`, withheld-positive count, paired 95% CI, leakage canary, or valid power floor exists. The 0.0028 comparison remains not classifiable. No weekly slot was used.
+
+## Historical initial repository review (superseded where noted below)
+
+**Review date:** 2026-10-08 UTC. The original review was tied to a prior checkout and branch; those historical identifiers are retained only for context. Any old conclusion that H54-A passed complete format validation or cleared the strict lane gate is withdrawn by the current pass above.
 
 ## What is in this checkout
 
@@ -20,13 +34,13 @@ Separately, the public owner-maintained GEMSDOE52 repository was used only as a 
 
 ## Result
 
-No new TIFF was generated in this audit pass. This is deliberate: an owner-pinned input mirror is not organizer-authenticated, and the inspected shared evaluator does not implement the required whole-fault-segment holdout. A separate pre-existing main-line TIFF remains downloadable and has prior local format/lane receipts, but it has no trustworthy HOLDOUT-DTI or organizer submission receipt and must not be presented as performance-validated. The site labels that artifact as pre-existing and unvalidated; this review did not approve it or select a weekly slot.
+No new TIFF was generated in this audit pass. This is deliberate: the attempted surface failed the pre-placement duplicate rule, the owner-pinned input mirror is not organizer-authenticated, and the inspected shared evaluator does not implement the required whole-fault-segment holdout. A separate pre-existing TIFF remains downloadable for research only; its old complete-format and distinct-lane receipts are superseded. It fails the outside-footprint rule and strict registry overlap. It has no trustworthy HOLDOUT-DTI or organizer submission receipt and is not approved for upload.
 
 The run-card decision is negative. The local power tool and raster validator are safeguards for a future compliant shared evaluation path; they do not replace that path. The required withheld-positive count, independent-unit count, paired variance, raw DTI detection floor, cluster-bootstrap 95% interval, feature-only AUC canaries, and registry uniqueness comparison are all unmeasured here. The hash-matched cache's total label-positive count is recorded separately as a data-audit property only.
 
 ## Explicit scope limits
 
-- No authenticated DrivenData download or submission-page receipt was obtained in this audit. Legacy source notes may record earlier public-page access, but they do not authenticate a competition-data download or confirm an individual score. Other user-supplied USGS/NREL/DOE links were not rechecked here.
+- No authenticated DrivenData data download or individual submission-page receipt was obtained in this audit. The public leaderboard itself was fetched on 2026-10-08; its displayed values are snapshot observations, not receipt-confirmed scores or artifact attribution. Other user-supplied USGS/NREL/DOE links were not rechecked here.
 - The external DrivenData data-download flow requires authorization that is not present in this session. No credential is requested, and no authentication is bypassed. A public owner mirror is hash-consistent, but its source claim is not organizer-authenticated.
-- The competition leaderboard values and filename-to-score attribution in the brief are treated as user-supplied claims, not organizer receipts. The prompt itself gives inconsistent descriptions of the board top; no current board snapshot was independently fetched.
+- The fetched public leaderboard displayed 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13, and 0.2750 at rank 17. The prompt's claim that 0.3195 is the top value is stale versus this snapshot; none of the rows is mapped to a TIFF without a submission-page receipt.
 - There is no valid experiment under the stated protocol because the origin and holdout-unit gates fail. No weekly submission slot was used or recommended.

@@ -47,10 +47,10 @@ and every page marked <code>REACHED</code> below was read through it.</p>
   <td>The distance-weighted Tversky definition, k(d) = max(1 − d/R, 0) with R = 300 m, α = 0.2, β = 0.8; the worked example TP<sub>w</sub> = 3.00, FP<sub>w</sub> = 1.89, FN<sub>w</sub> = 2.00 → 0.60; and the format rules (EPSG:32611, 100 m, same bounds, single layer float32, values 0–1, null or NaN outside bounds). Transcribed into <code>scripts/gems_metric.py</code>, which reproduces 0.602652.</td>
 </tr>
 <tr>
-  <td>Public leaderboard (historical note only)</td>
+  <td>Public leaderboard snapshot</td>
   <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">leaderboard</a></td>
-  <td><span class="tag warn">NO SUBMISSION RECEIPT</span></td>
-  <td>A legacy note records a public-page read dated 2026-10-08 and lists rank/score pairs, but this audit did not independently preserve a submission-page receipt. Treat those figures only as historical owner-recorded observations, not as ORGANIZER-CONFIRMED scores; do not use them as a target or promotion evidence.</td>
+  <td><span class="tag warn">PUBLIC PAGE FETCHED; NO RECEIPTS</span></td>
+  <td>The page fetched on 2026-10-08 displayed 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13, and 0.2750 at rank 17. These are <strong>PUBLIC-LEADERBOARD SNAPSHOT</strong> observations, not ORGANIZER-CONFIRMED submission-page receipts; the rank-13 row is not mapped to the named H33 TIFF without a receipt. See <a href="data/leaderboard-snapshot.json">snapshot JSON</a>.</td>
 </tr>
 <tr>
   <td>DOE / NLR GEMS Prize Official Rules, September 2026</td>
@@ -61,8 +61,8 @@ and every page marked <code>REACHED</code> below was read through it.</p>
 <tr>
   <td>Competition data page</td>
   <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/" target="_blank" rel="noopener">data page</a></td>
-  <td><span class="tag no">BLOCKED</span></td>
-  <td>HTTP 000 from the sandbox and login-gated regardless. This is why no model could be trained here and why the 1 m DEM link list is unavailable.</td>
+  <td><span class="tag no">LOGIN REQUIRED; NO AUTHENTICATED DOWNLOAD</span></td>
+  <td>The page-fetch request redirected to DrivenData's login page on 2026-10-08; the shell network is also restricted. No competition files were downloaded, so no training or full feature-stack holdout ran.</td>
 </tr>
 <tr>
   <td>New-submission form text</td>

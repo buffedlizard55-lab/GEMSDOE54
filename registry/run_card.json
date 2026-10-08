@@ -13,7 +13,7 @@
     "informative_withheld_positives": null,
     "ci95": null,
     "label": "HOLDOUT-DTI",
-    "status": "NOT ESTABLISHED \u2014 prior evaluation used circular SGMC-derived proxy; no compliant whole-segment evaluator receipt or organizer submission receipt",
+    "status": "NOT ESTABLISHED — prior evaluation used circular SGMC-derived proxy; no compliant whole-segment evaluator receipt or organizer submission receipt",
     "evaluator_version": null
   },
   "detection_floor": {
@@ -21,7 +21,7 @@
     "sigma_d_measured_near_identical_pair": 0.033869,
     "sigma_d_measured_distinct_architectures": 0.4668,
     "verdict": "Conditional proxy-only sensitivity estimate; the actual hidden-label MDE was not computed, and the example 0.0028 gap is NOT CLASSIFIABLE as signal or noise.",
-    "label": "PROXY-SENSITIVITY / MODEL \u2014 not HOLDOUT-DTI",
+    "label": "PROXY-SENSITIVITY / MODEL — not HOLDOUT-DTI",
     "status": "NOT VALID for hidden-label power; the paired-credit inputs are measured on the circular SGMC-derived proxy.",
     "n_informative_proxy_cells": 12429,
     "mdd_dti_near_identical_proxy": 0.000573,
@@ -30,43 +30,47 @@
   "correlation_overlap_vs_registry": {
     "max_abs_spearman_rho": 0.0043,
     "rho_limit": 0.9,
-    "max_admissible_dot_overlap_fraction": 0.426,
+    "max_fraction_of_my_dots_within_3px_any_registry": 0.9988,
     "overlap_limit": 0.7,
-    "reverse_overlap_worst_case": 0.1069,
-    "near_covering_registry_artefacts_excluded_from_overlap_test": [
+    "flagged_registry": [
       "r11_greedy_mp.tif",
       "r13_lattice_s5_00904.tif",
       "r14_union_tips10_lat6.tif"
     ],
-    "note": "For those three rasters a node lies within 300 m of essentially every study-area cell (r13 covers 0.999 of the footprint), so the 3 px overlap statistic is satisfied by any prediction set and is excluded from the verdict; only rank-correlation and reverse overlap are informative against them.",
-    "verdict": "distinct lane",
-    "label": "PRIOR LOCAL REGISTRY COMPARISON \u2014 not a performance score; not rerun in this audit"
+    "rows_from_strict_reaudit": "evidence/gems54-undercomplement-q200.validation.json",
+    "note": "The former check exempted near-covering registry rasters from the overlap verdict. The protocol says any registry raster; applying it literally flags all three rasters listed above. Coverage is diagnostic only and does not waive the threshold.",
+    "verdict": "DUPLICATE - STOP",
+    "label": "STRICT LANE RE-AUDIT — local duplicate decision, not a performance score"
   },
   "raster_sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
   "raster_bytes": 94282,
   "raster_path": "docs/downloads/gems54-undercomplement-q200.tif",
   "validator_output": {
-    "passed": true,
-    "checks": {
+    "passed": false,
+    "format_checks": {
       "single_band": "OK count=1",
       "dtype_float32": "OK dtype=float32",
       "crs": "OK EPSG:32611",
-      "shape": "OK (3730, 3292)",
+      "shape": "OK (3730,3292)",
       "transform_100m_same_bounds": "OK (100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
-      "all_cells_finite": "OK non_finite=0 -- no NaN anywhere, inside the footprint or outside it",
-      "values_in_0_1": "OK range=[0.0, 1.0]",
-      "footprint_cells": "OK cells=5167373",
-      "in_footprint_in_range": "OK range=[0.0, 1.0]"
+      "no_nan_inside_footprint": "OK non_finite_inside=0",
+      "in_footprint_range_0_1": "OK [0.0,1.0]",
+      "outside_footprint_null_or_nan": "FAIL non_nan_outside=7111787"
     },
-    "distinct_positive_values": 1,
-    "positive_cells": 15907
+    "positive_cells_inside_footprint": 15907,
+    "strict_lane_verdict": "DUPLICATE - STOP",
+    "strict_lane_flagged_registry": [
+      "r11_greedy_mp.tif",
+      "r13_lattice_s5_00904.tif",
+      "r14_union_tips10_lat6.tif"
+    ]
   },
   "submission_name": "gems54-undercomplement-q200",
   "submission_note": "GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots",
   "submission_note_length": 105,
   "note_limit": 140,
   "verdict": "negative",
-  "verdict_rationale": "The candidate has prior local format and registry-lane receipts, but its only evaluation is a circular SGMC-derived proxy; there is no compliant HOLDOUT-DTI, paired 95% CI, or organizer submission receipt. Do not treat this card as slot approval or performance validation. Any future selection is separate and requires new admissible evidence.",
+  "verdict_rationale": "The historical artifact passes in-footprint grid/range validation but fails the official outside-footprint null/NaN requirement and literal registry lane overlap rule. A new endpoint-continuation surface also failed pre-placement lane checks, so no new dots or TIFF were written. No compliant HOLDOUT-DTI or paired CI exists; do not upload.",
   "budget_used": {
     "experiments_run": 3,
     "experiments": [
@@ -85,7 +89,18 @@
     "date_utc": "2026-10-08",
     "status": "The prior SGMC-derived evaluation is a circular proxy screen, not a compliant whole-segment HOLDOUT-DTI. Its former slot-promotion recommendation is withdrawn for current use.",
     "supersedes_prior_promotion_recommendation": true,
-    "organizer_submission_receipt_present": false
+    "organizer_submission_receipt_present": false,
+    "strict_lane_reaudit": {
+      "date_utc": "2026-10-08",
+      "status": "Prior distinct-lane verdict withdrawn: overlap exemption was not in the stated protocol. Existing artifact fails raw >70% overlap against r11, r13, and r14.",
+      "new_tif_generated": false,
+      "reason": "The new endpoint-continuation surface also failed before dot placement; stop rule followed."
+    },
+    "official_format_reaudit": {
+      "date_utc": "2026-10-08",
+      "status": "Previous validator wrongly required all cells to be finite. Organizer page specifies null/NaN outside footprint; existing H54-A file has finite zeroes there and fails.",
+      "existing_raster_rewritten": false
+    }
   },
   "legacy_verdict": "PROMOTE TO A SLOT ONLY AS A LABELLED EXPERIMENT (historical wording, withdrawn by audit correction)",
   "proxy_screen": {

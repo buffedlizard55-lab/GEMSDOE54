@@ -19,15 +19,22 @@ def test_workspace_audit_cli_writes_blocked_report(tmp_path):
     assert json.loads(output.read_text())["ready_for_holdout"] is False
 
 
-def test_local_feed_never_claims_leaderboard_refresh(tmp_path):
+def test_local_feed_carries_a_timestamped_public_snapshot_without_receipt_claim(tmp_path):
     output = tmp_path / "feed.json"
     subprocess.run(
         [sys.executable, str(ROOT / "scripts/build_feed.py"), "--output", str(output)],
         check=True, capture_output=True, text=True,
     )
     feed = json.loads(output.read_text())
-    assert feed["leaderboard"]["status"] == "not_fetched"
+    assert feed["leaderboard"]["status"].startswith("PUBLIC-LEADERBOARD SNAPSHOT")
+    assert feed["leaderboard"]["fetched_utc"] == "2026-10-08"
     assert feed["leaderboard"]["score_claims_are_organizer_confirmed"] is False
+    assert {row["rank"] for row in feed["leaderboard"]["selected_rows"]} == {1, 7, 13, 17}
+    assert feed["candidate"]["candidate_surface_preflighted"] is True
+    assert feed["candidate"]["candidate_tif_generated"] is False
+    assert feed["candidate"]["new_candidate_downloadable"] is False
+    assert feed["candidate"]["existing_artifact_downloadable_for_research"] is True
+    assert feed["candidate"]["existing_artifact_approved_for_upload"] is False
     assert feed["candidate"]["safe_to_upload"] is False
 
 
@@ -43,8 +50,11 @@ def test_audit_and_run_artifacts_are_strict_json_and_stay_fail_closed():
     run_card = records[1]
     cache_audit = records[4]
     assert run_card["verdict"] == "negative"
-    assert run_card["submission"]["downloadable_tif_from_this_run"] is False
-    assert run_card["submission"]["existing_repository_artifact"]["holdout_validation"].startswith("NOT ESTABLISHED")
+    assert run_card["submission"]["candidate_surface_preflighted"] is True
+    assert run_card["submission"]["candidate_tif_generated"] is False
+    assert run_card["submission"]["safe_to_upload"] is False
+    assert run_card["submission"]["existing_repository_artifact"]["holdout_validation"] == "NOT ESTABLISHED"
+    assert run_card["submission"]["existing_repository_artifact"]["format_validation"].startswith("FAIL")
     assert run_card["holdout_dti"]["withheld_positive_count"] is None
     assert cache_audit["result"].startswith("HASHES_MATCH_OWNER_PINS")
     assert "not an organizer-authenticated" in cache_audit["source"]["role"]

@@ -179,14 +179,15 @@ def main() -> int:
 
     values = np.zeros(foot.shape, dtype=np.float64)
     values[dots] = 1.0
-    write_submission(args.out, values)
+    write_submission(args.out, values, footprint=foot)
 
     # --- independent re-read of what was actually written -------------------
     back, _ = read_band(args.out)
     assert back.shape == foot.shape
-    assert np.isfinite(back).all(), "written raster contains non-finite values"
-    assert back.min() >= 0.0 and back.max() <= 1.0, "written raster outside [0,1]"
-    assert int((back > 0).sum()) == n_dots, "dot count changed on write"
+    assert np.isfinite(back[foot]).all(), "written raster contains non-finite in-footprint values"
+    assert np.isnan(back[~foot]).all(), "outside-footprint cells must be null/NaN"
+    assert back[foot].min() >= 0.0 and back[foot].max() <= 1.0, "in-footprint values outside [0,1]"
+    assert int((back[foot] > 0).sum()) == n_dots, "dot count changed on write"
 
     receipt = {
         "slug": SLUG,

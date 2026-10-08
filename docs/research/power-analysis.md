@@ -2,7 +2,7 @@
 
 ## Decision
 
-**No valid power estimate or HOLDOUT-DTI result was produced in this audit pass.** The checkout contains owner-mirrored labels and an SGMC layer plus a prior H54-A candidate, but not the full training feature stack or an authenticated DrivenData download. In a separate read-only clone of the owner-maintained `GEMSDOE` template, all five feature shards and all three reconstructed TIFFs matched the bridge manifest and committed inventory; a structural audit found 19 nonconstant feature bands. This verifies bytes against owner-maintained pins, not organizer origin. The public root template's end-to-end workflow assigns spatial blocks, not whole fault segments. The local shared `segment_blocks` helper had a buffer bug, fixed in this PR, but it is not a full trainer/evaluator. The separate `GEMSDOE52` cache fails its own pins and has a constant feature cube; it remains quarantined. Consequently, no compliant withheld-positive count, paired variance, detection floor, or confidence interval for the cited leaderboard-gap example is available.
+**No valid power estimate or HOLDOUT-DTI result was produced in this audit pass.** The checkout contains owner-mirrored labels and an SGMC layer plus a prior H54-A candidate, but not the full training feature stack or an authenticated DrivenData download. In a separate read-only clone of the owner-maintained `GEMSDOE` template, all five feature shards and all three reconstructed TIFFs matched the bridge manifest and committed inventory; a structural audit found 19 nonconstant feature bands. This verifies bytes against owner-maintained pins, not organizer origin. The public root template's end-to-end workflow assigns spatial blocks, not whole fault segments. The local shared `segment_blocks` helper's buffer behavior has been corrected in the repository, but it is only a utility—not a full trainer/evaluator. The separate `GEMSDOE52` cache fails its own pins and has a constant feature cube; it remains quarantined. Consequently, no compliant withheld-positive count, paired variance, detection floor, or confidence interval for the cited leaderboard-gap example is available.
 
 **DATA-AUDIT (not HOLDOUT-DTI):** the hash-matched owner-mirror label raster contains 60,988 positive pixels in total. This is not a withheld-positive count, not an independent sample size, and not a score. The value is recorded only as a property of the cached input in [`pinned-template-cache-audit.json`](../audit/pinned-template-cache-audit.json).
 
@@ -50,10 +50,10 @@ The 95% interval, not the power calculation alone, decides whether the measured 
 
 ## Current machine-readable run state
 
-See [`../data/run-card.json`](../data/run-card.json) and [`../data/workspace-audit.json`](../data/workspace-audit.json). Both deliberately record the holdout and raster fields as unavailable; no score or projection is substituted.
+See [`../data/run-card.json`](../data/run-card.json) and [`../data/workspace-audit.json`](../data/workspace-audit.json). The run card records the new-candidate holdout and raster hash as unavailable (no TIFF was generated); the historical artifact's hash is recorded separately. No score or projection is substituted.
 
 ## References
 
 - Cohen, J. (1988), *Statistical Power Analysis for the Behavioral Sciences*, 2nd edition. The request identifies this as the intended framework; the book itself was not available in the checkout.
-- The user-supplied competition metric page: <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/> (not fetched in this environment).
+- The official competition metric and format page: <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/> (fetched/read via page-fetch on 2026-10-08).
 - The accessible official reference-solution repository: <https://github.com/drivendataorg/gems-prize-reference-solution>.
