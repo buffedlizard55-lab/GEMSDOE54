@@ -20,20 +20,18 @@
 <div class="wrap">
 
 <h1>Evidence, irregularities, and proxy sensitivity</h1>
-<p class="muted">Raster-derived proxy quantities and the local validator can be regenerated from repository bytes. Some comparisons use owner-recorded leaderboard observations without submission-page receipts; those are not <code>ORGANIZER-CONFIRMED</code> scores. No compliant whole-segment HOLDOUT-DTI was produced.</p>
+<p class="muted">This is a historical archive/proxy audit. Raster-derived quantities can be regenerated from repository bytes, but the owner-reported leaderboard observations lack submission-page receipts. No compliant whole-segment HOLDOUT-DTI was produced. Both current surface preflights stopped before emission; see the <a href="data/run-card.json">run card</a>, <a href="../evidence/endpoint-continuation-preflight.json">endpoint-continuation receipt</a>, and <a href="../evidence/strict_lane_preflight.json">SGMC-topology receipt</a>.</p>
 
-<h2>1 · The metric, verified against the organizer's own example</h2>
-<p><code>scripts/gems_metric.py</code> transcribes the organizer's equations verbatim. The published worked
-example on
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">page 967</a>
-gives TP<sub>w</sub> = 3.00, FP<sub>w</sub> = 1.89, FN<sub>w</sub> = 2.00 and states 0.60. Our implementation
-computes <strong>0.602652</strong>. Two algebraic identities also hold to machine precision:</p>
+<h2>1 · Metric transcription and algebra (official source not re-fetched)</h2>
+<p><code>scripts/gems_metric.py</code> implements equations transcribed into prior repository notes. The user-supplied manual-review link is
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">page 967</a>;
+this review did not fetch it. The locally recorded worked example gives TP<sub>w</sub> = 3.00, FP<sub>w</sub> = 1.89, FN<sub>w</sub> = 2.00 and rounds to 0.60; our implementation computes <strong>0.602652</strong>. These local tests verify the transcription, not organizer acceptance. Two algebraic identities also hold to machine precision:</p>
 <pre>FP_w = Σ_x p(x) − M     where M = Σ_x p(x)·max_g k(d(x,g))     (exact)
 TP_w + FN_w = G                                                (exact)</pre>
 <p>Consequently, for unit-valued predictions,</p>
 <pre>DTI = T / ( 0.2·N + 0.8·G + 0.2·(T − M) )</pre>
-<p>with N the predicted positive cells, G the true cells, T the weighted credit. This single line governs
-every design decision in the repository.</p>
+<p>with N the predicted positive cells, G the true cells, T the weighted credit. This algebra is a useful
+way to reason about the metric if the transcribed definition matches the current contest rules; it is not a holdout result or promotion criterion.</p>
 
 <h2>2 · The prior SGMC proxy did not rank owner-recorded board observations</h2>
 <div class="callout bad">
@@ -95,7 +93,7 @@ effect and whether 0.0028 is signal or noise are <strong>NOT COMPUTED / NOT CLAS
 That accounting may be useful for reproducing the proxy calculation, but it does not make the proxy a valid
 competition holdout.</p>
 
-<h2>4 · What drives the score (and why this artefact is shaped the way it is)</h2>
+<h2>4 · Metric algebra applied to the archived H54-A candidate (historical diagnostics only)</h2>
 <table>
 <tbody>
 <tr><th style="width:210px">Mass is taxed linearly</th><td><code>0.2·N</code> sits in the denominator. Two
@@ -116,33 +114,25 @@ exact algebra gives G ≈ 11,583 cells. This is only a model estimate, not a con
 <thead><tr><th>Quantity</th><th>Value</th><th>Label</th></tr></thead>
 <tbody>
 <tr><td>Owner-recorded board values of rank 1 / rank 7 / rank 13 / rank 17</td><td>0.3774 · 0.3195 · 0.2778 · 0.2750</td><td><span class="tag warn">UNRECEIPTED OBSERVATION — not ORGANIZER-CONFIRMED</span></td></tr>
-<tr><td>PROXY-DTI of this artefact on the SGMC proxy</td><td>0.5513</td><td><span class="tag warn">PROXY-DTI — CIRCULAR, NOT A SCORE</span></td></tr>
+<tr><td>Archived H54-A PROXY-DTI on the SGMC proxy</td><td>0.5513</td><td><span class="tag warn">PROXY-DTI — CIRCULAR, NOT A SCORE</span></td></tr>
 <tr><td>Historical SGMC proxy circularity probe (not a holdout canary)</td><td>PROXY-CANARY AUC = 0.997948</td><td><span class="tag no">CIRCULAR PROXY — not predictive performance</span></td></tr>
 <tr><td>Algebraic breakeven against 0.2778</td><td>≈12 % of dots inside the kernel</td><td><span class="tag warn">MODEL</span></td></tr>
 <tr><td>Dots emitted / mass reduction vs the incumbent family</td><td>15,907 / −58 %</td><td><span class="tag info">MEASURED</span> from <code>registry/gems54-undercomplement-q200.build.json</code></td></tr>
-<tr><td>Lane drift vs registry</td><td>max |ρ| = 0.0043; max admissible dot overlap 0.426</td><td><span class="tag info">MEASURED</span> — limits 0.90 and 0.70</td></tr>
+<tr><td>Current strict lane revalidation of archived H54-A</td><td>Duplicate: raw 3-pixel overlap 0.888791 / 0.998806 / 0.764695 against three registry rasters</td><td><span class="tag no">DO NOT UPLOAD</span> — current literal validator; see <code>evidence/h54a-archive-strict-revalidation.json</code></td></tr>
+<tr><td>Legacy lane diagnostic (historical builder)</td><td>max |ρ| = 0.0043; max filtered overlap 0.426</td><td><span class="tag warn">SUPERSEDED</span> — older implementation did not apply the current literal all-registry gate</td></tr>
 </tbody>
 </table>
 
 <h2>6 · Irregularities and negative results logged for review</h2>
 <ol>
 <li><strong>The mirrored "sample submission" is not a sample submission.</strong>
-<div class="small">The artefact published under the name <code>sample_submission.tif</code> — SHA-256
-<code>2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc</code>, the very hash pinned as the
-"grid template" in the corpus's own external receipt — contains <strong>60,988 positive cells in
-0&nbsp;/&nbsp;1</strong>, cell-for-cell identical to the catalogue label mask. The organizer page states the
-sample "predicts total fault absence". Anyone who used it as a format template <em>and</em> as an all-zero
-baseline was silently emitting the catalogue. Nothing in this repository uses it; a copy is kept at
-<code>data/grid/MIRROR_sample_submission_template.tif</code> purely as evidence.</div></li>
+<div class="small">The owner-mirrored file named <code>MIRROR_sample_submission_template.tif</code> has SHA-256
+<code>2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc</code>. On the local label footprint it has exactly the same 60,988 positive cells and 0/1 values as <code>labels.tif</code>; outside the footprint it stores NaN while the label raster uses nodata −1. The files are not byte-identical, and this review did not verify the official sample-submission semantics. Treat this cached raster as contaminated by labels, not as a blank template. The current workspace audit excludes it from valid sample inputs.</div></li>
 
 <li><strong>The SGMC proxy is not a holdout and cannot rank submissions</strong> (§2 above); the small exploratory comparison uses unreceipted owner-recorded board observations.</li>
 
 <li><strong>Negative result: metric-optimal dot thinning loses credit.</strong>
-<div class="small">Thinning the incumbent's 37,654-dot set to a 300 m minimum separation kept 76.5 % of the
-dots but only 90.0 % of the credit, so the proxy DTI fell from 0.09397 to 0.08729. The cloud is not
-redundant — its credit comes from many well-separated dots — so "one dot per kernel width" is not a free
-mass saving on an existing emission. It <em>is</em> the right rule when emitting from scratch, which is what
-this submission does.</div></li>
+<div class="small">An older proxy analysis thinned a 37,654-dot raster to a 300 m minimum separation, retained 76.5% of its dots but only 90.0% of its circular-proxy credit, and reported proxy DTI falling from 0.09397 to 0.08729. This is an exploratory result on the SGMC-derived target, not a hidden-label evaluation or a general spacing rule. The current run emitted no raster.</div></li>
 
 <li><strong>A sibling sample raster is not an all-zero control.</strong>
 <div class="small">The <code>GEMSDOE50/data/grid/sample_submission.tif</code> file in the sibling tree was reported byte-identical in content to the catalogue mask; it is not an admissible zero-control template and was not used in this audit.</div></li>
@@ -160,13 +150,14 @@ this submission does.</div></li>
 <tr><td>E2 spaced ridge, 3 px (exploratory)</td><td>0.0124</td><td>+0.0026 [−0.0011, +0.0062]</td><td>+0.0106 [+0.0070, +0.0142]</td><td>negative (CI includes 0)</td></tr>
 </tbody></table></div>
 <p class="small"><strong>E3 detection floor</strong> (<code>evidence/detection_floor.json</code>): pair A−B (quantile 0.98 vs 0.97) differs by −0.0055 with CI [−0.0071, −0.0040] and MDE 0.0022; pair A−C (dense vs spaced) differs by +0.0039 with CI [+0.0029, +0.0049] and MDE 0.0015. A 0.0028 gap is therefore above the floor for these close variants, but the floor is pair-specific and does not transfer to the board comparison 0.2778 vs 0.2750: <strong>NOT CLASSIFIABLE</strong>.</p>
-<p class="small"><strong>Caveats.</strong> Split-to-split spread is not a valid CI (the candidate is identical across splits). The holdout withholds USGS-catalogue faults, not the hidden new faults. A split-level t-CI on E2 would have excluded zero, but it is not the amended method (IR-54-025). Receipts: <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_holdout.json">E1</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_spaced_holdout.json">E2</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/detection_floor.json">E3</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/run_card_mag_ridge.json">run card</a>.</p>
+<p class="small"><strong>Caveats.</strong> Split-to-split spread is not a valid CI (the candidate is identical across splits). The holdout withholds USGS-catalogue faults, not the hidden new faults. A split-level t-CI on E2 would have excluded zero, but it is not the amended method (IR-54-029). Receipts: <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_holdout.json">E1</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_spaced_holdout.json">E2</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/detection_floor.json">E3</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/run_card_mag_ridge.json">run card</a>.</p>
 
-<footer><p class="muted small">Machine-readable receipts:
-<code>evidence/gems54-undercomplement-q200.validation.json</code>,
-<code>evidence/power_analysis.json</code>,
-<code>registry/gems54-undercomplement-q200.build.json</code>,
-<code>registry/run_card.json</code>.</p></footer>
+<footer><p class="muted small">Current machine-readable receipts:
+<a href="data/run-card.json">current negative run card</a>,
+<a href="../evidence/strict_lane_preflight.json">surface preflight</a>,
+<a href="../evidence/h54a-archive-strict-revalidation.json">archived H54-A strict revalidation</a>,
+<a href="research/power-analysis.md">power/holdout status</a>.
+Historical build/proxy receipts remain in the repository but do not validate the current run.</p></footer>
 </div>
 </body>
 </html>

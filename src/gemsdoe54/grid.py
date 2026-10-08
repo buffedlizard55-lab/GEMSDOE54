@@ -1,7 +1,8 @@
-"""Grid, footprint and I/O helpers for the GEMS Prize competition.
+"""Grid, footprint and I/O helpers for the GEMS Prize submission-format mirror.
 
-Verified facts about the competition grid (measured from the organizer-provided
-Artifacts mirrored into ``data/grid/``; see ``registry/sources.json``):
+Grid metadata below is measured from owner-mirrored files under ``data/grid/``.
+The current review did not fetch the official competition page or authenticate
+these bytes as organizer downloads (see ``docs/data/source-register.json``):
 
     shape      : (3730, 3292)          (rows, cols)
     CRS        : EPSG:32611            (UTM zone 11N, WGS 84)
@@ -10,9 +11,10 @@ Artifacts mirrored into ``data/grid/``; see ``registry/sources.json``):
     footprint  : 5,167,373 cells       (cells inside the study area)
     dtype      : float32 for submissions
 
-The footprint is the set of cells where the organizer label raster carries a
-0/1 value (``nodata = -1`` outside).  Every mirror used here shares this grid
-byte-for-byte in shape/CRS/transform; alignment is asserted at load time.
+The footprint is the set of cells where the owner-mirrored label raster carries a
+0/1 value (``nodata = -1`` outside).  The observed mirrors share this grid in
+shape/CRS/transform; alignment is asserted at load time. Organizer origin is not
+established by these local bytes alone.
 """
 
 from __future__ import annotations
@@ -75,11 +77,11 @@ def read_band(path: str | Path, *, require_grid: bool = True) -> tuple[np.ndarra
 
 
 def footprint(path: str | Path) -> np.ndarray:
-    """Boolean mask of in-study-area cells derived from the organizer label raster.
+    """Boolean mask of in-study-area cells derived from the owner-mirrored label raster.
 
-    The organizer label raster stores ``-1`` outside the study area, so
-    ``labels != -1`` is the footprint.  Verified: this mask has exactly
-    5,167,373 True cells.
+    The owner-mirrored label raster stores ``-1`` outside the study area, so
+    ``labels != -1`` is the footprint. This measured mask has exactly
+    5,167,373 True cells; the local source bytes are not organizer-authenticated.
     """
     arr, nodata = read_band(path)
     if nodata is None:
@@ -107,21 +109,42 @@ def binary_mask(path: str | Path, *, positive_only: bool = True) -> np.ndarray:
     return (out > 0) if positive_only else out
 
 
-def write_submission(path: str | Path, values: np.ndarray, *, dtype: str = "float32") -> None:
+def write_submission(path: str | Path, values: np.ndarray, *,
+                     footprint: np.ndarray | None = None, dtype: str = "float32") -> None:
     """Write a single-band float32 GeoTIFF on the competition grid.
 
-    ``values`` must already be shaped like the competition grid and must lie in
-    ``[0, 1]``.  No nodata tag is written and no NaN is emitted, so the portal's
-    "Predicted values must be in range [0, 1]" validator cannot trip on a
-    sentinel value.
+    Prior repository notes and the cached sample mirror indicate probabilities
+    in [0,1] on the scored area and null/NaN outside. The official page was not
+    fetched in this review. When ``footprint`` is provided, values are validated
+    only inside it and outside cells are written as NaN with a NaN nodata tag.
+    Omitting ``footprint`` retains legacy all-finite behavior only for non-submission
+    diagnostics; competition builders must pass the true footprint.
     """
+    if dtype != "float32":
+        raise ValueError("competition submission dtype must be float32")
     values = np.asarray(values, dtype=np.float64)
     if values.shape != EXPECTED_SHAPE:
         raise ValueError(f"shape {values.shape} != {EXPECTED_SHAPE}")
-    if not np.isfinite(values).all():
-        raise ValueError("refusing to write non-finite values")
-    if values.min() < 0.0 or values.max() > 1.0:
-        raise ValueError(f"values must be in [0,1]; got [{values.min()}, {values.max()}]")
+    if footprint is not None:
+        footprint = np.asarray(footprint, dtype=bool)
+        if footprint.shape != EXPECTED_SHAPE:
+            raise ValueError(f"footprint shape {footprint.shape} != {EXPECTED_SHAPE}")
+        inside = values[footprint]
+        if inside.size == 0:
+            raise ValueError("footprint must contain at least one scored cell")
+        if not np.isfinite(inside).all():
+            raise ValueError("refusing NaN/Inf inside the scored footprint")
+        if inside.min() < 0.0 or inside.max() > 1.0:
+            raise ValueError(f"in-footprint values must be in [0,1]; got [{inside.min()}, {inside.max()}]")
+        values = values.copy()
+        values[~footprint] = np.nan
+        nodata = np.nan
+    else:
+        if not np.isfinite(values).all():
+            raise ValueError("refusing non-finite values without an explicit footprint")
+        if values.min() < 0.0 or values.max() > 1.0:
+            raise ValueError(f"values must be in [0,1]; got [{values.min()}, {values.max()}]")
+        nodata = None
     profile = {
         "driver": "GTiff",
         "dtype": dtype,
@@ -130,9 +153,9 @@ def write_submission(path: str | Path, values: np.ndarray, *, dtype: str = "floa
         "width": EXPECTED_SHAPE[1],
         "crs": EXPECTED_CRS,
         "transform": rasterio.transform.Affine(*EXPECTED_TRANSFORM),
-        "nodata": None,
-        # DEFLATE + 256x256 tiles is the profile used by every sibling artefact that
-        # the DrivenData portal has accepted, so it is the safest choice here.
+        "nodata": nodata,
+        # DEFLATE + 256x256 tiles matches owner-maintained sibling artefacts; this
+        # does not imply any portal-acceptance evidence for a future file.
         "compress": "deflate",
         "tiled": True,
         "blockxsize": 256,

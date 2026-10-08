@@ -213,16 +213,20 @@ def shift_null_ci(
 
 
 def informative_truth_cells(truth: np.ndarray, dots: np.ndarray) -> int:
-    """Truth cells that lie within the 300 m kernel of at least one dot.
+    """Truth cells with strictly positive kernel credit from at least one dot.
 
-    This is the honest sample size for a paired comparison: truth cells farther
-    than 300 m from every prediction can never change any candidate's credit, so
-    they carry no information about a difference between two submissions.
+    The triangular kernel is zero exactly at 300 m.  Counting cells at the
+    boundary as informative would overstate the sample size, because changing a
+    prediction cannot change their credit at that distance.
     """
+    truth = np.asarray(truth, dtype=bool)
+    dots = np.asarray(dots, dtype=bool)
+    if truth.ndim != 2 or dots.shape != truth.shape:
+        raise ValueError("truth and dots must be same-shape two-dimensional masks")
     if not dots.any():
         return 0
     d = distance_transform_edt(~dots, sampling=(100.0, 100.0))
-    return int(np.count_nonzero(truth & (d <= 300.0)))
+    return int(np.count_nonzero(truth & (d < 300.0)))
 
 
 def detect_leakage(

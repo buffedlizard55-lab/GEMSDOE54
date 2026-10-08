@@ -113,13 +113,13 @@
   "verdict": "negative",
   "verdict_reason": "E1 frozen dense ridge is significantly BELOW the matched random null (cand-null CI excludes 0 on the negative side) and above the placebo. E2 spaced (exploratory) is not significantly above the null (CI includes 0) and is above the placebo. Neither is promote-eligible under the jackknife rule. No slot recommended.",
   "disclosures": [
-    "Prereg written before holdout scoring but committed after a smoke run (IR-54-021).",
-    "E1 first attempt killed (exit 137, likely OOM) after split 0 (IR-54-016).",
-    "E1 16-split run stopped after 4 splits; split-spread CI invalid (IR-54-017).",
-    "Plateau NMS fix before E1 rerun; real-raster equivalence 19,914 cells, zero symmetric difference (IR-54-018).",
-    "q=0.98 vs 0.995 chosen after seeing counts (IR-54-019).",
-    "E2 motivated post hoc by diagnostic (IR-54-020).",
-    "Prereg rule text still says 'split-level 95% CI' while the amended uncertainty method is the jackknife. Under the superseded split-level t-CI, E2 cand-null would be approximately [+0.0012, +0.0032] and would look positive. That method is not valid here because the candidate is identical across splits (IR-54-025)."
+    "Prereg written before holdout scoring but committed after a smoke run (IR-54-025).",
+    "E1 first attempt killed (exit 137, likely OOM) after split 0 (IR-54-020).",
+    "E1 16-split run stopped after 4 splits; split-spread CI invalid (IR-54-021).",
+    "Plateau NMS fix before E1 rerun; real-raster equivalence 19,914 cells, zero symmetric difference (IR-54-022).",
+    "q=0.98 vs 0.995 chosen after seeing counts (IR-54-023).",
+    "E2 motivated post hoc by diagnostic (IR-54-024).",
+    "Prereg rule text still says 'split-level 95% CI' while the amended uncertainty method is the jackknife. Under the superseded split-level t-CI, E2 cand-null would be approximately [+0.0012, +0.0032] and would look positive. That method is not valid here because the candidate is identical across splits (IR-54-029)."
   ],
   "limitations": [
     "Holdout withholds USGS-catalogue faults; hidden test is new faults outside the catalogue.",

@@ -1,4 +1,4 @@
-# Candidate geological hypotheses — preregistration backlog
+# Candidate geological hypotheses — ranked backlog (2026-10-08)
 
 ## Ranked hypotheses — updated 2026-10-08 (after the holdout run)
 
@@ -13,54 +13,72 @@ Ranking is qualitative (expected opportunity versus implementation cost). It is 
 
 Not yet tested and not ranked above: gravity tilt-derivative and Euler deconvolution. Both need a dedicated design. Earlier backlog items (InSAR, isotope/noble gas, thermal, groundwater) remain "not viable now" for lack of free data.
 
-## Gate status
+## Archive note — superseded by the current review
 
-These are **proposals, not findings**. The merged main branch contains owner-mirrored labels and an SGMC raster, a prior H54-A candidate, but not the full numerical training-feature stack or an authenticated DrivenData download. A separate read-only clone of the owner-maintained GEMSDOE template contains a five-part feature bridge; every part and reconstructed-file hash matches that repository's pins, and the cube is structurally varied. This proves byte integrity against owner pins, not organizer provenance. The root template's end-to-end workflow uses spatial blocks; the local whole-segment helper's ignored-buffer bug was fixed in this PR, but the helper is not a complete evaluator. Public sibling artifacts remain an incomplete prior-art registry. Therefore, none of these external-data hypotheses is certified globally untried or viable for a compliant competition experiment, and none has a HOLDOUT-DTI value.
+This is a prior shortlist retained for audit history. Source-access statements below reflect an earlier repository review and were not re-fetched in the current review. Use [`hypotheses-20261008.md`](hypotheses-20261008.md) as the current five-hypothesis ranking; it includes current provenance/availability caveats and the second surface-only preflight.
 
-The ranking below is a qualitative research priority (expected opportunity versus implementation burden), not a DTI projection. It is intentionally not a slot-selection decision. All proposals need a pre-score protocol and an official-source/data-availability check before implementation.
+## Decision summary
 
-## Ranked ideas
+These are hypotheses, not findings. Expected improvement is **qualitative only**; no DTI projection or leaderboard-score claim is used as an estimate. Public prior-art pages supplied in the project brief are owner-maintained, are not a complete scientific registry, and their scores were not independently confirmed from submission receipts. Therefore novelty means “distinct from the code paths visible in this checkout,” not globally novel.
 
-### Priority 1 — Time-series InSAR deformation discontinuities near geothermal upflow
+The highest-priority locally testable idea was short endpoint-tangent continuation from visible catalogue faults. Its score surface was computed from the owner-mirrored label raster and checked against every local registry raster **before dot placement**. The strict lane rule rejected it: 74.79% of surface cells were within 3 px of `r11_greedy_mp`, 99.92% of `r13_lattice_s5_00904`, and 88.53% of `r14_union_tips10_lat6`. The run stopped before holdout scoring and before TIFF creation. No weekly slot was touched.
 
-- **Layers/data:** Sentinel-1 SAR single-look-complex time series, a validated DEM for topographic phase correction, and independently sourced well/spring locations for interpretation. The current repository contains none of these.
-- **Physical signature:** spatially coherent, temporally persistent line-of-sight deformation gradients or phase discontinuities; test whether they align with structural boundaries rather than merely with mapped surface scarps.
-- **Why it could expose a missing fault:** active fluid pressure or slip on a blind structure can deform the surface without producing a mapped scarp. Temporal deformation supplies an independent observation family from static gravity/magnetics, radiometrics, LiDAR morphology, and point-temperature predictors.
-- **Difference from the accessible prior art:** time-series geodesy and phase-coherence analysis, rather than a new threshold or spacing rule on the existing static raster stack. This is not certified novel across all sibling repositories.
-- **Named non-fault mimics:** groundwater pumping/recharge, volcanic deformation, landslides, atmospheric delay, vegetation decorrelation, and processing artifacts.
-- **Official free source to check:** Copernicus Data Space Sentinel-1 access (<https://dataspace.copernicus.eu/>) and NASA ASF DAAC Sentinel-1 search (<https://search.asf.alaska.edu/>). Neither source was reachable under this session's network allow-list; availability over the exact footprint and dates is **not checked**. **Not viable now.**
-- **Relative expected opportunity / cost:** highest potential among these proposals; very high processing and provenance cost. No numeric expected DTI is claimed.
+## Ranked candidates
 
-### Priority 2 — Stable-isotope and noble-gas mixing gradients in springs and wells
+### 1. Endpoint-tangent continuation beyond visible fault traces — local pilot stopped at lane gate
 
-- **Layers/data:** spring/well temperature and major-ion chemistry, plus stable isotopes (delta-18O/delta-2H) and/or noble-gas ratios only if those fields are actually present in a trusted official record. The current repository has no such table.
-- **Physical signature:** geochemical evidence of deep-circulation mixing and fault-focused upflow, evaluated as spatially connected groups rather than isolated hot points; control for elevation, season, sampling method, and well depth.
-- **Why it could expose a missing fault:** deep fluid ascent can mark permeable structures buried beneath basin fill, which surface fault catalogues may not map.
-- **Difference from the accessible prior art:** source-water provenance and mixing, not simply proximity to thermal points or a static surface-temperature score. Prior sibling work already explored temperature/chemistry proxies, so only verified isotope/noble-gas fields would constitute a meaningful new information source.
-- **Named non-fault mimics:** shallow aquifer mixing, irrigation return flow, evaporation, sampling/assay differences, and lithologic control on water chemistry.
-- **Official free source to check:** the user-supplied GDR/DOE submission page for INGENIOUS, <https://gdr.openei.org/submissions/1391>, plus the underlying data package/license. The page and schema were not fetched here; presence of isotope/noble-gas columns and redistribution terms are **not verified**. **Not viable until checked.**
-- **Relative expected opportunity / cost:** medium-high scientific opportunity if the fields exist; high data-cleaning and hydrogeochemical interpretation cost. No numeric expected DTI is claimed.
+- **Layers:** visible catalogue-positive pixels in `data/grid/labels.tif`; no external layer. The local labels are hash-pinned owner mirrors, not authenticated in this session from DrivenData.
+- **Physical signature:** at the two ends of a sufficiently elongated mapped trace, estimate a local tangent and project a short continuation under cover; suppress output within 300 m of any catalogue fault.
+- **Why a missed fault is plausible:** mapped scarps and traces can become visually inconspicuous at alluvial cover boundaries while the structure continues. The continuation is outside the known trace, rather than re-emitting catalogue pixels.
+- **Named mimics:** lithologic contacts, intrusive/dike boundaries, erosional truncations, structural intersections, and map-sheet/digitising terminations can look like trace ends.
+- **Difference from this checkout:** no endpoint-tangent projector is otherwise implemented. Similar concepts (tips/stepovers) do appear in owner-reported sibling prior art, so global novelty is not claimed.
+- **Expected DTI direction / cost:** *low-to-moderate, conditional* recall opportunity at low mass; low-to-medium coding cost. No numerical improvement is estimated.
+- **Gate result:** **DUPLICATE — STOP** at pre-placement lane check; no holdout DTI or TIFF was produced. Reproducible receipt: [`endpoint-continuation-preflight.json`](../../evidence/endpoint-continuation-preflight.json).
 
-### Priority 3 — Multiseason thermal-inertia and anomaly persistence
+### 2. Geothermal-expression gate on catalogue-excluded mapped structures
 
-- **Layers/data:** cloud-screened, atmospherically corrected Landsat Collection 2 Level-2 surface temperature/reflectance time series, with terrain/land-cover controls. Static thermal and heat proxies have already appeared in accessible sibling prior-art summaries, so temporal persistence is the novelty boundary.
-- **Physical signature:** repeatable seasonal amplitude/phase or nighttime/cool-season thermal contrast that remains after topographic, vegetation, albedo, and acquisition-time adjustment.
-- **Why it could expose a missing fault:** persistent fluid discharge or shallow hydrothermal alteration may generate a thermal response above a concealed structure without a visible scarp.
-- **Difference from the accessible prior art:** a within-pixel seasonal time-series statistic, not a one-date thermal anomaly or a point-temperature-distance field. Global prior-art novelty is not certified.
-- **Named non-fault mimics:** surface moisture, irrigation, wildfire, bare-rock albedo, topographic illumination, and sensor/acquisition artifacts.
-- **Official free source to check:** USGS Landsat Collection 2 <https://www.usgs.gov/landsat-missions/landsat-collection-2> (link supplied for manual review; not fetched here). Availability of the required temporal coverage and product access is **not checked**. **Not viable now.**
-- **Relative expected opportunity / cost:** medium opportunity; high preprocessing and confounder-control cost. No numeric expected DTI is claimed.
+- **Layers:** catalogue-excluded fault traces plus independently recorded spring/well temperature, geochemistry, paleogeothermal deposits, and Quaternary volcanic features from the INGENIOUS GDR package.
+- **Physical signature:** require fault-proximal geothermal expression (e.g. a spring/well temperature anomaly or sinter/tufa occurrence), preferably with multiple aligned observations along strike, rather than accepting an isolated nearest hot point.
+- **Why a missed fault is plausible:** persistent geothermal discharge can indicate permeable structures beneath basin fill that lack a visible scarp; gating an independent mapped trace may reject old or non-fault map linework.
+- **Named mimics:** shallow groundwater mixing, irrigation return flow, lithologic control on water chemistry, young volcanic heat, and biased well/spring sampling.
+- **Difference from this checkout:** combines independently observed geothermal expression with the SGMC complement, rather than using SGMC geometry alone. Prior sibling summaries mention point-temperature/chemistry and vent work; novelty is not certified.
+- **Expected DTI direction / cost:** *potentially moderate precision gain, unknown recall cost*; medium-to-high data integration and attribution cost. No numerical improvement is estimated.
+- **Official-source check:** the public GDR page lists Quaternary faults, volcanics, wells/springs, geochemistry, and paleogeothermal data, with downloadable package entries. The page was inspected through search, but binaries, exact fields, footprint coverage, file-level license, and lineage against the competition labels were not checked. It is **not viable for holdout testing yet**. Source: [GDR INGENIOUS submission 1391](https://gdr.openei.org/submissions/1391).
 
-### Priority 4 — Groundwater head/discharge anomalies conditioned on structural corridors
+### 3. Time-series InSAR deformation discontinuities
 
-- **Layers/data:** time-stamped USGS well levels/spring discharge and precipitation, plus a validated DEM-derived watershed network and only independently verified structural context.
-- **Physical signature:** spatially localized, repeatable head/discharge response that is coherent across nearby wells and aligned with a structural corridor, after precipitation and pumping controls.
-- **Why it could expose a missing fault:** a blind permeable fault can connect deep and shallow groundwater systems and create a localized hydraulic response without a mapped surface trace.
-- **Difference from the accessible prior art:** temporal hydraulic response and source attribution, rather than static terrain lineaments or a single thermal/chemistry measurement. It is not certified globally untried.
-- **Named non-fault mimics:** pumping, seasonal recharge, irrigation, basin-wide aquifer boundaries, and well-construction differences.
-- **Official free source to check:** USGS National Water Information System / Water Data APIs, <https://waterdata.usgs.gov/nwis>. The endpoint, station density in the study footprint, and license for the needed variables were not checked in this environment. **Not viable now.**
-- **Relative expected opportunity / cost:** medium opportunity; high data-linkage and causal-attribution cost. No numeric expected DTI is claimed.
+- **Layers:** Sentinel-1 SLC time series, DEM for topographic phase correction, and independent spring/well context.
+- **Physical signature:** spatially coherent, temporally persistent line-of-sight deformation gradients or phase discontinuities aligned with candidate structures.
+- **Why a missed fault is plausible:** blind slip or fluid-pressure change can deform the surface without a mapped scarp. It adds an observation family independent of static raster morphology.
+- **Named mimics:** groundwater pumping/recharge, volcanic deformation, landslides, atmospheric delay, vegetation decorrelation, and processing artifacts.
+- **Difference from this checkout:** time-series geodesy, not a new threshold or dot-spacing rule on existing static layers.
+- **Expected DTI direction / cost:** *high scientific upside but highly uncertain*; very high processing and provenance cost. No numerical improvement is estimated.
+- **Official-source check:** the Copernicus Data Space states that Sentinel data access is free/open and offers a browser/APIs; user registration is required for data access. NASA ASF search is a second official access route. Exact Sentinel-1 acquisitions over the competition footprint/time interval and processing feasibility were not queried; **not viable for this run**. Sources: [Copernicus Data Space](https://dataspace.copernicus.eu/), [NASA ASF Data Search](https://search.asf.alaska.edu/).
 
-## Selection and experiment budget
+### 4. Multi-season Landsat surface-temperature persistence
 
-No candidate is selected in this audit pass because the owner-pinned bridge is not organizer-authenticated and no complete shared evaluator produces the required whole-segment holdout receipt. The existing H54-A artifact remains a separate, unvalidated prior experiment; the separate GEMSDOE52 cache remains rejected for hash and feature-information failures. No new holdout experiment was run and no weekly slot was touched. A future experiment requires verified data provenance, a complete shared segment-level evaluator, a feature-alone leakage canary, and a powered paired comparison. If any gate fails, keep the candidate blocked rather than fabricating a score.
+- **Layers:** Landsat Collection 2 Level-2 surface temperature/reflectance time series, with terrain, land-cover, and acquisition-time controls.
+- **Physical signature:** repeatable seasonal amplitude or phase / nighttime-cool-season contrast after controlling for topography, vegetation, moisture, albedo, and acquisition conditions.
+- **Why a missed fault is plausible:** persistent fluid discharge or shallow hydrothermal alteration may create a thermal response above a concealed structure.
+- **Named mimics:** surface moisture, irrigation, wildfire, bare-rock albedo, topographic illumination, and scene artifacts.
+- **Difference from this checkout:** temporal within-pixel persistence rather than one-date temperature or static distance-to-point features; static thermal ideas already occur in prior-art summaries.
+- **Expected DTI direction / cost:** *low-to-moderate, uncertain*; high preprocessing and confounder-control cost. No numerical improvement is estimated.
+- **Official-source check:** USGS documents global Collection 2 Level-2 surface-temperature products and a no-cost open-data policy. Exact scene availability over the study footprint, cloud-free seasonal coverage, and the required date range were not checked; **not viable for this run**. Source: [USGS Landsat Collection 2](https://www.usgs.gov/landsat-missions/landsat-collection-2).
+
+### 5. Groundwater head/discharge response conditioned on structure
+
+- **Layers:** time-stamped USGS well levels/spring discharge, precipitation, and independently verified structure context.
+- **Physical signature:** repeatable local hydraulic response coherent across nearby wells and aligned with a candidate corridor after accounting for precipitation, pumping, and well construction.
+- **Why a missed fault is plausible:** a blind permeable fault may connect deep and shallow aquifers and create a localized hydraulic response without a mapped surface trace.
+- **Named mimics:** pumping, seasonal recharge, irrigation, basin aquifer boundaries, and differences in well completion.
+- **Difference from this checkout:** temporal hydraulic response and attribution, rather than static lineaments or one-time temperature/chemistry points.
+- **Expected DTI direction / cost:** *low-to-moderate, uncertain*; high station matching and causal-attribution cost. No numerical improvement is estimated.
+- **Official-source check:** USGS Water Data exposes modern APIs and groundwater field measurements. Station density and time series over the study footprint were not queried; **not viable for this run**. Source: [USGS Water Data](https://waterdata.usgs.gov/).
+
+## Holdout, power, and submission gates
+
+- No candidate received a compliant `HOLDOUT-DTI`; no evaluator version / withheld-positive count / paired 95% CI exists for this run.
+- The owner-mirror label total (60,988 positive pixels) is a dataset property, not a withheld sample size or independent-unit count.
+- The score gap 0.0028 cannot be classified as signal or noise without the actual holdout variance and effective independent segments. The old SGMC proxy is circular and is not a power analysis for expert labels.
+- Before another experiment: resolve the lane-registry blanket failure, authenticate the competition data, obtain the full feature stack and correct sample grid, then use a shared evaluator that withholds whole segments plus a 300 m buffer, derives catalogue features from visible faults only, masks visible faults exactly, runs each feature-alone leakage canary, computes pooled DTI and cluster-bootstrap CI, and writes a frozen run card.
+- No weekly submission slot was used or selected. The existing H54-A TIFF is **not approved for upload** under the strict lane rule.
