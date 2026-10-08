@@ -1,117 +1,62 @@
 {
   "candidate": {
     "candidate_surface_preflighted": true,
-    "candidate_tif_generated": true,
+    "candidate_tif_generated": false,
     "existing_artifact_approved_for_upload": false,
     "existing_artifact_downloadable_for_research": true,
     "existing_repository_artifact": {
-      "format_validation": "FAIL \u2014 outside-footprint cells are finite zeroes, contrary to official page",
-      "holdout_validation": "NOT ESTABLISHED (circular SGMC proxy)",
-      "in_footprint_range_validation": "PASS",
+      "approved_for_upload": false,
+      "downloadable_for_research": true,
+      "format_status_in_this_run": "FAIL under the current local format contract: archived raster stores finite zeroes outside the label footprint; expected null/NaN per prior source notes and sample mirror. Not organizer acceptance.",
+      "format_validation": "FAIL \u2014 outside_footprint_null_or_nan check; archive has finite zeroes outside. The official rule was not re-fetched in this review.",
+      "holdout_validation": "NOT ESTABLISHED",
       "name": "gems54-undercomplement-q200",
       "path": "docs/downloads/gems54-undercomplement-q200.tif",
+      "provenance": "pre-existing H54-A artifact; not generated in this run",
+      "selection_by_this_run": false,
       "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
-      "strict_lane_validation": "FAIL \u2014 DUPLICATE",
-      "upload_approved": false
+      "strict_lane_status_in_this_run": "DUPLICATE - STOP due raw 3-pixel overlap with three dense registry rasters",
+      "upload_recommendation": "DO NOT UPLOAD based on this review"
     },
-    "holdout_status": "ESTABLISHED on the catalogue-truth proxy (whole segments withheld, 4 spatial quadrant folds + 300 m buffer, features from visible catalogue only, pixel-exact mask, pooled DTI alpha 0.2 beta 0.8 300 m triangular kernel, 2000-replicate whole-segment cluster bootstrap, algebra self-checked against the organizer metric, passes analyse_holdout_receipt.py). Cannot reward genuinely new off-catalogue faults; not a competition score. The proxy penalizes off-catalogue mass, so this is a lower bound on the off-catalogue task.",
-    "new_candidate_downloadable": true,
+    "holdout_status": "NOT RUN \u2014 the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
+    "magnetic_ridge_holdout": "RUN (2026-10-08): E1 frozen dense ridge NEGATIVE; E2 spaced ridge (exploratory) NEGATIVE; E3 detection floor measured",
+    "new_candidate_downloadable": false,
+    "ok_to_download_for_submission": false,
+    "ok_to_submit": false,
     "safe_to_upload": false,
     "verdict": "negative"
   },
-  "generated_utc": "2026-10-08T23:31:25+00:00",
+  "generated_utc": "2026-10-08T23:17:45+00:00",
   "leaderboard": {
     "fetched_utc": "2026-10-08",
-    "receipt_policy": "These are observations from the live public leaderboard (participant handles as displayed), not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt. The 0.2778 row is not linked by this snapshot to the named H33 raster.",
+    "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",
     "score_claims_are_organizer_confirmed": false,
     "selected_rows": [
       {
         "displayed_value": 0.3774,
-        "participant": "xiaofanhu",
-        "rank": 1,
-        "submissions": 13
-      },
-      {
-        "displayed_value": 0.3345,
-        "participant": "alexoktaba",
-        "rank": 2,
-        "submissions": 25
-      },
-      {
-        "displayed_value": 0.3262,
-        "participant": "nchuzhoy",
-        "rank": 3,
-        "submissions": 6
-      },
-      {
-        "displayed_value": 0.326,
-        "participant": "joeyfezster",
-        "rank": 4,
-        "submissions": 24
-      },
-      {
-        "displayed_value": 0.3222,
-        "participant": "kinghorton42",
-        "rank": 5,
-        "submissions": 9
-      },
-      {
-        "displayed_value": 0.3221,
-        "participant": "Batik Shirt Brothers (team)",
-        "rank": 6,
-        "submissions": 23
+        "rank": 1
       },
       {
         "displayed_value": 0.3195,
-        "participant": "DARD",
-        "rank": 7,
-        "submissions": 16
-      },
-      {
-        "displayed_value": 0.2888,
-        "participant": "ndavis7",
-        "rank": 8,
-        "submissions": 9
-      },
-      {
-        "displayed_value": 0.2884,
-        "participant": "mzoorob",
-        "rank": 9,
-        "submissions": 27
-      },
-      {
-        "displayed_value": 0.2876,
-        "participant": "GrigorSargsyan",
-        "rank": 10,
-        "submissions": 14
-      },
-      {
-        "displayed_value": 0.2854,
-        "participant": "HardcoreTechGod",
-        "rank": 11,
-        "submissions": 6
-      },
-      {
-        "displayed_value": 0.2797,
-        "participant": "op01",
-        "rank": 12,
-        "submissions": 8
+        "rank": 7
       },
       {
         "displayed_value": 0.2778,
-        "participant": "extradr19",
-        "rank": 13,
-        "submissions": 12
+        "rank": 13
+      },
+      {
+        "displayed_value": 0.275,
+        "rank": 17
       }
     ],
     "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-    "status": "PUBLIC-LEADERBOARD SNAPSHOT \u2014 official page fetched live this session; no individual submission-page receipts copied"
+    "status": "PUBLIC-LEADERBOARD SNAPSHOT \u2014 official page fetched; no individual submission-page receipts copied"
   },
   "schema": "gemsdoe54.local-feed.v1",
   "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",
   "sources": {
     "official_data_download_authenticated": false,
-    "registered": 20
+    "registered": 19
   },
   "workspace": {
     "missing_inputs": [

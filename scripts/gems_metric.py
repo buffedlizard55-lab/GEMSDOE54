@@ -1,10 +1,11 @@
-"""Exact re-implementation of the ORGANIZER-PUBLISHED GEMS distance-weighted Tversky index.
+"""Local implementation of the GEMS distance-weighted Tversky formulas in prior source notes.
 
-Source of truth (verified 2026-10-08):
+Manual-review source link (user-supplied; not fetched in the 2026-10-08 review):
   https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/
   "# Performance metric" / "# Mathematical representation"
 
-Official definitions transcribed verbatim from that page:
+The equations below are transcribed in the existing repository notes and exercised
+by local tests. This file does not establish a fresh organizer verification:
 
     TI(a,b) = sum_x p(x)g(x)
               / ( sum_x p(x)g(x) + a*sum_x p(x)(1-g(x)) + b*sum_x (1-p(x))g(x) )
@@ -16,9 +17,9 @@ Official definitions transcribed verbatim from that page:
     FN_w = sum_{g in G} [ 1 - max_{x: d(x,g) <= R} p(x) k(d(x,g)) ]
     DTI(a,b) = TP_w / (TP_w + a*FP_w + b*FN_w + eps),  a=0.2, b=0.8
 
-Organizer worked example (same page, "# Scoring example"): TP_w=3.00, FP_w=1.89,
-FN_w=2.00 -> TI_w = 3.00/(3.00 + 0.2*1.89 + 0.8*2.00) = 0.60.  Regression-tested in
-tests/test_metric.py.
+Worked example transcribed in the prior local notes (official page not re-fetched here): TP_w=3.00,
+FP_w=1.89, FN_w=2.00 -> TI_w = 3.00/(3.00 + 0.2*1.89 + 0.8*2.00) = 0.60 after rounding.
+Regression-tested in tests/test_metric.py.
 """
 
 from __future__ import annotations
@@ -53,11 +54,11 @@ def dti_components(
     beta: float = BETA,
     epsilon: float = 1e-8,
 ) -> Components:
-    """Return (TP_w, FP_w, FN_w, DTI) exactly as the organizer defines them.
+    """Return (TP_w, FP_w, FN_w, DTI) using the equations transcribed above.
 
-    ``valid`` selects the scored footprint.  Predictions outside ``valid`` never enter
-    either term (the organizer rasterises the submission onto the training grid and only
-    in-footprint cells are scored).
+    ``valid`` selects the scored footprint. Predictions outside ``valid`` do not enter
+    any term. The current review did not re-fetch the official metric page, so this
+    implementation is not a fresh organizer-verification receipt.
     """
     pred = np.asarray(prediction)
     lab = np.asarray(truth)

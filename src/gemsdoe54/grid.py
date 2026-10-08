@@ -1,9 +1,8 @@
-"""Grid, footprint and I/O helpers for the GEMS Prize competition.
+"""Grid, footprint and I/O helpers for the GEMS Prize submission-format mirror.
 
-Competition-grid metadata measured from owner-maintained mirrors under
-``data/grid/`` and cross-checked against the public problem page; the local
-mirror bytes are not authenticated as organizer downloads (see
-``registry/sources.json``):
+Grid metadata below is measured from owner-mirrored files under ``data/grid/``.
+The current review did not fetch the official competition page or authenticate
+these bytes as organizer downloads (see ``docs/data/source-register.json``):
 
     shape      : (3730, 3292)          (rows, cols)
     CRS        : EPSG:32611            (UTM zone 11N, WGS 84)
@@ -78,7 +77,7 @@ def read_band(path: str | Path, *, require_grid: bool = True) -> tuple[np.ndarra
 
 
 def footprint(path: str | Path) -> np.ndarray:
-    """Boolean mask of in-study-area cells derived from the organizer label raster.
+    """Boolean mask of in-study-area cells derived from the owner-mirrored label raster.
 
     The owner-mirrored label raster stores ``-1`` outside the study area, so
     ``labels != -1`` is the footprint. This measured mask has exactly
@@ -114,11 +113,12 @@ def write_submission(path: str | Path, values: np.ndarray, *,
                      footprint: np.ndarray | None = None, dtype: str = "float32") -> None:
     """Write a single-band float32 GeoTIFF on the competition grid.
 
-    The organizer's page requires probabilities in [0,1] on the scored area and
-    null/NaN outside the study bounds. When ``footprint`` is provided, values are
-    validated only inside it and outside cells are written as NaN with a NaN
-    nodata tag. Omitting ``footprint`` retains legacy all-finite behavior only for
-    non-submission diagnostics; competition builders must pass the true footprint.
+    Prior repository notes and the cached sample mirror indicate probabilities
+    in [0,1] on the scored area and null/NaN outside. The official page was not
+    fetched in this review. When ``footprint`` is provided, values are validated
+    only inside it and outside cells are written as NaN with a NaN nodata tag.
+    Omitting ``footprint`` retains legacy all-finite behavior only for non-submission
+    diagnostics; competition builders must pass the true footprint.
     """
     if dtype != "float32":
         raise ValueError("competition submission dtype must be float32")

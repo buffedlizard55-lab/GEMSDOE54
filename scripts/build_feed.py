@@ -51,6 +51,9 @@ def main() -> int:
             "existing_repository_artifact": run_card.get("submission", {}).get("existing_repository_artifact"),
             "existing_artifact_downloadable_for_research": True,
             "existing_artifact_approved_for_upload": False,
+            "ok_to_submit": run_card.get("submission", {}).get("ok_to_submit", False),
+            "ok_to_download_for_submission": run_card.get("submission", {}).get("ok_to_download_for_submission", False),
+            "magnetic_ridge_holdout": run_card.get("magnetic_ridge_holdout", {}).get("status", "not recorded"),
         },
         "sources": {
             "registered": len(source_register.get("sources", [])),

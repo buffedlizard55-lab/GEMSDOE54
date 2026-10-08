@@ -1,14 +1,14 @@
 {
   "schema": "gemsdoe54.source-register.v1",
-  "status_note": "Updated 2026-10-08: live public leaderboard snapshot (top 0.3774) and named free official sources for hypotheses H2/H3 (USGS ComCat, 3DEP 1 m DEM) registered. Leaderboard rows remain public-page observations without submission receipts; exact external-data coverage and downloads remain unverified.",
+  "status_note": "This register distinguishes records inherited from the prior 2026-10-08 source review from checks repeated in the current review. The current review did not fetch external official pages; page observations in inherited records are not individual submission receipts, and external coverage/downloads remain unverified.",
   "sources": [
     {
       "id": "drivendata_overview",
       "title": "DOE Geothermal Energy from Mechanisms of Subsurface Systems (GEMS) challenge overview",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
       "source_class": "competition organizer",
-      "session_status": "Fetched/read via page-fetch on 2026-10-08. The page defines the missing-fault target, DTI (alpha 0.2, beta 0.8; 300 m triangular kernel), and submission format including float32 EPSG:32611 100 m and null/NaN outside bounds",
-      "use": "Official problem definition and submission contract; used to correct validators. Does not authenticate current leaderboard values."
+      "session_status": "Prior source record says the page was fetched/read on 2026-10-08 and transcribes target/metric/format details, including null/NaN outside bounds. This review did not re-fetch it.",
+      "use": "Prior source-record transcription only; verify the live official page before submission. It does not authenticate local mirror bytes or leaderboard values."
     },
     {
       "id": "drivendata_about",
@@ -23,32 +23,32 @@
       "title": "Competition data download page",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
       "source_class": "competition organizer",
-      "session_status": "The page-fetch request redirected to the DrivenData login page on 2026-10-08; no authenticated download was made.",
-      "use": "Authoritative data route; access still requires user competition credentials, which were not available or requested."
+      "session_status": "Prior source record reports a login redirect on 2026-10-08; this review did not retry the page and obtained no authenticated files.",
+      "use": "Authoritative data route; no feature cube, blank sample, or 1 m DEM index was downloaded into this checkout."
     },
     {
       "id": "reference_solution",
       "title": "DrivenData GEMS prize reference solution",
       "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
       "source_class": "competition reference repository",
-      "session_status": "inspected via public GitHub checkout at commit aebe92f7c8a990f0e3443451b7a825d9afd6336b",
-      "use": "Verified repository setup, notebook workflow, and baseline code. It does not provide an organizer score receipt or competition data."
+      "session_status": "README inspected through the public GitHub API at commit aebe92f7c8a990f0e3443451b7a825d9afd6336b; notebook and code were not reviewed in this run",
+      "use": "Baseline repository context only; this review did not inspect the notebook/workflow and it does not provide an organizer score receipt or authenticated competition data."
     },
     {
       "id": "drivendata_leaderboard",
       "title": "Competition leaderboard",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
       "source_class": "competition organizer",
-      "session_status": "Public leaderboard page fetched on 2026-10-08. It displayed 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13, and 0.2750 at rank 17; no submission-page receipts were copied. These are PUBLIC-LEADERBOARD observations, not ORGANIZER-CONFIRMED receipt scores, and do not establish which owner-site TIFF produced a row. See docs/data/leaderboard-snapshot.json.",
-      "use": "Snapshot corrects the prompt's conflicting current-leader statements; the owner attribution for the historical 0.2778 H33 artifact remains unverified."
+      "session_status": "Prior repository snapshot dated 2026-10-08 records public-page observations at ranks 1/7/13/17. This review did not re-fetch the page; no individual submission-page receipts were copied and no owner-site raster is attributed to a row.",
+      "use": "Use only as unverified public-page context; do not mark scores ORGANIZER-CONFIRMED or use for promotion."
     },
     {
       "id": "gdr_ingenious",
       "title": "GDR/DOE INGENIOUS public submission page",
       "url": "https://gdr.openei.org/submissions/1391",
       "source_class": "DOE Geothermal Data Repository (user-supplied link)",
-      "session_status": "Official GDR page fetched/read on 2026-10-08; it states Publicly accessible and CC BY 4.0, and lists QFaults, volcanics, wells/springs, geochemistry, temperature probes, and paleogeothermal files. Exact binaries/coverage/lineage not checked.",
-      "use": "Official public data lead; do not use a layer in holdout until exact file provenance, local coverage, and overlap with target labels are checked."
+      "session_status": "Prior source record reports the GDR page was fetched/read on 2026-10-08; this review did not re-fetch the page or check binaries, exact coverage, or lineage.",
+      "use": "Official data lead only; no layer is cleared for a holdout until exact file provenance, local coverage, and target overlap are checked."
     },
     {
       "id": "usgs_geodawn",
@@ -63,8 +63,8 @@
       "title": "GEMS prize challenge submission/data PDF",
       "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
       "source_class": "NREL/DOE (user-supplied link)",
-      "session_status": "Official DOE/NLR rules PDF fetched/read on 2026-10-08; \u00a73.2 confirms one 100 m GeoTIFF, three submissions per week, and generative-AI disclosure in the narrative.",
-      "use": "Rules reference only; does not establish candidate validity or score."
+      "session_status": "Prior source record reports the DOE/NLR rules PDF was fetched/read on 2026-10-08; this review did not re-fetch the PDF.",
+      "use": "Prior rules transcription only; confirm the live rules before any submission. It does not establish candidate validity or score."
     },
     {
       "id": "gbcge_ingenious",
@@ -103,24 +103,24 @@
       "title": "Owner-maintained GEMSDOE32 research repository",
       "url": "https://github.com/buffedlizard55-lab/GEMSDOE32/tree/0d6a6243147cd63a2000412d575d4c80a36d3a62",
       "source_class": "owner-maintained prior-art archive; not official organizer evidence",
-      "session_status": "read-only review of README and public receipts at the pinned commit",
-      "use": "Understand the construction and documented limitations of the named H33 artifact; no artifact was copied."
+      "session_status": "prior read-only review recorded in repository notes; not re-fetched in this review",
+      "use": "Owner-published prior-art context for the named H33 artifact; not an organizer receipt and no artifact was copied in this run."
     },
     {
       "id": "historical_gemsdoe52",
       "title": "Owner-maintained GEMSDOE52 research repository",
       "url": "https://github.com/buffedlizard55-lab/GEMSDOE52/tree/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4",
       "source_class": "owner-maintained prior-art/data mirror; not official organizer evidence",
-      "session_status": "read-only review; its checked-in raster bytes did not match its own pinned manifest",
-      "use": "Prior-art and data-integrity audit only. Not used to generate a model or a submission."
+      "session_status": "prior read-only audit recorded in repository notes; not repeated in this review",
+      "use": "Historical integrity finding only; not used to generate a model or a submission and not organizer-authenticated."
     },
     {
       "id": "historical_gemsdoe_template",
       "title": "Owner-maintained GEMSDOE shared template and checksum-pinned data bridge",
       "url": "https://github.com/buffedlizard55-lab/GEMSDOE/tree/dcbbb192e56b2b32c0a131eba791dc363305d4a3",
       "source_class": "owner-maintained shared template/data mirror; not an organizer-authenticated source",
-      "session_status": "all five feature shards and all three reconstructed files match the bridge manifest; reconstructed hashes also match the committed runner-generated inventory; origin is not independently authenticated",
-      "use": "Read-only cache integrity and shared-tool protocol audit. Files stayed outside this checkout; no candidate or score was generated."
+      "session_status": "This run rechecked the pinned GitHub API tree and manifest. An earlier audit reports all five feature shards and three reconstructed files matched owner pins; neither fact authenticates organizer origin.",
+      "use": "Read-only cache/tool audit. The pinned tree exposes scripts/block_holdout_eval.py and src/submission_io.py, not evaluate_holdout.py / submission_writer.py; the workflow uses spatial blocks, so it is not a compliant whole-segment evaluator."
     },
     {
       "id": "copernicus_sentinel1",
@@ -153,14 +153,6 @@
       "source_class": "USGS data service",
       "session_status": "Official USGS water-data/API information found via search on 2026-10-08; exact study-area station coverage and time series not queried",
       "use": "Potential groundwater time series; no data downloaded."
-    },
-    {
-      "id": "usgs_comcat",
-      "title": "USGS ANSS Comprehensive Catalog (ComCat)",
-      "url": "https://earthquake.usgs.gov/earthquakes/search/",
-      "source_class": "official external data (USGS)",
-      "session_status": "Not fetched from this sandbox (host not on allowlist). Owner-mirrored copy referenced in sibling repo GEMSDOE50 (usgs_comcat_earthquakes.csv.gz). Free, official, login-free; fresh pull from any unrestricted machine is the primary route.",
-      "use": "Named data source for hypothesis H2 (seismicity-prioritized CGRC). Obtainability checked; local coverage not yet queried."
     }
   ]
 }

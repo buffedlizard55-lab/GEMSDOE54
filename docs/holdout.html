@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Whole-segment hide-and-recover holdout results for the GEMS candidates, with paired 95% CIs, controls, canary and detection floors.">
+  <title>Holdout results (HOLDOUT-DTI) | GEMSDOE54</title>
+  <link rel="stylesheet" href="assets/audit-site.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="submit-verdict.html">Submit guide</a><a href="rules-gate.html">Rules gate</a><a aria-current="page" href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a href="hypotheses-holdout.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
+<main>
+  <section class="page-title">
+    <div class="eyebrow">HOLDOUT-DTI · evaluator gemsdoe54-segment-cv v1</div>
+    <h1>Whole-segment holdout results</h1>
+    <p class="lead">Recovery of withheld catalogue faults, with each withheld segment buffered by 300 m and all candidates restricted to visible information. The result is the best available proxy here. It is not the organizer's hidden test set.</p>
+  </section>
+
+  <section class="callout">
+    <p><strong>Receipt.</strong> <a href="../evidence/holdout_segment_cv_v1.json">evidence/holdout_segment_cv_v1.json</a> · script SHA-256 <code>2c856141f4e4e742…</code> · 5 folds · <strong>60,988 withheld positive cells</strong> in <strong>3,199 whole segments</strong> · 1,000 stratified cluster-bootstrap replicates · 30 torus-shift nulls · seed 20261008 · feature raster SHA-256 <code>4371c82e…</code> (owner-claimed copy) · labels <code>7ba308cc…</code> (owner-mirrored).</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Pooled DTI and paired differences</h2><p class="small">HOLDOUT-DTI with 95% percentile CI. Paired differences use the same resampled segments. The control is a count-matched random set of admissible cells.</p></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Candidate</th><th>Source layer</th><th>Pooled HOLDOUT-DTI [95% CI]</th><th>Paired vs chance control [95% CI]</th><th>Max single-feature AUC</th><th>Status on this page</th></tr></thead>
+      <tbody>
+        <tr><td>C0 chance control</td><td>none (random admissible cells, count-matched)</td><td>0.0104 [0.0091, 0.0117]</td><td>—</td><td>—</td><td>Control</td></tr>
+        <tr><td><strong>C1</strong> SGMC complement (the H54-A rule)</td><td>USGS SGMC derived raster</td><td><strong>0.0483 [0.0424, 0.0541]</strong></td><td>+0.0379 [+0.0317, +0.0437]</td><td>0.526 (clear)</td><td>Best on holdout. <strong>Lane FAIL: 100 % overlap with GEMSDOE3 sgmc-gap, so not unique.</strong></td></tr>
+        <tr><td><strong>C3</strong> magnetic horizontal-gradient ridge</td><td>official feature <code>tmi_hg</code></td><td>0.0148 [0.0118, 0.0180]</td><td>+0.0044 [+0.0012, +0.0082]</td><td>0.544 (clear)</td><td>Beats chance, below C1. Basis of H54-B: byte-unique, but lane FAIL (81.6 % overlap with GEMSDOE40).</td></tr>
+        <tr><td><strong>C2</strong> geodetic shear-rate ridge</td><td>official feature <code>geod_shearrate</code></td><td>0.0098 [0.0072, 0.0128]</td><td>−0.0006 [−0.0037, +0.0027]</td><td>0.581 (clear)</td><td>Indistinguishable from chance.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small">Paired differences among candidates: C1 minus C2 +0.0385 [+0.0319, +0.0449]; C1 minus C3 +0.0335 [+0.0267, +0.0400]. Both exclude zero.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Controls and nulls</h2></div>
+    <div class="grid">
+      <div class="card"><h3>Shift null (C1)</h3><p>Thirty random torus shifts of the C1 dot pattern, scored per fold: mean 0.0042, SD 0.00075, 95th percentile 0.0051, maximum 0.0062. C1 sits far above this chance band.</p></div>
+      <div class="card"><h3>Chance control (C0)</h3><p>Count-matched random admissible cells with the same visible-catalogue exclusion. It isolates the effect of the exclusion geometry. It does not match spacing, so it is a weak control for line-shaped candidates.</p></div>
+      <div class="card"><h3>Leakage canary</h3><p>Single-feature AUC per fold for all 19 official bands, the SGMC layer and distance to the visible catalogue. Highest values: distance to the visible catalogue 0.756 (a withholding artefact, below the 0.90 cut), SGMC 0.526, all 19 bands at most 0.594. No feature is flagged LEAKAGE.</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Power and the 0.0028 board gap</h2><p class="small">Units are whole segments, 3,199 in total and about 640 per fold. Pixel-IID floors are invalid and not reported.</p></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Quantity</th><th>Value</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Standardised floor, Cohen's d, 80 % power, α = 0.05, 3,199 units</td><td>0.0496</td><td>Exact noncentral-t (<code>gemsdoe54.power</code>)</td></tr>
+        <tr><td>Same, per fold (639 units)</td><td>0.111</td><td>Indicative only</td></tr>
+        <tr><td>Raw MDE for paired comparisons (2.80 × bootstrap SE)</td><td>0.0045 to 0.0095</td><td>Smallest is C2 minus control (0.0045)</td></tr>
+        <tr><td>Board gap 0.2778 − 0.2750</td><td>0.0028</td><td>BOARD-UNVERIFIED; not a paired comparison on one truth set</td></tr>
+      </tbody>
+    </table></div>
+    <p><strong>Answer.</strong> The 0.0028 gap is inside the detection floor of every paired comparison in this receipt. At the observed correlations between candidate pairs (ρ̂ from −0.016 to +0.188), the floor is roughly 0.0045 to 0.0095. A 0.0028 difference would become detectable only for the C2 or C3 comparisons against the control, and only if the two candidates' DTI errors were correlated at about 0.9 or higher (<a href="../evidence/detection_floor_segments.json">evidence/detection_floor.json</a>). The two board values come from different submissions on different test splits, so they are not paired, and no holdout can resolve them.</p>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>What this holdout does not establish</h2></div>
+    <ul class="list">
+      <li><strong>Truth set.</strong> The withheld truth is the owner-mirrored catalogue. The hidden set is by construction absent from the catalogue and is expected to be less well mapped. This is therefore a catalogue-recovery proxy, not a hidden-test score.</li>
+      <li><strong>Segments are raster fragments.</strong> The 3,199 eight-connected components have a median of 12 cells, so the independent-unit count is approximate (IR-54-039).</li>
+      <li><strong>SGMC is not catalogue-identical.</strong> Only 17.8 % of catalogue cells lie within 100 m and 32.9 % within 300 m of an SGMC fault cell (DATA-AUDIT). C1 therefore recovers catalogue faults that SGMC maps, which is a real test, not a tautology.</li>
+      <li><strong>No organizer receipt.</strong> None of these numbers is ORGANIZER-CONFIRMED. None is a leaderboard value.</li>
+    </ul>
+  </section>
+</main>
+<footer class="footer"><div class="footer-inner"><span>HOLDOUT-DTI, evaluator gemsdoe54-segment-cv v1. Projections and proxies are not scores. Not legal advice.</span></div></footer>
+</body>
+</html>

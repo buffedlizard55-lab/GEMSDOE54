@@ -29,3 +29,12 @@ recorded in `registry/run_card.json` under
 `named_non_fault_process_that_could_mimic_it`: pre-Quaternary faults in the state map compilation
 carry no surface scarp and are probably not in the experts' label set, and nothing in the current
 design removes them. Anyone submitting this artefact should be satisfied with that exposure first.
+
+## Addendum, session 2026-10-08 (whole-segment holdout and rules gate)
+
+Required by rules §3.2 to be stated in the narrative. The extent and the use of generative AI in this session:
+
+- **Generated with AI assistance:** the new scripts `scripts/sibling_uniqueness.py`, `scripts/holdout_segment_cv.py`, `scripts/make_run_card.py`, `scripts/detection_floor.py`, `scripts/top_artefact_analysis.py`, `scripts/inventory_siblings.py`, `scripts/fetch_sibling_rasters.sh`, the tests in `tests/test_segment_cv.py`, and the pages `docs/rules-gate.html`, `docs/top-artefact.html`, `docs/holdout.html`, `docs/executive-summary.html`, `docs/hypotheses.html`.
+- **Verified rather than generated:** the rule quotations in `docs/rules-gate.html` were copied from the official PDF and checked against the fetched text. The metric identity in `docs/top-artefact.html` is checked numerically (`tests/test_segment_cv.py`, `scripts/top_artefact_analysis.py`). The submission was rebuilt from `scripts/build_submission.py` into scratch space, and its SHA-256 matched the shipped file byte-for-byte (`b430615a…`). Every number in the evidence files is written by a script from a file hash or raster read. No number was typed by hand into the run card.
+- **Not generated and not verified by us:** the DrivenData leaderboard, the data tab (login-gated), the top-artefact board values (0.2708, 0.2778), and the owner's audit fields. These are labelled BOARD-UNVERIFIED or OWNER-RECORDED wherever they appear.
+- **Human responsibility:** under §3.2 the registered competitor is responsible for the accuracy and authorship of the submission, including AI-generated content. The competitor must confirm this disclosure before any upload.

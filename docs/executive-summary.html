@@ -1,38 +1,100 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Upload decision, exact submission steps, and the [0,1] error fix for GEMSDOE54.">
-<title>Executive Summary & Submit Guide | GEMSDOE54</title><link rel="stylesheet" href="assets/audit-site.css"></head>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GEMS submission readiness and step-by-step portal instructions. No current TIFF is approved for upload." >
+  <title>Executive Summary & Submit Guide | GEMSDOE54</title><link rel="stylesheet" href="assets/audit-site.css">
+</head>
 <body>
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
-<nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="executive-summary.html">Submit guide</a><a href="hypotheses.html">Hypotheses</a><a href="evidence.html">Evidence</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav></div></header>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
 <main>
-<section class="page-title"><div class="eyebrow">Executive summary · upload decision · 2026-10-08</div><h1>A unique new TIF is ready to download. Protocol verdict: do not spend a slot on it this week.</h1><p class="lead">This run generated a new candidate — <code>gems54-cgrc-relay-v1.tif</code> (catalogue gap-relay completion, 32,369 dots, two-sided outward continuations, SGMC-corroborated placement) — that is <strong>unique</strong> (distinct lane, sha256-verified), <strong>format-clean</strong> (all-finite [0,1] float32, EPSG:32611, 3292×3730, matching transform, no nodata tag), and backed by a <strong>compliant whole-segment HOLDOUT-DTI of 0.0915</strong> [0.0876, 0.0949], 1.50× mass-matched random (0.0610 @32,529 dots). Pass-2 review found and fixed a continuation-direction bug (IR-54-021) and a receipt-schema gap (IR-54-022); all numbers are re-verified. The catalogue-truth proxy penalizes off-catalogue mass, so this is a lower bound on the off-catalogue task. Its promotion gate — beat the corpus holdout best (0.1793, GEMSDOE32 greedy-surface arm) — is <strong>failed</strong>, so the verdict is negative and no slot is recommended. The file is offered as a labelled diversity candidate if the owner elects to spend one.</p></section>
-<section class="status-banner" aria-labelledby="upload-state"><div class="status-icon" aria-hidden="true">!</div><div>
-<h2 id="upload-state">DOWNLOAD: YES · SUBMIT INTO A SLOT: PROTOCOL SAYS NO</h2><p><strong>Download</strong> <code>gems54-cgrc-relay-v1.tif</code> freely — it is unique to this run, format- and lane-clean, and documented end-to-end. <strong>Spending a weekly slot</strong> on it is an owner decision the protocol does not recommend: its holdout (0.0915, catalogue-truth proxy) is below the corpus best (0.1793) and its MODEL score range (0.09–0.18) is below the corpus board high (0.2778). The proxy penalizes off-catalogue mass, so the holdout is a lower bound on the off-catalogue task, not a fair score of it. If the owner submits anyway, record the outcome as a labelled diversity bet and preserve the submission-page receipt as ORGANIZER-CONFIRMED. The prior file <code>gems54-undercomplement-q200.tif</code> remains NOT submittable (lane overlap 0.889/0.999/0.765 vs the 0.70 limit).</p></div></section>
+  <section class="page-title"><div class="eyebrow">Executive summary · portal guide</div><h1>No upload-approved TIFF.</h1><p class="lead">This page explains the portal workflow for a future validated candidate. The current review generated no TIFF; the prior H54-A archive is only downloadable for inspection and is not recommended for upload.</p></section>
 
-<section class="section two-col"><div><div class="eyebrow">The file, exactly</div><h2>gems54-cgrc-relay-v1.tif</h2><ul class="list">
-<li><span class="bullet">01</span><span><strong>SHA-256:</strong> <code>e6f82d42c751e77f93f79d0c62c6ac0574daf9e35c827b1566753fe26b0984ef</code> (135,170 bytes). A NaN-twin variant exists for reference only (<code>9b4cf445…</code>) — <strong>upload the all-finite primary</strong>.</span></li>
-<li><span class="bullet">02</span><span><strong>Format gate:</strong> single-band float32, EPSG:32611, 3292×3730, transform (100, 0, 243350, 0, −100, 4508550); all values finite in [0,1] (32,369 dots, zero NaN, no nodata tag) — the byte pattern the portal already accepted for the 0.2778 file.</span></li>
-<li><span class="bullet">03</span><span><strong>Content:</strong> 3,118 catalogue segments → 1,194 relay gap bridges + 6,236 two-sided tip continuations (gaps/lengths ≤2.5 km, stepover ≤0.5 km, strike ≤25°), 200 m catalogue exclusion, one dot per 300 m (297,208 candidate cells → 32,369 placed), SGMC-corroborated placement priority.</span></li>
-<li><span class="bullet">04</span><span><strong>Evidence:</strong> whole-segment holdout B (SGMC) = 0.091536 [0.087617, 0.094855], A (pure catalogue) = 0.090341 (paired CI excludes 0 → SGMC helps), 60,834 withheld positives from 3,118 segments (4 quadrant folds + 300 m buffer), 2,000-replicate paired bootstrap (SE 0.000498, MDE 0.00140); leakage canaries max AUC 0.523; random control 0.0610 @32,529 dots ⇒ 1.50× lift.</span></li>
-</ul></div><aside class="card"><span class="label">Ready to download</span><h3>gems54-cgrc-relay-v1.tif</h3><p class="detail">Unique, format-clean, lane-clean. Promotion verdict negative — slot spend is the owner's labelled call.</p><a class="button" href="downloads/gems54-cgrc-relay-v1.tif" download>Download the candidate TIF</a><p class="small" style="margin-top:14px"><a href="../evidence/cgrc_submission_receipt.json">Submission receipt</a> · <a href="../evidence/cgrc_holdout_receipt.json">Holdout receipt</a> · <a href="../registry/run_card.json">Run card</a></p></aside></section>
+  <section class="status-banner" aria-labelledby="upload-state">
+    <div class="status-icon" aria-hidden="true">!</div>
+    <div><h2 id="upload-state">Current status: DO NOT UPLOAD</h2><p>Neither pre-placement surface screen cleared the lane gate, and no compliant whole-segment HOLDOUT-DTI exists. The archived H54-A raster passes local grid/dtype/in-footprint range checks but fails the current conservative outside-footprint null/NaN check, and the literal overlap checker flags it as duplicate against three dense registry rasters. No weekly slot was used. See the <a href="data/run-card.json">current negative run card</a> and <a href="../evidence/h54a-archive-strict-revalidation.json">archive revalidation receipt</a>.</p></div>
+  </section>
 
-<section class="section" aria-labelledby="steps"><div class="eyebrow">If the owner chooses to submit</div><h2 id="steps">Exact submission steps (official portal)</h2><p>Official problem page and rules PDF fetched 2026-10-08; the data page is login-gated. Steps reflect the public page — verify every field in the live form before submitting; no account access was used in this review.</p><div class="grid">
-<article class="step"><div class="step-num">1</div><h3>Sign in and open the submission form</h3><p class="detail">Log in to the DrivenData competition (account registration free) and select “New submission”.</p></article>
-<article class="step"><div class="step-num">2</div><h3>Attach one 100 m GeoTIFF</h3><p class="detail">Upload the exact run-card file above (verify its SHA-256 after download). Do not resave, reproject, convert, or substitute any other file — resaving can re-encode the nodata tag.</p></article>
-<article class="step"><div class="step-num">3</div><h3>Enter the unique name and note</h3><p class="detail">Submission name: <code>gems54-cgrc-relay-v1</code>. Note (123/140 chars): <em>“GEMSDOE54 CGRC v1: catalogue-tip relay gaps (≤2.5 km) + 2.5 km tip continuations, 200 m catalogue exclusion, 300 m greedy dots”</em>. Check the live form's own character limits.</p></article>
-<article class="step"><div class="step-num">4</div><h3>Disclose generation method</h3><p class="detail">The rules PDF requires disclosure of generative-AI or automation use. State plainly that the candidate was produced by an automated pipeline documented in this repository (mechanism, holdout, and gates all on this site).</p></article>
-<article class="step"><div class="step-num">5</div><h3>Preserve the organizer receipt</h3><p class="detail">Copy the submission-page score row to a local receipt and tie it to the raster SHA-256. Only that is an ORGANIZER-CONFIRMED score; until then this candidate has no score at all, and its 0.0915 is a holdout, not a projection of the board.</p></article>
-<article class="step"><div class="step-num">6</div><h3>Respect the weekly cap</h3><p class="detail">Official rules allow up to 3 submissions per week. This run's protocol budget: 3 experiments maximum (2 spent). Promotion of any file to a slot is a separate selector step.</p></article>
-</div></section>
+  <section class="section two-col">
+    <div>
+      <div class="eyebrow">Before opening the form</div><h2>File requirements</h2>
+      <ul class="list">
+        <li><span class="bullet">01</span><span>Use a single-band GeoTIFF (<code>.tif</code>) or a ZIP containing exactly one GeoTIFF, as described in the form text supplied with this project.</span></li>
+        <li><span class="bullet">02</span><span>Match the documented study-grid CRS, width/height, and geotransform exactly. The tracked <code>data/grid/MIRROR_sample_submission_template.tif</code> has the same 60,988 positive 0/1 cells as the labels on the local footprint (with NaN outside); it is not a blank baseline, and its organizer origin is unverified.</span></li>
+        <li><span class="bullet">03</span><span>Keep every scored in-footprint value finite and within <code>[0, 1]</code>. Prior source notes and the cached template indicate null/NaN outside the footprint; the official format page was not re-fetched in this review, so confirm the current rule before upload.</span></li>
+        <li><span class="bullet">04</span><span>Use the unique submission name and short note generated for that exact raster. This project's note limit is 140 characters.</span></li>
+        <li><span class="bullet">05</span><span>Do not treat format validity as permission to spend a weekly slot. Require a comparable, preregistered whole-fault-segment hide-and-recover HOLDOUT-DTI result and a passed promotion gate.</span></li>
+      </ul>
+    </div>
+    <aside class="card">
+      <span class="label">Archived H54-A artifact — inspection only</span>
+      <h3>gems54-undercomplement-q200.tif</h3>
+      <p class="detail">Grid/dtype/in-footprint checks pass, but the conservative outside-footprint null/NaN check and literal lane checker fail; there is no compliant HOLDOUT-DTI. The official format page was not re-fetched. Do not upload it based on this review.</p>
+      <a class="button" href="downloads/gems54-undercomplement-q200.tif" download>Download archive for inspection only</a>
+      <p class="small" style="margin-top:14px">SHA-256: <code>b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</code></p>
+      <p class="small">No current-session TIFF or note exists. Weekly-slot selection is separate and was not made here.</p>
+    </aside>
+  </section>
 
-<section class="section" aria-labelledby="error-title"><div class="eyebrow">Error fix — this run's central portal problem</div><h2 id="error-title">“Predicted values must be in range [0, 1]” — verified root cause and fix</h2><div class="card"><p><strong>Root cause (two verified mechanisms):</strong> the portal range check reads every pixel. (1) A <strong>float32 sentinel</strong> such as <code>-3.4028234663852886e+38</code> (float32 min) stored outside the footprint is &lt; 0; (2) a <strong>NaN nodata tag</strong> fails the [0,1] test on NaN pixels. Either makes the whole upload reject with the generic range message — the portal does not tell you which pixel.</p><p><strong>Fix (applied to the shipped file):</strong> store <strong>all-finite values, no nodata tag</strong> — dots = 1.0, background = 0.0, no NaN anywhere. This is the exact byte pattern the portal already accepted: the 0.2778 registry file is float32, <code>nodata=None</code>, all-finite, 37,654 dots. The file above is built this way and passes <code>scripts/validate_submission.py</code> (receipt linked).</p><p class="small">Note the discrepancy (flagged in the audit): the public problem page says null/NaN <em>outside</em> the footprint, yet the accepted 0.2778 file has no nulls at all and values in [0,1] everywhere. Empirically the all-finite file uploads; the page text remains the formal spec — both are recorded.</p><pre>python scripts/validate_submission.py docs/downloads/gems54-cgrc-relay-v1.tif \
-  --labels data/grid/labels.tif --out evidence/cgrc_submission_receipt.json</pre></div></section>
+  <section class="section" aria-labelledby="steps-title">
+    <div class="eyebrow">When a future candidate is approved</div><h2 id="steps-title">Exact upload sequence</h2>
+    <div class="grid">
+      <article class="step"><div class="step-num">1</div><h3>Check the separate slot selector</h3><p class="detail">This audit page does not approve a weekly slot. Only a separate selector may decide to submit an explicitly labelled experiment; first inspect the exact artifact hash, holdout evaluator/version, withheld-positive count, 95% CI, registry comparison, and format receipt.</p></article>
+      <article class="step"><div class="step-num">2</div><h3>Download the named GeoTIFF</h3><p class="detail">Save the exact linked <code>.tif</code> file. Do not resave, reproject, rename its contents, or substitute a ZIP from another run. If a ZIP is offered, confirm it contains a single GeoTIFF.</p></article>
+      <article class="step"><div class="step-num">3</div><h3>Open the official contest</h3><p class="detail">Use the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition page</a> and choose the new-submission flow. Use the normal sign-in flow; this review did not access a submission portal or bypass authentication.</p></article>
+      <article class="step"><div class="step-num">4</div><h3>Attach the file</h3><p class="detail">In “File to submit,” choose the downloaded single-band <code>.tif</code> (or the ZIP only if it contains one TIFF). Confirm the displayed filename matches the run card.</p></article>
+      <article class="step"><div class="step-num">5</div><h3>Enter the identifying fields</h3><p class="detail">Paste the exact unique submission name and short note supplied for that raster. Do not copy a prior name or use a projected score in the note.</p></article>
+      <article class="step"><div class="step-num">6</div><h3>Submit and preserve the receipt</h3><p class="detail">After portal validation, save the organizer's result/receipt and link it to the raster hash. Only that receipt can support an <code>ORGANIZER-CONFIRMED</code> score claim.</p></article>
+    </div>
+  </section>
 
-<section class="section two-col"><div><div class="eyebrow">Why the corpus high is 0.2778 (and what beats it)</div><h2>One paragraph, PhD version</h2><p>For unit dots the organizer's DTI reduces exactly to <code>T / (0.2N + 0.8G + 0.2(T−M))</code>: every dot pays a 0.2 mass tax, and credit is a per-truth-cell maximum, so the optimal density is one dot per 300 m and a dot earns only above the break-even bar <code>k &gt; 0.2·DTI ≈ 0.052</code>. The 0.2778 file is the 0.2708 dotted base with every dot within 200 m of the catalogue deleted (−6,436 dots): the hidden truth is by construction off-catalogue, so catalogue-proximal dots paid full tax for sub-bar credit. The prune bought +0.0178 by deleting dead mass at constant credit — inverting the two same-family board rows gives a MODEL hidden-truth mass ≈ 11,583 px. The public board (live 2026-10-08) shows 0.3774 at rank 1 and a 0.3221–0.3262 band: that is ~25% more credit-per-dot, which no prune on this surface can buy — it requires a better detector (feature stack / DEM scarps / seismicity, hypotheses H2–H4).</p></div><aside class="card"><span class="label">Research</span><h3>why-h33.md</h3><p class="detail">Full derivation, the 11,583 px inversion, board snapshot, and caveats.</p><a class="button" href="research/why-h33.md" target="_blank" rel="noopener">Read the derivation</a><p class="small" style="margin-top:14px"><a href="research/power-analysis.md">Power analysis (0.0028 detectable? yes, paired; no, cross-architecture)</a> · <a href="research/hypotheses.md">Ranked next hypotheses</a></p></aside></section>
+  <section class="section" aria-labelledby="error-title">
+    <div class="section-head"><div><div class="eyebrow">Troubleshooting</div><h2 id="error-title">“Predicted values must be in range [0, 1]”</h2></div></div>
+    <div class="card">
+      <p>The message indicates that the submitted prediction values failed the portal's range check. Common causes include NaN/Inf cells, a nodata sentinel such as a very large negative value, negative values, or values above one. The message alone does not tell us which value or cell caused the rejection; without the rejected file, no single root cause can be asserted.</p>
+      <p>Run the local validator against the candidate and the cached label footprint (the local label raster is not organizer-authenticated):</p>
+      <pre>python scripts/validate_submission.py path/to/candidate.tif \
+  --labels data/grid/labels.tif --out evidence/candidate.validation.json</pre>
+      <p class="small">A passing local check confirms only local format/range conditions. It does not confirm the organizer accepted the file, the holdout is powered, or the candidate should use a weekly slot.</p>
+    </div>
+  </section>
 
-<section class="section callout warning"><p><strong>Bottom line:</strong> download <code>gems54-cgrc-relay-v1.tif</code> (unique, format- and lane-clean, HOLDOUT-DTI 0.0915, 1.50× random, SGMC-corroborated arm). The protocol recommends against spending a slot this week — holdout below corpus best, and the catalogue-truth proxy penalizes the off-catalogue mass this method emits — and records the prior file as not submittable. Any slot spend is the owner's labelled decision with the receipt preserved. <a href="data/run-card.json">Run card</a> · <a href="irregularities.html">Irregularities</a> · <a href="evidence.html">All receipts</a></p></section>
-</main><footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p>Public leaderboard snapshot fetched 2026-10-08; no submission-page receipts or TIFF-to-row attributions are asserted.</div></footer>
+  <section class="section callout warning"><p><strong>Current decision:</strong> no new candidate TIFF was generated because the pre-placement surface triggered the literal lane duplicate gate. The existing archive is downloadable for inspection only, fails the current literal lane gate, has no trustworthy holdout, and is not recommended for upload. No weekly slot was selected.</p></section>
+<section class="section">
+    <div class="eyebrow">What was tested</div>
+    <h2>Holdout results (HOLDOUT-DTI, local, not leaderboard scores)</h2>
+    <p class="small">Catalogued faults withheld in whole buffered segments (300 m buffer, 913 independent units, 4 folds, 60,988 withheld positives). Evaluator <code>gemsdoe54-segment-holdout-v1</code>. 95 % CIs from an exact segment-group jackknife.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Experiment</th><th>Candidate DTI</th><th>cand − null (95 % CI)</th><th>cand − placebo (95 % CI)</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>E1 · dense magnetic ridge (frozen)</td><td>0.0163</td><td>−0.0185 [−0.0234, −0.0135]</td><td>+0.0136 [+0.0089, +0.0183]</td><td>Negative: below the random null</td></tr>
+        <tr><td>E2 · spaced ridge, 3 px (exploratory)</td><td>0.0124</td><td>+0.0026 [−0.0011, +0.0062]</td><td>+0.0106 [+0.0070, +0.0142]</td><td>Negative: CI includes 0</td></tr>
+        <tr><td>E3 · detection floor</td><td>—</td><td>A−B MDE 0.0022; A−C MDE 0.0015</td><td>—</td><td>Measurement only</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small"><strong>What the numbers mean.</strong> Dense 1-px ridge lines add redundant dots that the pooled DTI does not credit, so they lose to random placement. The spaced variant ties the null. Neither clears the frozen rule. The ridge does carry some location signal, since it beats a shifted-ridge placebo, but not enough to beat matched random placement.</p>
+    <p class="small"><strong>Board values (as displayed, not receipts).</strong> The public leaderboard snapshot on <code>main</code> (<code>docs/data/leaderboard-snapshot.json</code>, fetched 2026-10-08) shows 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13 and 0.2750 at rank 17. 0.3195 is not the current top, and 0.2778 is not linked to the H33 raster. These are displayed values, not ORGANIZER-CONFIRMED receipts.</p>
+  <p class="small"><strong>Can this holdout detect 0.2778 vs 0.2750?</strong> On this holdout a 0.0028 gap between two near-identical ridge variants would be detectable (pair floors 0.0015–0.0022). The board values use a hidden truth and a different scorer, so the board gap is <strong>not classifiable</strong> here.</p>
+    <p class="small">Sources: <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/run_card_mag_ridge.json">run card (JSON)</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_holdout.json">E1 receipt</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_spaced_holdout.json">E2 receipt</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/detection_floor.json">E3 receipt</a>.</p>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Rules</div>
+    <h2>When is a file OK to submit?</h2>
+    <p>All five conditions must hold. Until they do, the answer is no.</p>
+    <ol class="steps">
+      <li>The file has a HOLDOUT-DTI with evaluator version, withheld-positive count and 95 % CI.</li>
+      <li>Its paired CIs against the matched random null and against the placebo both lie entirely above 0 (segment-group jackknife).</li>
+      <li>The leakage canary is at most AUC 0.90 for every feature.</li>
+      <li>The format validator passes (single band, float32, EPSG:32611, 100 m, same bounds, no NaN in the footprint, values in [0, 1]).</li>
+      <li>The owner records a selection. Selection is a separate step from scoring; this page never selects a file.</li>
+    </ol>
+  </section>
+
+  </main>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p>Last local status: see <a href="data/workspace-audit.json">workspace audit JSON</a>.</p></div></footer>
 </body>
 </html>

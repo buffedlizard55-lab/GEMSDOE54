@@ -213,16 +213,58 @@ def shift_null_ci(
 
 
 def informative_truth_cells(truth: np.ndarray, dots: np.ndarray) -> int:
-    """Truth cells that lie within the 300 m kernel of at least one dot.
+    """Truth cells with strictly positive kernel credit from at least one dot.
 
-    This is the honest sample size for a paired comparison: truth cells farther
-    than 300 m from every prediction can never change any candidate's credit, so
-    they carry no information about a difference between two submissions.
+    The triangular kernel is zero exactly at 300 m.  Counting cells at the
+    boundary as informative would overstate the sample size, because changing a
+    prediction cannot change their credit at that distance.
     """
+    truth = np.asarray(truth, dtype=bool)
+    dots = np.asarray(dots, dtype=bool)
+    if truth.ndim != 2 or dots.shape != truth.shape:
+        raise ValueError("truth and dots must be same-shape two-dimensional masks")
     if not dots.any():
         return 0
     d = distance_transform_edt(~dots, sampling=(100.0, 100.0))
-    return int(np.count_nonzero(truth & (d <= 300.0)))
+    return int(np.count_nonzero(truth & (d < 300.0)))
+
+
+def single_feature_auc(
+    feat: np.ndarray,
+    truth: np.ndarray,
+    *,
+    valid: np.ndarray,
+    n_neg_max: int = 200_000,
+    seed: int = 20261008,
+) -> float:
+    """Symmetric rank-based AUC of one feature alone against the held-out truth.
+
+    Returns ``max(AUC, 1 - AUC)`` so that a strongly *inverted* feature is also flagged.
+    Negatives are a seeded subsample of at most ``n_neg_max`` valid non-truth cells, and
+    the Mann-Whitney U uses mid-ranks so tied (quantised) features score 0.5, not 1.0.
+    Non-finite feature values inside the valid mask are set to 0 before ranking.
+    """
+    pos = truth & valid
+    neg = (~truth) & valid
+    n_pos, n_neg = int(pos.sum()), int(neg.sum())
+    if n_pos == 0 or n_neg == 0:
+        raise ValueError("holdout has a degenerate class balance")
+    rng = np.random.default_rng(seed)
+    neg_idx = np.flatnonzero(neg.ravel())
+    take = min(n_neg, n_neg_max)
+    neg_sel = np.zeros(neg.size, dtype=bool)
+    neg_sel[rng.choice(neg_idx, size=take, replace=False)] = True
+    neg_sel = neg_sel.reshape(truth.shape)
+    f_pos = np.asarray(feat)[pos]
+    f_neg = np.asarray(feat)[neg_sel]
+    if not (np.isfinite(f_pos).all() and np.isfinite(f_neg).all()):
+        f_pos = np.nan_to_num(f_pos)
+        f_neg = np.nan_to_num(f_neg)
+    allv = np.concatenate([f_pos, f_neg])
+    ranks = rankdata(allv, method="average")
+    r_pos = ranks[: f_pos.size].sum()
+    auc = (r_pos - f_pos.size * (f_pos.size + 1) / 2.0) / (f_pos.size * f_neg.size)
+    return float(max(auc, 1.0 - auc))
 
 
 def detect_leakage(
@@ -239,33 +281,10 @@ def detect_leakage(
     cleanly is almost certainly the held-out source in disguise.
     """
     flags: list[str] = []
-    pos = truth & valid
-    neg = (~truth) & valid
-    n_pos, n_neg = int(pos.sum()), int(neg.sum())
-    if n_pos == 0 or n_neg == 0:
+    if not (truth & valid).any() or not ((~truth) & valid).any():
         return ["holdout has a degenerate class balance"]
-    # subsample negatives for tractability on a 12 M-cell grid
-    rng = np.random.default_rng(20261008)
-    neg_idx = np.flatnonzero(neg.ravel())
-    take = min(n_neg, 200_000)
-    neg_sel = np.zeros(neg.size, dtype=bool)
-    neg_sel[rng.choice(neg_idx, size=take, replace=False)] = True
-    neg_sel = neg_sel.reshape(truth.shape)
     for name, feat in features.items():
-        f_pos = np.asarray(feat)[pos]
-        f_neg = np.asarray(feat)[neg_sel]
-        if not (np.isfinite(f_pos).all() and np.isfinite(f_neg).all()):
-            f_pos = np.nan_to_num(f_pos)
-            f_neg = np.nan_to_num(f_neg)
-        # Mann-Whitney U via rank sums, with MID-RANKS so that ties are handled
-        # correctly.  Without tie correction a constant feature scores AUC = 1.0
-        # instead of 0.5, which produces phantom leakage flags on any coarsely
-        # quantised layer -- a real bug caught by the uniform-control probe.
-        allv = np.concatenate([f_pos, f_neg])
-        ranks = rankdata(allv, method="average")
-        r_pos = ranks[: f_pos.size].sum()
-        auc = (r_pos - f_pos.size * (f_pos.size + 1) / 2.0) / (f_pos.size * f_neg.size)
-        auc = max(auc, 1.0 - auc)
+        auc = single_feature_auc(feat, truth, valid=valid)
         if auc > auc_cut:
             flags.append(f"LEAKAGE: feature '{name}' alone scores AUC={auc:.3f} > {auc_cut}")
     return flags

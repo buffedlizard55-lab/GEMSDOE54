@@ -53,6 +53,14 @@ import numpy as np
 from scipy.ndimage import distance_transform_edt, label
 
 ROOT = Path(__file__).resolve().parents[1]
+
+def _display_path(path: Path) -> str:
+    """Repository-relative path when possible, otherwise the absolute path (scratch outputs)."""
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path.resolve())
+
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -145,8 +153,10 @@ def main() -> int:
     ap.add_argument("--min-px-extent", type=float, default=5.0)
     ap.add_argument("--min-elongation", type=float, default=6.0,
                     help="minimum principal-axis eigenvalue ratio lambda1/lambda2")
-    ap.add_argument("--out", default=str(ROOT / "docs/downloads" / f"{SLUG}.tif"))
-    ap.add_argument("--receipt", default=str(ROOT / "registry" / f"{SLUG}.build.json"))
+    ap.add_argument("--out", default=str(ROOT / "work" / f"{SLUG}.tif"),
+                    help="output GeoTIFF (default: ignored work/ directory; do not publish without all gates)")
+    ap.add_argument("--receipt", default=str(ROOT / "work" / f"{SLUG}.build.json"),
+                    help="build receipt (default: ignored work/ directory)")
     args = ap.parse_args()
 
     foot = footprint(args.labels)
@@ -205,7 +215,6 @@ def main() -> int:
             "min_px": args.min_px,
             "min_px_extent": args.min_px_extent,
             "min_elongation": args.min_elongation,
-            "min_px_extent": args.min_px_extent,
         },
         "counts": {
             "footprint_cells": int(foot.sum()),
@@ -217,7 +226,7 @@ def main() -> int:
             "components_considered": int(ncomp),
         },
         "output": {
-            "path": str(Path(args.out).relative_to(ROOT)),
+            "path": _display_path(Path(args.out)),
             "sha256": sha256(Path(args.out)),
             "bytes": Path(args.out).stat().st_size,
         },
