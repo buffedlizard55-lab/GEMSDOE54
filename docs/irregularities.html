@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Open data, provenance, evaluation, and submission issues for GEMSDOE54.">
+  <title>Audit & Irregularities | GEMSDOE54</title><link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a aria-current="page" href="irregularities.html">Audit</a></nav>
+</div></header>
+<main>
+  <section class="page-title"><div class="eyebrow">Review record</div><h1>Open issues are visible.</h1><p class="lead">The right outcome is to stop when evidence is missing. This ledger distinguishes a code defect from a data, provenance, or inference blocker.</p></section>
+  <section class="callout danger"><p><strong>No submission artifact is available.</strong> The current branch has not run a valid holdout experiment. Do not infer a score, improvement, or safe upload from a file on another site.</p></section>
+  <section class="section"><div class="table-wrap"><table>
+    <thead><tr><th>ID</th><th>Severity</th><th>Finding</th><th>Impact</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td>IR-54-001</td><td>Blocking</td><td>The checkout began with only a one-line README.</td><td>No data, scripts, evaluation tools, tests, or site existed in this repo.</td><td>Documented; audit/site scaffold added.</td></tr>
+      <tr><td>IR-54-002</td><td>Blocking</td><td>The inspected shared template does not provide the required whole-fault-segment holdout unit.</td><td>Its evaluator uses four folds of 512-pixel spatial blocks and a 3-pixel collar. Its shared writer is <code>src/submission_io.py</code>; no private replacement was used.</td><td>Open; no compliant HOLDOUT-DTI.</td></tr>
+      <tr><td>IR-54-003</td><td>Blocking</td><td>No local rasters or authenticated DrivenData download are present.</td><td>A separate owner-mirror cache passed its own hash pins and structural scan, but is outside this checkout and its origin is not organizer-authenticated.</td><td>Open; authentication and authorized placement required.</td></tr>
+      <tr><td>IR-54-004</td><td>Blocking</td><td>The separate read-only GEMSDOE52 cache fails its own manifest and feature-variance checks.</td><td>Its feature bands are constant on the footprint and its TIF digests disagree with its manifest. It is rejected for modeling and submission.</td><td>Quarantined; receipt linked below.</td></tr>
+      <tr><td>IR-54-005</td><td>High</td><td>Leaderboard claims and the “current top” description conflict in the user brief.</td><td>No live organizer board snapshot or submission receipt was fetched. No score is classified as confirmed.</td><td>Unverified; no ranking decision.</td></tr>
+      <tr><td>IR-54-006</td><td>High</td><td>The H33 artifact is documented by an owner-side technical receipt, not an organizer receipt.</td><td>A post-processing/placement mechanism is plausible; causal score attribution is not proven.</td><td>Mechanism hypothesis only.</td></tr>
+      <tr><td>IR-54-007</td><td>High</td><td>Positive-pixel count is not a sufficient power calculation for pooled DTI.</td><td>Cohen's d requires variance and independent units; fault pixels are clustered and DTI is nonlinear. The owner-mirror total-label count is not a holdout sample count.</td><td>Method documented; compliant folds and variance missing.</td></tr>
+      <tr><td>IR-54-008</td><td>Medium</td><td>Reference notebook and user brief use different feature filename aliases.</td><td>Reference code uses <code>numeric_features.tif</code>; the data note uses <code>training_features.tif</code>.</td><td>Both aliases recognized by audit; official schema still requires verification.</td></tr>
+      <tr><td>IR-54-009</td><td>Medium</td><td>Official external sources and proposed satellite/water sources were not fetched.</td><td>No data availability, coverage, or license claim is made.</td><td>Open; links retained for manual review.</td></tr>
+      <tr><td>IR-54-010</td><td>Medium</td><td>Fault detection is sometimes described as geothermal-vent discovery.</td><td>A fault map alone does not establish a vent, working geothermal system, or resource.</td><td>Clarified across README and site.</td></tr>
+      <tr><td>IR-54-011</td><td>High</td><td>The public GEMSDOE bridge is hash-consistent but owner-maintained.</td><td>Five feature shards and three reconstructed TIFFs match the bridge manifest and committed runner-generated inventory; organizer origin is not authenticated.</td><td>Integrity/structural audit only; see the bridge receipt.</td></tr>
+    </tbody>
+  </table></div></section>
+
+  <section class="section grid">
+    <article class="card"><span class="label">Evidence</span><h3>Initial repository review</h3><p class="detail">What was present at the start, what reference code was inspected, and what was deliberately not copied.</p><p><a href="audit/current-review.md">Open review note →</a></p></article>
+    <article class="card"><span class="label">Evidence</span><h3>GEMSDOE52 cache audit</h3><p class="detail">Pinned repository, hashes, grid metadata, feature variation, and provenance caveat.</p><p><a href="audit/sibling-cache-audit.json">Open JSON receipt →</a></p></article>
+    <article class="card"><span class="label">Evidence</span><h3>GEMSDOE template bridge audit</h3><p class="detail">All shard/file hashes, raster structure, provenance caveat, and shared holdout protocol review.</p><p><a href="audit/pinned-template-cache-audit.json">Open JSON receipt →</a></p></article>
+    <article class="card"><span class="label">Evidence</span><h3>Scoring explanation</h3><p class="detail">Why spatial pruning could improve a distance-weighted metric—and why that is not a causal proof.</p><p><a href="research/why-h33.md">Read the forensic note →</a></p></article>
+  </section>
+  <section class="section"><div class="eyebrow">Three-pass review</div><h2>What was checked</h2><div class="grid">
+    <article class="card"><span class="label">Pass 1</span><h3>Implementation</h3><p class="detail">Added a fail-closed input/raster audit, strict holdout-receipt power utility, readable Pages site, source register, and machine-readable negative run card.</p></article>
+    <article class="card"><span class="label">Pass 2</span><h3>Bug and edge review</h3><p class="detail">Tests exercise missing inputs, constant feature bands, explicitly reported small per-band coverage gaps, hash-declared structural inputs, raster range/NaN failures, malformed power receipts, and strict status JSON. A numerical bracketing bug found by tests was fixed.</p></article>
+    <article class="card"><span class="label">Pass 3</span><h3>Original-request check</h3><p class="detail">Rechecked the brief: no duplicate submission, no unverified score, no experiment outside the budget, no weekly slot, no fabricated TIF, and a visible submit guide/status.</p></article>
+  </div></section>
+</main>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p><a href="data/run-card.json">Negative run card</a></p></div></footer>
+</body>
+</html>

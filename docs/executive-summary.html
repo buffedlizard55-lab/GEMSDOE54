@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Clear, step-by-step instructions for submitting a verified GEMS GeoTIFF.">
+  <title>Executive Summary & Submit Guide | GEMSDOE54</title><link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
+<main>
+  <section class="page-title"><div class="eyebrow">Executive summary · portal guide</div><h1>Submit only a file that passed every gate.</h1><p class="lead">This page explains the form and the local checks. It does not certify a leaderboard score or make a research artifact eligible for upload.</p></section>
+
+  <section class="status-banner" aria-labelledby="upload-state">
+    <div class="status-icon" aria-hidden="true">!</div>
+    <div><h2 id="upload-state">Current status: DO NOT UPLOAD</h2><p>There is no TIF download on this site. This checkout has no local rasters or authenticated portal download. A separate owner-maintained template bridge passed its own shard/file hashes and structural feature scan, but that does not authenticate origin; its shared evaluator holds spatial blocks rather than whole fault segments. A separate GEMSDOE52 cache failed integrity/feature checks. A file will appear here only after a new candidate is independently validated against a compliant shared holdout and explicitly marked safe.</p></div>
+  </section>
+
+  <section class="section two-col">
+    <div>
+      <div class="eyebrow">Before opening the form</div><h2>File requirements</h2>
+      <ul class="list">
+        <li><span class="bullet">01</span><span>Use a single-band GeoTIFF (<code>.tif</code>) or a ZIP containing exactly one GeoTIFF, as described in the form text supplied with this project.</span></li>
+        <li><span class="bullet">02</span><span>Match the official sample raster's CRS, width/height, and geotransform exactly. Never assume a filename or projection from a previous site is still current.</span></li>
+        <li><span class="bullet">03</span><span>Keep every stored value finite and within <code>[0, 1]</code>. This project applies the range check to the whole stored raster, including outside-footprint cells, to avoid NaN/Inf and sentinel values being parsed as predictions.</span></li>
+        <li><span class="bullet">04</span><span>Use the unique submission name and short note generated for that exact raster. This project's note limit is 140 characters.</span></li>
+        <li><span class="bullet">05</span><span>Do not treat format validity as permission to spend a weekly slot. Require a comparable, preregistered spatial holdout win and a passed promotion gate.</span></li>
+      </ul>
+    </div>
+    <aside class="card">
+      <span class="label">Current artifact</span>
+      <h3>No file available</h3>
+      <p class="detail">No name, note, or SHA-256 is issued because there is no validated raster.</p>
+      <span class="button disabled" aria-disabled="true">No TIF to download</span>
+      <p class="small" style="margin-top:14px">Do not upload a historical file from a sibling site as if it were new.</p>
+    </aside>
+  </section>
+
+  <section class="section" aria-labelledby="steps-title">
+    <div class="eyebrow">When a future candidate is approved</div><h2 id="steps-title">Exact upload sequence</h2>
+    <div class="grid">
+      <article class="step"><div class="step-num">1</div><h3>Confirm approval on this page</h3><p class="detail">Only proceed when the artifact card says both “safe to download” and “approved to submit,” and the linked run card contains the exact raster SHA-256, holdout evaluator/version, withheld-positive count, 95% CI, uniqueness audit, and validator receipt.</p></article>
+      <article class="step"><div class="step-num">2</div><h3>Download the named GeoTIFF</h3><p class="detail">Save the exact linked <code>.tif</code> file. Do not resave, reproject, rename its contents, or substitute a ZIP from another run. If a ZIP is offered, confirm it contains a single GeoTIFF.</p></article>
+      <article class="step"><div class="step-num">3</div><h3>Open the official contest</h3><p class="detail">Use the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition page</a> and choose the new-submission flow. This link was supplied by the user and was not fetched in this environment.</p></article>
+      <article class="step"><div class="step-num">4</div><h3>Attach the file</h3><p class="detail">In “File to submit,” choose the downloaded single-band <code>.tif</code> (or the ZIP only if it contains one TIFF). Confirm the displayed filename matches the run card.</p></article>
+      <article class="step"><div class="step-num">5</div><h3>Enter the identifying fields</h3><p class="detail">Paste the exact unique submission name and short note supplied for that raster. Do not copy a prior name or use a projected score in the note.</p></article>
+      <article class="step"><div class="step-num">6</div><h3>Submit and preserve the receipt</h3><p class="detail">After portal validation, save the organizer's result/receipt and link it to the raster hash. Only that receipt can support an <code>ORGANIZER-CONFIRMED</code> score claim.</p></article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="error-title">
+    <div class="section-head"><div><div class="eyebrow">Troubleshooting</div><h2 id="error-title">“Predicted values must be in range [0, 1]”</h2></div></div>
+    <div class="card">
+      <p>The message indicates that the submitted prediction values failed the portal's range check. Common causes include NaN/Inf cells, a nodata sentinel such as a very large negative value, negative values, or values above one. The message alone does not tell us which value or cell caused the rejection; without the rejected file, no single root cause can be asserted.</p>
+      <p>Run the local validator against the official sample before upload:</p>
+      <pre>python scripts/validate_submission.py path/to/candidate.tif \
+  --reference data/sample_submission.tif</pre>
+      <p class="small">A passing local check confirms only local format/range conditions. It does not confirm the organizer accepted the file, the holdout is powered, or the candidate should use a weekly slot.</p>
+    </div>
+  </section>
+
+  <section class="section callout warning"><p><strong>Current decision:</strong> there is no file to download or submit from GEMSDOE54. The absence is intentional; emitting an arbitrary or copied raster would violate the project protocol.</p></section>
+</main>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p>Last local status: see <a href="data/workspace-audit.json">workspace audit JSON</a>.</p></div></footer>
+</body>
+</html>

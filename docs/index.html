@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Auditable research and safe submission status for the DOE GEMS fault-detection challenge.">
+  <title>GEMSDOE54 | GEMS Research Workbench</title>
+  <link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="header-inner">
+    <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+    <nav aria-label="Main navigation">
+      <a aria-current="page" href="index.html">Overview</a>
+      <a href="executive-summary.html">Submit guide</a>
+      <a href="research.html">Research</a>
+      <a href="sources.html">Sources</a>
+      <a href="irregularities.html">Audit</a>
+    </nav>
+  </div>
+</header>
+<main>
+  <section class="hero">
+    <div class="eyebrow">DOE GEMS · Research-first · Evidence-gated</div>
+    <h1>Find structure.<br>Prove the signal.</h1>
+    <p class="lead">A reproducible workbench for studying fault-detection submissions and their uncertainty. Every score, data source, and downloadable artifact must carry evidence—not just a filename or a plausible geological story.</p>
+    <div class="cta-row">
+      <span class="button disabled" aria-disabled="true">No TIF available to download</span>
+      <a class="button secondary" href="executive-summary.html">How submission works</a>
+    </div>
+  </section>
+
+  <section class="status-banner" aria-labelledby="status-title">
+    <div class="status-icon" aria-hidden="true">!</div>
+    <div>
+      <h2 id="status-title">DO NOT UPLOAD — no validated submission file exists</h2>
+      <p>This checkout has no local competition rasters or authenticated portal download. A separate read-only clone of the owner-maintained shared template contains a data bridge whose five feature shards and three reconstructed rasters match its manifest and committed runner-generated inventory; its 19 feature bands vary across the footprint. That proves byte integrity against owner pins, not organizer origin. Its shared holdout is spatial-block based, not the required whole-fault-segment hide-and-recover, so no compliant DTI or candidate was produced. The result remains negative.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="state-title">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Local evidence feed</div>
+        <h2 id="state-title">What is ready now?</h2>
+      </div>
+      <p>This feed reports this repository's audit state only. It is not a live DrivenData leaderboard or organizer score service.</p>
+    </div>
+    <div class="grid">
+      <article class="card">
+        <span class="label">Competition inputs</span>
+        <div class="value"><span class="state blocked">BLOCKED</span></div>
+        <p class="detail" id="data-state">No local competition rasters are present in <code>data/</code>.</p>
+      </article>
+      <article class="card">
+        <span class="label">Holdout + power</span>
+        <div class="value"><span class="state blocked">NOT RUN</span></div>
+        <p class="detail">No compliant evaluator receipt or paired cluster-bootstrap interval exists in this checkout.</p>
+      </article>
+      <article class="card">
+        <span class="label">Submission artifact</span>
+        <div class="value"><span class="state blocked">NONE</span></div>
+        <p class="detail">No SHA-256, registry comparison, validator receipt, submission name, or upload approval is available.</p>
+      </article>
+    </div>
+    <p class="mono-note" id="audit-time" aria-live="polite">Loading the latest repository-local audit receipt…</p>
+    <p class="small"><a href="data/feed.json">Open the local status feed JSON →</a></p>
+  </section>
+
+  <section class="section two-col" aria-labelledby="why-title">
+    <article class="card">
+      <div class="eyebrow">Why the gate is closed</div>
+      <h2 id="why-title">The data must be trusted before the score can be trusted.</h2>
+      <p>The branch began with only a README. The public template now inspected does include a checksum-pinned owner bridge with a structurally varied feature stack and a shared writer. However, the bridge's origin is not organizer-authenticated, and its holdout workflow withholds spatial blocks rather than whole fault segments. A separate GEMSDOE52 cache remains invalid: its checked-in TIF hashes disagree with its manifest and its feature cube is constant.</p>
+      <p>Neither cache finding authorizes a competition experiment. The required whole-segment hide-and-recover evaluator is not available in this checkout or in the inspected template; no private replacement was created. See the <a href="audit/pinned-template-cache-audit.json">hash and tool audit</a>.</p>
+      <a href="irregularities.html">Read the irregularities ledger →</a>
+    </article>
+    <aside class="card">
+      <span class="label">Next valid action</span>
+      <h3>Restore the canonical inputs and tools</h3>
+      <ol class="list">
+        <li><span class="bullet">A</span><span>Place authorized competition rasters in the ignored <code>data/</code> directory.</span></li>
+        <li><span class="bullet">B</span><span>Run the fail-closed audit and verify organizer origin, hashes, feature variation, CRS, shape, and transform.</span></li>
+        <li><span class="bullet">C</span><span>Use a shared evaluator/writer that hides whole fault segments; if the template lacks it, repair upstream rather than creating a private fork.</span></li>
+      </ol>
+      <p class="small">No credentials are stored or requested by this site.</p>
+    </aside>
+  </section>
+
+  <section class="section" aria-labelledby="evidence-title">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Research safeguards</div>
+        <h2 id="evidence-title">What every candidate must prove</h2>
+      </div>
+    </div>
+    <div class="grid">
+      <article class="card"><span class="label">Power first</span><h3>Can the holdout resolve the gap?</h3><p class="detail">Use whole fault segments/spatial blocks, paired pooled-DTI resampling, Cohen's standardized effect framework, and a 95% interval. Positive pixels alone are not independent samples.</p><a href="research.html#power">Power-analysis protocol →</a></article>
+      <article class="card"><span class="label">Leakage canary</span><h3>Test features alone</h3><p class="detail">Any feature-only AUC above the registered threshold is treated as leakage until the source, masking, and fold construction explain it.</p><a href="research.html#leakage">Leakage policy →</a></article>
+      <article class="card"><span class="label">Uniqueness gate</span><h3>Compare decoded rasters</h3><p class="detail">Check rank correlation and three-pixel dot overlap against every accessible registry raster before placement and after the final write.</p><a href="research.html#uniqueness">Uniqueness protocol →</a></article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="links-title">
+    <div class="section-head">
+      <div><div class="eyebrow">Start here</div><h2 id="links-title">Research and submission resources</h2></div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Page</th><th>What it contains</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr><td><a href="executive-summary.html">Executive summary</a></td><td>Exact portal workflow, format checks, and why no current file may be submitted.</td><td><span class="state blocked">No artifact</span></td></tr>
+          <tr><td><a href="research.html">Research</a></td><td>Power-analysis gate, candidate hypotheses, and what is not yet validated.</td><td><span class="state pending">Prerequisites open</span></td></tr>
+          <tr><td><a href="sources.html">Sources</a></td><td>Official source links separated from owner-maintained prior art.</td><td><span class="state pending">Some links not fetched</span></td></tr>
+          <tr><td><a href="irregularities.html">Audit</a></td><td>Checkout review, provenance defects, source gaps, and next steps.</td><td><span class="state ok">Published</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="footer-inner"><p>GEMSDOE54 · evidence before emission</p><p>Research output is not organizer confirmation or scientific discovery.</p></div></footer>
+<script>
+  fetch('data/workspace-audit.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+    .then(audit => {
+      const state = document.getElementById('data-state');
+      const time = document.getElementById('audit-time');
+      state.textContent = audit.missing_inputs && audit.missing_inputs.length
+        ? 'Missing required files: ' + audit.missing_inputs.join(', ') + '.'
+        : 'Local structural audit state: ' + audit.status + '. Source authentication is not inferred.';
+      time.textContent = audit.generated_utc ? 'Repository-local audit updated: ' + audit.generated_utc : 'Audit time not recorded.';
+    })
+    .catch(() => { document.getElementById('audit-time').textContent = 'Audit receipt unavailable; the static blocked status remains in force.'; });
+</script>
+</body>
+</html>

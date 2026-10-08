@@ -1,0 +1,59 @@
+# Holdout power: required before ranking any method
+
+## Decision
+
+**No valid power estimate or HOLDOUT-DTI result can be reported from this checkout.** The repository contains no local competition rasters. In a separate read-only clone of the owner-maintained `GEMSDOE` template, all five feature shards and all three reconstructed TIFFs matched both the bridge manifest and committed inventory; a structural audit found 19 nonconstant feature bands. This verifies bytes against owner-maintained pins, not organizer origin. The shared evaluator available there assigns spatial blocks, not whole fault segments, so it does not satisfy the required hide-and-recover design. The separate `GEMSDOE52` cache does fail its own pins and has a constant feature cube; it remains quarantined. Consequently, no compliant withheld-positive count, paired variance, detection floor, or confidence interval for the cited small leaderboard gap is available.
+
+**DATA-AUDIT (not HOLDOUT-DTI):** the hash-matched owner-mirror label raster contains 60,988 positive pixels in total. This is not a withheld-positive count, not an independent sample size, and not a score. The value is recorded only as a property of the cached input in [`pinned-template-cache-audit.json`](../audit/pinned-template-cache-audit.json).
+
+The score pair in the prompt is not a `HOLDOUT-DTI` receipt and is not an `ORGANIZER-CONFIRMED` submission-page receipt. It remains an unverified claim and is excluded from the ranking decision. A difference of two reported leaderboard values is not an estimate of holdout uncertainty.
+
+## Why positive-pixel count alone is insufficient
+
+Cohen's framework distinguishes a standardized effect from its standard error. For a paired comparison, the classical effect is
+
+\[
+ d_z = \frac{\mathbb{E}(D)}{\operatorname{SD}(D)},
+\]
+
+where \(D\) is the paired difference. The exact two-sided minimum detectable standardized effect at target power is obtained by solving the noncentral-*t* power equation, which `gemsdoe54.power.minimum_detectable_cohen_d` implements.
+
+Raster positives are not independent experimental units. Pixels on one mapped fault segment are spatially correlated; nearby target pixels also share overlapping neighborhoods under the triangular kernel. Pooled DTI is a nonlinear ratio whose numerator and penalties are coupled. Treating every positive pixel as an independent replicate therefore produces an optimistic, generally invalid power floor. The number of withheld positive pixels must still be recorded, but the effective replication should be based on whole withheld fault segments or spatial blocks defined before scoring.
+
+Even an independent-unit count does not turn Cohen's standardized effect into a raw DTI increment. A raw-scale floor requires a variance estimate. For pooled DTI, the primary uncertainty estimate should come from paired bootstrap replicates that re-sample whole withheld segments/spatial blocks and recompute the *pooled* metric for both candidate and baseline on every replicate.
+
+## Required estimand and protocol
+
+The holdout receipt must identify:
+
+- evaluator version and a hash of the evaluator code;
+- whole fault segments withheld with a spatial buffer, with their positive-pixel count;
+- catalogue-derived features recomputed from visible faults only;
+- exact pixel-level masking of visible faults;
+- pooled DTI with alpha 0.2, beta 0.8, and a 300 m triangular kernel;
+- the same folds and masks for candidate and baseline;
+- a paired whole-segment/spatial-block bootstrap distribution of pooled DTI differences;
+- leakage-canary results for each feature by itself, with any AUC above 0.90 treated as leakage until explained.
+
+Do not tune the holdout or candidate after looking at the same fold results. Any adjustment requires a newly frozen registration and fresh folds.
+
+## What the analysis reports once a valid receipt exists
+
+`python scripts/power_analysis.py path/to/frozen-holdout-receipt.json` rejects receipts missing the evaluator version, scoring contract, withheld-positive count, independent-unit count, pixel-exact visible mask, visible-only catalogue features, or at least 1,000 finite cluster-bootstrap replicates. It then reports:
+
+1. `HOLDOUT-DTI` — evaluator version, number of withheld positives, observed pooled difference, and the paired cluster-bootstrap 95% CI;
+2. Cohen's minimum detectable standardized effect for the independent segment/block count;
+3. an approximate raw-scale detectable pooled-DTI difference based on the paired cluster-bootstrap standard error;
+4. a separate pixel-IID Cohen floor, explicitly marked **not valid for inference** and never used to promote a candidate.
+
+The 95% interval, not the power calculation alone, decides whether the measured local difference is distinguishable from zero. A holdout win is not an organizer score and is not proof that the hidden test set shares the same distribution.
+
+## Current machine-readable run state
+
+See [`../data/run-card.json`](../data/run-card.json) and [`../data/workspace-audit.json`](../data/workspace-audit.json). Both deliberately record the holdout and raster fields as unavailable; no score or projection is substituted.
+
+## References
+
+- Cohen, J. (1988), *Statistical Power Analysis for the Behavioral Sciences*, 2nd edition. The request identifies this as the intended framework; the book itself was not available in the checkout.
+- The user-supplied competition metric page: <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/> (not fetched in this environment).
+- The accessible official reference-solution repository: <https://github.com/drivendataorg/gems-prize-reference-solution>.

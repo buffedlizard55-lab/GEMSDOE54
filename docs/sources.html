@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Official and owner-maintained sources, with explicit verification status.">
+  <title>Sources & Verification | GEMSDOE54</title><link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a aria-current="page" href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
+<main>
+  <section class="page-title"><div class="eyebrow">Provenance ledger</div><h1>Sources, with verification labels.</h1><p class="lead">User-provided URLs are preserved for manual review. A link is not treated as verified unless it was accessible and inspected in this session.</p></section>
+  <section class="status-banner"><div class="status-icon" aria-hidden="true">i</div><div><h2>No authenticated competition data was downloaded</h2><p>Public reference code and sibling project records are useful context, but they do not replace the organizer download or an organizer submission receipt.</p></div></section>
+
+  <section class="section"><div class="table-wrap"><table>
+    <thead><tr><th>Source</th><th>Link</th><th>Class</th><th>Checked here?</th><th>How it may be used</th></tr></thead>
+    <tbody>
+      <tr><td>Competition overview / problem metric</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData overview</a></td><td>Organizer</td><td><span class="state pending">Not fetched</span></td><td>Verify challenge semantics and scoring rules against the live source.</td></tr>
+      <tr><td>Competition about page</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/">DrivenData about</a></td><td>Organizer</td><td><span class="state pending">Not fetched</span></td><td>Background and label/data provenance.</td></tr>
+      <tr><td>Competition data</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">DrivenData data tab</a></td><td>Organizer</td><td><span class="state blocked">No authenticated download</span></td><td>Authoritative route for features, labels and the sample grid.</td></tr>
+      <tr><td>Live leaderboard</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData leaderboard</a></td><td>Organizer</td><td><span class="state pending">Not fetched</span></td><td>Only a copied organizer page/receipt can confirm a score. Prompt-provided leaderboard values remain unverified.</td></tr>
+      <tr><td>Reference solution</td><td><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData GitHub</a></td><td>Competition reference code</td><td><span class="state ok">Inspected at pinned commit</span></td><td>Baseline U-Net notebook and environment/setup details; not an organizer score or a replacement holdout evaluator.</td></tr>
+      <tr><td>GEMS PDF / submission description</td><td><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NREL/DOE PDF</a></td><td>Government/DOE source (user-supplied)</td><td><span class="state pending">Not fetched</span></td><td>Manual review of competition context and data terms.</td></tr>
+      <tr><td>GeoDAWN airborne survey</td><td><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS data page</a></td><td>USGS</td><td><span class="state pending">Not fetched</span></td><td>Official source lead for survey context; raster bytes not obtained here.</td></tr>
+      <tr><td>INGENIOUS project</td><td><a href="https://gbcge.org/current-projects/ingenious/">GBCGE INGENIOUS</a> · <a href="https://gdr.openei.org/submissions/1391">GDR submission 1391</a></td><td>Research / DOE data repository</td><td><span class="state pending">Not fetched</span></td><td>Potential well/spring evidence; exact schema, fields, license and footprint coverage are unverified.</td></tr>
+      <tr><td>USGS 3DEP / DEM lead</td><td><a href="https://www.usgs.gov/3d-elevation-program">3D Elevation Program</a></td><td>USGS</td><td><span class="state pending">Not fetched</span></td><td>Potential DEM source; exact tile coverage, resolution, and terms need checking before use.</td></tr>
+      <tr><td>CRS reference supplied in brief</td><td><a href="https://epsg.io/32611">EPSG:32611 at epsg.io</a></td><td>Third-party CRS reference</td><td><span class="state pending">Not fetched</span></td><td>Review only; epsg.io is not represented here as the official EPSG authority.</td></tr>
+      <tr><td>Metric background</td><td><a href="https://en.wikipedia.org/wiki/Tversky_index">Tversky index overview</a></td><td>Secondary source</td><td><span class="state pending">Not fetched</span></td><td>General background only; use the organizer's definition for implementation.</td></tr>
+      <tr><td>Owner-side H33 prior art</td><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/tree/0d6a6243147cd63a2000412d575d4c80a36d3a62">GEMSDOE32 pinned commit</a></td><td>Owner-maintained project archive</td><td><span class="state ok">Read-only review</span></td><td>Understand how the named artifact was constructed; not an organizer score receipt.</td></tr>
+      <tr><td>Owner-side cache audit</td><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE52/tree/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4">GEMSDOE52 pinned commit</a></td><td>Owner-maintained mirror/archive</td><td><span class="state ok">Read-only audit</span></td><td>Checked-in bytes fail manifest/feature-variance checks; rejected for candidate generation.</td></tr>
+      <tr><td>Shared-template data bridge</td><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE/tree/dcbbb192e56b2b32c0a131eba791dc363305d4a3">GEMSDOE pinned commit</a> · <a href="audit/pinned-template-cache-audit.json">hash/audit receipt</a></td><td>Owner-maintained template/mirror</td><td><span class="state pending">Hashes match; origin unauthenticated</span></td><td>All five shards and three full files match the bridge manifest and runner-generated inventory. The evaluator holds spatial blocks, not whole fault segments; no experiment was run.</td></tr>
+      <tr><td>User-supplied Dropbox mirrors</td><td><a href="https://www.dropbox.com/scl/fi/aemhtutjgcp6tr3tint94/GEMS_96647.pdf?rlkey=rek210cj2smnmzb8n0sla1vmd&amp;st=wz4kofki&amp;dl=0">PDF copy</a> · <a href="https://www.dropbox.com/scl/fi/6rgvnuady818ol8yqgis4/example_submission.tif?rlkey=kbykilvau066xuogoosbf4cq8&amp;st=8junzdyw&amp;dl=0">example TIF</a> · <a href="https://www.dropbox.com/scl/fi/t7fyt03qdh9egyme0itwo/existing_faults.tif?rlkey=yiao96uluqdkipf0h5vju71jf&amp;st=rnino7ya&amp;dl=0">fault raster</a> · <a href="https://www.dropbox.com/scl/fi/3vz9o0wwavi26xaeoxlwr/gems-geodawn-numerical-features.tif?rlkey=je8d8fepqfbst9lnwsq9rkplu&amp;st=zj1lag1r&amp;dl=0">features</a> · <a href="https://www.dropbox.com/scl/fi/ig0mban712ns1atphgphe/Digital-elevation-model-links-JSON.pdf?rlkey=zm77f1vbtt2if8hlruymptnu3&amp;st=srhhir10&amp;dl=0">DEM-link PDF</a></td><td>User-shared file links</td><td><span class="state pending">Not fetched</span></td><td>Not official provenance; do not use as authenticated competition inputs without organizer confirmation.</td></tr>
+    </tbody>
+  </table></div></section>
+
+  <section class="section two-col">
+    <article class="card"><span class="label">Source rules</span><h2>What “verified” means here</h2><ul class="list"><li><span class="bullet">01</span><span>Read the source itself, not just a citation or a sibling README.</span></li><li><span class="bullet">02</span><span>Record the exact dataset/version, license, footprint coverage, retrieval date, and checksum.</span></li><li><span class="bullet">03</span><span>Distinguish checksum integrity from origin authentication. A local hash does not establish that bytes came from the organizer.</span></li><li><span class="bullet">04</span><span>Distinguish owner-reported scores from organizer receipts and local HOLDOUT-DTI.</span></li></ul></article>
+    <aside class="card"><span class="label">Machine-readable register</span><h3>Review the JSON record</h3><p class="detail">Every listed URL and verification state is also available as structured data.</p><p><a href="data/source-register.json">Open source-register.json →</a></p></aside>
+  </section>
+</main>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p>No source access is inferred from a link alone.</p></div></footer>
+</body>
+</html>

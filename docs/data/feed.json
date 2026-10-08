@@ -1,0 +1,28 @@
+{
+  "candidate": {
+    "holdout_status": "NOT RUN \u2014 no evaluator matching the required whole-fault-segment protocol and no organizer-authenticated input receipt",
+    "safe_to_upload": false,
+    "tif_downloadable": false,
+    "verdict": "negative"
+  },
+  "generated_utc": "2026-10-08T18:39:38+00:00",
+  "leaderboard": {
+    "score_claims_are_organizer_confirmed": false,
+    "status": "not_fetched"
+  },
+  "schema": "gemsdoe54.local-feed.v1",
+  "scope": "This repository's local audit records only; not a DrivenData leaderboard feed.",
+  "sources": {
+    "official_data_download_authenticated": false,
+    "registered": 19
+  },
+  "workspace": {
+    "missing_inputs": [
+      "training_features.tif or numeric_features.tif",
+      "labels.tif",
+      "sample_submission.tif"
+    ],
+    "ready_for_holdout": false,
+    "status": "blocked_missing_inputs"
+  }
+}

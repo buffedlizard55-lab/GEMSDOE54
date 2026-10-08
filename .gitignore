@@ -1,0 +1,26 @@
+# Competition data and generated rasters are never committed by default.
+/data/*
+!/data/README.md
+/work/
+/cache/
+*.tif
+*.tiff
+*.npz
+*.npy
+*.pt
+*.pth
+
+# Python
+.venv/
+*.egg-info/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Build and editor state
+site/
+build/
+dist/
+.DS_Store

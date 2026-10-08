@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Power, leakage, uniqueness, and geological hypothesis gates for GEMS research.">
+  <title>Research & Validation | GEMSDOE54</title><link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a aria-current="page" href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
+<main>
+  <section class="page-title"><div class="eyebrow">Research notebook</div><h1>Validation before interpretation.</h1><p class="lead">The task is not to find a pattern that looks geological. It is to show that a frozen, leak-free method predicts withheld structure better than a comparable baseline, with uncertainty small enough to support the claim.</p></section>
+
+  <section class="status-banner"><div class="status-icon" aria-hidden="true">!</div><div><h2>Current evidence state: no experiment is valid yet</h2><p>The repository has no local rasters or authenticated portal download. A separate owner-maintained template bridge is hash-consistent and has a nonconstant feature cube, but those pins do not authenticate origin. Its shared evaluator holds spatial blocks, not whole fault segments. The separate GEMSDOE52 cache fails its pins and has a constant feature cube. No candidate was scored; do not infer a DTI ranking.</p></div></section>
+
+  <section class="section" id="power">
+    <div class="eyebrow">Prerequisite</div><h2>Power and the DTI detection floor</h2>
+    <div class="two-col">
+      <article class="card">
+        <h3>What must be measured</h3>
+        <p>For a paired candidate-versus-baseline comparison, Cohen's d is a standardized difference. Its minimum detectable value depends on the independent sample count and the variability of paired differences. A raw pooled-DTI floor additionally depends on the observed cluster-bootstrap uncertainty.</p>
+        <p>Fault pixels within a segment are not independent. Use whole held-out fault segments or preregistered spatial blocks as the resampling units; recompute pooled DTI inside each paired bootstrap draw. Report the withheld-positive count as context, not as the number of independent experiments.</p>
+        <p>The power CLI requires a frozen receipt specifying whole-segment hiding with buffer, visible-only catalogue-derived features, pixel-exact visible masking, pooled DTI, the triangular 300 m kernel, and bootstrap draws. Without that receipt, it refuses to produce a floor.</p>
+        <a href="research/power-analysis.md">Read the full statistical protocol →</a>
+      </article>
+      <aside class="card">
+        <span class="label">Current power result</span>
+        <div class="value"><span class="state blocked">NOT COMPUTED</span></div>
+        <p class="detail">No compliant holdout positive count, independent-segment count, paired score variance, or 95% CI exists. The owner-mirror labels were structurally audited, but a total-label count is not a withheld-positive sample. The cited leaderboard gap cannot be classified as detectable or noise.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="section" id="leakage">
+    <div class="eyebrow">Canary before trust</div><h2>Feature-alone leakage checks</h2>
+    <div class="card">
+      <p>Evaluate each feature by itself on the same spatial holdout before trusting any composite. An AUC above 0.90 is treated as a leakage canary until the feature derivation, mask, folds, and target independence are audited. The threshold is a trigger for investigation, not proof of leakage on its own.</p>
+      <p>Every catalogue-derived surface must be rebuilt from the visible catalogue for each fold; a precomputed distance-to-full-catalogue layer leaks held-out geometry. Use the exact pixel-level visible-fault mask before scoring.</p>
+      <p><strong>Current result:</strong> no feature AUC was calculated. The owner-pinned feature cube passed a local structural scan, but its source is not organizer-authenticated and the inspected shared holdout does not assign whole fault segments as its holdout unit. No feature-alone value is being treated as a canary result.</p>
+    </div>
+  </section>
+
+  <section class="section" id="uniqueness">
+    <div class="eyebrow">Parallel-lane gate</div><h2>Duplicate detection is a hard stop</h2>
+    <div class="card">
+      <p>Before placement and after the final raster write, compare decoded prediction pixels—not TIFF bytes, compression, or filenames—with every accessible registry raster. Stop and record a duplicate if rank-correlation exceeds 0.90 or more than 70% of candidate dots are within 3 pixels of one prior raster's dots.</p>
+      <p><strong>Current result:</strong> not run. No candidate exists, and the current checkout has no registry raster catalogue.</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="hypotheses-title">
+    <div class="section-head"><div><div class="eyebrow">Research backlog</div><h2 id="hypotheses-title">Candidate hypotheses</h2></div><p>Qualitative prioritization only. No expected DTI value is projected, and no hypothesis is certified globally untried.</p></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Priority</th><th>Specific layers / signature</th><th>Why potentially off-catalogue</th><th>New-data gate / confounder</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>First</td><td>Sentinel-1 time-series InSAR phase/deformation gradients, topographic correction DEM, independently sourced spring/well locations.</td><td>Transient slip or fluid pressure may deform a surface above a buried fault without a mapped scarp; temporal geodesy is independent of static raster derivatives.</td><td>Copernicus Data Space / NASA ASF coverage and dates not checked. Groundwater change, volcano deformation, landslides, atmosphere, decorrelation.</td><td><span class="state blocked">Not viable yet</span></td></tr>
+        <tr><td>Second</td><td>Stable-isotope and noble-gas mixing measurements combined with spring/well chemistry and depth.</td><td>Deep fluid provenance can identify concealed permeable structures rather than simply nearby hot points.</td><td>GDR schema/license not checked for isotope/noble-gas fields. Aquifer mixing, evaporation, sampling and lithology.</td><td><span class="state blocked">Not viable yet</span></td></tr>
+        <tr><td>Third</td><td>Multiseason Landsat surface-temperature/reflectance time series with terrain, vegetation and albedo controls.</td><td>Persistent seasonal thermal response could mark fluid leakage over concealed structures; the novelty is time-series behavior, not a single thermal surface.</td><td>USGS product coverage/access not checked. Moisture, irrigation, wildfire, albedo and acquisition artifacts.</td><td><span class="state blocked">Not viable yet</span></td></tr>
+        <tr><td>Fourth</td><td>USGS groundwater head/discharge time series conditioned on DEM-derived watersheds and structural corridors.</td><td>Repeatable localized hydraulic response may reveal a buried conduit without a surface rupture.</td><td>USGS station coverage/variables not checked. Pumping, seasonal recharge, basin boundaries and well construction.</td><td><span class="state blocked">Not viable yet</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="small" style="margin-top:12px">Each candidate names a physical signature and a non-fault mimic in the detailed <a href="research/hypotheses.md">hypothesis preregistration</a>. New sources are proposals only; they have not been downloaded or checked for footprint coverage/license in this session.</p>
+  </section>
+
+  <section class="section callout warning"><p><strong>Experiment budget:</strong> no holdout experiment was run. The top proposal cannot be validated without new data and the canonical evaluator; no submission slot was touched. This is a negative result and remains the current run-card verdict.</p></section>
+</main>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p><a href="data/run-card.json">Run card JSON</a> · <a href="audit/irregularities.md">Irregularities</a></p></div></footer>
+</body>
+</html>

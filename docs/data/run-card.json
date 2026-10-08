@@ -1,0 +1,41 @@
+{
+  "schema": "gemsdoe54.run-card.v1",
+  "hypothesis": "No candidate selected: the exact-hash owner-mirrored data bridge is structurally varied, but its origin is not organizer-authenticated and the inspected shared holdout uses spatial blocks rather than whole fault segments.",
+  "mechanism": "NOT EVALUATED — no candidate experiment or compliant hide-and-recover evaluation was run.",
+  "named_non_fault_mimic": "Not applicable: no candidate hypothesis was selected or scored.",
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "status": "NOT RUN — no evaluator matching the required whole-fault-segment protocol and no organizer-authenticated input receipt",
+    "evaluator_version": null,
+    "withheld_positive_count": null,
+    "ci95": null
+  },
+  "power": {
+    "status": "NOT COMPUTED — no valid holdout replicate/variance receipt; the owner-mirror label count is not an independent sample count",
+    "independent_unit_count": null,
+    "cohen_d_minimum_detectable": null,
+    "raw_dti_detection_floor": null,
+    "comparison_to_claimed_gap_0_0028": "NOT CLASSIFIABLE — no paired DTI variance or compliant holdout receipt"
+  },
+  "registry_similarity": {
+    "rank_correlation": null,
+    "fraction_of_dots_within_3_px": null,
+    "status": "NOT RUN — no new raster exists"
+  },
+  "raster_sha256": null,
+  "validator": {
+    "status": "BLOCKED — no raster generated",
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "validator_output": null
+  },
+  "submission": {
+    "name": null,
+    "note": null,
+    "note_character_limit": 140,
+    "downloadable_tif": false,
+    "safe_to_upload": false
+  },
+  "verdict": "negative"
+}
