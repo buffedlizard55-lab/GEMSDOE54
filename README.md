@@ -5,52 +5,42 @@
 
 ---
 
-## ⬇️ THE SUBMISSION FILE — read this box before anything else
+## ⬇️ SUBMISSION STATUS — read this before anything else (updated 2026-10-08)
 
-**File:** [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif)
-**SHA-256:** `b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8`
-**Bytes:** 94,282 · **Positive cells:** 15,907
+**Verdict: no file in this repository is cleared for upload.** Both GeoTIFFs below are format-valid, but neither passes the uniqueness requirement. The executive summary is at [`docs/executive-summary.html`](docs/executive-summary.html).
 
-**Download status:** yes — this existing file is format-valid and registry-distinct according to its prior run receipt. **Upload selection:** not made by this review. It has no trustworthy HOLDOUT-DTI or organizer receipt; treat it only as an unvalidated experiment.
+| File | Holdout (HOLDOUT-DTI, whole-segment) | Lane / uniqueness | Run card |
+|---|---|---|---|
+| [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif) (H54-A, SGMC complement) · SHA-256 `b430615a…efd8` · 15,907 dots | **0.0483** [0.0424, 0.0541] (best tested; control 0.0104) | **FAIL.** 100 % of its dots lie within 3 px of GEMSDOE3's `gapfinder-v2-sgmc-gap` (ρ 0.51) | [`registry/run_card_v2_h54a.json`](registry/run_card_v2_h54a.json): negative |
+| [`docs/downloads/gems54-magedge-hgrad-ridge.tif`](docs/downloads/gems54-magedge-hgrad-ridge.tif) (H54-B, magnetic gradient ridge) · SHA-256 `6d086c09…8d9e` · 19,197 dots | 0.0148 [0.0118, 0.0180] (beats control, below H54-A) | **FAIL.** 81.6 % overlap with GEMSDOE40 `h8-asa-spi-depthkde`; 75.7 % with GEMSDOE46 `dfa-corroborated` | [`registry/run_card_v2_magedge.json`](registry/run_card_v2_magedge.json): negative |
 
-| Gate | Status | Evidence |
-|---|---|---|
-| Format is portal-legal (float32, 1 band, EPSG:32611, 3730×3292, all values finite and in [0, 1]) | ✅ **PASS** (9/9 checks) | [`evidence/gems54-undercomplement-q200.validation.json`](evidence/gems54-undercomplement-q200.validation.json) |
-| Distinct from every prior artefact in the registry (lane check) | ✅ **PASS** (max \|ρ\| = 0.004 vs a 0.90 limit) | same file, `lane` block |
-| Beats a baseline on a compliant hidden-label holdout | ❌ **NOT ESTABLISHED** | No HOLDOUT-DTI or paired CI; see *Proxy sensitivity*, below |
+**Official rules (verified verbatim, [`docs/rules-gate.html`](docs/rules-gate.html)).** You may submit *your own model's* single-band GeoTIFF (§3.2; original work, A.5(1)) if you are eligible (§1.3) and you sign the certification (§1.3, A.1). You must disclose generative-AI use in the narrative (§3.2). Three submissions per week at most (§3.2, §3.4). Copying another team's file is not permitted, and this includes every GEMSDOE sibling artefact.
 
-It is **format-valid and registry-distinct per its prior local receipts, but performance is unvalidated.** This review does not approve or select a weekly slot; promotion is a separate selector decision. The old run card contains a **MODEL projection**, not a measurement, against an owner-recorded and unreceipted board value:
+**Your uniqueness rule.** Both files fail it against the full sibling set (1,177 grid-aligned rasters, [`evidence/uniqueness_gems54-undercomplement-q200.json`](evidence/uniqueness_gems54-undercomplement-q200.json), [`evidence/uniqueness_gems54-magedge-hgrad-ridge.json`](evidence/uniqueness_gems54-magedge-hgrad-ridge.json)). The protocol limit is 70 % of dots within 3 px of any sibling's dots. The earlier "registry-distinct" claim covered only 11 registry rasters and is withdrawn (IR-54-030).
 
-> Conditional on the unverified 0.2778 board observation, the model projected that
-> the artefact might exceed it if at least ≈12 % of its 15,907 dots fall within
-> the 300 m metric kernel of a hidden expert fault cell. The old card's ≈13 %
-> comparison is also a model inference based on unreceipted records. Neither value
-> is HOLDOUT-DTI or ORGANIZER-CONFIRMED; this audit does not validate the prediction.
+**Holdout rule.** Do not spend a slot unless the holdout best is beaten. H54-B does not beat H54-A, and H54-A is not unique. No slot is recommended. Slot selection is not made by this repository.
 
-**A short note to paste into the submission form's "Note" field** (105 characters,
-under the portal's limit):
-
-```
-GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots
-```
-
-**A short comment for your team to tell submissions apart later:**
-
-```
-undercomplement-q200 — state-map fault complement, catalogue-excluded, 200 m dots
-```
-
-Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** with a copied submission-page receipt. Proxy values are **PROXY-DTI (screening only)** and projections are **MODEL**, never scores. This audit pass produced neither a valid holdout score nor an organizer receipt.
+**Score labels.** `HOLDOUT-DTI` = whole-segment holdout with evaluator `gemsdoe54-segment-cv` v1, withheld positives and 95 % CI. `ORGANIZER-CONFIRMED` = none. `BOARD-UNVERIFIED` = user-reported board values (0.2778, 0.2750, 0.2708). `MODEL` = inference. Projections are never scores.
 
 ---
 
-## Current audit-only review (2026-10-08)
+## Session results (2026-10-08)
 
-This PR is an audit/documentation lane only. It did not emit another TIFF, run a compliant hide-and-recover experiment, or choose a weekly slot. The existing `gems54-undercomplement-q200.tif` and its experiment card came from a previously merged run; the artifact is format-valid and registry-distinct according to that run's receipts, but the SGMC-derived proxy is circular for its evidence layer, so there is no trustworthy `HOLDOUT-DTI` and no performance validation. Do not report it as a win or treat this review as a slot selection.
+**What was built.** [`scripts/holdout_segment_cv.py`](scripts/holdout_segment_cv.py) (evaluator `gemsdoe54-segment-cv` v1): 5-fold whole-segment hide-and-recover over 3,199 catalogue components (60,988 withheld positives), 300 m buffer, visible-only features, pixel-exact visible masking, organizer DTI (α 0.2, β 0.8, 300 m triangular kernel) decomposed per fold and cross-checked against the grid metric, paired cluster bootstrap (1,000 replicates), single-feature canary (19 bands, SGMC, distance), and 30 torus-shift nulls. Receipt: [`evidence/holdout_segment_cv_v1.json`](evidence/holdout_segment_cv_v1.json).
 
-The public owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eba791dc363305d4a3` was reassembled outside this checkout. All five feature shards and all three reconstructed TIFFs match the bridge manifest and committed runner-generated inventory; the feature cube is structurally varied. This proves byte integrity against owner-maintained pins, not organizer origin. No authenticated DrivenData download occurred. See [`docs/audit/pinned-template-cache-audit.json`](docs/audit/pinned-template-cache-audit.json).
+**Headline holdout numbers (HOLDOUT-DTI, catalogue recovery).** C0 chance control 0.0104 [0.0091, 0.0117]; C1 SGMC complement 0.0483 [0.0424, 0.0541]; C2 geodetic shear ridge 0.0098 [0.0072, 0.0128] (no signal over chance); C3 magnetic gradient ridge 0.0148 [0.0118, 0.0180]. Paired C1 minus C0 +0.0379 [+0.0317, +0.0437]; C1 minus C3 +0.0335 [+0.0267, +0.0400]. Canary: no feature flagged (highest single-feature AUC 0.756, distance to visible catalogue, a withholding artefact; SGMC 0.526). C1 shift null p95 0.0051.
 
-A code review found that the shared `src/gemsdoe54/holdout.py::segment_blocks` helper documented a buffer but ignored `buffer_px`; this PR fixes that bug and adds a synthetic regression test. The helper is not a full end-to-end evaluator, and the inspected public root template's workflow uses spatial blocks. No compliant `HOLDOUT-DTI`, power floor, or paired CI was produced. This is not a private fork; the fix is proposed to the shared repository through this branch and PR.
+**Detection floor and the 0.0028 board gap.** Cohen d_min at 80 % power for 3,199 units is 0.0496 (0.111 per fold). Raw MDE for the paired comparisons is 0.0045 to 0.0095 at the observed correlations. The 0.0028 board gap is inside the floor of every paired comparison here. Units are raster fragments (IR-54-021), so the floors are indicative. See [`evidence/detection_floor.json`](evidence/detection_floor.json).
+
+**The top artefact (GEMSDOE32 H33-2-B2).** Registry-verified: the parent 0.2708 raster has 40,199 dots, and the child 37,654 dots is byte-identical to the owner's file. Deleted dots: 2,545. Under the organizer metric, deleting zero-credit dots leaves TP and FN unchanged and lowers FP by one per dot, so DTI rises. The identity is verified numerically. The 0.2778 value is user-reported and the owner's manifest says UNSCORED. The owner's audit is internally inconsistent (IR-54-016). Beating 0.2778 is possible in principle, but nothing here establishes it. See [`docs/top-artefact.html`](docs/top-artefact.html) and [`evidence/top_artefact_analysis.json`](evidence/top_artefact_analysis.json).
+
+**Reproducibility.** `build_submission.py` rebuilt H54-A byte-for-byte. The rebuild exposed a receipt-path bug, now fixed (IR-54-031). `build_unique_submission.py` builds H54-B. Both run cards are generated by `make_run_card.py` from receipts, with no hand-typed numbers.
+
+**Standing corrections (session memory).** The 0.2708 base has 40,199 dots, not 44,090 (44,090 is the 0.2600 raster). The deletion count is 2,545, not 6,436 (IR-54-023). The owner-mirrored sample file is not all-zero, which contradicts the format page (IR-54-014). The label source is cited differently in §2 and §3.3 of the rules (IR-54-012).
+
+**Limitations.** (1) The holdout truth is the catalogue, not the hidden expert set. (2) Feature rasters are owner-claimed copies (hash-consistent, not organizer-authenticated). (3) The chance control is not spacing-matched. (4) Segments are raster fragments. (5) The leaderboard is unreadable, and the brief's top value conflicts (0.3774 versus 0.3195). (6) Submission-count and eligibility cannot be checked from this repository.
+
+**Remaining work.** (a) A new candidate in a lane that no sibling occupies and that also beats 0.0483 under the same evaluator. (b) Validate hypotheses 4 and 5 (InSAR, Landsat thermal); both need new data pulls. (c) Spacing-matched control (random lines through the same gate). (d) Organizer confirmation of label source, sample format and submission count (IR-54-012, IR-54-014, IR-54-022). (e) Licence check before the label mirror stays public (IR-54-013).
 
 ---
 
@@ -249,11 +239,14 @@ starts from the same base.
 
 | Item | Status |
 |---|---|
-| A pre-existing format-legal, downloadable TIF from the earlier H54-A run | ✅ **available** — one click, section 0 above; not generated or selected by this audit |
+| The H54-A TIF from the earlier run: downloadable, format-valid, reproducible | ✅ **available**, but ❌ **lane FAIL — not cleared for upload** (section at top of this README) |
 | Official metric re-implemented and regression-tested | ✅ `scripts/gems_metric.py`, reproduces the organizer's published worked example |
 | Proxy-based sensitivity estimate computed | ⚠️ `evidence/power_analysis.json` — circular SGMC proxy; **not a compliant HOLDOUT-DTI** |
 | 3–5 ranked hypotheses | ✅ [`docs/hypotheses.html`](docs/hypotheses.html) |
-| Executive summary subpage + how-to-submit | ✅ [`docs/index.html`](docs/index.html), [`docs/index.html#submit`](docs/index.html) |
+| Executive summary and submit guide | ✅ [`docs/executive-summary.html`](docs/executive-summary.html) (both files, verdicts, steps, note text) |
+| Rules gate with verbatim quotations | ✅ [`docs/rules-gate.html`](docs/rules-gate.html) |
+| Whole-segment holdout (HOLDOUT-DTI) with controls and canary | ✅ [`docs/holdout.html`](docs/holdout.html), [`evidence/holdout_segment_cv_v1.json`](evidence/holdout_segment_cv_v1.json) |
+| Lane audit against all 1,177 sibling rasters | ✅ both candidates FAIL — [`evidence/`](evidence/) |
 | Official sources with links | ✅ [`registry/sources.json`](registry/sources.json) |
 | Training a learned model (reference solution) | ❌ **blocked** — needs DrivenData login; see *Limitations* |
 
@@ -333,35 +326,43 @@ hidden truth mass of ≈11,583 cells. This is an algebraic sensitivity analysis,
 ## 4. Repository layout
 
 ```
-README.md                     ← you are here (standing prompt + status)
-docs/
-  index.html                  ← GitHub Pages: executive summary + download + how to submit
-  hypotheses.html             ← 3–5 ranked candidate hypotheses with cost/benefit
-  evidence.html               ← the proxy audit + the power analysis, with receipts
-  sources.html                ← auditable source table with official links
-  downloads/
-    gems54-undercomplement-q200.tif   ← THE SUBMISSION FILE
+README.md                         ← you are here (standing prompt, status, results)
+docs/                             ← GitHub Pages site (served from /docs/)
+  index.html                      ← overview and status banner
+  executive-summary.html          ← both files, verdicts, exact submit steps, note text
+  rules-gate.html                 ← who may submit; verbatim rule text with links
+  holdout.html                    ← HOLDOUT-DTI results, controls, nulls, detection floor
+  top-artefact.html               ← the GEMSDOE32 top artefact: mechanism, algebra, limits
+  hypotheses.html                 ← five ranked hypotheses with holdout status and sources
+  irregularities.html             ← audit ledger (IR-54-001 … IR-54-031)
+  downloads/                      ← gems54-undercomplement-q200.tif (H54-A), gems54-magedge-hgrad-ridge.tif (H54-B)
+  AI_DISCLOSURE.md                ← generative-AI disclosure (rules §3.2), with session addendum
 data/
-  grid/labels.tif             ← owner-mirrored label raster; origin not authenticated (sha256 7ba308cc…)
-  external/derived_sgmc_faults_100m_u8.tif
-  external/GEMSDOE30_external_receipt.json
-  grid/MIRROR_sample_submission_template.tif   ← see Irregularity #2
-src/gemsdoe54/                ← grid, emission, holdout library
+  grid/labels.tif                 ← owner-mirrored label raster (sha256 7ba308cc…); origin not authenticated (IR-54-013)
+  external/derived_sgmc_faults_100m_u8.tif   ← USGS SGMC-derived layer
+  grid/MIRROR_sample_submission_template.tif ← NOT a blank template (IR-54-014)
+src/gemsdoe54/                    ← grid, emission, holdout library (single_feature_auc, pooled_metric, …), power
 scripts/
-  gems_metric.py              ← exact official metric (regression-tested)
-  build_submission.py         ← builds the artefact
-  validate_submission.py      ← format + range + lane gates
-  collect_registry.py         ← assembles the parallel-run registry
-  power_analysis.py           ← PROXY-SENSITIVITY illustration only; not hidden-label power
-  analyse_holdout_receipt.py  ← strict analysis of a future compliant frozen receipt
-  run_all.sh                  ← legacy reproduction pipeline; it rebuilds the prior H54-A artifact
+  build_submission.py             ← H54-A builder (reproduces the shipped file byte-for-byte)
+  build_unique_submission.py      ← ridge builder for H54-B (feature ridge, 300 m exclusion, 2 px dots)
+  holdout_segment_cv.py           ← whole-segment 5-fold holdout, evaluator gemsdoe54-segment-cv v1
+  sibling_uniqueness.py           ← lane audit against every grid-aligned sibling raster
+  inventory_siblings.py           ← GitHub inventory of GEMS-named sibling repositories (read-only)
+  fetch_sibling_rasters.sh        ← partial clones of sibling rasters (scratch, outside the repo)
+  validate_submission.py          ← format gates (9 checks) and registry lane check
+  make_run_card.py                ← run card from receipts, with the pre-registered verdict rule
+  detection_floor.py              ← Cohen and normal-approximation floors, rho sensitivity
+  top_artefact_analysis.py        ← the top artefact's registry facts and exact algebra
+  gems_metric.py                  ← exact official metric (regression-tested)
+  run_holdout.py, leakage_canary.py, proxy_audit.py   ← LEGACY SGMC-proxy screens (PROXY-DTI only)
 registry/
-  sources.json                ← every source, licence, and verification status
-  registry_rasters/ + manifest.json   ← prior artefacts for the lane check
-  gems54-undercomplement-q200.build.json
-  run_card.json               ← the protocol's required run card
-evidence/                     ← machine-readable receipts
-tests/                        ← metric + emission regressions
+  registry_rasters/ + registry_manifest.json          ← 11 prior artefacts (copies for lane checks only; see IR-54-015)
+  gems54-undercomplement-q200.build.json              ← H54-A build receipt
+  gems54-magedge-hgrad-ridge.build.json               ← H54-B build receipt
+  run_card_v2_h54a.json, run_card_v2_magedge.json     ← protocol run cards (negative)
+  run_card.json                                       ← legacy card, superseded
+evidence/                         ← machine-readable receipts (see the list in the results section)
+tests/                            ← metric, emission, holdout, power, script and segment-CV regressions (39 tests)
 ```
 
 ## 5. Reproduce the historical H54-A run (legacy pipeline)

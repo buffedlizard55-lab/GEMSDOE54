@@ -1,177 +1,52 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GEMSDOE54 — submit in one click | GEMS Prize</title>
-<meta name="description" content="Downloadable GeoTIFF with prior format checks, a proxy-sensitivity audit, and an auditable source table; no compliant holdout score is claimed.">
-<link rel="stylesheet" href="assets/site.css">
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GEMSDOE54: GEMS Prize GeoTIFF candidates, the official-rules gate, holdout results and audit.">
+  <title>GEMSDOE54 · GEMS Prize workbench</title>
+  <link rel="stylesheet" href="assets/audit-site.css">
 </head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <div class="brand">GEMS<span>DOE54</span></div>
-    <nav>
-      <a href="index.html">Executive summary</a>
-      <a href="#submit">How to submit</a>
-      <a href="hypotheses.html">Hypotheses</a>
-      <a href="evidence.html">Evidence</a>
-      <a href="research.html">Research protocol</a>
-      <a href="sources.html">Sources</a>
-      <a href="irregularities.html">Audit ledger</a>
-    </nav>
-  </div>
-</header>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a href="rules-gate.html">Rules gate</a><a href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a href="hypotheses.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
+<main>
+  <section class="page-title">
+    <div class="eyebrow">DOE GEMS Prize · DrivenData competition 306 · end Dec. 3, 2026, 11:59 p.m. UTC</div>
+    <h1>Can I submit? Not yet, and here is why.</h1>
+    <p class="lead">Two GeoTIFFs are available. Both are format-valid. The rules allow submitting your own model output. Neither file meets the uniqueness requirement, so neither is cleared for upload.</p>
+  </section>
 
-<div class="wrap">
+  <section class="status-banner" aria-labelledby="state">
+    <div class="status-icon" aria-hidden="true">!</div>
+    <div><h2 id="state">Status: not cleared for upload</h2><p>H54-A has the best holdout result (0.0483) but is not unique (lane FAIL). H54-B is byte-unique but weaker (0.0148) and also fails the lane. Holdout values are HOLDOUT-DTI, not organizer scores.</p></div>
+  </section>
 
-<!-- ============================ EXECUTIVE SUMMARY ============================ -->
-<h1>Executive summary</h1>
-<p class="muted">DOE / NLR <strong>Geologic Enhanced Mapping System (GEMS) Prize</strong> —
-distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
-Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
+  <section class="section grid" aria-label="Key pages">
+    <div class="card"><h3><a href="executive-summary.html">Executive summary and submit guide</a></h3><p>Both downloads, the verdicts, the exact steps and the note text.</p></div>
+    <div class="card"><h3><a href="rules-gate.html">Rules gate</a></h3><p>Who may submit, your original-work obligation, the AI disclosure, the weekly cap and certification, quoted verbatim with links.</p></div>
+    <div class="card"><h3><a href="holdout.html">Holdout results</a></h3><p>Whole-segment hide-and-recover, controls, nulls, canary and detection floors.</p></div>
+    <div class="card"><h3><a href="top-artefact.html">The top GEMSDOE32 artefact</a></h3><p>Why 0.2778 is plausible, the metric identity behind it, and what remains unverified.</p></div>
+    <div class="card"><h3><a href="hypotheses.html">Ranked hypotheses</a></h3><p>Five geological hypotheses with their holdout status and data sources.</p></div>
+    <div class="card"><h3><a href="irregularities.html">Audit ledger</a></h3><p>Every irregularity found, with severity and status.</p></div>
+  </section>
 
-<div class="panel hero">
-  <h2>⬇️ Download the submission — one click</h2>
-  <p><strong>Everything you need is this single file.</strong> Download it, then upload it on the
-  DrivenData <em>New submission</em> form. Nothing else in this repository is required.</p>
+  <section class="section">
+    <div class="section-head"><h2>Local audit feed</h2></div>
+    <p id="local-audit-status" class="small">Local audit status: loading the workspace receipt…</p>
+    <p class="small"><a href="data/feed.json">Open this review's local status feed →</a></p>
+  </section>
 
-  <p><a class="btn" href="downloads/gems54-undercomplement-q200.tif" download>⬇ Download gems54-undercomplement-q200.tif</a>
-  &nbsp;<a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" target="_blank" rel="noopener">view raw file</a></p>
-
-  <dl class="kv">
-    <dt>File</dt><dd><code>gems54-undercomplement-q200.tif</code></dd>
-    <dt>Size</dt><dd>94,282 bytes</dd>
-    <dt>SHA-256</dt><dd class="hash">b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</dd>
-    <dt>Predictions</dt><dd>15,907 positive cells, every one exactly <code>1.0</code>; all other cells <code>0.0</code></dd>
-    <dt>Grid</dt><dd>3730 × 3292, EPSG:32611, 100 m, origin (243350.0, 4508550.0)</dd>
-    <dt>Datatype</dt><dd>float32, single band, <strong>no NaN and no nodata tag anywhere</strong></dd>
-  </dl>
-
-  <h3>Short note to paste into the form's "Note" field</h3>
-  <p><code>GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d&gt;300m, linearity gate, 200m dots</code></p>
-  <p class="small muted">105 characters — inside the portal's short-comment field. A team-facing label to
-  tell submissions apart is also in the README: <code>undercomplement-q200 — state-map fault complement, catalogue-excluded, 200 m dots</code>.</p>
-
-  <div class="callout">
-    <p style="margin:0"><strong>Download and submission status:</strong><br>
-    <span class="tag ok">FORMAT: PASS</span> &nbsp;<span class="tag ok">REGISTRY LANE: PASS</span> &nbsp;<span class="tag no">HOLDOUT: NOT VALIDATED</span> &nbsp;<span class="tag warn">SLOT SELECTED HERE: NO</span></p>
-    <p class="small" style="margin:8px 0 0">This pre-existing artifact is downloadable and passed its prior local format/lane checks. Its only proxy is circular for the candidate's evidence layer, so it has no trustworthy HOLDOUT-DTI and must not be presented as a win. This review did not select or spend a weekly slot. The break-even statement above is a <em>MODEL projection</em>, not a score.</p>
-  </div>
-</div>
-
-<div class="panel tight" id="audit-only-review">
-  <h2 style="margin-top:0">Current audit-only review</h2>
-  <p>The file above is from a previously merged H54-A experiment; this branch did not generate another TIFF or choose a submission slot. This review found a checksum-consistent owner-mirror feature bridge, but no authenticated portal download. It also found and fixes a bug in the shared whole-segment helper: its documented <code>buffer_px</code> parameter was ignored. The helper is not a full evaluator; the public root workflow remains spatial-block based, and no compliant HOLDOUT-DTI or confidence interval was produced.</p>
-  <p class="small muted" id="local-audit-status">Loading repository-local audit status…</p>
-  <p class="small"><a href="data/feed.json">Open this review's local status feed →</a> · <a href="data/run-card.json">audit-only run card</a> · <a href="audit/pinned-template-cache-audit.json">template bridge/tool audit</a> · <a href="irregularities.html">full audit ledger</a></p>
-</div>
-<script>
-  fetch('data/feed.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
-    .then(feed => {
-      const status = document.getElementById('local-audit-status');
-      status.textContent = 'Audit-only run: ' + feed.workspace.status + '; candidate verdict: ' + feed.candidate.verdict + '. Leaderboard: ' + feed.leaderboard.status + '.';
-    })
-    .catch(() => { document.getElementById('local-audit-status').textContent = 'Audit feed unavailable; this review remains negative.'; });
-</script>
-
-<h2>The problem, in four sentences</h2>
-<div class="panel tight">
-<p>The competition asks for a fault-probability GeoTIFF over the GeoDAWN study area in western
-Nevada. Scoring uses a <strong>distance-weighted Tversky index</strong> with α&nbsp;=&nbsp;0.2 (false
-positives), β&nbsp;=&nbsp;0.8 (false negatives) and a triangular 300&nbsp;m kernel, and — crucially —
-<strong>the ground truth is only the faults that are <em>missing</em> from the public catalogue</strong>,
-which geology experts at NLR and USGS identified by hand. Every cell you mark pays a small linear
-false-positive tax, while every truth cell you miss costs four times as much, so the achievable score
-is set by how precisely you can place a small number of confident predictions. A prior repository record
-lists 0.3774 and 0.2778 as board observations, but this audit pass has no submission-page receipts; they are
-not <span class="tag warn">ORGANIZER-CONFIRMED</span> scores and are not used to select a target or weekly slot.</p>
-</div>
-
-<!-- ================================ SUBMIT ================================= -->
-<h2 id="submit">How to submit — step by step</h2>
-<p class="small muted">Verified against
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">the competition problem description</a>
-(submission format) and
-<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">the DOE/NLR Official Rules, §3.2</a>
-(three submissions per week).</p>
-
-<ol class="steps">
-  <li><strong>Download the file.</strong> Use the green button above. The download is the exact artefact
-  whose SHA-256 is printed beside it; if your copy's hash differs, do not upload it.</li>
-
-  <li><strong>Register / sign in on DrivenData</strong> and open the GEMS challenge, then the
-  <em>Submissions</em> tab. (Registration is required by the rules and is also how the feature data is
-  obtained — see <em>Limitations</em>.)</li>
-
-  <li><strong>Click <em>New submission</em>.</strong> The form accepts <em>a single-band GeoTIFF
-  (.tif)</em>, or a .zip containing one. Upload
-  <code>gems54-undercomplement-q200.tif</code> directly — do not zip or re-encode it.</li>
-
-  <li><strong>Optionally paste the 105-character note</strong> from the green panel above into the
-  <em>Note</em> field. This is the field the form describes as "a short comment to help you or your team
-  tell submissions apart later".</li>
-
-  <li><strong>Click <em>Submit</em>.</strong> The portal re-checks CRS, shape, geotransform and the
-  value range. The prior local validator receipt records all four format checks as passing for this file;
-  that does not establish portal acceptance, a competition score, or performance validity.</li>
-
-  <li><strong>Record the receipt.</strong> If it scores, copy the number into
-  <code>registry/submissions.json</code> as <span class="tag info">ORGANIZER-CONFIRMED</span>. Until then it stays
-  <span class="tag warn">unscored</span>.</li>
-</ol>
-
-<div class="callout good">
-  <p style="margin:0"><strong>Why the earlier upload failed.</strong> The portal's message
-  <em>"Predicted values must be in range [0, 1]"</em> is raised when the raster it reads contains a value
-  outside [0,&nbsp;1] — most often a <code>nodata</code> sentinel such as <code>-1</code>,
-  <code>255</code> or <code>-32768</code> that the reader does not mask, or a NaN that the validator
-  treats as a number. This repository therefore emits <strong>no nodata tag and no NaN at all</strong>:
-  the array is finite everywhere and every value is exactly <code>0.0</code> or <code>1.0</code>.
-  <code>scripts/validate_submission.py</code> re-reads the written file from disk and asserts
-  <code>min&nbsp;&gt;=&nbsp;0</code>, <code>max&nbsp;&lt;=&nbsp;1</code> and
-  <code>non_finite&nbsp;==&nbsp;0</code> before the file is allowed to be published.</p>
-</div>
-
-<h2>Prior artifact's recorded build checks (not re-run in this audit pass)</h2>
-<table>
-  <thead><tr><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
-  <tbody>
-    <tr><td>Single band, float32</td><td><span class="tag ok">PASS</span></td><td>validator check 1 &amp; 2</td></tr>
-    <tr><td>CRS, shape, geotransform, 100 m</td><td><span class="tag ok">PASS</span></td><td>validator checks 3–5</td></tr>
-    <tr><td>All cells finite; values inside [0, 1]</td><td><span class="tag ok">PASS</span></td><td>validator checks 6–9; <code>non_finite=0</code>, range <code>[0.0, 1.0]</code></td></tr>
-    <tr><td>Distinct from every registry artefact (lane check)</td><td><span class="tag ok">PASS</span></td><td>max |ρ| = 0.004 vs 0.90 limit; max admissible overlap 0.43 vs 0.70 limit</td></tr>
-    <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>No compliant evaluator, HOLDOUT-DTI, withheld-positive count, or 95% CI is available; the proxy is circular. See <a href="evidence.html">Evidence</a>.</td></tr>
-  </tbody>
-</table>
-
-<h2>Where you are in the repository</h2>
-<div class="grid2">
-  <div class="panel tight">
-    <h3 style="margin-top:0">I want to…</h3>
-    <ul class="small">
-      <li><a href="downloads/gems54-undercomplement-q200.tif" download>download the submission file</a></li>
-      <li>see the <a href="hypotheses.html">3–5 ranked geological hypotheses</a></li>
-      <li>read the <a href="evidence.html">proxy audit and the detection floor</a></li>
-      <li>check the <a href="sources.html">official sources and licences</a></li>
-    </ul>
-  </div>
-  <div class="panel tight">
-    <h3 style="margin-top:0">What this artefact is</h3>
-    <p class="small">A <strong>unit-valued dot set</strong>, not a probability field. Dots are placed on
-    USGS State Geologic Map Compilation faults that lie more than 300 m from the competition catalogue,
-    filtered to trace-like shapes, and thinned so that no two dots are closer than 200 m. The rationale,
-    the algebra and the falsifiable prediction are on the <a href="evidence.html">Evidence</a> page.</p>
-  </div>
-</div>
-
-<footer>
-  <p>Audited in an autonomous agent session on 2026-10-08. See <a href="sources.html">Sources</a> for
-  the source register and its provenance limits. Owner-recorded leaderboard observations without submission
-  receipts are not marked ORGANIZER-CONFIRMED; proxy values and model projections are not scores.</p>
-  <p class="muted small">This work used an AI agent. The DOE/NLR rules (§3.2) require disclosing
-  generative-AI use in the prize narrative; see <code>docs/AI_DISCLOSURE.md</code>.</p>
-</footer>
-</div>
+  <section class="section">
+    <div class="section-head"><h2>Official sources</h2></div>
+    <div class="cta-row">
+      <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition</a>
+      <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">Metric and submission format</a>
+      <a class="button" href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">Official rules (NLR, Sept. 2026)</a>
+    </div>
+  </section>
+</main>
+<footer class="footer"><div class="footer-inner"><span>Not legal advice. Labels: HOLDOUT-DTI, ORGANIZER-CONFIRMED, BOARD-UNVERIFIED, MODEL.</span></div></footer>
 </body>
 </html>

@@ -53,6 +53,14 @@ import numpy as np
 from scipy.ndimage import distance_transform_edt, label
 
 ROOT = Path(__file__).resolve().parents[1]
+
+def _display_path(path: Path) -> str:
+    """Repository-relative path when possible, otherwise the absolute path (scratch outputs)."""
+    try:
+        return str(path.resolve().relative_to(ROOT))
+    except ValueError:
+        return str(path.resolve())
+
 sys.path.insert(0, str(ROOT / "scripts"))
 sys.path.insert(0, str(ROOT / "src"))
 
@@ -216,7 +224,7 @@ def main() -> int:
             "components_considered": int(ncomp),
         },
         "output": {
-            "path": str(Path(args.out).relative_to(ROOT)),
+            "path": _display_path(Path(args.out)),
             "sha256": sha256(Path(args.out)),
             "bytes": Path(args.out).stat().st_size,
         },

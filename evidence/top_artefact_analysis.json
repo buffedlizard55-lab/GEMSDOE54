@@ -1,0 +1,85 @@
+{
+  "generated_utc": "2026-10-08T22:23:19+00:00",
+  "label": "analysis of owner-recorded and registry-verified facts; not a score",
+  "registry_verified_rasters": {
+    "top_0.2778_registry_copy": {
+      "path": "registry/registry_rasters/dotted_b2_prune_02778.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "dots": 37654
+    },
+    "base_0.2708_registry": {
+      "path": "registry/registry_rasters/dotted_d2_8_02708.tif",
+      "sha256": "ab02300152248fdda04e988e2cd2a0c13f35eec42fcf670a15e8b76b19e24a73",
+      "dots": 40199
+    },
+    "reference_0.2600_registry": {
+      "path": "registry/registry_rasters/dotted_d2_8_02600.tif",
+      "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "dots": 44090
+    }
+  },
+  "top_artefact_registry_copy_is_byte_identical_to_owner_zeros_file": true,
+  "owner_recorded": {
+    "h33_audit_json": "GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-audit.json",
+    "zeros_sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+    "zeros_positive_pixels": 37654,
+    "base_dots_per_owner_readme": 40199,
+    "base_board_value_user_reported": 0.2708,
+    "claimed_board_value_user_reported": 0.2778,
+    "owner_predicted_leaderboard_dti": 0.27467315976932155,
+    "owner_ei_drift_corrected_gain": 0.004869544019442784,
+    "owner_catalogue_hidden_mean": 0.004600104084398947,
+    "owner_catalogue_hidden_per_quadrant": {
+      "foldNW": 0.17845441391493597,
+      "foldNE": 0.4228785103505033,
+      "foldSW": 0.21382513739633008,
+      "foldSE": 0.25652406461743227
+    },
+    "owner_drift_corrected_holdout_mean": 0.04504333270394367,
+    "owner_manifest_label": "UNSCORED"
+  },
+  "base_dots_registry_vs_owner": {
+    "registry_0.2708_raster_dots": 40199,
+    "owner_readme_base_dots": 40199,
+    "consistent": true
+  },
+  "deleted_dots_k": 2545,
+  "algebra": {
+    "identity": "DTI1 = T/(T+0.2(FP-k)+0.8FN) when all k deleted dots earn zero credit",
+    "T_implied_credit_mass": 5470.2,
+    "denominator_0_2FP_plus_0_8FN_at_base": 14729.9,
+    "sensitivity_zero_credit_fraction": {
+      "zero_credit_fraction_1.0": 5470.2,
+      "zero_credit_fraction_0.9": 4923.2,
+      "zero_credit_fraction_0.75": 4102.6,
+      "zero_credit_fraction_0.5": 2735.1
+    },
+    "caveat": "Requires the board pair to be correct and unscored-by-receipt values to be exact; a single unreceipted pair identifies T only under this assumption."
+  },
+  "owner_internal_consistency": {
+    "per_quadrant_mean_vs_recorded_mean": {
+      "per_quadrant_mean": 0.267921,
+      "recorded_mean": 0.0046,
+      "consistent": false
+    },
+    "base_plus_gain_vs_projection": {
+      "base_plus_gain": 0.27567,
+      "owner_projection": 0.274673,
+      "consistent": false
+    },
+    "board_gain_vs_owner_gain": {
+      "board_gain": 0.007,
+      "owner_recorded_gain": 0.00487
+    }
+  },
+  "synthetic_identity_check": {
+    "zero_credit_dots_deleted": 28,
+    "tp_unchanged": true,
+    "fn_unchanged": true,
+    "fp_drop_equals_deleted_count": true,
+    "closed_form_matches_grid": true,
+    "dti_before": 0.396475771,
+    "dti_after": 0.428163654
+  },
+  "achievability_note": "Under the metric, DTI is bounded above by 1. Zero-credit deletions raise DTI monotonically. A score above the board value requires more credited truth per dot than the parent, which the catalogue holdout cannot establish for the hidden set (see evidence/holdout_segment_cv_v1.json)."
+}

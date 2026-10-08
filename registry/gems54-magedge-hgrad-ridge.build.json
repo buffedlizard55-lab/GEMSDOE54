@@ -1,0 +1,63 @@
+{
+  "slug": "gems54-magedge-hgrad-ridge",
+  "generated_utc": "2026-10-08T22:48:19+00:00",
+  "source_layer": {
+    "feature": "tmi_hg",
+    "band": 3,
+    "features_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "provenance": "owner bridge copy of the official GeoDAWN feature stack; hash-consistent with manifest; not organizer-authenticated"
+  },
+  "rule": "ridge of feature >= quantile threshold, gated, 2 px spacing, >= 300 m from full catalogue",
+  "parameters": {
+    "quantile": 0.95,
+    "threshold": 92.8519515991211,
+    "target_dots": 15907,
+    "achieved_dots": 19197,
+    "spacing_px": 2.0,
+    "gate": {
+      "min_px": 3,
+      "min_px_extent": 5,
+      "min_elongation": 6.0
+    },
+    "buffer_px": 3.0,
+    "quantile_grid": [
+      0.05,
+      0.1,
+      0.2,
+      0.3,
+      0.4,
+      0.5,
+      0.6,
+      0.7,
+      0.8,
+      0.85,
+      0.9,
+      0.93,
+      0.95,
+      0.97,
+      0.98,
+      0.99,
+      0.995
+    ]
+  },
+  "output": {
+    "path": "docs/downloads/gems54-magedge-hgrad-ridge.tif",
+    "sha256": "6d086c099a0a25812153570ece57aa7bbcc852656763fc52c68a430049ee8d9e",
+    "bytes": 93313,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "positive_cells": 19197,
+    "footprint_cells": 5167373,
+    "footprint_expected": 5167373
+  },
+  "checks": {
+    "finite": true,
+    "in_0_1": true,
+    "no_dot_on_catalogue": true,
+    "no_dot_within_300m_of_catalogue": true
+  }
+}
