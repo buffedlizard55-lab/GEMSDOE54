@@ -23,7 +23,7 @@ def main() -> int:
     feed = {
         "schema": "gemsdoe54.local-feed.v1",
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "scope": "This repository's local audit records only; not a DrivenData leaderboard feed.",
+        "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",
         "leaderboard": {"status": "not_fetched", "score_claims_are_organizer_confirmed": False},
         "workspace": {
             "status": audit.get("status", "unknown"),
@@ -32,9 +32,11 @@ def main() -> int:
         },
         "candidate": {
             "verdict": run_card.get("verdict", "unknown"),
-            "tif_downloadable": run_card.get("submission", {}).get("downloadable_tif", False),
-            "safe_to_upload": run_card.get("submission", {}).get("safe_to_upload", False),
+            "candidate_this_run": run_card.get("submission", {}).get("candidate_this_run", False),
+            "tif_downloadable": run_card.get("submission", {}).get("downloadable_tif_from_this_run", False),
+            "safe_to_upload": run_card.get("submission", {}).get("safe_to_upload_from_this_run", False),
             "holdout_status": run_card.get("holdout_dti", {}).get("status", "not recorded"),
+            "existing_repository_artifact": run_card.get("submission", {}).get("existing_repository_artifact"),
         },
         "sources": {
             "registered": len(source_register.get("sources", [])),

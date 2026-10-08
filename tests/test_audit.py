@@ -69,6 +69,28 @@ def test_missing_inputs_fail_closed(tmp_path):
     assert report["ready_for_competition_submission"] is False
 
 
+def test_nested_label_is_reported_but_label_mask_mirror_is_not_a_sample(tmp_path):
+    data = tmp_path / "data"
+    grid = data / "grid"
+    grid.mkdir(parents=True)
+    footprint = np.ones((32, 32), dtype=bool)
+    labels = np.zeros((32, 32), dtype=np.uint8)
+    labels[5, 5] = 1
+    _write(grid / "labels.tif", labels, mask=footprint)
+    _write(grid / "MIRROR_sample_submission_template.tif", labels.astype(np.float32),
+           nodata=np.nan, mask=footprint)
+
+    report = audit_workspace(data)
+
+    assert report["status"] == "blocked_missing_inputs"
+    assert "labels.tif (searched data root and grid/)" not in report["missing_inputs"]
+    assert "sample_submission.tif (known label-mask mirror is not accepted as a sample)" in report["missing_inputs"]
+    assert report["available_input_paths"]["labels"] == [str(grid / "labels.tif")]
+    assert report["available_input_paths"]["known_non_sample_templates"] == [
+        str(grid / "MIRROR_sample_submission_template.tif")
+    ]
+
+
 def test_valid_synthetic_inputs_are_only_structurally_valid(tmp_path):
     data = _make_data_dir(tmp_path)
     report = audit_workspace(data)

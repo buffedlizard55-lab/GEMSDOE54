@@ -2,7 +2,7 @@
 
 ## Decision
 
-**No valid power estimate or HOLDOUT-DTI result can be reported from this checkout.** The repository contains no local competition rasters. In a separate read-only clone of the owner-maintained `GEMSDOE` template, all five feature shards and all three reconstructed TIFFs matched both the bridge manifest and committed inventory; a structural audit found 19 nonconstant feature bands. This verifies bytes against owner-maintained pins, not organizer origin. The shared evaluator available there assigns spatial blocks, not whole fault segments, so it does not satisfy the required hide-and-recover design. The separate `GEMSDOE52` cache does fail its own pins and has a constant feature cube; it remains quarantined. Consequently, no compliant withheld-positive count, paired variance, detection floor, or confidence interval for the cited small leaderboard gap is available.
+**No valid power estimate or HOLDOUT-DTI result was produced in this audit pass.** The checkout contains owner-mirrored labels and an SGMC layer plus a prior H54-A candidate, but not the full training feature stack or an authenticated DrivenData download. In a separate read-only clone of the owner-maintained `GEMSDOE` template, all five feature shards and all three reconstructed TIFFs matched the bridge manifest and committed inventory; a structural audit found 19 nonconstant feature bands. This verifies bytes against owner-maintained pins, not organizer origin. The public root template's end-to-end workflow assigns spatial blocks, not whole fault segments. The local shared `segment_blocks` helper had a buffer bug, fixed in this PR, but it is not a full trainer/evaluator. The separate `GEMSDOE52` cache fails its own pins and has a constant feature cube; it remains quarantined. Consequently, no compliant withheld-positive count, paired variance, detection floor, or confidence interval for the cited leaderboard-gap example is available.
 
 **DATA-AUDIT (not HOLDOUT-DTI):** the hash-matched owner-mirror label raster contains 60,988 positive pixels in total. This is not a withheld-positive count, not an independent sample size, and not a score. The value is recorded only as a property of the cached input in [`pinned-template-cache-audit.json`](../audit/pinned-template-cache-audit.json).
 
@@ -18,9 +18,9 @@ Cohen's framework distinguishes a standardized effect from its standard error. F
 
 where \(D\) is the paired difference. The exact two-sided minimum detectable standardized effect at target power is obtained by solving the noncentral-*t* power equation, which `gemsdoe54.power.minimum_detectable_cohen_d` implements.
 
-Raster positives are not independent experimental units. Pixels on one mapped fault segment are spatially correlated; nearby target pixels also share overlapping neighborhoods under the triangular kernel. Pooled DTI is a nonlinear ratio whose numerator and penalties are coupled. Treating every positive pixel as an independent replicate therefore produces an optimistic, generally invalid power floor. The number of withheld positive pixels must still be recorded, but the effective replication should be based on whole withheld fault segments or spatial blocks defined before scoring.
+Raster positives are not independent experimental units. Pixels on one mapped fault segment are spatially correlated; nearby target pixels also share overlapping neighborhoods under the triangular kernel. Pooled DTI is a nonlinear ratio whose numerator and penalties are coupled. Treating every positive pixel as an independent replicate therefore produces an optimistic, generally invalid power floor. The number of withheld positive pixels must still be recorded, but the effective replication must be based on whole withheld fault segments defined before scoring; generic spatial blocks are not a substitute for this project's required holdout unit.
 
-Even an independent-unit count does not turn Cohen's standardized effect into a raw DTI increment. A raw-scale floor requires a variance estimate. For pooled DTI, the primary uncertainty estimate should come from paired bootstrap replicates that re-sample whole withheld segments/spatial blocks and recompute the *pooled* metric for both candidate and baseline on every replicate.
+Even an independent-unit count does not turn Cohen's standardized effect into a raw DTI increment. A raw-scale floor requires a variance estimate. For pooled DTI, the primary uncertainty estimate should come from paired cluster-bootstrap replicates that re-sample whole withheld fault segments and recompute the *pooled* metric for both candidate and baseline on every replicate.
 
 ## Required estimand and protocol
 
@@ -32,14 +32,14 @@ The holdout receipt must identify:
 - exact pixel-level masking of visible faults;
 - pooled DTI with alpha 0.2, beta 0.8, and a 300 m triangular kernel;
 - the same folds and masks for candidate and baseline;
-- a paired whole-segment/spatial-block bootstrap distribution of pooled DTI differences;
+- a paired whole-segment cluster-bootstrap distribution of pooled DTI differences;
 - leakage-canary results for each feature by itself, with any AUC above 0.90 treated as leakage until explained.
 
 Do not tune the holdout or candidate after looking at the same fold results. Any adjustment requires a newly frozen registration and fresh folds.
 
 ## What the analysis reports once a valid receipt exists
 
-`python scripts/power_analysis.py path/to/frozen-holdout-receipt.json` rejects receipts missing the evaluator version, scoring contract, withheld-positive count, independent-unit count, pixel-exact visible mask, visible-only catalogue features, or at least 1,000 finite cluster-bootstrap replicates. It then reports:
+`python scripts/analyse_holdout_receipt.py path/to/frozen-holdout-receipt.json` rejects receipts missing the evaluator version, scoring contract, withheld-positive count, independent-unit count, pixel-exact visible mask, visible-only catalogue features, or at least 1,000 finite cluster-bootstrap replicates. (The repository's existing `scripts/power_analysis.py` is a separate exploratory proxy-sensitivity report and is not a compliant holdout receipt.) It then reports:
 
 1. `HOLDOUT-DTI` — evaluator version, number of withheld positives, observed pooled difference, and the paired cluster-bootstrap 95% CI;
 2. Cohen's minimum detectable standardized effect for the independent segment/block count;

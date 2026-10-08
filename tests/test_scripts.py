@@ -43,7 +43,8 @@ def test_audit_and_run_artifacts_are_strict_json_and_stay_fail_closed():
     run_card = records[1]
     cache_audit = records[4]
     assert run_card["verdict"] == "negative"
-    assert run_card["submission"]["downloadable_tif"] is False
+    assert run_card["submission"]["downloadable_tif_from_this_run"] is False
+    assert run_card["submission"]["existing_repository_artifact"]["holdout_validation"].startswith("NOT ESTABLISHED")
     assert run_card["holdout_dti"]["withheld_positive_count"] is None
     assert cache_audit["result"].startswith("HASHES_MATCH_OWNER_PINS")
     assert "not an organizer-authenticated" in cache_audit["source"]["role"]
@@ -52,6 +53,6 @@ def test_audit_and_run_artifacts_are_strict_json_and_stay_fail_closed():
 
 def test_feed_link_is_outside_element_replaced_by_audit_javascript():
     page = (ROOT / "docs/index.html").read_text(encoding="utf-8")
-    receipt_line = next(line for line in page.splitlines() if 'id="audit-time"' in line)
-    assert "<a " not in receipt_line
-    assert '<a href="data/feed.json">Open the local status feed JSON' in page
+    status_line = next(line for line in page.splitlines() if 'id="local-audit-status"' in line)
+    assert "<a " not in status_line
+    assert '<a href="data/feed.json">Open this review\'s local status feed →</a>' in page

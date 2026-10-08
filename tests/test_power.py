@@ -25,7 +25,7 @@ def _receipt() -> dict:
             "catalogue_features_from_visible_faults_only": True,
             "visible_fault_mask": "pixel_exact",
             "buffer_m": 500.0,
-            "bootstrap_unit": "whole_fault_segment_or_spatial_block",
+            "bootstrap_unit": "whole_fault_segment",
             "withheld_positive_count": 500,
             "independent_unit_count": 16,
         },
@@ -64,6 +64,13 @@ def test_receipt_rejects_wrong_kernel_and_nonvisible_catalogue_features():
     bad_features["design"]["catalogue_features_from_visible_faults_only"] = False
     with pytest.raises(ValueError, match="visible faults only"):
         analyse_holdout_receipt(bad_features)
+
+
+def test_receipt_rejects_spatial_block_substitute():
+    bad = _receipt()
+    bad["design"]["bootstrap_unit"] = "spatial_block"
+    with pytest.raises(ValueError, match="spatial blocks are not an accepted substitute"):
+        analyse_holdout_receipt(bad)
 
 
 def test_receipt_rejects_too_few_bootstrap_draws():

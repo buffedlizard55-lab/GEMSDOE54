@@ -1,4 +1,4 @@
-"""Power calculations for paired, spatially clustered holdout comparisons.
+"""Power calculations for paired, whole-fault-segment holdout comparisons.
 
 Cohen's d is a standardized effect, not a raw DTI increment. For a DTI comparison, a raw
 minimum-detectable difference also requires a variance estimate from paired holdout resamples.
@@ -86,7 +86,7 @@ def analyse_holdout_receipt(receipt: dict[str, Any]) -> dict[str, Any]:
 
     Required receipt keys are intentionally strict. The holdout runner must provide the evaluator
     version, exact scoring contract, withheld-positive count, number of whole-segment units, the
-    paired pooled-DTI difference, and segment/block-bootstrap differences. Missing evidence is an
+    paired pooled-DTI difference, and whole-segment cluster-bootstrap differences. Missing evidence is an
     error; no value is inferred from a leaderboard or from a user's reported score.
     """
     evaluator = receipt.get("evaluator", {})
@@ -121,8 +121,8 @@ def analyse_holdout_receipt(receipt: dict[str, Any]) -> dict[str, Any]:
     buffer_m = design.get("buffer_m")
     if isinstance(buffer_m, bool) or not isinstance(buffer_m, (int, float)) or not np.isfinite(buffer_m) or buffer_m <= 0:
         raise ValueError("a positive whole-segment buffer_m is required")
-    if design.get("bootstrap_unit") != "whole_fault_segment_or_spatial_block":
-        raise ValueError("bootstrap_unit must preserve whole fault segments or spatial blocks")
+    if design.get("bootstrap_unit") != "whole_fault_segment":
+        raise ValueError("bootstrap_unit must be whole_fault_segment; spatial blocks are not an accepted substitute")
 
     n_positive = design.get("withheld_positive_count")
     n_units = design.get("independent_unit_count")
@@ -159,7 +159,7 @@ def analyse_holdout_receipt(receipt: dict[str, Any]) -> dict[str, Any]:
         "power": {
             "alpha": ALPHA,
             "target_power": TARGET_POWER,
-            "independent_unit": "whole withheld fault segments or preregistered spatial blocks",
+            "independent_unit": "whole withheld fault segments",
             "independent_unit_count": n_units,
             "cohen_d_minimum_detectable_at_independent_unit_level": d_min_segments,
             "pooled_dti_raw_scale_mde_approximation": raw_mde,

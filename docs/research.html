@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Power, leakage, uniqueness, and geological hypothesis gates for GEMS research.">
-  <title>Research & Validation | GEMSDOE54</title><link rel="stylesheet" href="assets/site.css">
+  <title>Research & Validation | GEMSDOE54</title><link rel="stylesheet" href="assets/audit-site.css">
 </head>
 <body>
 <header class="site-header"><div class="header-inner">
@@ -13,7 +13,7 @@
 <main>
   <section class="page-title"><div class="eyebrow">Research notebook</div><h1>Validation before interpretation.</h1><p class="lead">The task is not to find a pattern that looks geological. It is to show that a frozen, leak-free method predicts withheld structure better than a comparable baseline, with uncertainty small enough to support the claim.</p></section>
 
-  <section class="status-banner"><div class="status-icon" aria-hidden="true">!</div><div><h2>Current evidence state: no experiment is valid yet</h2><p>The repository has no local rasters or authenticated portal download. A separate owner-maintained template bridge is hash-consistent and has a nonconstant feature cube, but those pins do not authenticate origin. Its shared evaluator holds spatial blocks, not whole fault segments. The separate GEMSDOE52 cache fails its pins and has a constant feature cube. No candidate was scored; do not infer a DTI ranking.</p></div></section>
+  <section class="status-banner"><div class="status-icon" aria-hidden="true">!</div><div><h2>Current evidence state: no compliant result from this review</h2><p>The repository contains owner-mirrored label/SGMC files and a pre-existing H54-A candidate, but no full local training feature stack or authenticated DrivenData download. A separate public-template bridge is hash-consistent and nonconstant, but its pins do not authenticate origin. The root template evaluator uses spatial blocks; this repository's whole-segment helper had a buffer bug, fixed here, but it is not a complete evaluator. The H54-A proxy is circular; no trustworthy DTI ranking is established.</p></div></section>
 
   <section class="section" id="power">
     <div class="eyebrow">Prerequisite</div><h2>Power and the DTI detection floor</h2>
@@ -21,7 +21,7 @@
       <article class="card">
         <h3>What must be measured</h3>
         <p>For a paired candidate-versus-baseline comparison, Cohen's d is a standardized difference. Its minimum detectable value depends on the independent sample count and the variability of paired differences. A raw pooled-DTI floor additionally depends on the observed cluster-bootstrap uncertainty.</p>
-        <p>Fault pixels within a segment are not independent. Use whole held-out fault segments or preregistered spatial blocks as the resampling units; recompute pooled DTI inside each paired bootstrap draw. Report the withheld-positive count as context, not as the number of independent experiments.</p>
+        <p>Fault pixels within a segment are not independent. Use whole held-out fault segments as the resampling units; do not substitute generic spatial blocks. Recompute pooled DTI inside each paired whole-segment bootstrap draw. Report the withheld-positive count as context, not as the number of independent experiments.</p>
         <p>The power CLI requires a frozen receipt specifying whole-segment hiding with buffer, visible-only catalogue-derived features, pixel-exact visible masking, pooled DTI, the triangular 300 m kernel, and bootstrap draws. Without that receipt, it refuses to produce a floor.</p>
         <a href="research/power-analysis.md">Read the full statistical protocol →</a>
       </article>
@@ -36,9 +36,9 @@
   <section class="section" id="leakage">
     <div class="eyebrow">Canary before trust</div><h2>Feature-alone leakage checks</h2>
     <div class="card">
-      <p>Evaluate each feature by itself on the same spatial holdout before trusting any composite. An AUC above 0.90 is treated as a leakage canary until the feature derivation, mask, folds, and target independence are audited. The threshold is a trigger for investigation, not proof of leakage on its own.</p>
+      <p>Evaluate each feature by itself on the same frozen whole-fault-segment hide-and-recover holdout before trusting any composite. An AUC above 0.90 is treated as a leakage canary until the feature derivation, mask, segment folds, and target independence are audited. The threshold is a trigger for investigation, not proof of leakage on its own.</p>
       <p>Every catalogue-derived surface must be rebuilt from the visible catalogue for each fold; a precomputed distance-to-full-catalogue layer leaks held-out geometry. Use the exact pixel-level visible-fault mask before scoring.</p>
-      <p><strong>Current result:</strong> no feature AUC was calculated. The owner-pinned feature cube passed a local structural scan, but its source is not organizer-authenticated and the inspected shared holdout does not assign whole fault segments as its holdout unit. No feature-alone value is being treated as a canary result.</p>
+      <p><strong>Prior H54-A leakage canary (PROXY, not HOLDOUT-DTI):</strong> the SGMC raster used to build the candidate scored AUC 0.997948 against a proxy truth built from the same SGMC layer; the uniform control scored 0.5. This is a circularity/leakage finding, not evidence of fault-prediction skill. No feature-alone canary was run on a compliant whole-segment holdout in this audit pass. See <a href="../evidence/leakage_canary.json">leakage receipt</a>.</p>
     </div>
   </section>
 
@@ -46,7 +46,7 @@
     <div class="eyebrow">Parallel-lane gate</div><h2>Duplicate detection is a hard stop</h2>
     <div class="card">
       <p>Before placement and after the final raster write, compare decoded prediction pixels—not TIFF bytes, compression, or filenames—with every accessible registry raster. Stop and record a duplicate if rank-correlation exceeds 0.90 or more than 70% of candidate dots are within 3 pixels of one prior raster's dots.</p>
-      <p><strong>Current result:</strong> not run. No candidate exists, and the current checkout has no registry raster catalogue.</p>
+      <p><strong>Current result:</strong> not rerun in this audit pass. The prior H54-A run card reports a decoded-pixel registry comparison, but no candidate from this pass exists. Do not infer a new uniqueness result; see <a href="../registry/run_card.json">the separate prior run card</a>.</p>
     </div>
   </section>
 
@@ -64,7 +64,7 @@
     <p class="small" style="margin-top:12px">Each candidate names a physical signature and a non-fault mimic in the detailed <a href="research/hypotheses.md">hypothesis preregistration</a>. New sources are proposals only; they have not been downloaded or checked for footprint coverage/license in this session.</p>
   </section>
 
-  <section class="section callout warning"><p><strong>Experiment budget:</strong> no holdout experiment was run. The top proposal cannot be validated without new data and the canonical evaluator; no submission slot was touched. This is a negative result and remains the current run-card verdict.</p></section>
+  <section class="section callout warning"><p><strong>Experiment budget:</strong> this audit pass ran no holdout experiment, generated no raster, and selected no weekly slot. The prior H54-A run card records its own experiment count and candidate. The required whole-segment evaluator, trusted feature provenance, and independent validation remain open; this pass's verdict is negative.</p></section>
 </main>
 <footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p><a href="data/run-card.json">Run card JSON</a> · <a href="audit/irregularities.md">Irregularities</a></p></div></footer>
 </body>

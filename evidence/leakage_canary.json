@@ -1,0 +1,17 @@
+{
+  "auc_cut": 0.9,
+  "negatives_subsampled": 200000,
+  "auc_by_feature": {
+    "sgmc_raster_used_by_this_submission": 0.997948,
+    "distance_to_catalogue_normalised": 0.514019,
+    "uniform_control": 0.5
+  },
+  "leakage_flags": [
+    "PROXY-LEAKAGE: feature 'sgmc_raster_used_by_this_submission' alone scores AUC=0.998 > 0.9"
+  ],
+  "interpretation": "The SGMC raster scores AUC 0.997948 against a target constructed from the same SGMC raster. This demonstrates circularity of the SGMC-derived proxy only. It is not a compliant feature-alone test on a whole-segment holdout, is not evidence of hidden-label prediction skill, and is not a score.",
+  "label": "PROXY-CANARY \u2014 circular SGMC-derived target; not HOLDOUT-DTI",
+  "proxy_target_description": "SGMC mapped faults > 300 m from the competition catalogue",
+  "proxy_positive_cells": 61664,
+  "proxy_positive_samples_used": 61664
+}

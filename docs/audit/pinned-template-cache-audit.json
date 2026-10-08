@@ -81,14 +81,20 @@
     "holdout_design": "Four folds of 512-pixel spatial blocks (51.2 km at 100 m) with a 3-pixel boundary collar; training excludes whole spatial blocks, not whole fault-segment connected components as required by GEMSDOE54.",
     "matches_required_whole_segment_hide_recover": false,
     "required_protocol_parameters_status": "The root evaluator/workflow documents block-based evaluation and alpha 0.2, beta 0.8, R=3px; whole-fault-segment assignment and the exact requested visible-catalogue-derived-feature/mask protocol were not established.",
-    "writer_observed": "src/submission_io.py (no submission_writer.py filename in the inspected root template)",
+    "writer_observed": "The public root template has src/submission_io.py; the merged GEMSDOE54 main branch has scripts/build_submission.py. No submission_writer.py filename was found.",
+    "local_segment_helper_review": {
+      "path": "src/gemsdoe54/holdout.py::segment_blocks",
+      "bug_found": "buffer_px was reported in the notes but not applied to the returned component-label raster.",
+      "status": "FIXED IN THIS PR; integer nonnegative Euclidean collars are now assigned to the nearest whole 8-connected segment; synthetic regression tests added.",
+      "scope_limit": "This helper does not itself train, pool DTI, or produce a full holdout receipt."
+    },
     "writer_reused": false,
-    "reason_not_run": "No candidate was generated, and the available shared holdout design does not satisfy the required whole-segment hide-and-recover contract. No private replacement was created."
+    "reason_not_run": "No candidate was generated in this audit pass; no complete shared evaluator satisfying the whole-segment design and no organizer-authenticated feature stack are available. No private replacement was created."
   },
   "limitations": [
     "DrivenData authentication was not available; no files were downloaded from an authenticated competition account in this session.",
     "Matching owner-maintained hashes proves equality to those declared pins, not that the organizer supplied the bytes.",
-    "The cached rasters were inspected and audited in /tmp; they were not copied into the GEMSDOE54 checkout or committed.",
+    "The bridge-reassembled training feature stack and its paired bridge sample/label copies were inspected in /tmp, not copied into this checkout. The checkout already has separate owner-mirrored label and SGMC rasters, but no full training_features.tif.",
     "No HOLDOUT-DTI, paired 95% CI, minimum-detectable raw DTI gap, leakage-canary AUC, candidate raster, registry comparison, validator result, or organizer receipt was produced."
   ]
 }

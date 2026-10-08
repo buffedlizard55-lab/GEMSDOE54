@@ -1,45 +1,157 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Official and owner-maintained sources, with explicit verification status.">
-  <title>Sources & Verification | GEMSDOE54</title><link rel="stylesheet" href="assets/site.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sources &amp; licences — GEMSDOE54</title>
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<header class="site-header"><div class="header-inner">
-  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
-  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a aria-current="page" href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+<header class="top"><div class="wrap">
+  <div class="brand">GEMS<span>DOE54</span></div>
+  <nav>
+    <a href="index.html">Executive summary</a>
+    <a href="index.html#submit">How to submit</a>
+    <a href="hypotheses.html">Hypotheses</a>
+    <a href="evidence.html">Evidence</a>
+    <a href="research.html">Research protocol</a>
+    <a href="sources.html">Sources</a>
+    <a href="irregularities.html">Audit ledger</a>
+  </nav>
 </div></header>
-<main>
-  <section class="page-title"><div class="eyebrow">Provenance ledger</div><h1>Sources, with verification labels.</h1><p class="lead">User-provided URLs are preserved for manual review. A link is not treated as verified unless it was accessible and inspected in this session.</p></section>
-  <section class="status-banner"><div class="status-icon" aria-hidden="true">i</div><div><h2>No authenticated competition data was downloaded</h2><p>Public reference code and sibling project records are useful context, but they do not replace the organizer download or an organizer submission receipt.</p></div></section>
+<div class="wrap">
 
-  <section class="section"><div class="table-wrap"><table>
-    <thead><tr><th>Source</th><th>Link</th><th>Class</th><th>Checked here?</th><th>How it may be used</th></tr></thead>
-    <tbody>
-      <tr><td>Competition overview / problem metric</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData overview</a></td><td>Organizer</td><td><span class="state pending">Not fetched</span></td><td>Verify challenge semantics and scoring rules against the live source.</td></tr>
-      <tr><td>Competition about page</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/">DrivenData about</a></td><td>Organizer</td><td><span class="state pending">Not fetched</span></td><td>Background and label/data provenance.</td></tr>
-      <tr><td>Competition data</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">DrivenData data tab</a></td><td>Organizer</td><td><span class="state blocked">No authenticated download</span></td><td>Authoritative route for features, labels and the sample grid.</td></tr>
-      <tr><td>Live leaderboard</td><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData leaderboard</a></td><td>Organizer</td><td><span class="state pending">Not fetched</span></td><td>Only a copied organizer page/receipt can confirm a score. Prompt-provided leaderboard values remain unverified.</td></tr>
-      <tr><td>Reference solution</td><td><a href="https://github.com/drivendataorg/gems-prize-reference-solution">DrivenData GitHub</a></td><td>Competition reference code</td><td><span class="state ok">Inspected at pinned commit</span></td><td>Baseline U-Net notebook and environment/setup details; not an organizer score or a replacement holdout evaluator.</td></tr>
-      <tr><td>GEMS PDF / submission description</td><td><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NREL/DOE PDF</a></td><td>Government/DOE source (user-supplied)</td><td><span class="state pending">Not fetched</span></td><td>Manual review of competition context and data terms.</td></tr>
-      <tr><td>GeoDAWN airborne survey</td><td><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and">USGS data page</a></td><td>USGS</td><td><span class="state pending">Not fetched</span></td><td>Official source lead for survey context; raster bytes not obtained here.</td></tr>
-      <tr><td>INGENIOUS project</td><td><a href="https://gbcge.org/current-projects/ingenious/">GBCGE INGENIOUS</a> · <a href="https://gdr.openei.org/submissions/1391">GDR submission 1391</a></td><td>Research / DOE data repository</td><td><span class="state pending">Not fetched</span></td><td>Potential well/spring evidence; exact schema, fields, license and footprint coverage are unverified.</td></tr>
-      <tr><td>USGS 3DEP / DEM lead</td><td><a href="https://www.usgs.gov/3d-elevation-program">3D Elevation Program</a></td><td>USGS</td><td><span class="state pending">Not fetched</span></td><td>Potential DEM source; exact tile coverage, resolution, and terms need checking before use.</td></tr>
-      <tr><td>CRS reference supplied in brief</td><td><a href="https://epsg.io/32611">EPSG:32611 at epsg.io</a></td><td>Third-party CRS reference</td><td><span class="state pending">Not fetched</span></td><td>Review only; epsg.io is not represented here as the official EPSG authority.</td></tr>
-      <tr><td>Metric background</td><td><a href="https://en.wikipedia.org/wiki/Tversky_index">Tversky index overview</a></td><td>Secondary source</td><td><span class="state pending">Not fetched</span></td><td>General background only; use the organizer's definition for implementation.</td></tr>
-      <tr><td>Owner-side H33 prior art</td><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/tree/0d6a6243147cd63a2000412d575d4c80a36d3a62">GEMSDOE32 pinned commit</a></td><td>Owner-maintained project archive</td><td><span class="state ok">Read-only review</span></td><td>Understand how the named artifact was constructed; not an organizer score receipt.</td></tr>
-      <tr><td>Owner-side cache audit</td><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE52/tree/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4">GEMSDOE52 pinned commit</a></td><td>Owner-maintained mirror/archive</td><td><span class="state ok">Read-only audit</span></td><td>Checked-in bytes fail manifest/feature-variance checks; rejected for candidate generation.</td></tr>
-      <tr><td>Shared-template data bridge</td><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE/tree/dcbbb192e56b2b32c0a131eba791dc363305d4a3">GEMSDOE pinned commit</a> · <a href="audit/pinned-template-cache-audit.json">hash/audit receipt</a></td><td>Owner-maintained template/mirror</td><td><span class="state pending">Hashes match; origin unauthenticated</span></td><td>All five shards and three full files match the bridge manifest and runner-generated inventory. The evaluator holds spatial blocks, not whole fault segments; no experiment was run.</td></tr>
-      <tr><td>User-supplied Dropbox mirrors</td><td><a href="https://www.dropbox.com/scl/fi/aemhtutjgcp6tr3tint94/GEMS_96647.pdf?rlkey=rek210cj2smnmzb8n0sla1vmd&amp;st=wz4kofki&amp;dl=0">PDF copy</a> · <a href="https://www.dropbox.com/scl/fi/6rgvnuady818ol8yqgis4/example_submission.tif?rlkey=kbykilvau066xuogoosbf4cq8&amp;st=8junzdyw&amp;dl=0">example TIF</a> · <a href="https://www.dropbox.com/scl/fi/t7fyt03qdh9egyme0itwo/existing_faults.tif?rlkey=yiao96uluqdkipf0h5vju71jf&amp;st=rnino7ya&amp;dl=0">fault raster</a> · <a href="https://www.dropbox.com/scl/fi/3vz9o0wwavi26xaeoxlwr/gems-geodawn-numerical-features.tif?rlkey=je8d8fepqfbst9lnwsq9rkplu&amp;st=zj1lag1r&amp;dl=0">features</a> · <a href="https://www.dropbox.com/scl/fi/ig0mban712ns1atphgphe/Digital-elevation-model-links-JSON.pdf?rlkey=zm77f1vbtt2if8hlruymptnu3&amp;st=srhhir10&amp;dl=0">DEM-link PDF</a></td><td>User-shared file links</td><td><span class="state pending">Not fetched</span></td><td>Not official provenance; do not use as authenticated competition inputs without organizer confirmation.</td></tr>
-    </tbody>
-  </table></div></section>
+<h1>Sources, licences, and verification status</h1>
+<p class="muted">Every source is listed with the status actually achieved, not the status we would like.
+<code>REACHED</code> means the page or file was fetched and read during this session. <code>BLOCKED</code>
+means the host is unreachable from the sandbox and the copy in this repository is a hash-pinned mirror
+instead. The machine-readable version is <code>registry/sources.json</code>.</p>
 
-  <section class="section two-col">
-    <article class="card"><span class="label">Source rules</span><h2>What “verified” means here</h2><ul class="list"><li><span class="bullet">01</span><span>Read the source itself, not just a citation or a sibling README.</span></li><li><span class="bullet">02</span><span>Record the exact dataset/version, license, footprint coverage, retrieval date, and checksum.</span></li><li><span class="bullet">03</span><span>Distinguish checksum integrity from origin authentication. A local hash does not establish that bytes came from the organizer.</span></li><li><span class="bullet">04</span><span>Distinguish owner-reported scores from organizer receipts and local HOLDOUT-DTI.</span></li></ul></article>
-    <aside class="card"><span class="label">Machine-readable register</span><h3>Review the JSON record</h3><p class="detail">Every listed URL and verification state is also available as structured data.</p><p><a href="data/source-register.json">Open source-register.json →</a></p></aside>
-  </section>
-</main>
-<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p>No source access is inferred from a link alone.</p></div></footer>
+<div class="callout">
+<p style="margin:0"><strong>Sandbox network, measured.</strong> Outbound from the shell is limited to
+<code>github.com</code>, <code>codeload.github.com</code>, <code>api.github.com</code>,
+<code>registry.npmjs.org</code>, <code>pypi.org</code> and <code>files.pythonhosted.org</code>.
+<code>www.drivendata.org</code>, <code>www.dropbox.com</code>, <code>mrdata.usgs.gov</code> and
+<code>gdr.openei.org</code> all return HTTP 000. A separate page-fetch channel is <em>not</em> shell-restricted,
+and every page marked <code>REACHED</code> below was read through it.</p>
+</div>
+
+<h2>Organizer and rules</h2>
+<table>
+<thead><tr><th>Source</th><th>Link</th><th>Status</th><th>What it established</th></tr></thead>
+<tbody>
+<tr>
+  <td>Problem description, metric, submission format</td>
+  <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">page/967</a></td>
+  <td><span class="tag ok">REACHED</span></td>
+  <td>The distance-weighted Tversky definition, k(d) = max(1 − d/R, 0) with R = 300 m, α = 0.2, β = 0.8; the worked example TP<sub>w</sub> = 3.00, FP<sub>w</sub> = 1.89, FN<sub>w</sub> = 2.00 → 0.60; and the format rules (EPSG:32611, 100 m, same bounds, single layer float32, values 0–1, null or NaN outside bounds). Transcribed into <code>scripts/gems_metric.py</code>, which reproduces 0.602652.</td>
+</tr>
+<tr>
+  <td>Public leaderboard (historical note only)</td>
+  <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">leaderboard</a></td>
+  <td><span class="tag warn">NO SUBMISSION RECEIPT</span></td>
+  <td>A legacy note records a public-page read dated 2026-10-08 and lists rank/score pairs, but this audit did not independently preserve a submission-page receipt. Treat those figures only as historical owner-recorded observations, not as ORGANIZER-CONFIRMED scores; do not use them as a target or promotion evidence.</td>
+</tr>
+<tr>
+  <td>DOE / NLR GEMS Prize Official Rules, September 2026</td>
+  <td><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">docs.nlr.gov/…/96647.pdf</a></td>
+  <td><span class="tag ok">REACHED</span></td>
+  <td>§3.2 verified: "a single GeoTIFF with a single raster layer at 100-meter resolution … (three submissions per week)"; "The labels for this prize come from the USGS Quaternary Fault and Fold Database and from a set of newly identified faults labeled by geology experts at the National Laboratory of the Rockies (NLR) and USGS"; and the requirement to disclose generative-AI use in the narrative.</td>
+</tr>
+<tr>
+  <td>Competition data page</td>
+  <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/" target="_blank" rel="noopener">data page</a></td>
+  <td><span class="tag no">BLOCKED</span></td>
+  <td>HTTP 000 from the sandbox and login-gated regardless. This is why no model could be trained here and why the 1 m DEM link list is unavailable.</td>
+</tr>
+<tr>
+  <td>New-submission form text</td>
+  <td class="muted small">quoted in the brief</td>
+  <td><span class="tag info">FROM BRIEF</span></td>
+  <td>"You can submit a single-band GeoTIFF (.tif) file, or a .zip file containing a single GeoTIFF … It must match the submission format's CRS, shape, and geotransform." Reproduced on the <a href="index.html#submit">how-to-submit</a> page.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Owner-maintained template and mirror audit</h2>
+<p>The bytes below were obtained through public GitHub, not through an authenticated DrivenData session. Matching a repository's own checksum pins establishes byte integrity against those pins; it does not prove organizer origin.</p>
+<table>
+<thead><tr><th>Source</th><th>Link</th><th>Status</th><th>Finding</th></tr></thead>
+<tbody>
+<tr>
+  <td>GEMSDOE shared template/data bridge</td>
+  <td><a href="https://github.com/buffedlizard55-lab/GEMSDOE/tree/dcbbb192e56b2b32c0a131eba791dc363305d4a3" target="_blank" rel="noopener">pinned public commit</a><br><a href="audit/pinned-template-cache-audit.json">local hash/tool audit</a></td>
+  <td><span class="tag warn">HASH PINS MATCH; ORIGIN UNAUTHENTICATED</span></td>
+  <td>All five feature shards and the three reconstructed TIFFs match the owner bridge manifest and committed runner-generated inventory. The feature cube is structurally varied. The root evaluator uses spatial blocks; this project requires whole-segment hide-and-recover. No candidate or score was generated from this bridge.</td>
+</tr>
+<tr>
+  <td>GEMSDOE52 checked-in cache</td>
+  <td><a href="https://github.com/buffedlizard55-lab/GEMSDOE52/tree/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4" target="_blank" rel="noopener">pinned public commit</a><br><a href="audit/sibling-cache-audit.json">local integrity receipt</a></td>
+  <td><span class="tag no">REJECTED</span></td>
+  <td>Its tracked raster hashes do not match its manifest; all checked-in feature bands are constant. Quarantined, not used for modeling.</td>
+</tr>
+</tbody>
+</table>
+<p class="small muted"><a href="data/source-register.json">Open this review's machine-readable source register →</a></p>
+
+<h2>Evidence layers used by the submission</h2>
+<table>
+<thead><tr><th>Layer</th><th>Link / landing page</th><th>Status</th><th>Licence &amp; hash</th></tr></thead>
+<tbody>
+<tr>
+  <td>USGS State Geologic Map Compilation, NV + CA fault layers</td>
+  <td><a href="https://mrdata.usgs.gov/geology/state/" target="_blank" rel="noopener">mrdata.usgs.gov/geology/state</a><br>
+      <span class="muted small">NV.zip 69,056,094 B · CA.zip 24,977,406 B</span></td>
+  <td><span class="tag warn">BLOCKED HERE</span><br><span class="small muted">fetched by a GitHub Actions runner per the pinned receipt</span></td>
+  <td>US Government work / public domain (USGS Mineral Resources Program).<br>
+      <span class="hash small">recorded SHA-256: NV 3b333ac0…, CA 78765ba4…</span></td>
+</tr>
+<tr>
+  <td>Derived input actually read by the builder</td>
+  <td><code>data/external/derived_sgmc_faults_100m_u8.tif</code></td>
+  <td><span class="tag ok">LOCAL</span></td>
+  <td>100 m rasterisation, uint8, nodata 255, 82,151 positive cells.<br>
+      <span class="hash small">sha256 26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c</span></td>
+</tr>
+<tr>
+  <td>Organizer label raster (USGS Quaternary Fault and Fold DB + INGENIOUS)</td>
+  <td><code>data/grid/labels.tif</code></td>
+  <td><span class="tag ok">LOCAL</span></td>
+  <td>Hash matches the corpus's own pinned receipt exactly.<br>
+      <span class="hash small">sha256 7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093 · 425,830 B · 60,988 positive cells</span></td>
+</tr>
+<tr>
+  <td>GDR INGENIOUS compilation v2 (catalogue provenance)</td>
+  <td><a href="https://gdr.openei.org/submissions/1391" target="_blank" rel="noopener">gdr.openei.org/submissions/1391</a><br>
+      <span class="muted small">DOI 10.15121/1881483</span></td>
+  <td><span class="tag warn">BLOCKED HERE</span></td>
+  <td>CC BY 4.0 per the pinned receipt (6,131,182 B, sha256 c7b091c9…).</td>
+</tr>
+<tr>
+  <td>USGS GeoDAWN airborne magnetic and radiometric surveys</td>
+  <td><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and" target="_blank" rel="noopener">usgs.gov GeoDAWN</a><br>
+      <span class="muted small">DOI 10.5066/P93LGLVQ</span></td>
+  <td><span class="tag warn">NOT USED</span></td>
+  <td>CC0 1.0 per sibling notes (not re-verified here). Deliberately excluded from this submission so that its provenance rests on a single layer.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Deliberately not used, and why</h2>
+<table>
+<thead><tr><th>Source</th><th>Reason</th></tr></thead>
+<tbody>
+<tr><td>USGS FDSN / ComCat earthquake catalogue</td>
+<td>Sibling documentation records the mixed-network export's contributor-specific redistribution and sponsor-sharing rights as unresolved. Seismicity is the strongest local comparator in the corpus, so this is the single highest-value unresolved item in the whole project — it needs a rights decision before it can be used.</td></tr>
+<tr><td>1 m DEM tiles (<code>1m_DEM_links.csv</code>)</td>
+<td>The link list is login-gated on the data page and no reachable mirror exists, so no DEM-derived layer could be built. The named free official source is <a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">USGS 3DEP / The National Map</a> (public domain) — obtainable on an unrestricted machine, but not here.</td></tr>
+<tr><td>The mirrored "sample submission"</td>
+<td>It is not one. See irregularity 1 on the <a href="evidence.html">Evidence</a> page — it is cell-for-cell the catalogue mask.</td></tr>
+</tbody>
+</table>
+
+<footer><p class="muted small">If any link above is dead for you, the finding it supports is still testable
+from the copies and hashes recorded in <code>registry/sources.json</code>.</p></footer>
+</div>
 </body>
 </html>

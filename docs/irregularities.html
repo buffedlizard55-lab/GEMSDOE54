@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Open data, provenance, evaluation, and submission issues for GEMSDOE54.">
-  <title>Audit & Irregularities | GEMSDOE54</title><link rel="stylesheet" href="assets/site.css">
+  <title>Audit & Irregularities | GEMSDOE54</title><link rel="stylesheet" href="assets/audit-site.css">
 </head>
 <body>
 <header class="site-header"><div class="header-inner">
@@ -12,13 +12,13 @@
 </div></header>
 <main>
   <section class="page-title"><div class="eyebrow">Review record</div><h1>Open issues are visible.</h1><p class="lead">The right outcome is to stop when evidence is missing. This ledger distinguishes a code defect from a data, provenance, or inference blocker.</p></section>
-  <section class="callout danger"><p><strong>No submission artifact is available.</strong> The current branch has not run a valid holdout experiment. Do not infer a score, improvement, or safe upload from a file on another site.</p></section>
+  <section class="callout danger"><p><strong>An existing downloadable artifact is not a validated result.</strong> The pre-existing H54-A TIFF has a prior format/lane receipt but no trustworthy HOLDOUT-DTI; this audit pass emitted no new raster and made no weekly-slot selection. Do not infer a win from its circular proxy.</p></section>
   <section class="section"><div class="table-wrap"><table>
     <thead><tr><th>ID</th><th>Severity</th><th>Finding</th><th>Impact</th><th>Status</th></tr></thead>
     <tbody>
       <tr><td>IR-54-001</td><td>Blocking</td><td>The checkout began with only a one-line README.</td><td>No data, scripts, evaluation tools, tests, or site existed in this repo.</td><td>Documented; audit/site scaffold added.</td></tr>
-      <tr><td>IR-54-002</td><td>Blocking</td><td>The inspected shared template does not provide the required whole-fault-segment holdout unit.</td><td>Its evaluator uses four folds of 512-pixel spatial blocks and a 3-pixel collar. Its shared writer is <code>src/submission_io.py</code>; no private replacement was used.</td><td>Open; no compliant HOLDOUT-DTI.</td></tr>
-      <tr><td>IR-54-003</td><td>Blocking</td><td>No local rasters or authenticated DrivenData download are present.</td><td>A separate owner-mirror cache passed its own hash pins and structural scan, but is outside this checkout and its origin is not organizer-authenticated.</td><td>Open; authentication and authorized placement required.</td></tr>
+      <tr><td>IR-54-002</td><td>Blocking</td><td>The complete shared evaluator required for end-to-end whole-fault-segment hide-and-recover is still missing.</td><td>The public root template evaluator uses spatial blocks. The current repository's shared <code>segment_blocks</code> helper had ignored <code>buffer_px</code>; this PR fixes and tests the collar assignment. The helper alone does not train or produce pooled-DTI receipts.</td><td>Helper bug fixed in this PR; compliant end-to-end evaluation remains open.</td></tr>
+      <tr><td>IR-54-003</td><td>Blocking</td><td>No authenticated DrivenData download or full feature stack is present locally.</td><td>Hash-pinned owner-mirror labels and an SGMC raster are tracked in the repository; the full training stack is absent, and the mirrored sample file is known to equal the labels rather than a blank template.</td><td>Open; source authentication and correct features/sample needed.</td></tr>
       <tr><td>IR-54-004</td><td>Blocking</td><td>The separate read-only GEMSDOE52 cache fails its own manifest and feature-variance checks.</td><td>Its feature bands are constant on the footprint and its TIF digests disagree with its manifest. It is rejected for modeling and submission.</td><td>Quarantined; receipt linked below.</td></tr>
       <tr><td>IR-54-005</td><td>High</td><td>Leaderboard claims and the “current top” description conflict in the user brief.</td><td>No live organizer board snapshot or submission receipt was fetched. No score is classified as confirmed.</td><td>Unverified; no ranking decision.</td></tr>
       <tr><td>IR-54-006</td><td>High</td><td>The H33 artifact is documented by an owner-side technical receipt, not an organizer receipt.</td><td>A post-processing/placement mechanism is plausible; causal score attribution is not proven.</td><td>Mechanism hypothesis only.</td></tr>

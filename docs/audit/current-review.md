@@ -20,13 +20,13 @@ Separately, the public owner-maintained GEMSDOE52 repository was used only as a 
 
 ## Result
 
-No score-ready TIF was generated. This is deliberate: an owner-pinned input mirror is not organizer-authenticated, and the inspected shared evaluator does not implement the required whole-fault-segment holdout. A format-valid file would not be a scientifically validated submission. The visible site status therefore says **no file is available; do not upload**.
+No new TIFF was generated in this audit pass. This is deliberate: an owner-pinned input mirror is not organizer-authenticated, and the inspected shared evaluator does not implement the required whole-fault-segment holdout. A separate pre-existing main-line TIFF remains downloadable and has prior local format/lane receipts, but it has no trustworthy HOLDOUT-DTI or organizer submission receipt and must not be presented as performance-validated. The site labels that artifact as pre-existing and unvalidated; this review did not approve it or select a weekly slot.
 
 The run-card decision is negative. The local power tool and raster validator are safeguards for a future compliant shared evaluation path; they do not replace that path. The required withheld-positive count, independent-unit count, paired variance, raw DTI detection floor, cluster-bootstrap 95% interval, feature-only AUC canaries, and registry uniqueness comparison are all unmeasured here. The hash-matched cache's total label-positive count is recorded separately as a data-audit property only.
 
 ## Explicit scope limits
 
-- The DrivenData pages and the USGS/NREL/DOE pages supplied by the user could not be fetched in this environment; their links are provided for review, and the site does not represent them as checked.
+- No authenticated DrivenData download or submission-page receipt was obtained in this audit. Legacy source notes may record earlier public-page access, but they do not authenticate a competition-data download or confirm an individual score. Other user-supplied USGS/NREL/DOE links were not rechecked here.
 - The external DrivenData data-download flow requires authorization that is not present in this session. No credential is requested, and no authentication is bypassed. A public owner mirror is hash-consistent, but its source claim is not organizer-authenticated.
 - The competition leaderboard values and filename-to-score attribution in the brief are treated as user-supplied claims, not organizer receipts. The prompt itself gives inconsistent descriptions of the board top; no current board snapshot was independently fetched.
 - There is no valid experiment under the stated protocol because the origin and holdout-unit gates fail. No weekly submission slot was used or recommended.

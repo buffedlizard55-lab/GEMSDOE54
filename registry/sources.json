@@ -1,0 +1,118 @@
+{
+  "policy": {
+    "rule": "Every source is listed with its licence, its landing page, and the verification status actually achieved from this sandbox. Nothing is cited that was not read. 'REACHED' means the page or file was fetched and read during this session; 'BLOCKED' means the host is unreachable from the sandbox and the copy in this repository is a hash-pinned mirror instead.",
+    "sandbox_network": "Outbound from the shell is limited to github.com, codeload.github.com, api.github.com, registry.npmjs.org, pypi.org and files.pythonhosted.org. DrivenData and Dropbox return HTTP 000; mrdata.usgs.gov and gdr.openei.org are likewise unreachable. A companion page-fetch channel is not shell-restricted and was used to read the pages marked REACHED.",
+    "verified_utc": "2026-10-08"
+  },
+  "organizer_and_rules": [
+    {
+      "id": "dd-problem",
+      "what": "Competition problem description: metric definition, mathematical representation, scoring example, submission format",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "status": "REACHED",
+      "evidence": "A prior source note records reading the organizer problem page and transcribing its metric/formats into scripts/gems_metric.py. This audit did not freshly authenticate competition data or fetch a submission receipt.",
+      "licence": "n/a - reading only"
+    },
+    {
+      "id": "dd-leaderboard",
+      "what": "Public leaderboard",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "HISTORICAL_PAGE_NOTE \u2014 no submission receipt",
+      "evidence": "A legacy note records a public leaderboard page read dated 2026-10-08. This audit did not independently preserve individual submission-page receipts; any values in prior files are historical owner-recorded observations, not ORGANIZER-CONFIRMED scores and not promotion evidence.",
+      "licence": "n/a - reading only"
+    },
+    {
+      "id": "dd-data",
+      "what": "Data download page (training_features.tif, labels.tif, sample_submission.tif, 1m_DEM_links.csv)",
+      "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+      "status": "BLOCKED",
+      "evidence": "HTTP 000 from the sandbox; a DrivenData login is required. No authenticated download was obtained. Existing label/grid files are owner-maintained hash-pinned mirrors; the hashes establish agreement with owner pins, not organizer origin.",
+      "licence": "competition data, organizer terms"
+    },
+    {
+      "id": "rules-pdf",
+      "what": "DOE / NLR GEMS Prize Official Rules, September 2026",
+      "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+      "status": "REACHED",
+      "evidence": "A prior source note records reading Section 3.2 and its format, submission-frequency, label-provenance, and AI-disclosure requirements. This audit did not freshly verify those pages; see docs/data/source-register.json for the current source status.",
+      "licence": "US Government document"
+    },
+    {
+      "id": "epsg-32611",
+      "what": "Projected CRS for UTM zone 11N",
+      "url": "https://epsg.io/32611",
+      "status": "NOT_FETCHED",
+      "evidence": "Referenced by the organizer page as the submission CRS and asserted byte-for-byte on every raster here by rasterio (str(crs) == 'EPSG:32611').",
+      "licence": "n/a"
+    },
+    {
+      "id": "tversky",
+      "what": "Tversky index background",
+      "url": "https://en.wikipedia.org/wiki/Tversky_index",
+      "status": "NOT_FETCHED",
+      "evidence": "Background only; the metric used here is the organizer's own definition, not the generic index.",
+      "licence": "CC BY-SA"
+    }
+  ],
+  "evidence_layers_used_by_the_submission": [
+    {
+      "id": "sgmc-state-maps",
+      "what": "USGS State Geologic Map Compilation fault layers, Nevada and California state map packages",
+      "landing": "https://mrdata.usgs.gov/geology/state/",
+      "assets": [
+        "https://mrdata.usgs.gov/geology/state/shp/NV.zip (69,056,094 bytes)",
+        "https://mrdata.usgs.gov/geology/state/shp/CA.zip (24,977,406 bytes)"
+      ],
+      "status": "BLOCKED_FROM_SANDBOX",
+      "evidence": "Not reachable from the shell. The pinned receipt at data/external/GEMSDOE30_external_receipt.json records a successful fetch from a GitHub Actions runner with SHA-256 3b333ac0\u2026 (NV) and 78765ba4\u2026 (CA), and states the licence.",
+      "licence": "US Government work / public domain (USGS Mineral Resources Program), per the pinned receipt",
+      "derived_input_used_here": {
+        "path": "data/external/derived_sgmc_faults_100m_u8.tif",
+        "sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+        "note": "100 m rasterisation of the NV+CA fault layers, uint8, nodata 255, 82,151 positive cells. Rasterised by a sibling pipeline, not by this session; the rasterisation is monotone (no smoothing), so the fault cells are a subset of the vector geometry."
+      }
+    },
+    {
+      "id": "grid-labels",
+      "what": "Owner-mirrored label raster, claimed to originate from organizer competition data",
+      "path": "data/grid/labels.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "bytes": 425830,
+      "evidence": "Matches the SHA-256 pinned in data/external/GEMSDOE30_external_receipt.json and has the recorded pixel count/nodata on local inspection. This is a hash-pinned owner mirror, not an organizer-authenticated download.",
+      "licence": "competition data, organizer terms"
+    },
+    {
+      "id": "gdr-ingenious-1391",
+      "what": "GDR INGENIOUS compilation v2 (provenance check for the catalogue)",
+      "landing": "https://gdr.openei.org/submissions/1391",
+      "doi": "10.15121/1881483",
+      "status": "BLOCKED_FROM_SANDBOX",
+      "evidence": "Pinned receipt records a successful fetch of qfaults_ingenious_nad83conus117_2023-06-27.zip, SHA-256 c7b091c9\u2026, 6,131,182 bytes.",
+      "licence": "CC BY 4.0, per the pinned receipt"
+    },
+    {
+      "id": "geodawn",
+      "what": "USGS GeoDAWN airborne magnetic and radiometric surveys",
+      "landing": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+      "doi": "10.5066/P93LGLVQ",
+      "status": "BLOCKED_FROM_SANDBOX",
+      "evidence": "Not used by this submission. Listed because it is an organizer-provided layer and a candidate for future hypotheses. The sibling mirror geodawn_rad_u8.tif exists but was deliberately NOT used, to keep the submission's provenance to a single public-domain source.",
+      "licence": "CC0 1.0 per USGS metadata (as recorded in sibling notes; not re-verified here)"
+    }
+  ],
+  "not_used_and_why": [
+    {
+      "id": "comcat",
+      "what": "USGS FDSN/ComCat earthquake catalogue",
+      "status": "EXCLUDED",
+      "reason": "Sibling documentation records that contributor-specific redistribution and sponsor-sharing rights for the mixed-network export are unresolved. Seismicity is the strongest local comparator in the corpus, so this is the single highest-value unresolved item; see Limitations."
+    },
+    {
+      "id": "1m-dem",
+      "what": "1 m DEM tiles linked from the competition data page (1m_DEM_links.csv)",
+      "status": "EXCLUDED",
+      "reason": "1m_DEM_links.csv is behind the DrivenData login and no mirror of it exists in any reachable repository, so no DEM-derived layer could be built in this session. This is the largest remaining scientific gap."
+    }
+  ],
+  "current_review_note": "Legacy source record preserved from main; its REACHED status refers to prior documentation/review. The current audit classification is in docs/data/source-register.json. Public board observations are not submission-page receipts."
+}

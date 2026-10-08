@@ -1,0 +1,17 @@
+{
+  "policy": "A score appears here only when it is copied from a DrivenData submission-page receipt. Anything else is a model or a proxy and must be labelled as such.",
+  "submissions": [
+    {
+      "name": "gems54-undercomplement-q200",
+      "file": "docs/downloads/gems54-undercomplement-q200.tif",
+      "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
+      "note_pasted_into_portal": "GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots",
+      "team_label": "undercomplement-q200 - state-map fault complement, catalogue-excluded, 200 m dots",
+      "uploaded_utc": null,
+      "organizer_confirmed_score": null,
+      "status": "UNSCORED - awaiting a submission-page receipt",
+      "positive_cells": 15907,
+      "format_validated": true
+    }
+  ]
+}

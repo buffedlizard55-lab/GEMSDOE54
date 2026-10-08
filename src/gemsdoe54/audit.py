@@ -16,7 +16,9 @@ import numpy as np
 import rasterio
 
 FEATURE_CANDIDATES = ("training_features.tif", "numeric_features.tif")
-REQUIRED_DATA_FILES = ("labels.tif", "sample_submission.tif")
+LABEL_CANDIDATES = ("labels.tif", "grid/labels.tif")
+SAMPLE_CANDIDATES = ("sample_submission.tif",)
+KNOWN_NON_SAMPLE_TEMPLATES = ("grid/MIRROR_sample_submission_template.tif",)
 
 
 def sha256_file(path: str | Path, chunk_size: int = 1024 * 1024) -> str:
@@ -168,16 +170,19 @@ def audit_workspace(data_dir: str | Path = "data") -> dict[str, Any]:
     """Audit local training inputs. Missing or uninformative data never passes the gate."""
     root = Path(data_dir)
     feature_matches = [root / name for name in FEATURE_CANDIDATES if (root / name).is_file()]
+    label_matches = [root / name for name in LABEL_CANDIDATES if (root / name).is_file()]
+    sample_matches = [root / name for name in SAMPLE_CANDIDATES if (root / name).is_file()]
+    known_non_samples = [root / name for name in KNOWN_NON_SAMPLE_TEMPLATES if (root / name).is_file()]
     feature_path = feature_matches[0] if feature_matches else None
-    label_path = root / "labels.tif"
-    sample_path = root / "sample_submission.tif"
+    label_path = label_matches[0] if label_matches else None
+    sample_path = sample_matches[0] if sample_matches else None
     missing = []
     if feature_path is None:
         missing.append("training_features.tif or numeric_features.tif")
-    if not label_path.is_file():
-        missing.append("labels.tif")
-    if not sample_path.is_file():
-        missing.append("sample_submission.tif")
+    if label_path is None:
+        missing.append("labels.tif (searched data root and grid/)")
+    if sample_path is None:
+        missing.append("sample_submission.tif (known label-mask mirror is not accepted as a sample)")
 
     result: dict[str, Any] = {
         "schema": "gemsdoe54.workspace-audit.v1",
@@ -187,6 +192,12 @@ def audit_workspace(data_dir: str | Path = "data") -> dict[str, Any]:
         "missing_inputs": missing,
         "feature_path": str(feature_path) if feature_path else None,
         "feature_aliases_found": [str(p) for p in feature_matches],
+        "available_input_paths": {
+            "features": [str(p) for p in feature_matches],
+            "labels": [str(p) for p in label_matches],
+            "sample_submission": [str(p) for p in sample_matches],
+            "known_non_sample_templates": [str(p) for p in known_non_samples],
+        },
         "inputs": {},
         "checks": {},
         "provenance": {"status": "not_checked", "organizer_authentication": "not established"},
@@ -197,7 +208,7 @@ def audit_workspace(data_dir: str | Path = "data") -> dict[str, Any]:
     if missing:
         return result
 
-    assert feature_path is not None
+    assert feature_path is not None and label_path is not None and sample_path is not None
     paths = {"features": feature_path, "labels": label_path, "sample_submission": sample_path}
     hashes = {path.name: sha256_file(path) for path in paths.values()}
     datasets = {}

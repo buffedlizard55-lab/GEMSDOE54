@@ -1,0 +1,129 @@
+{
+  "z_sum_alpha05_power80": 2.801585,
+  "z_sum_alpha05_power90": 3.241516,
+  "proxy_truth_cells": 61664,
+  "measured_paired_designs": {
+    "near_identical_prune_variants": {
+      "pair": [
+        "dotted_d2_8_02600 vs dotted_b2_prune_02778"
+      ],
+      "proxy_dti": {
+        "dotted_d2_8_02600": 0.092738,
+        "dotted_b2_prune_02778": 0.093965
+      },
+      "mean_paired_credit_difference": 0.003912,
+      "sd_paired_credit_difference": 0.033869,
+      "sigma_over_note": "measured from raster bytes for the circular SGMC-derived proxy; not hidden-holdout variance",
+      "owner_recorded_board_observations": {
+        "a": 0.2778,
+        "b": 0.26,
+        "difference": 0.0178,
+        "note": "None = no value is included in the historical record for this artefact",
+        "label": "UNRECEIPTED OBSERVATIONS \u2014 not ORGANIZER-CONFIRMED"
+      },
+      "n_informative_proxy_cells": 12429
+    },
+    "distinct_architecture_candidate_vs_lattice": {
+      "pair": [
+        "gems54_undercomplement vs r13_lattice_s5"
+      ],
+      "proxy_dti": {
+        "gems54_undercomplement": 0.551333,
+        "r13_lattice_s5": 0.247803
+      },
+      "mean_paired_credit_difference": 0.119193,
+      "sd_paired_credit_difference": 0.466761,
+      "sigma_over_note": "measured from raster bytes for the circular SGMC-derived proxy; not hidden-holdout variance",
+      "owner_recorded_board_observations": {
+        "a": 0.0904,
+        "b": null,
+        "difference": null,
+        "note": "None = no value is included in the historical record for this artefact",
+        "label": "UNRECEIPTED OBSERVATIONS \u2014 not ORGANIZER-CONFIRMED"
+      },
+      "n_informative_proxy_cells": 61644
+    },
+    "distinct_architecture_lattice_vs_dotted": {
+      "pair": [
+        "r13_lattice_s5 vs dotted_b2_prune_02778"
+      ],
+      "proxy_dti": {
+        "r13_lattice_s5": 0.247803,
+        "dotted_b2_prune_02778": 0.093965
+      },
+      "mean_paired_credit_difference": 0.289204,
+      "sd_paired_credit_difference": 0.310358,
+      "sigma_over_note": "measured from raster bytes for the circular SGMC-derived proxy; not hidden-holdout variance",
+      "owner_recorded_board_observations": {
+        "a": 0.2778,
+        "b": 0.0904,
+        "difference": 0.1874,
+        "note": "None = no value is included in the historical record for this artefact",
+        "label": "UNRECEIPTED OBSERVATIONS \u2014 not ORGANIZER-CONFIRMED"
+      },
+      "n_informative_proxy_cells": 61622
+    }
+  },
+  "operating_point": {
+    "name": "proxy-analysis operating point",
+    "dti": 0.2778,
+    "T_credit": 4841.0,
+    "N_dots": 37654,
+    "M": 2169.0,
+    "G_true": 11583.0,
+    "provenance": "T, M, G are a MODEL derived from owner-recorded, unreceipted board observations under the exact metric algebra; not an organizer-confirmed score or label count.",
+    "label": "MODEL point from an owner-recorded, unreceipted board observation; not ORGANIZER-CONFIRMED"
+  },
+  "dDTI_dT_at_operating_point": 5.419653625284031e-05,
+  "detection_floor": {
+    "dti_gap_0.0028": {
+      "credit_gap_T": 51.664,
+      "n_proxy_cells_required_power80": 296457,
+      "n_proxy_cells_required_power90": 221449,
+      "available_informative_proxy_cells": 12429,
+      "detectable_with_available_proxy_cells": false
+    },
+    "dti_gap_0.0050": {
+      "credit_gap_T": 92.257,
+      "n_proxy_cells_required_power80": 945333,
+      "n_proxy_cells_required_power90": 706149,
+      "available_informative_proxy_cells": 12429,
+      "detectable_with_available_proxy_cells": false
+    },
+    "dti_gap_0.0100": {
+      "credit_gap_T": 184.514,
+      "n_proxy_cells_required_power80": 3781331,
+      "n_proxy_cells_required_power90": 2824593,
+      "available_informative_proxy_cells": 12429,
+      "detectable_with_available_proxy_cells": false
+    },
+    "dti_gap_0.0200": {
+      "credit_gap_T": 369.027,
+      "n_proxy_cells_required_power80": 15125321,
+      "n_proxy_cells_required_power90": 11298372,
+      "available_informative_proxy_cells": 12429,
+      "detectable_with_available_proxy_cells": false
+    }
+  },
+  "minimum_detectable": {
+    "credit_gap_min_power80": 10.579,
+    "credit_gap_min_power90": 12.24,
+    "dti_mdd_power80": 0.000573,
+    "dti_mdd_power90": 0.000663,
+    "n_informative_proxy_cells_used": 12429
+  },
+  "candidate_screening_on_proxy": {
+    "raster": "gems54-undercomplement-q200.tif",
+    "label": "PROXY-DTI - circular for this candidate, screening only, NOT a score",
+    "proxy_dti": 0.551333,
+    "tp_w": 30568.6294,
+    "fp_w": 0.0,
+    "fn_w": 31095.3706,
+    "n_dots": 15907,
+    "circularity": "The candidate's only evidence layer is the same USGS SGMC raster the proxy is built from, so this number is a self-consistency check, not validation.",
+    "n_proxy_cells_reached": 39622
+  },
+  "analysis_label": "PROXY-SENSITIVITY / MODEL \u2014 circular SGMC target; not HOLDOUT-DTI or a hidden-label detection floor",
+  "board_input_status": "Historical owner-recorded board values, not submission-page receipts; not ORGANIZER-CONFIRMED",
+  "detection_floor_label": "PROXY-SENSITIVITY / MODEL only; actual hidden-label MDE is not computed"
+}
