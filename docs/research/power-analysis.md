@@ -2,7 +2,7 @@
 
 ## Decision
 
-**No valid power estimate or HOLDOUT-DTI result was produced in this audit pass.** The checkout contains owner-mirrored labels and an SGMC layer plus a prior H54-A candidate, but not the full training feature stack or an authenticated DrivenData download. In a separate read-only clone of the owner-maintained `GEMSDOE` template, all five feature shards and all three reconstructed TIFFs matched the bridge manifest and committed inventory; a structural audit found 19 nonconstant feature bands. This verifies bytes against owner-maintained pins, not organizer origin. The public root template's end-to-end workflow assigns spatial blocks, not whole fault segments. The local shared `segment_blocks` helper had a buffer bug, fixed in this PR, but it is not a full trainer/evaluator. The separate `GEMSDOE52` cache fails its own pins and has a constant feature cube; it remains quarantined. Consequently, no compliant withheld-positive count, paired variance, detection floor, or confidence interval for the cited leaderboard-gap example is available.
+**No valid power estimate or HOLDOUT-DTI result was produced in the earlier audit pass or in the 2026-10-08 review.** The checkout contains owner-mirrored labels and an SGMC layer plus a prior H54-A candidate, but not the full training feature stack or an authenticated DrivenData download. An earlier separate read-only audit reported that the owner-maintained `GEMSDOE` bridge shards and reconstructed TIFFs matched owner pins and contained nonconstant feature bands; this verifies integrity against owner-maintained pins, not organizer origin. The pinned template's workflow assigns spatial blocks, not whole fault segments. The local `segment_blocks` helper provides buffered groups but is not a full trainer/evaluator. The separate `GEMSDOE52` cache remains quarantined per its prior failed integrity audit. Consequently, no compliant withheld-positive count, paired variance, detection floor, or confidence interval for the cited leaderboard-gap example is available.
 
 **DATA-AUDIT (not HOLDOUT-DTI):** the hash-matched owner-mirror label raster contains 60,988 positive pixels in total. This is not a withheld-positive count, not an independent sample size, and not a score. The value is recorded only as a property of the cached input in [`pinned-template-cache-audit.json`](../audit/pinned-template-cache-audit.json).
 
@@ -42,7 +42,7 @@ Do not tune the holdout or candidate after looking at the same fold results. Any
 `python scripts/analyse_holdout_receipt.py path/to/frozen-holdout-receipt.json` rejects receipts missing the evaluator version, scoring contract, withheld-positive count, independent-unit count, pixel-exact visible mask, visible-only catalogue features, or at least 1,000 finite cluster-bootstrap replicates. (The repository's existing `scripts/power_analysis.py` is a separate exploratory proxy-sensitivity report and is not a compliant holdout receipt.) It then reports:
 
 1. `HOLDOUT-DTI` — evaluator version, number of withheld positives, observed pooled difference, and the paired cluster-bootstrap 95% CI;
-2. Cohen's minimum detectable standardized effect for the independent segment/block count;
+2. Cohen's minimum detectable standardized effect for the independent whole-segment count;
 3. an approximate raw-scale detectable pooled-DTI difference based on the paired cluster-bootstrap standard error;
 4. a separate pixel-IID Cohen floor, explicitly marked **not valid for inference** and never used to promote a candidate.
 
@@ -51,6 +51,12 @@ The 95% interval, not the power calculation alone, decides whether the measured 
 ## Current machine-readable run state
 
 See [`../data/run-card.json`](../data/run-card.json) and [`../data/workspace-audit.json`](../data/workspace-audit.json). Both deliberately record the holdout and raster fields as unavailable; no score or projection is substituted.
+
+## 2026-10-08 run update
+
+The current run still has no compliant `HOLDOUT-DTI`: evaluator version, withheld-positive count, independent whole-segment count, paired bootstrap distribution, 95% CI, and raw-scale detection floor are all unavailable. Therefore the user-reported difference 0.0028 between 0.2778 and 0.2750 remains **NOT CLASSIFIABLE** as signal or noise. The earlier values in `evidence/power_analysis.json` remain **PROXY-SENSITIVITY / MODEL** diagnostics against the circular SGMC-derived target; they must not be substituted for the missing holdout power calculation.
+
+The one current experiment was a registry-lane surface screen, not a DTI evaluation. Its overlap figures are screening diagnostics only. The exact stop reason is in [`../data/run-card.json`](../data/run-card.json); no weekly slot or performance claim follows from them.
 
 ## References
 

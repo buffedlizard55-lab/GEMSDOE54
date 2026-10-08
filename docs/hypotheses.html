@@ -20,29 +20,21 @@
 <div class="wrap">
 
 <h1>Candidate hypotheses, ranked</h1>
-<p class="muted">This is a historical hypothesis ledger, not a current candidate selection or performance ranking. Its mechanisms and costs are qualitative proposals; no DTI improvement is validated. The current audit found no admissible whole-segment holdout and selected no method or weekly slot. See <a href="research.html">the current research protocol</a>.</p>
+<p class="muted">This page retains the historical H54 hypothesis ledger. The current-session shortlist, source-availability checks, relative opportunity/cost ranking, and explicit novelty limits are in <a href="research/hypotheses-20261008.md">the 2026-10-08 candidate review</a>. No DTI improvement is validated; no method or weekly slot was selected. See <a href="research.html">the current research protocol</a>.</p>
 
 <div class="callout">
-<p style="margin:0"><strong>Current gate status.</strong> The SGMC-derived proxy is not a holdout: the H54-A candidate and proxy target share source data, and the small exploratory comparison to historical owner-recorded board observations has no submission-page receipts. No candidate below has a validated competition score or a current selection. The official metric algebra is a design constraint, not evidence that any hypothesis will improve performance. See <a href="evidence.html">Evidence</a> and <a href="research.html">the current audit</a>.</p>
+<p style="margin:0"><strong>Archive warning.</strong> Everything below is a historical H54-A–E concept ledger, not the current candidate ranking. It contains prior claims about local file availability and external source access that were not re-verified and may be stale. No candidate below has a validated score or current selection. Use the <a href="research/hypotheses-20261008.md">dated current shortlist</a> for the ranked alternatives, availability status, opportunity, and cost. The metric equations are locally transcribed, not freshly verified against the organizer page.</p>
 </div>
 
 <!-- ====================================================================== -->
-<h2>1 · H54-A — State-map under-map complement <span class="tag ok">IMPLEMENTED</span></h2>
+<h2>1 · H54-A — State-map under-map complement <span class="tag no">LEGACY; STRICT LANE FAIL</span></h2>
 <table>
 <tbody>
 <tr><th style="width:190px">Layers</th><td>USGS State Geologic Map Compilation fault layers for Nevada and California
 (<code>NV.zip</code>, <code>CA.zip</code>, public domain) rasterised to the competition grid; the organizer
 catalogue (<code>data/grid/labels.tif</code>) used only as an exclusion mask.</td></tr>
-<tr><th>Physical signature</th><td><strong>Provenance, then geometry.</strong> The signature is not a spectral or
-morphometric transform but a source-level difference: a fault that one authoritative compilation carries and
-another does not. Geometry is then used as a quality gate — an orientation-invariant <em>principal-axis
-eigenvalue ratio</em> (λ₁/λ₂ ≥ 6) plus a minimum principal extent of 5 cells, which keeps trace-like
-components and rejects blobs and stray line work.</td></tr>
-<tr><th>Why it catches catalogue-missing faults</th><td>The organizers define their new labels as faults
-"not contained within the current public USGS database". The state map packages are a different product with
-different compilers, so a fault present in the state compilation and absent from the catalogue satisfies
-that definition <em>by construction</em>. The catalogue holds 60,988 cells; the state compilation holds
-82,151; 61,664 of those lie more than 300 m from any catalogue cell.</td></tr>
+<tr><th>Physical signature</th><td><strong>Independent-source divergence, then geometry.</strong> This legacy candidate looked for line-like components present in an external geologic compilation but absent from the cached catalogue mask. The geometric filters are an orientation-invariant <em>principal-axis eigenvalue ratio</em> (λ₁/λ₂ ≥ 6) and a minimum principal extent of 5 cells. These are heuristic raster-shape gates, not evidence of age or fault activity.</td></tr>
+<tr><th>Why it might catch catalogue-missing faults</th><td>A feature present in an independently compiled map but absent from the local catalogue could be a candidate omission. It could equally reflect differences in map scale, age, generalization, or class definitions; the official new-label definition was not re-verified here. Local counts (60,988 catalogue cells, 82,151 SGMC cells, 61,664 SGMC cells more than 300 m from the catalogue) describe cached rasters only.</td></tr>
 <tr><th>How it differs from prior work</th><td>Prior work treated SGMC as one input among many and pruned
 within 200 m of the catalogue. This candidate (a) excludes the <em>full 300 m kernel</em>, so that no emitted
 dot can be earning credit from a catalogued fault; (b) replaces bounding-box elongation — which is
@@ -64,14 +56,8 @@ independent fault compilation that is <em>not</em> SGMC and <em>not</em> the cat
 well inventory already mirrored in the corpus (<code>gdr_wellspring_in_footprint.csv</code>, 27,092 rows,
 carrying <code>temp_c</code>, <code>geotherm*_c</code> and a <code>dist_known_fault_px</code> attribute),
 the volcanic-vent raster, and — only if the rights question is closed, see below — ComCat hypocentres.</td></tr>
-<tr><th>Physical signature</th><td><strong>Young-expression conjunction.</strong> State compilations carry
-faults of all ages, and pre-Quaternary faults carry no scarp, so they are not in the experts' label set.
-A fault that hosts a thermal spring, aligns with a chain of springs, or cuts young volcanics is
-demonstrably young. The signature is a spatial conjunction: fault trace ∧ (spring/vent within <em>k</em>
-cells), with an optional along-strike alignment test across ≥ 3 points.</td></tr>
-<tr><th>Why it catches catalogue-missing faults</th><td>The gate is applied <em>inside</em> the
-already-excluded complement, so by construction it can only ever select non-catalogue faults; its job is
-purely to raise precision by removing the pre-Quaternary members of that complement.</td></tr>
+<tr><th>Physical signature</th><td><strong>Young-expression conjunction (hypothesis).</strong> A candidate fault aligned with independently sourced thermal springs, young volcanic features, or other geologic evidence might be more likely to be recent. Such co-location is not proof of fault age or geothermal activity; the older assertion that these classes match the expert-label set was not verified.</td></tr>
+<tr><th>Why it might catch catalogue-missing faults</th><td>Restricting predictions to the complement of the local catalogue mask could avoid deliberately predicting catalogued cells, but any apparent gain could also come from the way the mask and external layers were assembled. Whole-segment hide-and-recover would be required to test it.</td></tr>
 <tr><th>How it differs from prior work</th><td>The corpus's H53-A applied a probe/TMI <em>point-lineation</em>
 rule and accepted 0 of 145 clusters under its frozen thresholds, failing before emission. This candidate
 gates <em>per trace</em> rather than requiring cluster alignment, which is a far weaker and more robust
@@ -79,36 +65,28 @@ requirement, and it exploits the wells' own recorded distance-to-known-fault fie
 proximity.</td></tr>
 <tr><th>Expected benefit</th><td>Precision, not recall: a smaller, cleaner dot set at roughly constant
 credit, which is exactly the direction the algebra rewards.</td></tr>
-<tr><th>Cost</th><td><span class="tag warn">MEDIUM</span> — one afternoon; the CSV is already local.</td></tr>
-<tr><th>Data check</th><td>These files are not present in the current checkout. The paths and licence wording come from prior sibling-repository notes and have not been reverified here; do not assume availability or redistribution permission. ComCat rights remain unresolved and it must not be used until checked.</td></tr>
+<tr><th>Cost</th><td><span class="tag warn">UNKNOWN / AT LEAST MEDIUM</span> — implementation cost depends on obtaining and validating independent inputs.</td></tr>
+<tr><th>Data check</th><td>The referenced GDR rows and other inputs are not present in the current checkout. Paths/licence notes are inherited from older sibling-repository records and were not reverified here; do not assume availability or redistribution permission. ComCat rights remain unresolved and it must not be used until checked.</td></tr>
 </tbody>
 </table>
 
 <!-- ====================================================================== -->
-<h2>3 · H54-C — Catalogue topology: relay ramps and along-strike completion <span class="tag warn">NOT RUN</span></h2>
+<h2>3 · H54-C — Catalogue topology: relay ramps and along-strike completion <span class="tag warn">LEGACY IDEA; INPUT ABSENT</span></h2>
 <table>
 <tbody>
-<tr><th style="width:190px">Layers</th><td>Catalogue fault <em>vectors</em> only —
-<code>gdr_qfaults_traces.csv</code> (126,177 bytes, already mirrored). No external data required.</td></tr>
+<tr><th style="width:190px">Layers</th><td>Catalogue fault <em>vectors</em> only — the legacy notes cite <code>gdr_qfaults_traces.csv</code>. That file is not present in this checkout; no current vector input has been verified.</td></tr>
 <tr><th>Physical signature</th><td><strong>Graph and azimuth geometry.</strong> Fit the trace graph's
 azimuth clusters; extrapolate each trace beyond its mapped tips; find step-overs and relay zones between
 near-collinear adjacent traces and bridge them; project the conjugate dip direction where the
 basin-margin asymmetry implies an unmapped counterpart.</td></tr>
-<tr><th>Why it catches catalogue-missing faults</th><td>Expert completion of a Basin-and-Range fault map
-routinely fills exactly these gaps — the relay ramp between two en-echelon strands, and the short
-along-strike continuation past a mapped tip. Those additions are geometrically implied by the catalogue but
-absent from it, which is the organizers' definition of a new label. Predicted positions are explicitly
-<em>beyond</em> the mapped trace, so they cannot be scoring the catalogue back to itself.</td></tr>
+<tr><th>Why it might catch catalogue-missing faults</th><td>En-echelon gaps or abrupt trace terminations can motivate a structural-completion hypothesis, but geometry alone does not establish an unmapped fault. Predictions outside the mapped trace reduce direct reuse of the local catalogue, yet they may still be false positives; the official label definition was not re-verified.</td></tr>
 <tr><th>How it differs from prior work</th><td>Earlier tip and step-over candidates (H32a, H33d,
 <code>r7-nms3-dem10-scarp</code>) emitted from <em>raster</em> morphology of a derived field. This one works
 on the vector trace graph, so geometry is exact rather than approximated by a 100 m rasterisation, and it
 enforces the mass budget from the algebra.</td></tr>
-<tr><th>Expected benefit</th><td>Moderate recall gain at low mass; the strongest candidate that is fully
-unblocked and uses no new external data.</td></tr>
-<tr><th>Cost</th><td><span class="tag ok">LOW–MEDIUM</span> — the vector file is local; the geometry code is
-the only new work.</td></tr>
-<tr><th>Data check</th><td>Obtainable now: file present at
-<code>GEMSDOE48/data/raw/external/gdr_qfaults_traces.csv</code>, licence CC BY 4.0 per the sibling receipt.</td></tr>
+<tr><th>Expected benefit</th><td>Unquantified; topology may suggest catalogue gaps but could also reinforce catalogue geometry. No valid performance evidence exists.</td></tr>
+<tr><th>Cost</th><td><span class="tag warn">UNKNOWN / MEDIUM</span> — vectors and licences would need to be obtained and checked before implementation.</td></tr>
+<tr><th>Data check</th><td>The cited sibling path <code>GEMSDOE48/data/raw/external/gdr_qfaults_traces.csv</code> is not present in this checkout and was not checked in the current review. Prior sibling licence notes are not sufficient to establish availability or reuse rights here.</td></tr>
 </tbody>
 </table>
 
@@ -118,29 +96,15 @@ the only new work.</td></tr>
 <tbody>
 <tr><th style="width:190px">Layers</th><td>The 1 m DEM tiles listed in the competition's own
 <code>1m_DEM_links.csv</code>, i.e. USGS 3DEP lidar elevation.</td></tr>
-<tr><th>Physical signature</th><td><strong>Curvature / Hessian scarp detection.</strong> Quaternary fault
-scarps in the Great Basin are typically 1–5 m high and 10–30 m wide: a tenth of a pixel at 10 m resolution,
-but 10–30 cells at 1 m. The transform is a profile-curvature filter (second derivative of elevation across
-the scarp) followed by an along-strike lineament trace.</td></tr>
-<tr><th>Why it catches catalogue-missing faults</th><td>The catalogue was compiled largely from aerial
-photography and 10 m DEMs, on which a 1–5 m scarp is marginal. The organizers publish 1 m DEM links inside
-the competition data because that is the resolution at which the newly labelled faults are visible — the
-experts' new labels and this layer share a physical basis.</td></tr>
+<tr><th>Physical signature</th><td><strong>Curvature / Hessian scarp detection (hypothesis).</strong> Search for paired slope breaks or coherent profile-curvature lineaments across the high-resolution elevation surface, then test their along-strike continuity. No scarp dimensions or expected signal-to-noise are asserted without a verified study-area source.</td></tr>
+<tr><th>Why it might catch catalogue-missing faults</th><td>A scarp-scale terrain signal could reveal a young surface rupture not represented in a coarser or differently compiled catalogue. The compilation history, actual tile resolution/coverage, and relationship to expert labels are unknown in this review; a terrain lineament is not by itself a fault confirmation.</td></tr>
 <tr><th>How it differs from prior work</th><td>Corpus DEM work used 2 m and 3 m pilots over a handful of
 tiles (<code>data/pilot/dem3m/</code> holds two tiles). A full 1 m curvature-plus-Hough pass over the
 lidar-covered portion of the study area has not been run.</td></tr>
-<tr><th>Expected benefit</th><td>Highest scientific upside of the five: it is the only candidate that adds
-information the catalogue's compilers never had.</td></tr>
+<tr><th>Expected benefit</th><td>Potentially high but unquantified if suitable high-resolution tiles cover the study area; tile availability and novelty relative to the catalogue are unverified.</td></tr>
 <tr><th>Cost</th><td><span class="tag no">HIGH</span> — tile downloads and roughly 10<sup>10</sup> cells of
 filtering.</td></tr>
-<tr><th>Data check</th><td><strong>NOT OBTAINABLE IN THIS SESSION.</strong> <code>1m_DEM_links.csv</code> sits
-behind the DrivenData login on the
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/" target="_blank" rel="noopener">data page</a>,
-no reachable mirror of the link list exists in any sibling repository, and the Dropbox mirror of the
-derived PDF of those links returns HTTP 000 from this sandbox. The named free official source is
-<strong>USGS 3DEP / The National Map</strong> (<a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">usgs.gov/3d-elevation-program</a>,
-public domain), which is obtainable on any machine with unrestricted network access — but the specific
-tile list the organizers curated is not, so the candidate is <em>not viable here</em>.</td></tr>
+<tr><th>Data check</th><td><strong>NOT VERIFIED / NOT VIABLE IN THIS CHECKOUT.</strong> <code>1m_DEM_links.csv</code> is absent and this review did not authenticate to or fetch the competition <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/" target="_blank" rel="noopener">data page</a>. The official <strong>USGS 3DEP / The National Map</strong> landing page is linked for manual review (<a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">USGS 3DEP</a>), but endpoint availability, coverage of the study area, licensing, and tile resolution were not checked. Therefore this is not currently a viable input path.</td></tr>
 </tbody>
 </table>
 
@@ -153,9 +117,7 @@ polygon geology to locate the contact directly.</td></tr>
 <tr><th>Physical signature</th><td><strong>Contact-lineament detection.</strong> Smooth the elevation
 field, then detect the lineament along the bedrock/alluvium boundary from its planform sinuosity and its
 transverse curvature, and flag range fronts with no catalogued fault within 300 m.</td></tr>
-<tr><th>Why it catches catalogue-missing faults</th><td>The range-front fault is the dominant Quaternary
-structure in the Basin and Range; a range front whose fault is unmapped is a candidate <em>by definition</em>,
-and the prediction is anchored to a boundary that is independent of the catalogue.</td></tr>
+<tr><th>Why it might catch catalogue-missing faults</th><td>A mapped or remotely measured range-front boundary could motivate an independent search for a fault trace, but not every boundary is tectonic and a boundary alone cannot establish a missing fault. The geomorphic/bedrock layer, catalogue relationship, and label definition were not verified here.</td></tr>
 <tr><th>How it differs from prior work</th><td>The corpus's <code>ctx-ridge</code> and
 <code>topo-gap-closure</code> candidates used ridge statistics and gap statistics of a raster field. This
 candidate instead segments the geologic contact and characterizes <em>its</em> geometry.</td></tr>
@@ -169,7 +131,7 @@ at better resolution.</td></tr>
 
 <h2>What remains open</h2>
 <div class="panel tight">
-<p>No candidate is selected, promoted, or queued for a weekly slot by this audit. All ideas remain hypotheses until trusted inputs and a complete shared whole-segment evaluator are available. The pre-existing H54-A TIFF is a separate historical artifact: it is downloadable and format-checked, but performance is not validated.</p>
+<p>No candidate is selected, promoted, or queued for a weekly slot by this audit. All ideas remain hypotheses until trusted inputs and a complete shared whole-segment evaluator are available. The pre-existing H54-A TIFF is an archival artifact: it is downloadable and format-checked, but the literal lane checker flags it as duplicate and performance is not validated. Do not upload it based on this review.</p>
 </div>
 
 <footer><p class="muted small">Mechanisms here are proposals, not measured outcomes. The SGMC-derived proxy is not an admissible holdout, and this repository has no valid HOLDOUT-DTI — see <a href="evidence.html">Evidence</a> and <a href="research.html">Research</a>.</p></footer>

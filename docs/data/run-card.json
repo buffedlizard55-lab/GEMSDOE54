@@ -1,31 +1,58 @@
 {
-  "schema": "gemsdoe54.run-card.v1",
-  "run_scope": "Audit-only pass on arena/0d3be5e8-gemsdoe54. The pre-existing H54-A artifact on main was not rebuilt, reevaluated, selected, or submitted by this pass.",
-  "hypothesis": "No new candidate selected: the owner-mirror feature bridge is hash-consistent but not organizer-authenticated, and no complete shared evaluator producing the required whole-segment hide-and-recover receipt is available.",
-  "mechanism": "NOT EVALUATED — no candidate experiment or compliant holdout run was performed.",
-  "named_non_fault_mimic": "Not applicable: no new candidate hypothesis was selected or scored.",
+  "schema": "gemsdoe54.run-card.v2",
+  "run_id": "GEMSDOE54-E1-SGMC-topology-surface-20261008",
+  "run_scope": "Repository review and one pre-placement lane screen on arena/0c810456-gemsdoe54. No competition slot was used.",
+  "hypothesis": "High-angular-transition nodes in the owner-mirrored SGMC fault raster, outside a 300 m buffer of the local catalogue, may mark connected fault-damage zones that are absent from the catalogue. This is an untested hypothesis, not a geothermal-vent finding.",
+  "mechanism": "A multi-arm intersection among independently compiled fault traces could localize fracture connectivity and fluid permeability; the input raster does not establish fault age, permeability, or geothermal activity.",
+  "named_non_fault_mimic": "Rasterization, line snapping, and cartographic map-composition artifacts can create high-neighbour transition nodes; lithologic and compilation boundaries can also resemble structural junctions.",
   "holdout_dti": {
     "label": "HOLDOUT-DTI",
-    "status": "NOT RUN — no complete compliant evaluator receipt; the existing H54-A proxy is circular and is not HOLDOUT-DTI",
+    "status": "NOT RUN — the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
     "evaluator_version": null,
     "withheld_positive_count": null,
     "ci95": null
   },
   "power": {
-    "status": "NOT COMPUTED for this run — no compliant holdout replicates/paired variance; owner-mirror total label positives are not withheld positives or independent units",
-    "independent_unit_count": null,
+    "status": "NOT COMPUTABLE for this run: there is no compliant withheld-positive count, independent segment count, or paired pooled-DTI bootstrap distribution.",
     "cohen_d_minimum_detectable": null,
     "raw_dti_detection_floor": null,
-    "comparison_to_claimed_gap_0_0028": "NOT CLASSIFIABLE from this run; the 0.0028 figure is a user-supplied leaderboard-gap example, not a local result"
+    "user_reported_gap_under_review": {
+      "difference": 0.0028,
+      "label": "USER-REPORTED difference between unreceipted leaderboard observations; not HOLDOUT-DTI or ORGANIZER-CONFIRMED",
+      "classification": "NOT CLASSIFIABLE as signal or noise from this checkout"
+    },
+    "warning": "The owner-mirror label raster's total positive count is not a withheld-positive count or an independent-unit count. The prior proxy-only sensitivity values are not valid hidden-label power estimates."
+  },
+  "preplacement_surface": {
+    "status": "screening diagnostic only; not a candidate raster and not a score",
+    "transform": "8-neighbour angular-transition count >= 4, restricted to local SGMC cells >300 m from the local catalogue; surface score = 100 * transition count + 5x5 SGMC density",
+    "positive_support_cells": 57758,
+    "registry_raster_count": 11,
+    "max_absolute_spearman_rho": 0.010694,
+    "rho_limit": 0.9,
+    "raw_overlap_fraction_of_surface_support": {
+      "r11_greedy_mp.tif": 0.901537,
+      "r13_lattice_s5_00904.tif": 0.99974,
+      "r14_union_tips10_lat6.tif": 0.765833
+    },
+    "overlap_limit": 0.7,
+    "strict_lane_verdict": "DUPLICATE - STOP before point placement",
+    "interpretation": "The rank-correlation screen is low, but the literal raw overlap rule is exceeded against three dense registry rasters. Their high footprint coverage makes this overlap measure non-discriminating; the written protocol nevertheless requires stopping."
   },
   "registry_similarity": {
-    "rank_correlation": null,
-    "fraction_of_dots_within_3_px": null,
-    "status": "NOT RUN for this pass — no new raster exists; the previous H54-A run has its own separate registry comparison in registry/run_card.json"
+    "status": "PREFLIGHT_ONLY — strict lane failure; no final dot set exists",
+    "max_absolute_spearman_rho": 0.010694,
+    "max_raw_surface_overlap_fraction": 0.99974,
+    "flagged_registry": [
+      "r11_greedy_mp.tif",
+      "r13_lattice_s5_00904.tif",
+      "r14_union_tips10_lat6.tif"
+    ],
+    "final_dot_overlap": null
   },
   "raster_sha256": null,
   "validator": {
-    "status": "NOT APPLICABLE — this pass generated no raster",
+    "status": "NOT APPLICABLE — no new raster was emitted",
     "no_nan_inside_footprint": null,
     "values_in_0_1": null,
     "crs_shape_transform_match": null,
@@ -42,11 +69,26 @@
       "name": "gems54-undercomplement-q200",
       "path": "docs/downloads/gems54-undercomplement-q200.tif",
       "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
-      "provenance": "previously merged H54-A experiment; see registry/run_card.json",
-      "prior_format_validation": "PASS per its own receipt; not revalidated by this audit-only pass",
-      "holdout_validation": "NOT ESTABLISHED; its SGMC-derived proxy is circular",
-      "selection_by_this_run": false
+      "provenance": "pre-existing H54-A artifact; not generated in this run",
+      "format_status_in_this_run": "PASS when independently re-read by the updated local format validator",
+      "strict_lane_status_in_this_run": "DUPLICATE - STOP due raw 3-pixel overlap with three dense registry rasters",
+      "holdout_validation": "NOT ESTABLISHED",
+      "selection_by_this_run": false,
+      "upload_recommendation": "DO NOT UPLOAD based on this review"
     }
   },
-  "verdict": "negative"
+  "budget_used": {
+    "experiments": 1,
+    "experiment_description": "One in-memory SGMC topology surface preflight; stopped before emission at the literal registry-overlap gate.",
+    "holdout_runs": 0,
+    "weekly_submission_slots": 0
+  },
+  "verdict": "negative",
+  "verdict_rationale": "No unique candidate TIFF was generated because the candidate surface tripped the explicit pre-placement duplicate gate. The feature stack and compliant whole-segment evaluator are unavailable/authentication-blocked, so no HOLDOUT-DTI, 95% CI, or valid hidden-label power floor can be claimed. The older artifact is not recommended for upload.",
+  "leakage_canary": {
+    "status": "NOT RUN — no compliant whole-segment holdout was created",
+    "auc_cut": 0.9,
+    "features_tested": [],
+    "flags": null
+  }
 }

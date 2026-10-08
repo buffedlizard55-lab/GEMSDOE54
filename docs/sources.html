@@ -22,18 +22,10 @@
 <div class="wrap">
 
 <h1>Sources, licences, and verification status</h1>
-<p class="muted">Every source is listed with the status actually achieved, not the status we would like.
-<code>REACHED</code> means the page or file was fetched and read during this session. <code>BLOCKED</code>
-means the host is unreachable from the sandbox and the copy in this repository is a hash-pinned mirror
-instead. The machine-readable version is <code>registry/sources.json</code>.</p>
+<p class="muted">Every source is listed with the status achieved in this review or explicitly inherited from a prior audit. A user-supplied URL or owner mirror is not organizer verification. The machine-readable source register is <a href="data/source-register.json">docs/data/source-register.json</a>.</p>
 
 <div class="callout">
-<p style="margin:0"><strong>Sandbox network, measured.</strong> Outbound from the shell is limited to
-<code>github.com</code>, <code>codeload.github.com</code>, <code>api.github.com</code>,
-<code>registry.npmjs.org</code>, <code>pypi.org</code> and <code>files.pythonhosted.org</code>.
-<code>www.drivendata.org</code>, <code>www.dropbox.com</code>, <code>mrdata.usgs.gov</code> and
-<code>gdr.openei.org</code> all return HTTP 000. A separate page-fetch channel is <em>not</em> shell-restricted,
-and every page marked <code>REACHED</code> below was read through it.</p>
+<p style="margin:0"><strong>Current review scope.</strong> This run inspected public GitHub content through the allowed GitHub API/host. It did not fetch DrivenData, Dropbox, USGS, DOE/NLR, GDR/INGENIOUS, Copernicus, or ASF pages. Links to those sources are supplied for manual review; availability, footprint coverage, and licence terms are not inferred here. Earlier source notes remain labeled as prior-audit records where applicable.</p>
 </div>
 
 <h2>Organizer and rules</h2>
@@ -43,26 +35,26 @@ and every page marked <code>REACHED</code> below was read through it.</p>
 <tr>
   <td>Problem description, metric, submission format</td>
   <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">page/967</a></td>
-  <td><span class="tag ok">REACHED</span></td>
-  <td>The distance-weighted Tversky definition, k(d) = max(1 − d/R, 0) with R = 300 m, α = 0.2, β = 0.8; the worked example TP<sub>w</sub> = 3.00, FP<sub>w</sub> = 1.89, FN<sub>w</sub> = 2.00 → 0.60; and the format rules (EPSG:32611, 100 m, same bounds, single layer float32, values 0–1, null or NaN outside bounds). Transcribed into <code>scripts/gems_metric.py</code>, which reproduces 0.602652.</td>
+  <td><span class="tag warn">NOT FETCHED IN THIS REVIEW</span></td>
+  <td>The prompt and prior repository notes state a distance-weighted Tversky metric and format requirements. This review did not directly verify the current page. The local implementation is an auditable reproduction of the prior notes, not a fresh organizer confirmation.</td>
 </tr>
 <tr>
   <td>Public leaderboard (historical note only)</td>
   <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">leaderboard</a></td>
-  <td><span class="tag warn">NO SUBMISSION RECEIPT</span></td>
-  <td>A legacy note records a public-page read dated 2026-10-08 and lists rank/score pairs, but this audit did not independently preserve a submission-page receipt. Treat those figures only as historical owner-recorded observations, not as ORGANIZER-CONFIRMED scores; do not use them as a target or promotion evidence.</td>
+  <td><span class="tag warn">NOT FETCHED; NO RECEIPTS</span></td>
+  <td>The user supplied historical board values, but this review did not fetch the live leaderboard or preserve submission-page receipts. Treat every listed value as user/owner-reported, not ORGANIZER-CONFIRMED; do not use them as a target or promotion evidence.</td>
 </tr>
 <tr>
   <td>DOE / NLR GEMS Prize Official Rules, September 2026</td>
   <td><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">docs.nlr.gov/…/96647.pdf</a></td>
-  <td><span class="tag ok">REACHED</span></td>
-  <td>§3.2 verified: "a single GeoTIFF with a single raster layer at 100-meter resolution … (three submissions per week)"; "The labels for this prize come from the USGS Quaternary Fault and Fold Database and from a set of newly identified faults labeled by geology experts at the National Laboratory of the Rockies (NLR) and USGS"; and the requirement to disclose generative-AI use in the narrative.</td>
+  <td><span class="tag warn">NOT FETCHED IN THIS REVIEW</span></td>
+  <td>The rules PDF is a user-supplied manual-review link. No current rules wording, submission cap, label provenance, or AI-disclosure clause was re-verified in this review; check the PDF before submission.</td>
 </tr>
 <tr>
   <td>Competition data page</td>
   <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/" target="_blank" rel="noopener">data page</a></td>
-  <td><span class="tag no">BLOCKED</span></td>
-  <td>HTTP 000 from the sandbox and login-gated regardless. This is why no model could be trained here and why the 1 m DEM link list is unavailable.</td>
+  <td><span class="tag warn">NO AUTHENTICATED DOWNLOAD</span></td>
+  <td>No files were obtained from the portal in this review. The feature cube, a valid blank sample raster, and the 1 m DEM index are absent from this checkout. This status does not assert that the official page is globally unavailable.</td>
 </tr>
 <tr>
   <td>New-submission form text</td>
@@ -82,19 +74,19 @@ and every page marked <code>REACHED</code> below was read through it.</p>
   <td>GEMSDOE shared template/data bridge</td>
   <td><a href="https://github.com/buffedlizard55-lab/GEMSDOE/tree/dcbbb192e56b2b32c0a131eba791dc363305d4a3" target="_blank" rel="noopener">pinned public commit</a><br><a href="audit/pinned-template-cache-audit.json">local hash/tool audit</a></td>
   <td><span class="tag warn">HASH PINS MATCH; ORIGIN UNAUTHENTICATED</span></td>
-  <td>All five feature shards and the three reconstructed TIFFs match the owner bridge manifest and committed runner-generated inventory. The feature cube is structurally varied. The root evaluator uses spatial blocks; this project requires whole-segment hide-and-recover. No candidate or score was generated from this bridge.</td>
+  <td>This review rechecked the pinned GitHub API tree and manifest. An earlier audit reported matching owner pins and nonconstant feature bands; those facts do not authenticate organizer origin. The tree exposes a spatial-block evaluator and <code>submission_io.py</code>, not the named whole-segment evaluator/writer. No bridge bytes were imported in this run.</td>
 </tr>
 <tr>
-  <td>GEMSDOE52 checked-in cache</td>
-  <td><a href="https://github.com/buffedlizard55-lab/GEMSDOE52/tree/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4" target="_blank" rel="noopener">pinned public commit</a><br><a href="audit/sibling-cache-audit.json">local integrity receipt</a></td>
-  <td><span class="tag no">REJECTED</span></td>
-  <td>Its tracked raster hashes do not match its manifest; all checked-in feature bands are constant. Quarantined, not used for modeling.</td>
+  <td>Prior GEMSDOE52 checked-in cache audit</td>
+  <td><a href="https://github.com/buffedlizard55-lab/GEMSDOE52/tree/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4" target="_blank" rel="noopener">pinned public commit</a><br><a href="audit/sibling-cache-audit.json">prior integrity receipt</a></td>
+  <td><span class="tag no">PRIOR AUDIT: REJECTED</span></td>
+  <td>Earlier notes report tracked raster hashes disagreeing with the manifest and constant checked-in feature bands. This review did not re-fetch that tree; keep it quarantined pending a fresh audit.</td>
 </tr>
 </tbody>
 </table>
 <p class="small muted"><a href="data/source-register.json">Open this review's machine-readable source register →</a></p>
 
-<h2>Evidence layers used by the submission</h2>
+<h2>Inputs recorded for the archived H54-A build (not an approved submission)</h2>
 <table>
 <thead><tr><th>Layer</th><th>Link / landing page</th><th>Status</th><th>Licence &amp; hash</th></tr></thead>
 <tbody>
@@ -114,10 +106,10 @@ and every page marked <code>REACHED</code> below was read through it.</p>
       <span class="hash small">sha256 26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c</span></td>
 </tr>
 <tr>
-  <td>Organizer label raster (USGS Quaternary Fault and Fold DB + INGENIOUS)</td>
+  <td>Owner-mirrored label raster (source attribution from owner receipt, not authenticated here)</td>
   <td><code>data/grid/labels.tif</code></td>
-  <td><span class="tag ok">LOCAL</span></td>
-  <td>Hash matches the corpus's own pinned receipt exactly.<br>
+  <td><span class="tag warn">LOCAL MIRROR; ORIGIN NOT AUTHENTICATED</span></td>
+  <td>Hash matches the corpus's own pinned receipt; a hash match establishes byte identity to the pin, not organizer origin.<br>
       <span class="hash small">sha256 7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093 · 425,830 B · 60,988 positive cells</span></td>
 </tr>
 <tr>

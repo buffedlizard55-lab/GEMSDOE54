@@ -1,7 +1,9 @@
-"""Grid, footprint and I/O helpers for the GEMS Prize competition.
+"""Grid, footprint and I/O helpers for the GEMS Prize submission format.
 
-Verified facts about the competition grid (measured from the organizer-provided
-Artifacts mirrored into ``data/grid/``; see ``registry/sources.json``):
+Grid values below are measured from the owner-mirrored raster files in
+``data/grid/`` and recorded in ``registry/sources.json``. The current review did
+not authenticate those files against a DrivenData download; do not confuse local
+byte consistency with organizer provenance:
 
     shape      : (3730, 3292)          (rows, cols)
     CRS        : EPSG:32611            (UTM zone 11N, WGS 84)
@@ -111,10 +113,12 @@ def write_submission(path: str | Path, values: np.ndarray, *, dtype: str = "floa
     """Write a single-band float32 GeoTIFF on the competition grid.
 
     ``values`` must already be shaped like the competition grid and must lie in
-    ``[0, 1]``.  No nodata tag is written and no NaN is emitted, so the portal's
-    "Predicted values must be in range [0, 1]" validator cannot trip on a
-    sentinel value.
+    ``[0, 1]``.  Submission dtype is deliberately fixed to float32 so a caller
+    cannot accidentally create an otherwise-valid-looking file that the portal
+    rejects on dtype. No nodata tag is written and no NaN is emitted.
     """
+    if np.dtype(dtype) != np.dtype("float32"):
+        raise ValueError("submission dtype must be float32")
     values = np.asarray(values, dtype=np.float64)
     if values.shape != EXPECTED_SHAPE:
         raise ValueError(f"shape {values.shape} != {EXPECTED_SHAPE}")
