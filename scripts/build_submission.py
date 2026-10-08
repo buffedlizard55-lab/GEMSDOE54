@@ -153,8 +153,10 @@ def main() -> int:
     ap.add_argument("--min-px-extent", type=float, default=5.0)
     ap.add_argument("--min-elongation", type=float, default=6.0,
                     help="minimum principal-axis eigenvalue ratio lambda1/lambda2")
-    ap.add_argument("--out", default=str(ROOT / "docs/downloads" / f"{SLUG}.tif"))
-    ap.add_argument("--receipt", default=str(ROOT / "registry" / f"{SLUG}.build.json"))
+    ap.add_argument("--out", default=str(ROOT / "work" / f"{SLUG}.tif"),
+                    help="output GeoTIFF (default: ignored work/ directory; do not publish without all gates)")
+    ap.add_argument("--receipt", default=str(ROOT / "work" / f"{SLUG}.build.json"),
+                    help="build receipt (default: ignored work/ directory)")
     args = ap.parse_args()
 
     foot = footprint(args.labels)
@@ -187,14 +189,15 @@ def main() -> int:
 
     values = np.zeros(foot.shape, dtype=np.float64)
     values[dots] = 1.0
-    write_submission(args.out, values)
+    write_submission(args.out, values, footprint=foot)
 
     # --- independent re-read of what was actually written -------------------
     back, _ = read_band(args.out)
     assert back.shape == foot.shape
-    assert np.isfinite(back).all(), "written raster contains non-finite values"
-    assert back.min() >= 0.0 and back.max() <= 1.0, "written raster outside [0,1]"
-    assert int((back > 0).sum()) == n_dots, "dot count changed on write"
+    assert np.isfinite(back[foot]).all(), "written raster contains non-finite in-footprint values"
+    assert np.isnan(back[~foot]).all(), "outside-footprint cells must be null/NaN"
+    assert back[foot].min() >= 0.0 and back[foot].max() <= 1.0, "in-footprint values outside [0,1]"
+    assert int((back[foot] > 0).sum()) == n_dots, "dot count changed on write"
 
     receipt = {
         "slug": SLUG,
@@ -212,7 +215,6 @@ def main() -> int:
             "min_px": args.min_px,
             "min_px_extent": args.min_px_extent,
             "min_elongation": args.min_elongation,
-            "min_px_extent": args.min_px_extent,
         },
         "counts": {
             "footprint_cells": int(foot.sum()),

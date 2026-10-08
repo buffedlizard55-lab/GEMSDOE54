@@ -9,7 +9,7 @@
 <body>
 <header class="site-header"><div class="header-inner">
   <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
-  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a href="rules-gate.html">Rules gate</a><a aria-current="page" href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a href="hypotheses.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="submit-verdict.html">Submit guide</a><a href="rules-gate.html">Rules gate</a><a aria-current="page" href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a href="hypotheses-holdout.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
 </div></header>
 <main>
   <section class="page-title">
@@ -56,14 +56,14 @@
         <tr><td>Board gap 0.2778 − 0.2750</td><td>0.0028</td><td>BOARD-UNVERIFIED; not a paired comparison on one truth set</td></tr>
       </tbody>
     </table></div>
-    <p><strong>Answer.</strong> The 0.0028 gap is inside the detection floor of every paired comparison in this receipt. At the observed correlations between candidate pairs (ρ̂ from −0.016 to +0.188), the floor is roughly 0.0045 to 0.0095. A 0.0028 difference would become detectable only for the C2 or C3 comparisons against the control, and only if the two candidates' DTI errors were correlated at about 0.9 or higher (<a href="../evidence/detection_floor.json">evidence/detection_floor.json</a>). The two board values come from different submissions on different test splits, so they are not paired, and no holdout can resolve them.</p>
+    <p><strong>Answer.</strong> The 0.0028 gap is inside the detection floor of every paired comparison in this receipt. At the observed correlations between candidate pairs (ρ̂ from −0.016 to +0.188), the floor is roughly 0.0045 to 0.0095. A 0.0028 difference would become detectable only for the C2 or C3 comparisons against the control, and only if the two candidates' DTI errors were correlated at about 0.9 or higher (<a href="../evidence/detection_floor_segments.json">evidence/detection_floor.json</a>). The two board values come from different submissions on different test splits, so they are not paired, and no holdout can resolve them.</p>
   </section>
 
   <section class="section">
     <div class="section-head"><h2>What this holdout does not establish</h2></div>
     <ul class="list">
       <li><strong>Truth set.</strong> The withheld truth is the owner-mirrored catalogue. The hidden set is by construction absent from the catalogue and is expected to be less well mapped. This is therefore a catalogue-recovery proxy, not a hidden-test score.</li>
-      <li><strong>Segments are raster fragments.</strong> The 3,199 eight-connected components have a median of 12 cells, so the independent-unit count is approximate (IR-54-021).</li>
+      <li><strong>Segments are raster fragments.</strong> The 3,199 eight-connected components have a median of 12 cells, so the independent-unit count is approximate (IR-54-039).</li>
       <li><strong>SGMC is not catalogue-identical.</strong> Only 17.8 % of catalogue cells lie within 100 m and 32.9 % within 300 m of an SGMC fault cell (DATA-AUDIT). C1 therefore recovers catalogue faults that SGMC maps, which is a real test, not a tautology.</li>
       <li><strong>No organizer receipt.</strong> None of these numbers is ORGANIZER-CONFIRMED. None is a leaderboard value.</li>
     </ul>

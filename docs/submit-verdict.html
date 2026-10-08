@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Executive summary: the GEMS GeoTIFF files, whether you may submit them under the official rules and the uniqueness requirement, and exactly how to submit.">
+  <title>Executive summary and submit guide | GEMSDOE54</title>
+  <link rel="stylesheet" href="assets/audit-site.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="submit-verdict.html">Submit guide</a><a href="rules-gate.html">Rules gate</a><a href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a href="hypotheses-holdout.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
+<main>
+  <section class="page-title">
+    <div class="eyebrow">Executive summary · submit guide · DOE GEMS Prize (DrivenData competition 306)</div>
+    <h1>Two GeoTIFFs are downloadable. Neither is cleared for upload.</h1>
+    <p class="lead">The rules allow you to submit your own model's output. Your uniqueness requirement is not met by either file. The file with the best holdout result is not unique. The unique file is weaker than it. Under the protocol, no slot is recommended. Choosing a slot is your decision.</p>
+  </section>
+
+  <section class="section" aria-labelledby="files">
+    <div class="section-head"><h2 id="files">1. The files</h2><p class="small">One-click downloads. Each carries its verdict. Sizes and hashes are from the files as shipped.</p></div>
+    <div class="grid">
+      <div class="card">
+        <h3>H54-A · <code>gems54-undercomplement-q200.tif</code></h3>
+        <p><a class="button" href="downloads/gems54-undercomplement-q200.tif">Download (94,282 bytes)</a></p>
+        <p class="small">SHA-256 <code>b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</code><br>15,907 positive cells · float32 · EPSG:32611 · 3730 × 3292 · values in [0, 1]</p>
+        <p><strong>Holdout (HOLDOUT-DTI):</strong> 0.0483 [0.0424, 0.0541], the best of the tested candidates.</p>
+        <p><strong>Uniqueness: FAIL.</strong> 100 % of its dots lie within 3 px of GEMSDOE3's <code>gapfinder-v2-sgmc-gap</code> submission (rank ρ 0.51), and of other SGMC-derived siblings. Protocol limit: 70 %.</p>
+        <p><strong>Not for upload.</strong> Run card: <a href="../registry/run_card_v2_h54a.json">registry/run_card_v2_h54a.json</a> (negative).</p>
+      </div>
+      <div class="card">
+        <h3>H54-B · <code>gems54-magedge-hgrad-ridge.tif</code></h3>
+        <p><a class="button" href="downloads/gems54-magedge-hgrad-ridge.tif">Download (93,313 bytes)</a></p>
+        <p class="small">SHA-256 <code>6d086c099a0a25812153570ece57aa7bbcc852656763fc52c68a430049ee8d9e</code><br>19,197 positive cells · same grid and format as H54-A</p>
+        <p><strong>Holdout (HOLDOUT-DTI):</strong> 0.0148 [0.0118, 0.0180]. It beats the chance control (paired +0.0044, CI [+0.0012, +0.0082]) but not H54-A.</p>
+        <p><strong>Uniqueness: byte-unique, lane FAIL.</strong> Rank ρ 0.11 (passes). Overlap 81.6 % with GEMSDOE40's <code>h8-asa-spi-depthkde</code> and 75.7 % with GEMSDOE46's <code>dfa-corroborated</code> (limit 70 %).</p>
+        <p><strong>Not for upload.</strong> Run card: <a href="../registry/run_card_v2_magedge.json">registry/run_card_v2_magedge.json</a> (negative).</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="gates">
+    <div class="section-head"><h2 id="gates">2. May you download and submit? Three gates</h2><p class="small">Full quotations and links on the <a href="rules-gate.html">rules gate</a>.</p></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Gate</th><th>Verdict</th><th>Basis</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Official rules</strong></td><td><strong>Conditionally yes</strong>, as your own model output by an eligible competitor who signs the certification and discloses generative-AI use.</td><td>§3.2 (single GeoTIFF of your model's predictions; AI disclosure), §1.3 and A.1 (eligibility; certification), A.5(1) (original work). Quoted on the <a href="rules-gate.html">rules gate</a>.</td></tr>
+        <tr><td><strong>Your uniqueness requirement</strong></td><td><strong>No.</strong> Neither file is unlike the GEMSDOE artefacts.</td><td>Full scan of 1,177 grid-aligned sibling rasters: <a href="../evidence/uniqueness_gems54-undercomplement-q200.json">H54-A</a>, <a href="../evidence/uniqueness_gems54-magedge-hgrad-ridge.json">H54-B</a>.</td></tr>
+        <tr><td><strong>Holdout rule (do not spend a slot unless the holdout best is beaten)</strong></td><td><strong>No slot recommended.</strong> H54-B does not beat H54-A, and H54-A is not unique.</td><td><a href="holdout.html">Holdout</a>, with paired CIs, controls, canary and nulls.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section" aria-labelledby="steps">
+    <div class="section-head"><h2 id="steps">3. If you decide to submit anyway, do this exactly</h2><p class="small">These steps are the rules' steps, plus the checks this repository runs. They do not override the uniqueness finding.</p></div>
+    <ol class="list">
+      <li><span class="step-num">1</span> <strong>Register</strong> on DrivenData, join the competition, and accept its rules (§3.1). Competition page: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">drivendata.org/…/competition-doe-gems</a>. End date: Dec. 3, 2026, 11:59 p.m. UTC.</li>
+      <li><strong>Confirm eligibility</strong> under §1.3 and be ready to sign the certification in §1.3 and A.1. Only you can do this.</li>
+      <li><strong>Download</strong> the file and check its hash: <code>sha256sum gems54-undercomplement-q200.tif</code> must print <code>b430615a…efd8</code> for H54-A (or <code>6d086c09…8d9e</code> for H54-B).</li>
+      <li><strong>Validate</strong> the format: <code>python scripts/validate_submission.py &lt;file&gt; --out check.json</code>. Format checks must all pass.</li>
+      <li><strong>Note</strong> (≤140 characters). H54-A: <code>GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d&gt;300m, linearity gate, 200m dots</code> (105 characters). H54-B: <code>GEMSDOE54 magedge-hgrad-ridge: tmi_hg magnetic gradient ridges, &gt;300m from catalogue, linearity gate, 200m dots</code> (111 characters).</li>
+      <li><strong>Upload</strong> one GeoTIFF on the submission page. Format (DrivenData, format section): EPSG:32611, 100 m, same bounds, float32, single layer, values in [0, 1], NaN or null outside the bounds.</li>
+      <li><strong>Narrative</strong>: include the generative-AI disclosure from <a href="../docs/AI_DISCLOSURE.md">AI_DISCLOSURE.md</a> (§3.2).</li>
+      <li><strong>Limits</strong>: at most three submissions per week (§3.2, §3.4), and one final submission selected before the deadline (§3.4).</li>
+      <li><strong>Finalists</strong>: supply complete code and documentation (§3.5). The builder, the receipts, and the holdout evaluator are in this repository.</li>
+    </ol>
+    <div class="panel"><p><strong>Rule questions go to the organizers,</strong> not to this repository. Email <a href="mailto:gemsprize@nlr.gov">gemsprize@nlr.gov</a> or ask on the <a href="https://community.drivendata.org/c/gems-prize-challenge/111">competition forum</a>. The homepage gives both channels. Ask specifically about the training-label source (IR-54-030) and about the sample submission (IR-54-032).</p></div>
+  </section>
+
+  <section class="section" aria-labelledby="route">
+    <div class="section-head"><h2 id="route">4. What would make a file upload-ready</h2></div>
+    <ul class="list">
+      <li><strong>A new lane.</strong> The SGMC-complement lane is taken (sibling sgmc-gap submissions) and the magnetic-edge lane is crowded (GEMSDOE40, GEMSDOE46). A candidate needs dot placement that is not a near-copy of a sibling's dots. This session did not find one that is also validated.</li>
+      <li><strong>A holdout that beats the best.</strong> Any new file must beat H54-A's holdout (0.0483) under the same evaluator, with non-overlapping CIs.</li>
+      <li><strong>Organizer confirmation</strong> of label source and sample format (IR-54-030, IR-54-032), and a check of the submission count (IR-54-040).</li>
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="ledger">
+    <div class="section-head"><h2 id="ledger">5. Verification and labels</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Check</th><th>Result</th><th>Evidence</th></tr></thead>
+      <tbody>
+        <tr><td>Rebuild from the builder reproduces H54-A byte-for-byte</td><td>PASS (SHA-256 b430615a…)</td><td>scripts/build_submission.py; IR-54-049</td></tr>
+        <tr><td>Format validator, H54-A (9 of 9)</td><td>PASS</td><td><a href="../evidence/validator_output.json">validator_output.json</a></td></tr>
+        <tr><td>Format validator, H54-B</td><td>PASS</td><td><a href="../evidence/validator_output_magedge.json">validator_output_magedge.json</a></td></tr>
+        <tr><td>Uniqueness across 1,177 sibling rasters</td><td>H54-A FAIL; H54-B FAIL (lane)</td><td>evidence/uniqueness_*.json</td></tr>
+        <tr><td>Holdout (HOLDOUT-DTI)</td><td>H54-A 0.0483; H54-B 0.0148; chance control 0.0104</td><td><a href="holdout.html">holdout.html</a></td></tr>
+        <tr><td>Metric identity (zero-credit deletion)</td><td>Checked numerically</td><td><a href="top-artefact.html">top-artefact.html</a></td></tr>
+        <tr><td>Test suite</td><td>39 tests pass</td><td>tests/</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small">Labels: <strong>HOLDOUT-DTI</strong> = whole-segment holdout receipt with evaluator, withheld positives and 95 % CI. <strong>ORGANIZER-CONFIRMED</strong> = none. <strong>BOARD-UNVERIFIED</strong> = user-reported board values, including 0.2778 and 0.2750. <strong>MODEL</strong> = inference. The DrivenData leaderboard cannot be read, and the brief gives the top value as both 0.3774 and 0.3195 (IR-54-036).</p>
+  </section>
+</main>
+<footer class="footer"><div class="footer-inner"><span>Not legal advice. Verify rule text against the official PDF and the competition page before any upload.</span></div></footer>
+</body>
+</html>

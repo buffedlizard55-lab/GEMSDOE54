@@ -1,24 +1,56 @@
 {
   "candidate": {
-    "candidate_this_run": false,
+    "candidate_surface_preflighted": true,
+    "candidate_tif_generated": false,
+    "existing_artifact_approved_for_upload": false,
+    "existing_artifact_downloadable_for_research": true,
     "existing_repository_artifact": {
-      "holdout_validation": "NOT ESTABLISHED; its SGMC-derived proxy is circular",
+      "approved_for_upload": false,
+      "downloadable_for_research": true,
+      "format_status_in_this_run": "FAIL under the current local format contract: archived raster stores finite zeroes outside the label footprint; expected null/NaN per prior source notes and sample mirror. Not organizer acceptance.",
+      "format_validation": "FAIL \u2014 outside_footprint_null_or_nan check; archive has finite zeroes outside. The official rule was not re-fetched in this review.",
+      "holdout_validation": "NOT ESTABLISHED",
       "name": "gems54-undercomplement-q200",
       "path": "docs/downloads/gems54-undercomplement-q200.tif",
-      "prior_format_validation": "PASS per its own receipt; not revalidated by this audit-only pass",
-      "provenance": "previously merged H54-A experiment; see registry/run_card.json",
+      "provenance": "pre-existing H54-A artifact; not generated in this run",
       "selection_by_this_run": false,
-      "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8"
+      "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
+      "strict_lane_status_in_this_run": "DUPLICATE - STOP due raw 3-pixel overlap with three dense registry rasters",
+      "upload_recommendation": "DO NOT UPLOAD based on this review"
     },
-    "holdout_status": "NOT RUN \u2014 no complete compliant evaluator receipt; the existing H54-A proxy is circular and is not HOLDOUT-DTI",
+    "holdout_status": "NOT RUN \u2014 the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
+    "magnetic_ridge_holdout": "RUN (2026-10-08): E1 frozen dense ridge NEGATIVE; E2 spaced ridge (exploratory) NEGATIVE; E3 detection floor measured",
+    "new_candidate_downloadable": false,
+    "ok_to_download_for_submission": false,
+    "ok_to_submit": false,
     "safe_to_upload": false,
-    "tif_downloadable": false,
     "verdict": "negative"
   },
-  "generated_utc": "2026-10-08T23:14:45+00:00",
+  "generated_utc": "2026-10-08T23:17:45+00:00",
   "leaderboard": {
+    "fetched_utc": "2026-10-08",
+    "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",
     "score_claims_are_organizer_confirmed": false,
-    "status": "not_fetched"
+    "selected_rows": [
+      {
+        "displayed_value": 0.3774,
+        "rank": 1
+      },
+      {
+        "displayed_value": 0.3195,
+        "rank": 7
+      },
+      {
+        "displayed_value": 0.2778,
+        "rank": 13
+      },
+      {
+        "displayed_value": 0.275,
+        "rank": 17
+      }
+    ],
+    "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+    "status": "PUBLIC-LEADERBOARD SNAPSHOT \u2014 official page fetched; no individual submission-page receipts copied"
   },
   "schema": "gemsdoe54.local-feed.v1",
   "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",

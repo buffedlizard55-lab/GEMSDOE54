@@ -1,263 +1,50 @@
 {
-  "generated_utc": "2026-10-08T22:48:38+00:00",
-  "source": "evidence/holdout_segment_cv_v1.json",
-  "alpha": 0.05,
-  "power": 0.8,
-  "two_sided": true,
-  "board_gap_user_reported": {
-    "value": 0.0028,
-    "pair": "0.2778 minus 0.2750",
-    "label": "BOARD-UNVERIFIED; not a paired comparison on one truth set"
+  "label": "HOLDOUT-DTI-derived detection floor (E3). Not a candidate score; not ORGANIZER-CONFIRMED.",
+  "experiment": "E3 detection floor",
+  "partition": {
+    "seed": 20261008,
+    "folds": 4,
+    "units_segment_groups": 913
   },
-  "standardised_floors": {
-    "standardised_cohen_d_units_total": {
-      "n_units": 3199,
-      "d_min": 0.04955
+  "withheld_positives": 60988,
+  "pooled_dti_first_partition": {
+    "A": 0.016291,
+    "B": 0.02184,
+    "C": 0.012358
+  },
+  "pairs": [
+    {
+      "pair": "A - B",
+      "description": "near-identical pair (quantile 0.98 vs 0.97)",
+      "point_difference_pooled_dti": -0.005549,
+      "jackknife_se": 0.000784,
+      "ci95": [
+        -0.007085,
+        -0.004013
+      ],
+      "mde_80pct_power_alpha05_raw_dti": 0.002196,
+      "gap_0_0028_inside_detection_floor": false,
+      "ci_excludes_zero": true
     },
-    "standardised_cohen_d_units_per_fold": {
-      "n_units": 639,
-      "d_min": 0.111
+    {
+      "pair": "A - C",
+      "description": "dense vs spaced emission (same ridge)",
+      "point_difference_pooled_dti": 0.003934,
+      "jackknife_se": 0.000518,
+      "ci95": [
+        0.002918,
+        0.004949
+      ],
+      "mde_80pct_power_alpha05_raw_dti": 0.001452,
+      "gap_0_0028_inside_detection_floor": false,
+      "ci_excludes_zero": true
     }
+  ],
+  "cohen_framework": {
+    "minimum_detectable_cohen_d_units": 0.0928,
+    "naive_pixel_level_d_if_pixels_were_independent": 0.02269,
+    "note": "The pixel-level d is anti-conservative: fault pixels within a segment are spatially dependent and pooled DTI is nonlinear, so the segment-group jackknife is the valid floor. The naive pixel d is shown only to make the error visible."
   },
-  "raw_floors_paired_holdout": {
-    "C1_sgmc_complement minus C0_random_admissible_control": {
-      "point": 0.037925,
-      "bootstrap_se": 0.00294,
-      "mde_raw_80pct": 0.008237,
-      "gap_0_0028_inside_floor": true,
-      "ci95": [
-        0.031737,
-        0.043691
-      ]
-    },
-    "C2_geodetic_shear_ridge minus C0_random_admissible_control": {
-      "point": -0.000594,
-      "bootstrap_se": 0.001609,
-      "mde_raw_80pct": 0.004508,
-      "gap_0_0028_inside_floor": true,
-      "ci95": [
-        -0.00371,
-        0.002659
-      ]
-    },
-    "C3_magnetic_hgrad_ridge minus C0_random_admissible_control": {
-      "point": 0.004419,
-      "bootstrap_se": 0.00174,
-      "mde_raw_80pct": 0.004875,
-      "gap_0_0028_inside_floor": true,
-      "ci95": [
-        0.001243,
-        0.008191
-      ]
-    },
-    "C1_sgmc_complement minus C2_geodetic_shear_ridge": {
-      "point": 0.038519,
-      "bootstrap_se": 0.003341,
-      "mde_raw_80pct": 0.00936,
-      "gap_0_0028_inside_floor": true,
-      "ci95": [
-        0.031853,
-        0.044913
-      ]
-    },
-    "C1_sgmc_complement minus C3_magnetic_hgrad_ridge": {
-      "point": 0.033506,
-      "bootstrap_se": 0.003407,
-      "mde_raw_80pct": 0.009545,
-      "gap_0_0028_inside_floor": true,
-      "ci95": [
-        0.026716,
-        0.039979
-      ]
-    }
-  },
-  "rho_sensitivity": {
-    "C1_sgmc_complement minus C0_random_admissible_control": {
-      "rho_hat_from_receipt": 0.1883,
-      "sd_a": 0.002991,
-      "sd_b": 0.000685,
-      "table": [
-        {
-          "rho": 0.0,
-          "se_ratio_to_observed": 1.0437,
-          "mde_raw_80pct": 0.008596
-        },
-        {
-          "rho": 0.5,
-          "se_ratio_to_observed": 0.9232,
-          "mde_raw_80pct": 0.007604
-        },
-        {
-          "rho": 0.8,
-          "se_ratio_to_observed": 0.8426,
-          "mde_raw_80pct": 0.00694
-        },
-        {
-          "rho": 0.9,
-          "se_ratio_to_observed": 0.814,
-          "mde_raw_80pct": 0.006705
-        },
-        {
-          "rho": 0.95,
-          "se_ratio_to_observed": 0.7993,
-          "mde_raw_80pct": 0.006584
-        },
-        {
-          "rho": 0.99,
-          "se_ratio_to_observed": 0.7874,
-          "mde_raw_80pct": 0.006485
-        }
-      ]
-    },
-    "C2_geodetic_shear_ridge minus C0_random_admissible_control": {
-      "rho_hat_from_receipt": -0.016,
-      "sd_a": 0.001445,
-      "sd_b": 0.000685,
-      "table": [
-        {
-          "rho": 0.0,
-          "se_ratio_to_observed": 0.9939,
-          "mde_raw_80pct": 0.00448
-        },
-        {
-          "rho": 0.5,
-          "se_ratio_to_observed": 0.7781,
-          "mde_raw_80pct": 0.003507
-        },
-        {
-          "rho": 0.8,
-          "se_ratio_to_observed": 0.6132,
-          "mde_raw_80pct": 0.002764
-        },
-        {
-          "rho": 0.9,
-          "se_ratio_to_observed": 0.5473,
-          "mde_raw_80pct": 0.002467
-        },
-        {
-          "rho": 0.95,
-          "se_ratio_to_observed": 0.5112,
-          "mde_raw_80pct": 0.002304
-        },
-        {
-          "rho": 0.99,
-          "se_ratio_to_observed": 0.4804,
-          "mde_raw_80pct": 0.002165
-        }
-      ]
-    },
-    "C3_magnetic_hgrad_ridge minus C0_random_admissible_control": {
-      "rho_hat_from_receipt": 0.0196,
-      "sd_a": 0.001613,
-      "sd_b": 0.000685,
-      "table": [
-        {
-          "rho": 0.0,
-          "se_ratio_to_observed": 1.0071,
-          "mde_raw_80pct": 0.00491
-        },
-        {
-          "rho": 0.5,
-          "se_ratio_to_observed": 0.8058,
-          "mde_raw_80pct": 0.003928
-        },
-        {
-          "rho": 0.8,
-          "se_ratio_to_observed": 0.6561,
-          "mde_raw_80pct": 0.003198
-        },
-        {
-          "rho": 0.9,
-          "se_ratio_to_observed": 0.5979,
-          "mde_raw_80pct": 0.002914
-        },
-        {
-          "rho": 0.95,
-          "se_ratio_to_observed": 0.5665,
-          "mde_raw_80pct": 0.002762
-        },
-        {
-          "rho": 0.99,
-          "se_ratio_to_observed": 0.5401,
-          "mde_raw_80pct": 0.002633
-        }
-      ]
-    },
-    "C1_sgmc_complement minus C2_geodetic_shear_ridge": {
-      "rho_hat_from_receipt": -0.0148,
-      "sd_a": 0.002991,
-      "sd_b": 0.001445,
-      "table": [
-        {
-          "rho": 0.0,
-          "se_ratio_to_observed": 0.9942,
-          "mde_raw_80pct": 0.009306
-        },
-        {
-          "rho": 0.5,
-          "se_ratio_to_observed": 0.7754,
-          "mde_raw_80pct": 0.007258
-        },
-        {
-          "rho": 0.8,
-          "se_ratio_to_observed": 0.6075,
-          "mde_raw_80pct": 0.005686
-        },
-        {
-          "rho": 0.9,
-          "se_ratio_to_observed": 0.54,
-          "mde_raw_80pct": 0.005054
-        },
-        {
-          "rho": 0.95,
-          "se_ratio_to_observed": 0.5028,
-          "mde_raw_80pct": 0.004707
-        },
-        {
-          "rho": 0.99,
-          "se_ratio_to_observed": 0.471,
-          "mde_raw_80pct": 0.004409
-        }
-      ]
-    },
-    "C1_sgmc_complement minus C3_magnetic_hgrad_ridge": {
-      "rho_hat_from_receipt": -0.0062,
-      "sd_a": 0.002991,
-      "sd_b": 0.001613,
-      "table": [
-        {
-          "rho": 0.0,
-          "se_ratio_to_observed": 0.9974,
-          "mde_raw_80pct": 0.00952
-        },
-        {
-          "rho": 0.5,
-          "se_ratio_to_observed": 0.7611,
-          "mde_raw_80pct": 0.007264
-        },
-        {
-          "rho": 0.8,
-          "se_ratio_to_observed": 0.5743,
-          "mde_raw_80pct": 0.005482
-        },
-        {
-          "rho": 0.9,
-          "se_ratio_to_observed": 0.4967,
-          "mde_raw_80pct": 0.004741
-        },
-        {
-          "rho": 0.95,
-          "se_ratio_to_observed": 0.4529,
-          "mde_raw_80pct": 0.004323
-        },
-        {
-          "rho": 0.99,
-          "se_ratio_to_observed": 0.4146,
-          "mde_raw_80pct": 0.003957
-        }
-      ]
-    }
-  },
-  "answer": "The 0.0028 board gap is smaller than the raw floor of every paired holdout comparison in this receipt, so the holdout cannot resolve it. The board values are also not paired on one truth set.",
-  "caveat": "Unit counts are raster fragments (IR-54-021); the floors are indicative. Pixel-IID floors are invalid and are not reported."
+  "interpretation": "A gap of 0.0028 is compared with the MDE of each pair. If it is below the MDE, the gap cannot be separated from noise by this holdout, so no ranking should be read from it.",
+  "runtime_s": 139.2
 }

@@ -1,0 +1,86 @@
+{
+  "preregistration_id": "GEMSDOE54-PREREG-MAG-RIDGE-SPACED-2026-10-08",
+  "registered_before_scoring": true,
+  "lane": "magnetic-edge ridge, catalogue-free generation, catalogue-proximity gate only",
+  "hypothesis": "Thinning the same catalogue-free magnetic ridge to one dot per 300 m kernel width (strongest-edge-first) removes redundant mass; its pooled DTI on withheld catalogue segments then exceeds matched random placement.",
+  "layers_used": {
+    "source": "training_features.tif (official 19-band stack, owner-mirrored; sha256 pinned 4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5)",
+    "bands": {
+      "2": "rtp (edge direction only)",
+      "3": "tmi_hg (edge strength)"
+    },
+    "catalogue_dependence": "none for ridge generation; catalogue enters only via the 300 m gate"
+  },
+  "physical_signature": "local maxima of total horizontal magnetic gradient across an edge, i.e. a non-maximum-suppressed ridge",
+  "parameters": {
+    "sigma_px": 1.0,
+    "nms": "THD >= THD at +/-1 px along the RTP gradient direction (nearest neighbour)",
+    "quantile": 0.98,
+    "min_len_px": 8,
+    "invalid_buffer_px": 2,
+    "keep_beyond_m": 300.0,
+    "pixel_m": 100.0,
+    "spacing_px": 3.0,
+    "emission": "src/gemsdoe54/emission.py::emit_spaced_dots, priority = official tmi_hg band, after catalogue gate"
+  },
+  "holdout_design": {
+    "name": "segment hide-and-recover",
+    "unit": "8-connected catalogue components merged with a 3 px (300 m) Euclidean collar (scripts via gemsdoe54.holdout.segment_blocks)",
+    "folds": 4,
+    "fold_assignment": "buffered groups shuffled per split, then greedily assigned to the fold with the fewest withheld positives",
+    "splits": 4,
+    "split_seed_base": 20261008,
+    "visible_catalogue": "catalogue cells outside the withheld fold's buffered groups",
+    "prediction_mask": "candidate cells within 300 m of the visible catalogue are removed; visible cells are masked pixel-exactly",
+    "scoring": "per fold: official distance-weighted Tversky (scripts/gems_metric.py) against that fold's withheld cells; DTI pooled by summing TP_w, FP_w, FN_w over folds, then DTI = TP/(TP+0.2FP+0.8FN)",
+    "valid_footprint": "label raster >= 0 (5,167,373 cells)",
+    "uncertainty": "exact leave-one-segment-group-out jackknife (see src/gemsdoe54/jackknife.py)"
+  },
+  "controls": {
+    "matched_random_null": "same dot count per fold, drawn uniformly from valid cells outside the 300 m visible-catalogue zone",
+    "placebo_shift": "same spaced emission applied to the ridge map rolled by (1234, -567) px"
+  },
+  "leakage_canary": {
+    "rule": "single feature AUC > 0.90 against the withheld truth means leakage until proven otherwise",
+    "features": "all 19 bands (sentinel cells excluded), distance-to-visible-catalogue, candidate indicator"
+  },
+  "decision_rule": {
+    "promote_eligible_only_if": [
+      "paired split-level 95% CI of (candidate - matched random null) lies entirely above 0",
+      "paired split-level 95% CI of (candidate - placebo) lies entirely above 0",
+      "no canary feature exceeds AUC 0.90"
+    ],
+    "otherwise": "negative result; no submission slot is recommended",
+    "note": "E2 is exploratory: a pass is a lead for an independent replication, not promotion evidence."
+  },
+  "scope_limits": [
+    "The holdout target is CATALOGUED faults, not the expert-labelled NEW faults that the competition scores. Recovering withheld catalogue segments is evidence about a physical feature-to-fault link, not proof of new-fault discovery.",
+    "A HOLDOUT-DTI here is not a leaderboard score and not ORGANIZER-CONFIRMED.",
+    "The official feature file is owner-mirrored; byte integrity matches owner pins, organizer origin not authenticated."
+  ],
+  "candidate_variant": "spaced",
+  "output": "evidence/mag_ridge_spaced_holdout.json",
+  "parent_experiment": "GEMSDOE54-PREREG-MAG-RIDGE-2026-10-08 (dense ridge, E1)",
+  "motivation": "Disclosure: this design was chosen AFTER E1's split-0 decomposition showed that dense one-pixel ridge lines waste credit (TP_w takes a per-truth-cell maximum, so redundant dots add mass without credit). The spacing (one dot per 300 m kernel width) is the existing rule 2 of src/gemsdoe54/emission.py, fixed a priori from the metric geometry, not fitted to E2 outcomes. It uses the SAME 16 splits as E1, so E2 is exploratory and is NOT an independent confirmation of E1.",
+  "amendments": [
+    {
+      "version": 2,
+      "date": "2026-10-08",
+      "changes": [
+        "splits reduced from 16 to 4: the candidate's pooled DTI is invariant to the random partition (identical to 5 decimals), so more splits add no information about the candidate and only the null varies",
+        "uncertainty changed from split-to-split paired t to an exact leave-one-segment-group-out jackknife (913 units) on the first partition; split-to-split spread is reported only for transparency",
+        "a built-in cross-check asserts that the fast group counts equal the official metric for every fold"
+      ],
+      "reason": "E1 v1 was started and stopped after 4 splits (console log retained below as a NON-RECEIPT). Its split-level CI would have been invalid: identical candidate scores across splits imply near-zero split variance, which would overstate precision. The unit of independent evidence is the buffered segment group.",
+      "e1_v1_partial_console_log_not_a_receipt": [
+        "split 0: cand 0.01629 null 0.03478 placebo 0.00268",
+        "split 1: cand 0.01629 null 0.03408 placebo 0.00268",
+        "split 2: cand 0.01629 null 0.03214 placebo 0.00268",
+        "split 3: cand 0.01629 null 0.03194 placebo 0.00268"
+      ],
+      "e1_v1_killed_by": "manual stop after observing invariance; the earlier E1 attempt was also SIGKILLed (likely memory pressure while a diagnostic ran concurrently)",
+      "decision_rule_unchanged": true,
+      "note": "same amendment as E1, applied before E2 was run"
+    }
+  ]
+}

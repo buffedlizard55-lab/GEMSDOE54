@@ -3,7 +3,21 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from gemsdoe54.holdout import segment_blocks
+from gemsdoe54.holdout import informative_truth_cells, segment_blocks
+
+
+def test_informative_truth_cells_excludes_zero_credit_kernel_boundary():
+    truth = np.zeros((5, 7), dtype=bool)
+    dots = np.zeros_like(truth)
+    dots[2, 1] = True
+    truth[2, 3] = True  # 200 m from the dot: strictly positive triangular credit
+    truth[2, 4] = True  # exactly 300 m: kernel is zero, not informative
+
+    assert informative_truth_cells(truth, dots) == 1
+    assert informative_truth_cells(truth, np.zeros_like(dots)) == 0
+
+    with pytest.raises(ValueError, match="same-shape"):
+        informative_truth_cells(truth, np.zeros((2, 2), dtype=bool))
 
 
 def test_segment_blocks_keeps_whole_components_and_applies_euclidean_collar():

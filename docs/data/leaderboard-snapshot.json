@@ -1,0 +1,14 @@
+{
+  "schema": "gemsdoe54.public-leaderboard-snapshot.v1",
+  "fetched_utc": "2026-10-08",
+  "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "status": "PUBLIC-LEADERBOARD SNAPSHOT — official page fetched; no individual submission-page receipts copied",
+  "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",
+  "selected_rows": [
+    {"rank": 1, "displayed_value": 0.3774},
+    {"rank": 7, "displayed_value": 0.3195},
+    {"rank": 13, "displayed_value": 0.2778},
+    {"rank": 17, "displayed_value": 0.2750}
+  ],
+  "interpretation": "The prompt's later statement that 0.3195 is the current top is stale relative to this fetched page. The public page displays 0.3774 at rank 1 and 0.3195 at rank 7. The 0.2778 entry at rank 13 is not linked by this snapshot to the named H33 raster."
+}

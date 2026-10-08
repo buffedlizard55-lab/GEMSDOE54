@@ -9,7 +9,7 @@
 <body>
 <header class="site-header"><div class="header-inner">
   <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
-  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a aria-current="page" href="rules-gate.html">Rules gate</a><a href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a href="hypotheses.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="submit-verdict.html">Submit guide</a><a aria-current="page" href="rules-gate.html">Rules gate</a><a href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a href="hypotheses-holdout.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
 </div></header>
 <main>
   <section class="page-title">
@@ -20,7 +20,7 @@
 
   <section class="callout danger" aria-labelledby="verdict">
     <h2 id="verdict">Verdict for <code>gems54-undercomplement-q200.tif</code></h2>
-    <p><strong>Conditionally permitted under the competition rules. Not cleared under this repository's uniqueness requirement, which both files fail (see the <a href="executive-summary.html">executive summary</a>).</strong> Not permitted if the file is treated as someone else's work. The file was produced by this repository's own build code (<code>scripts/build_submission.py</code>) from the competition's training labels and a USGS state geologic map layer. Re-running that code reproduces it byte-for-byte (see the <a href="executive-summary.html">submit guide</a>). Three things are <em>not</em> decided by this repository and must be confirmed by the person who registers:</p>
+    <p><strong>Conditionally permitted under the competition rules. Not cleared under this repository's uniqueness requirement, which both files fail (see the <a href="submit-verdict.html">executive summary</a>).</strong> Not permitted if the file is treated as someone else's work. The file was produced by this repository's own build code (<code>scripts/build_submission.py</code>) from the competition's training labels and a USGS state geologic map layer. Re-running that code reproduces it byte-for-byte (see the <a href="submit-verdict.html">submit guide</a>). Three things are <em>not</em> decided by this repository and must be confirmed by the person who registers:</p>
     <ol>
       <li>Your eligibility under §1.3 (we cannot verify it).</li>
       <li>The certification in §1.3 and Appendix A.1, which only you can sign.</li>
@@ -46,7 +46,7 @@
         <tr>
           <td><strong>What is the submission?</strong><br><span class="small">§3.2 Process overview</span></td>
           <td>“You must submit a single GeoTIFF with a single raster layer at 100-meter resolution containing your model's predictions of fault locations for the entirety of the GeoDAWN study area.”</td>
-          <td><strong>Format passes</strong> (single band, float32, EPSG:32611, 3730 × 3292, values in [0, 1], NaN outside the footprint; 9 of 9 checks in <a href="../evidence/validator_output.json">evidence/validator_output.json</a>). The competition page's format requirements are linked from the <a href="executive-summary.html">submit guide</a>.</td>
+          <td><strong>Format passes</strong> (single band, float32, EPSG:32611, 3730 × 3292, values in [0, 1], NaN outside the footprint; 9 of 9 checks in <a href="../evidence/validator_output.json">evidence/validator_output.json</a>). The competition page's format requirements are linked from the <a href="submit-verdict.html">submit guide</a>.</td>
         </tr>
         <tr>
           <td><strong>Generative-AI disclosure</strong><br><span class="small">§3.2</span></td>
@@ -76,7 +76,7 @@
         <tr>
           <td><strong>Training data terms</strong><br><span class="small">§3.3 and the competition data page</span></td>
           <td>§3.3: the training labels “were obtained from the INGENIOUS project's Great Basin Regional Dataset Compilation.” The competition page lists the labels as from the USGS Quaternary Fault and Fold Database and NLR/USGS experts (see the irregularity below).</td>
-          <td><strong>To verify before publishing.</strong> This repository mirrors the training labels (<code>data/grid/labels.tif</code>) and a derived USGS SGMC raster. Check the competition's data licence terms before keeping the label mirror public. This is flagged as IR-54-013.</td>
+          <td><strong>To verify before publishing.</strong> This repository mirrors the training labels (<code>data/grid/labels.tif</code>) and a derived USGS SGMC raster. Check the competition's data licence terms before keeping the label mirror public. This is flagged as IR-54-031.</td>
         </tr>
       </tbody>
     </table></div>
@@ -85,7 +85,7 @@
   <section class="section">
     <div class="section-head"><h2>Label-provenance inconsistency (flagged)</h2></div>
     <div class="panel">
-      <p>The official text names two different sources for the training labels. §2 says: “The labels for this prize come from the USGS Quaternary Fault and Fold Database and from a set of newly identified faults labeled by geology experts.” §3.3 says: “These labels were obtained from the INGENIOUS project's Great Basin Regional Dataset Compilation” (doi:10.15121/1881483). The DrivenData labels section cites both. This does not change the upload gate, but it matters for any claim about what the labels contain. It is recorded as IR-54-012.</p>
+      <p>The official text names two different sources for the training labels. §2 says: “The labels for this prize come from the USGS Quaternary Fault and Fold Database and from a set of newly identified faults labeled by geology experts.” §3.3 says: “These labels were obtained from the INGENIOUS project's Great Basin Regional Dataset Compilation” (doi:10.15121/1881483). The DrivenData labels section cites both. This does not change the upload gate, but it matters for any claim about what the labels contain. It is recorded as IR-54-030.</p>
     </div>
   </section>
 
