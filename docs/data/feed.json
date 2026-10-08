@@ -19,11 +19,14 @@
       "upload_recommendation": "DO NOT UPLOAD based on this review"
     },
     "holdout_status": "NOT RUN \u2014 the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
+    "magnetic_ridge_holdout": "RUN (2026-10-08): E1 frozen dense ridge NEGATIVE; E2 spaced ridge (exploratory) NEGATIVE; E3 detection floor measured",
     "new_candidate_downloadable": false,
+    "ok_to_download_for_submission": false,
+    "ok_to_submit": false,
     "safe_to_upload": false,
     "verdict": "negative"
   },
-  "generated_utc": "2026-10-08T22:41:16+00:00",
+  "generated_utc": "2026-10-08T22:51:53+00:00",
   "leaderboard": {
     "fetched_utc": "2026-10-08",
     "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",

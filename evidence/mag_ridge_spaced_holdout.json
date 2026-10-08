@@ -1,0 +1,226 @@
+{
+  "label": "HOLDOUT-DTI (local, catalogued-fault hide-and-recover; NOT a leaderboard score)",
+  "candidate_variant": "spaced",
+  "experiment": "GEMSDOE54-PREREG-MAG-RIDGE-SPACED-2026-10-08",
+  "evaluator_version": "gemsdoe54-segment-holdout-v1 (gems_metric.dti_components, official equations)",
+  "preregistration": "evidence/preregistration_mag_ridge.json",
+  "withheld_positives_per_split": 60988,
+  "independent_units_segment_groups": 913,
+  "segment_blocks_notes": [
+    "3199 source segments; 913 buffered groups",
+    "buffer = 300 m",
+    "buffer collar cells = 385597"
+  ],
+  "folds": 4,
+  "splits": 4,
+  "pooled_metric": "per fold official DTI components summed over folds, then TP/(TP+0.2FP+0.8FN)",
+  "ridge_cells_catalogue_free": 19914,
+  "split_rows": [
+    {
+      "split": 0,
+      "withheld_positives": 60988,
+      "dti_cand": 0.012358,
+      "tp_cand": 646.9597,
+      "fp_cand": 17161.4398,
+      "fn_cand": 60341.0403,
+      "fold_dti_cand": [
+        0.014084,
+        0.010113,
+        0.012648,
+        0.012589
+      ],
+      "dti_null": 0.009764,
+      "tp_null": 511.0639,
+      "fp_null": 17233.0604,
+      "fn_null": 60476.9361,
+      "fold_dti_null": [
+        0.007909,
+        0.009666,
+        0.010851,
+        0.010624
+      ],
+      "dti_placebo": 0.00179,
+      "tp_placebo": 88.1269,
+      "fp_placebo": 2066.3746,
+      "fn_placebo": 60899.8731,
+      "fold_dti_placebo": [
+        0.000709,
+        0.003878,
+        0.001764,
+        0.000808
+      ]
+    },
+    {
+      "split": 1,
+      "withheld_positives": 60988,
+      "dti_cand": 0.012358,
+      "tp_cand": 646.9597,
+      "fp_cand": 17161.4398,
+      "fn_cand": 60341.0403,
+      "fold_dti_cand": [
+        0.00824,
+        0.010774,
+        0.011191,
+        0.019148
+      ],
+      "dti_null": 0.009476,
+      "tp_null": 495.9365,
+      "fp_null": 17239.9504,
+      "fn_null": 60492.0635,
+      "fold_dti_null": [
+        0.008383,
+        0.008428,
+        0.009102,
+        0.011963
+      ],
+      "dti_placebo": 0.00179,
+      "tp_placebo": 88.1269,
+      "fp_placebo": 2066.3746,
+      "fn_placebo": 60899.8731,
+      "fold_dti_placebo": [
+        0.001225,
+        0.00093,
+        0.003077,
+        0.00193
+      ]
+    },
+    {
+      "split": 2,
+      "withheld_positives": 60988,
+      "dti_cand": 0.012358,
+      "tp_cand": 646.9597,
+      "fp_cand": 17161.7731,
+      "fn_cand": 60341.0403,
+      "fold_dti_cand": [
+        0.0199,
+        0.012114,
+        0.013547,
+        0.004236
+      ],
+      "dti_null": 0.01082,
+      "tp_null": 566.4066,
+      "fp_null": 17214.8196,
+      "fn_null": 60421.5934,
+      "fold_dti_null": [
+        0.01064,
+        0.011695,
+        0.012697,
+        0.008351
+      ],
+      "dti_placebo": 0.00179,
+      "tp_placebo": 88.1269,
+      "fp_placebo": 2066.3746,
+      "fn_placebo": 60899.8731,
+      "fold_dti_placebo": [
+        0.000354,
+        0.001198,
+        0.004096,
+        0.001504
+      ]
+    },
+    {
+      "split": 3,
+      "withheld_positives": 60988,
+      "dti_cand": 0.012358,
+      "tp_cand": 646.9597,
+      "fp_cand": 17161.7731,
+      "fn_cand": 60341.0403,
+      "fold_dti_cand": [
+        0.0109,
+        0.012825,
+        0.012598,
+        0.013108
+      ],
+      "dti_null": 0.010579,
+      "tp_null": 553.7485,
+      "fp_null": 17218.6768,
+      "fn_null": 60434.2515,
+      "fold_dti_null": [
+        0.012436,
+        0.009751,
+        0.010276,
+        0.009849
+      ],
+      "dti_placebo": 0.00179,
+      "tp_placebo": 88.1269,
+      "fp_placebo": 2066.3746,
+      "fn_placebo": 60899.8731,
+      "fold_dti_placebo": [
+        0.001052,
+        0.002351,
+        0.002691,
+        0.001068
+      ]
+    }
+  ],
+  "pooled_dti_split_summary": {
+    "cand": {
+      "mean": 0.012358,
+      "sd_across_splits": 0.0
+    },
+    "null": {
+      "mean": 0.01016,
+      "sd_across_splits": 0.000642
+    },
+    "placebo": {
+      "mean": 0.00179,
+      "sd_across_splits": 0.0
+    }
+  },
+  "pooled_dti_first_partition": {
+    "cand": 0.012358,
+    "null": 0.009764,
+    "placebo": 0.00179
+  },
+  "paired_comparisons": [
+    {
+      "comparison": "cand - null",
+      "uncertainty_method": "exact leave-one-segment-group-out jackknife on the first partition",
+      "n_units_segment_groups": 913,
+      "point_difference": 0.002593,
+      "jackknife_se": 0.00186,
+      "ci95_low": -0.001052,
+      "ci95_high": 0.006239,
+      "mde_raw_dti_80pct_power_alpha05": 0.005211,
+      "cohen_d_min_units": 0.0928,
+      "ci_excludes_zero": false
+    },
+    {
+      "comparison": "cand - placebo",
+      "uncertainty_method": "exact leave-one-segment-group-out jackknife on the first partition",
+      "n_units_segment_groups": 913,
+      "point_difference": 0.010567,
+      "jackknife_se": 0.001842,
+      "ci95_low": 0.006956,
+      "ci95_high": 0.014179,
+      "mde_raw_dti_80pct_power_alpha05": 0.005162,
+      "cohen_d_min_units": 0.0928,
+      "ci_excludes_zero": true
+    }
+  ],
+  "uncertainty_note": "Split-to-split spread is reported for transparency only: the pooled design withholds each catalogue neighbourhood once per split, so split spread understates sampling uncertainty. The CI uses the segment-group jackknife.",
+  "leakage_canary": {
+    "cut": 0.9,
+    "flags": [],
+    "status": "PASS"
+  },
+  "decision": {
+    "promote_eligible": false,
+    "rule": {
+      "promote_eligible_only_if": [
+        "paired split-level 95% CI of (candidate - matched random null) lies entirely above 0",
+        "paired split-level 95% CI of (candidate - placebo) lies entirely above 0",
+        "no canary feature exceeds AUC 0.90"
+      ],
+      "otherwise": "negative result; no submission slot is recommended",
+      "note": "E2 is exploratory: a pass is a lead for an independent replication, not promotion evidence."
+    },
+    "verdict": "negative"
+  },
+  "scope": [
+    "The holdout target is CATALOGUED faults, not the expert-labelled NEW faults that the competition scores. Recovering withheld catalogue segments is evidence about a physical feature-to-fault link, not proof of new-fault discovery.",
+    "A HOLDOUT-DTI here is not a leaderboard score and not ORGANIZER-CONFIRMED.",
+    "The official feature file is owner-mirrored; byte integrity matches owner pins, organizer origin not authenticated."
+  ],
+  "runtime_s": 735.1
+}

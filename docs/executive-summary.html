@@ -63,7 +63,38 @@
   </section>
 
   <section class="section callout warning"><p><strong>Current decision:</strong> no new candidate TIFF was generated because the pre-placement surface triggered the literal lane duplicate gate. The existing archive is downloadable for inspection only, fails the current literal lane gate, has no trustworthy holdout, and is not recommended for upload. No weekly slot was selected.</p></section>
-</main>
+<section class="section">
+    <div class="eyebrow">What was tested</div>
+    <h2>Holdout results (HOLDOUT-DTI, local, not leaderboard scores)</h2>
+    <p class="small">Catalogued faults withheld in whole buffered segments (300 m buffer, 913 independent units, 4 folds, 60,988 withheld positives). Evaluator <code>gemsdoe54-segment-holdout-v1</code>. 95 % CIs from an exact segment-group jackknife.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Experiment</th><th>Candidate DTI</th><th>cand − null (95 % CI)</th><th>cand − placebo (95 % CI)</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>E1 · dense magnetic ridge (frozen)</td><td>0.0163</td><td>−0.0185 [−0.0234, −0.0135]</td><td>+0.0136 [+0.0089, +0.0183]</td><td>Negative: below the random null</td></tr>
+        <tr><td>E2 · spaced ridge, 3 px (exploratory)</td><td>0.0124</td><td>+0.0026 [−0.0011, +0.0062]</td><td>+0.0106 [+0.0070, +0.0142]</td><td>Negative: CI includes 0</td></tr>
+        <tr><td>E3 · detection floor</td><td>—</td><td>A−B MDE 0.0022; A−C MDE 0.0015</td><td>—</td><td>Measurement only</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small"><strong>What the numbers mean.</strong> Dense 1-px ridge lines add redundant dots that the pooled DTI does not credit, so they lose to random placement. The spaced variant ties the null. Neither clears the frozen rule. The ridge does carry some location signal, since it beats a shifted-ridge placebo, but not enough to beat matched random placement.</p>
+    <p class="small"><strong>Board values (as displayed, not receipts).</strong> The public leaderboard snapshot on <code>main</code> (<code>docs/data/leaderboard-snapshot.json</code>, fetched 2026-10-08) shows 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13 and 0.2750 at rank 17. 0.3195 is not the current top, and 0.2778 is not linked to the H33 raster. These are displayed values, not ORGANIZER-CONFIRMED receipts.</p>
+  <p class="small"><strong>Can this holdout detect 0.2778 vs 0.2750?</strong> On this holdout a 0.0028 gap between two near-identical ridge variants would be detectable (pair floors 0.0015–0.0022). The board values use a hidden truth and a different scorer, so the board gap is <strong>not classifiable</strong> here.</p>
+    <p class="small">Sources: <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/run_card_mag_ridge.json">run card (JSON)</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_holdout.json">E1 receipt</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_spaced_holdout.json">E2 receipt</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/detection_floor.json">E3 receipt</a>.</p>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">Rules</div>
+    <h2>When is a file OK to submit?</h2>
+    <p>All five conditions must hold. Until they do, the answer is no.</p>
+    <ol class="steps">
+      <li>The file has a HOLDOUT-DTI with evaluator version, withheld-positive count and 95 % CI.</li>
+      <li>Its paired CIs against the matched random null and against the placebo both lie entirely above 0 (segment-group jackknife).</li>
+      <li>The leakage canary is at most AUC 0.90 for every feature.</li>
+      <li>The format validator passes (single band, float32, EPSG:32611, 100 m, same bounds, no NaN in the footprint, values in [0, 1]).</li>
+      <li>The owner records a selection. Selection is a separate step from scoring; this page never selects a file.</li>
+    </ol>
+  </section>
+
+  </main>
 <footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p>Last local status: see <a href="data/workspace-audit.json">workspace audit JSON</a>.</p></div></footer>
 </body>
 </html>

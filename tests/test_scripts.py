@@ -78,3 +78,29 @@ def test_feed_link_is_outside_element_replaced_by_audit_javascript():
     status_line = next(line for line in page.splitlines() if 'id="local-audit-status"' in line)
     assert "<a " not in status_line
     assert '<a href="data/feed.json">Open this review\'s local status feed →</a>' in page
+
+
+def test_mag_ridge_builder_refuses_negative_variants():
+    import subprocess
+    import sys
+
+    for variant in ("dense", "spaced"):
+        proc = subprocess.run(
+            [sys.executable, str(ROOT / "scripts/build_mag_ridge_submission.py"),
+             "--variant", variant, "--name", "gate-regression-test", "--note", "x", "--team-label", "t"],
+            capture_output=True, text=True, cwd=ROOT,
+        )
+        assert proc.returncode != 0
+        assert "REFUSED" in proc.stderr
+        assert not (ROOT / "docs/downloads/gate-regression-test.tif").exists()
+
+
+def test_magnetic_ridge_holdout_is_recorded_as_negative_and_not_submittable():
+    card = json.loads((ROOT / "docs/data/run-card.json").read_text(encoding="utf-8"))
+    block = card["magnetic_ridge_holdout"]
+    assert block["withheld_positive_count"] == 60988
+    assert block["E1_dense_frozen"]["promote_eligible"] is False
+    assert block["E2_spaced_exploratory"]["promote_eligible"] is False
+    assert block["ok_to_submit"] is False
+    assert card["submission"]["ok_to_submit"] is False
+    assert card["submission"]["ok_to_download_for_submission"] is False

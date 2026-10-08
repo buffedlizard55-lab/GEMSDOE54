@@ -31,7 +31,7 @@
 distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
 Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
 
-<div class="panel hero">
+<div class="panel hero" id="verdict">
   <h2>⛔ No upload-approved TIFF from this review</h2>
   <p><strong>No new TIFF was generated.</strong> Two pre-placement surface screens exceeded the literal registry-overlap stop threshold and stopped before point placement. There is no current-session file to submit, no compliant HOLDOUT-DTI, and no weekly slot has been used.</p>
 
@@ -65,6 +65,23 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
     })
     .catch(() => { document.getElementById('local-audit-status').textContent = 'Audit feed unavailable; this review remains negative.'; });
 </script>
+
+<div class="panel tight" id="why">
+  <h2 style="margin-top:0">Why it is not OK to submit: the holdout results</h2>
+  <p>Local holdout = catalogued faults hidden in whole buffered segments (300 m buffer, 913 independent units, 4 folds, 60,988 withheld positives). Every number is <span class="tag warn">HOLDOUT-DTI</span> with evaluator <code>gemsdoe54-segment-holdout-v1</code>; none is an organizer score.</p>
+  <table>
+    <thead><tr><th>Experiment</th><th>Candidate DTI</th><th>cand − matched random null (95 % CI)</th><th>cand − placebo (95 % CI)</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>E1 · dense magnetic ridge (frozen)</td><td>0.0163</td><td>−0.0185 [−0.0234, −0.0135]</td><td>+0.0136 [+0.0089, +0.0183]</td><td><span class="tag no">NEGATIVE</span>: below the null</td></tr>
+      <tr><td>E2 · spaced ridge, 3 px (exploratory)</td><td>0.0124</td><td>+0.0026 [−0.0011, +0.0062]</td><td>+0.0106 [+0.0070, +0.0142]</td><td><span class="tag no">NEGATIVE</span>: CI includes 0</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Random placement with the same count beats the dense ridge, because dense 1-px lines add redundant dots that the pooled TP term does not credit. The spaced variant only ties the null. Neither clears the rule, so neither gets a slot. The placebo (a shifted ridge) scores lower, so the ridge does carry some location signal; it is not enough to beat matched random placement.</p>
+  <p class="small"><strong>Leakage canary:</strong> PASS (no feature above AUC 0.90) in E1 and E2. Source files: <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_holdout.json">mag_ridge_holdout.json</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_spaced_holdout.json">mag_ridge_spaced_holdout.json</a>, full card <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/run_card_mag_ridge.json">run_card_mag_ridge.json</a>.</p>
+
+  <h3>Can the holdout detect the 0.2778 vs 0.2750 gap?</h3>
+  <p class="small">E3 (<a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/detection_floor.json">detection_floor.json</a>) measured the jackknife standard error of paired differences. Pair A−B (two near-identical quantile thresholds) has an 80 %-power floor of 0.0022; pair A−C (dense vs spaced) has 0.0015. So a 0.0028 gap <em>could</em> be detected on this holdout for near-identical variants. <strong>This does not settle the board question:</strong> the board values use a hidden truth set and a different scorer, and the variance of those comparisons is unknown. The board gap is <span class="tag warn">NOT CLASSIFIABLE</span>.</p>
+</div>
 
 <h2>The problem, in four sentences</h2>
 <div class="panel tight">

@@ -1,5 +1,18 @@
 # Candidate geological hypotheses — ranked backlog (2026-10-08)
 
+## Ranked hypotheses — updated 2026-10-08 (after the holdout run)
+
+Ranking is qualitative (expected opportunity versus implementation cost). It is not a DTI projection and not a slot decision. Band names are from `training_features.tif` (19 float32 bands, read 2026-10-08; owner-mirrored, not organizer-authenticated).
+
+| Rank | Hypothesis | Layers (band names) | Physical signature | Why it could be catalogue-missed | Difference from repo | Cost | Status |
+|---|---|---|---|---|---|---|---|
+| 1 | Magnetic edge ridge | `rtp` (edge direction), `tmi_hg` (edge strength); NMS ridge of total horizontal gradient | Linear magnetic edges that mark contacts and possibly faults under cover | Magnetic edges show blind contacts; the catalogue lists only mapped traces | Catalogue-free ridge (prior work used an SGMC proxy) | Done (~1 h) | **NEGATIVE** (E1 frozen dense, below matched null); E2 spaced exploratory, CI includes 0. See `evidence/run_card_mag_ridge.json` |
+| 2 | Gravity horizontal-gradient ridge | `iso_grav_anom_hg`, `iso_grav_anom_vg` | Density contrasts along linear faults or fault-bounded basins | Same mechanism as rank 1, applied to gravity; may detect structures magnetics misses | Not tested in this repo; the same pipeline and holdout apply | Low (same code path) | **NOT TESTED**. Expect correlation with rank 1; must be run on the same holdout before any slot |
+| 3 | Geodetic strain-rate lineaments | `geod_2ndinv`, `geod_shearrate`, `geod_dilaterate` | Concentrated shear or dilation along active structures | Aseismic or blind active faults lack surface mapping | Strain layer is already in the stack; source, licence and resolution not verified here | Medium (source check needed) | **NOT TESTED**. Source provenance unverified |
+| 4 | Basement-step / sediment-thickness gradient | `depth_to_base_surf`, `det_elev_slope` | Offsets in basement depth that suggest normal faulting | Blind faults offset basement without a surface trace | Not tested; overlap with catalogue unknown | Low–medium | **NOT TESTED**. Check overlap before use |
+
+Not yet tested and not ranked above: gravity tilt-derivative and Euler deconvolution. Both need a dedicated design. Earlier backlog items (InSAR, isotope/noble gas, thermal, groundwater) remain "not viable now" for lack of free data.
+
 ## Archive note — superseded by the current review
 
 This is a prior shortlist retained for audit history. Source-access statements below reflect an earlier repository review and were not re-fetched in the current review. Use [`hypotheses-20261008.md`](hypotheses-20261008.md) as the current five-hypothesis ranking; it includes current provenance/availability caveats and the second surface-only preflight.
