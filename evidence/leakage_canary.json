@@ -1,0 +1,16 @@
+{
+  "auc_cut": 0.9,
+  "holdout_truth": "SGMC mapped faults > 300 m from the competition catalogue",
+  "holdout_truth_cells": 61664,
+  "withheld_positives_used": 61664,
+  "negatives_subsampled": 200000,
+  "auc_by_feature": {
+    "sgmc_raster_used_by_this_submission": 0.997948,
+    "distance_to_catalogue_normalised": 0.514019,
+    "uniform_control": 0.5
+  },
+  "leakage_flags": [
+    "LEAKAGE: feature 'sgmc_raster_used_by_this_submission' alone scores AUC=0.998 > 0.9"
+  ],
+  "interpretation": "The SGMC raster scores AUC ~ 1.0 against an SGMC-derived truth. That is the definition of leakage, and it is why this submission's PROXY-DTI is reported as a circular self-consistency check and never as a score. Any candidate whose evidence layer feeds the holdout truth cannot be validated on that holdout."
+}

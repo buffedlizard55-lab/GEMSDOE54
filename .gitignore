@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Local caches of regenerable derived arrays
+.cache/
+
+# NOTE: registry/registry_rasters/*.tif ARE tracked on purpose.  They are the
+# parallel-run lane-check inputs; without them the uniqueness gate in
+# scripts/validate_submission.py cannot be reproduced.  See registry/registry_manifest.json.

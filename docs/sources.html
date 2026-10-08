@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sources &amp; licences — GEMSDOE54</title>
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand">GEMS<span>DOE54</span></div>
+  <nav>
+    <a href="index.html">Executive summary</a>
+    <a href="index.html#submit">How to submit</a>
+    <a href="hypotheses.html">Hypotheses</a>
+    <a href="evidence.html">Evidence</a>
+    <a href="sources.html">Sources</a>
+  </nav>
+</div></header>
+<div class="wrap">
+
+<h1>Sources, licences, and verification status</h1>
+<p class="muted">Every source is listed with the status actually achieved, not the status we would like.
+<code>REACHED</code> means the page or file was fetched and read during this session. <code>BLOCKED</code>
+means the host is unreachable from the sandbox and the copy in this repository is a hash-pinned mirror
+instead. The machine-readable version is <code>registry/sources.json</code>.</p>
+
+<div class="callout">
+<p style="margin:0"><strong>Sandbox network, measured.</strong> Outbound from the shell is limited to
+<code>github.com</code>, <code>codeload.github.com</code>, <code>api.github.com</code>,
+<code>registry.npmjs.org</code>, <code>pypi.org</code> and <code>files.pythonhosted.org</code>.
+<code>www.drivendata.org</code>, <code>www.dropbox.com</code>, <code>mrdata.usgs.gov</code> and
+<code>gdr.openei.org</code> all return HTTP 000. A separate page-fetch channel is <em>not</em> shell-restricted,
+and every page marked <code>REACHED</code> below was read through it.</p>
+</div>
+
+<h2>Organizer and rules</h2>
+<table>
+<thead><tr><th>Source</th><th>Link</th><th>Status</th><th>What it established</th></tr></thead>
+<tbody>
+<tr>
+  <td>Problem description, metric, submission format</td>
+  <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">page/967</a></td>
+  <td><span class="tag ok">REACHED</span></td>
+  <td>The distance-weighted Tversky definition, k(d) = max(1 − d/R, 0) with R = 300 m, α = 0.2, β = 0.8; the worked example TP<sub>w</sub> = 3.00, FP<sub>w</sub> = 1.89, FN<sub>w</sub> = 2.00 → 0.60; and the format rules (EPSG:32611, 100 m, same bounds, single layer float32, values 0–1, null or NaN outside bounds). Transcribed into <code>scripts/gems_metric.py</code>, which reproduces 0.602652.</td>
+</tr>
+<tr>
+  <td>Public leaderboard</td>
+  <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">leaderboard</a></td>
+  <td><span class="tag ok">REACHED</span></td>
+  <td>Read 2026-10-08: rank 1 xiaofanhu 0.3774; rank 2 alexoktaba 0.3345; rank 3 nchuzhoy 0.3262; rank 7 DARD 0.3195; rank 13 extradr19 0.2778; rank 17 wbg1 0.2750. Used to correct the brief's stale "0.3195 is the highest score".</td>
+</tr>
+<tr>
+  <td>DOE / NLR GEMS Prize Official Rules, September 2026</td>
+  <td><a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">docs.nlr.gov/…/96647.pdf</a></td>
+  <td><span class="tag ok">REACHED</span></td>
+  <td>§3.2 verified: "a single GeoTIFF with a single raster layer at 100-meter resolution … (three submissions per week)"; "The labels for this prize come from the USGS Quaternary Fault and Fold Database and from a set of newly identified faults labeled by geology experts at the National Laboratory of the Rockies (NLR) and USGS"; and the requirement to disclose generative-AI use in the narrative.</td>
+</tr>
+<tr>
+  <td>Competition data page</td>
+  <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/" target="_blank" rel="noopener">data page</a></td>
+  <td><span class="tag no">BLOCKED</span></td>
+  <td>HTTP 000 from the sandbox and login-gated regardless. This is why no model could be trained here and why the 1 m DEM link list is unavailable.</td>
+</tr>
+<tr>
+  <td>New-submission form text</td>
+  <td class="muted small">quoted in the brief</td>
+  <td><span class="tag info">FROM BRIEF</span></td>
+  <td>"You can submit a single-band GeoTIFF (.tif) file, or a .zip file containing a single GeoTIFF … It must match the submission format's CRS, shape, and geotransform." Reproduced on the <a href="index.html#submit">how-to-submit</a> page.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Evidence layers used by the submission</h2>
+<table>
+<thead><tr><th>Layer</th><th>Link / landing page</th><th>Status</th><th>Licence &amp; hash</th></tr></thead>
+<tbody>
+<tr>
+  <td>USGS State Geologic Map Compilation, NV + CA fault layers</td>
+  <td><a href="https://mrdata.usgs.gov/geology/state/" target="_blank" rel="noopener">mrdata.usgs.gov/geology/state</a><br>
+      <span class="muted small">NV.zip 69,056,094 B · CA.zip 24,977,406 B</span></td>
+  <td><span class="tag warn">BLOCKED HERE</span><br><span class="small muted">fetched by a GitHub Actions runner per the pinned receipt</span></td>
+  <td>US Government work / public domain (USGS Mineral Resources Program).<br>
+      <span class="hash small">recorded SHA-256: NV 3b333ac0…, CA 78765ba4…</span></td>
+</tr>
+<tr>
+  <td>Derived input actually read by the builder</td>
+  <td><code>data/external/derived_sgmc_faults_100m_u8.tif</code></td>
+  <td><span class="tag ok">LOCAL</span></td>
+  <td>100 m rasterisation, uint8, nodata 255, 82,151 positive cells.<br>
+      <span class="hash small">sha256 26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c</span></td>
+</tr>
+<tr>
+  <td>Organizer label raster (USGS Quaternary Fault and Fold DB + INGENIOUS)</td>
+  <td><code>data/grid/labels.tif</code></td>
+  <td><span class="tag ok">LOCAL</span></td>
+  <td>Hash matches the corpus's own pinned receipt exactly.<br>
+      <span class="hash small">sha256 7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093 · 425,830 B · 60,988 positive cells</span></td>
+</tr>
+<tr>
+  <td>GDR INGENIOUS compilation v2 (catalogue provenance)</td>
+  <td><a href="https://gdr.openei.org/submissions/1391" target="_blank" rel="noopener">gdr.openei.org/submissions/1391</a><br>
+      <span class="muted small">DOI 10.15121/1881483</span></td>
+  <td><span class="tag warn">BLOCKED HERE</span></td>
+  <td>CC BY 4.0 per the pinned receipt (6,131,182 B, sha256 c7b091c9…).</td>
+</tr>
+<tr>
+  <td>USGS GeoDAWN airborne magnetic and radiometric surveys</td>
+  <td><a href="https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and" target="_blank" rel="noopener">usgs.gov GeoDAWN</a><br>
+      <span class="muted small">DOI 10.5066/P93LGLVQ</span></td>
+  <td><span class="tag warn">NOT USED</span></td>
+  <td>CC0 1.0 per sibling notes (not re-verified here). Deliberately excluded from this submission so that its provenance rests on a single layer.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Deliberately not used, and why</h2>
+<table>
+<thead><tr><th>Source</th><th>Reason</th></tr></thead>
+<tbody>
+<tr><td>USGS FDSN / ComCat earthquake catalogue</td>
+<td>Sibling documentation records the mixed-network export's contributor-specific redistribution and sponsor-sharing rights as unresolved. Seismicity is the strongest local comparator in the corpus, so this is the single highest-value unresolved item in the whole project — it needs a rights decision before it can be used.</td></tr>
+<tr><td>1 m DEM tiles (<code>1m_DEM_links.csv</code>)</td>
+<td>The link list is login-gated on the data page and no reachable mirror exists, so no DEM-derived layer could be built. The named free official source is <a href="https://www.usgs.gov/3d-elevation-program" target="_blank" rel="noopener">USGS 3DEP / The National Map</a> (public domain) — obtainable on an unrestricted machine, but not here.</td></tr>
+<tr><td>The mirrored "sample submission"</td>
+<td>It is not one. See irregularity 1 on the <a href="evidence.html">Evidence</a> page — it is cell-for-cell the catalogue mask.</td></tr>
+</tbody>
+</table>
+
+<footer><p class="muted small">If any link above is dead for you, the finding it supports is still testable
+from the copies and hashes recorded in <code>registry/sources.json</code>.</p></footer>
+</div>
+</body>
+</html>
