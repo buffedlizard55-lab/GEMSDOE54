@@ -1,12 +1,12 @@
 {
   "candidate": {
     "candidate_surface_preflighted": true,
-    "candidate_tif_generated": false,
+    "candidate_tif_generated": true,
     "existing_artifact_approved_for_upload": false,
     "existing_artifact_downloadable_for_research": true,
     "existing_repository_artifact": {
       "format_validation": "FAIL \u2014 outside-footprint cells are finite zeroes, contrary to official page",
-      "holdout_validation": "NOT ESTABLISHED",
+      "holdout_validation": "NOT ESTABLISHED (circular SGMC proxy)",
       "in_footprint_range_validation": "PASS",
       "name": "gems54-undercomplement-q200",
       "path": "docs/downloads/gems54-undercomplement-q200.tif",
@@ -14,42 +14,104 @@
       "strict_lane_validation": "FAIL \u2014 DUPLICATE",
       "upload_approved": false
     },
-    "holdout_status": "NOT RUN \u2014 the candidate surface failed the pre-placement duplicate-lane rule, which requires stopping before dot placement and holdout scoring.",
-    "new_candidate_downloadable": false,
+    "holdout_status": "ESTABLISHED on the catalogue-truth proxy (whole segments withheld, 4 spatial quadrant folds + 300 m buffer, features from visible catalogue only, pixel-exact mask, pooled DTI alpha 0.2 beta 0.8 300 m triangular kernel, 2000-replicate whole-segment cluster bootstrap, algebra self-checked against the organizer metric, passes analyse_holdout_receipt.py). Cannot reward genuinely new off-catalogue faults; not a competition score. The proxy penalizes off-catalogue mass, so this is a lower bound on the off-catalogue task.",
+    "new_candidate_downloadable": true,
     "safe_to_upload": false,
     "verdict": "negative"
   },
-  "generated_utc": "2026-10-08T22:17:53+00:00",
+  "generated_utc": "2026-10-08T23:31:25+00:00",
   "leaderboard": {
     "fetched_utc": "2026-10-08",
-    "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",
+    "receipt_policy": "These are observations from the live public leaderboard (participant handles as displayed), not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt. The 0.2778 row is not linked by this snapshot to the named H33 raster.",
     "score_claims_are_organizer_confirmed": false,
     "selected_rows": [
       {
         "displayed_value": 0.3774,
-        "rank": 1
+        "participant": "xiaofanhu",
+        "rank": 1,
+        "submissions": 13
+      },
+      {
+        "displayed_value": 0.3345,
+        "participant": "alexoktaba",
+        "rank": 2,
+        "submissions": 25
+      },
+      {
+        "displayed_value": 0.3262,
+        "participant": "nchuzhoy",
+        "rank": 3,
+        "submissions": 6
+      },
+      {
+        "displayed_value": 0.326,
+        "participant": "joeyfezster",
+        "rank": 4,
+        "submissions": 24
+      },
+      {
+        "displayed_value": 0.3222,
+        "participant": "kinghorton42",
+        "rank": 5,
+        "submissions": 9
+      },
+      {
+        "displayed_value": 0.3221,
+        "participant": "Batik Shirt Brothers (team)",
+        "rank": 6,
+        "submissions": 23
       },
       {
         "displayed_value": 0.3195,
-        "rank": 7
+        "participant": "DARD",
+        "rank": 7,
+        "submissions": 16
+      },
+      {
+        "displayed_value": 0.2888,
+        "participant": "ndavis7",
+        "rank": 8,
+        "submissions": 9
+      },
+      {
+        "displayed_value": 0.2884,
+        "participant": "mzoorob",
+        "rank": 9,
+        "submissions": 27
+      },
+      {
+        "displayed_value": 0.2876,
+        "participant": "GrigorSargsyan",
+        "rank": 10,
+        "submissions": 14
+      },
+      {
+        "displayed_value": 0.2854,
+        "participant": "HardcoreTechGod",
+        "rank": 11,
+        "submissions": 6
+      },
+      {
+        "displayed_value": 0.2797,
+        "participant": "op01",
+        "rank": 12,
+        "submissions": 8
       },
       {
         "displayed_value": 0.2778,
-        "rank": 13
-      },
-      {
-        "displayed_value": 0.275,
-        "rank": 17
+        "participant": "extradr19",
+        "rank": 13,
+        "submissions": 12
       }
     ],
     "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-    "status": "PUBLIC-LEADERBOARD SNAPSHOT \u2014 official page fetched; no individual submission-page receipts copied"
+    "status": "PUBLIC-LEADERBOARD SNAPSHOT \u2014 official page fetched live this session; no individual submission-page receipts copied"
   },
   "schema": "gemsdoe54.local-feed.v1",
   "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",
   "sources": {
     "official_data_download_authenticated": false,
-    "registered": 19
+    "registered": 20
   },
   "workspace": {
     "missing_inputs": [

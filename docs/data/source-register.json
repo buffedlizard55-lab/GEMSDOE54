@@ -1,6 +1,6 @@
 {
   "schema": "gemsdoe54.source-register.v1",
-  "status_note": "Official problem, rules, data-login redirect, leaderboard, and GDR pages were fetched/read on 2026-10-08 as recorded. Leaderboard rows are public-page observations without submission-page receipts; exact external-data coverage and downloads remain unverified.",
+  "status_note": "Updated 2026-10-08: live public leaderboard snapshot (top 0.3774) and named free official sources for hypotheses H2/H3 (USGS ComCat, 3DEP 1 m DEM) registered. Leaderboard rows remain public-page observations without submission receipts; exact external-data coverage and downloads remain unverified.",
   "sources": [
     {
       "id": "drivendata_overview",
@@ -63,7 +63,7 @@
       "title": "GEMS prize challenge submission/data PDF",
       "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
       "source_class": "NREL/DOE (user-supplied link)",
-      "session_status": "Official DOE/NLR rules PDF fetched/read on 2026-10-08; §3.2 confirms one 100 m GeoTIFF, three submissions per week, and generative-AI disclosure in the narrative.",
+      "session_status": "Official DOE/NLR rules PDF fetched/read on 2026-10-08; \u00a73.2 confirms one 100 m GeoTIFF, three submissions per week, and generative-AI disclosure in the narrative.",
       "use": "Rules reference only; does not establish candidate validity or score."
     },
     {
@@ -153,6 +153,14 @@
       "source_class": "USGS data service",
       "session_status": "Official USGS water-data/API information found via search on 2026-10-08; exact study-area station coverage and time series not queried",
       "use": "Potential groundwater time series; no data downloaded."
+    },
+    {
+      "id": "usgs_comcat",
+      "title": "USGS ANSS Comprehensive Catalog (ComCat)",
+      "url": "https://earthquake.usgs.gov/earthquakes/search/",
+      "source_class": "official external data (USGS)",
+      "session_status": "Not fetched from this sandbox (host not on allowlist). Owner-mirrored copy referenced in sibling repo GEMSDOE50 (usgs_comcat_earthquakes.csv.gz). Free, official, login-free; fresh pull from any unrestricted machine is the primary route.",
+      "use": "Named data source for hypothesis H2 (seismicity-prioritized CGRC). Obtainability checked; local coverage not yet queried."
     }
   ]
 }

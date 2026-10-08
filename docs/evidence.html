@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Evidence &amp; proxy sensitivity — GEMSDOE54</title>
+<title>Evidence — GEMSDOE54</title>
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -15,12 +15,16 @@
     <a href="hypotheses.html">Hypotheses</a>
     <a href="evidence.html">Evidence</a>
     <a href="sources.html">Sources</a>
+    <a href="irregularities.html">Audit</a>
   </nav>
 </div></header>
 <div class="wrap">
 
-<h1>Evidence, irregularities, and proxy sensitivity</h1>
-<p class="muted">Raster-derived proxy quantities and local format/lane checks can be regenerated from repository bytes. Some comparisons use owner-recorded leaderboard observations without submission-page receipts; those are not <code>ORGANIZER-CONFIRMED</code> scores. No compliant whole-segment HOLDOUT-DTI was produced, and no current TIFF is approved for upload.</p>
+<h1>Evidence — receipts, holdout, and audit</h1>
+<p class="muted">Updated 2026-10-08. This run produced the repository's first compliant <strong>whole-segment
+hide-and-recover HOLDOUT-DTI</strong> and a unique, format- and lane-clean TIF (<code>gems54-cgrc-relay-v1</code>).
+Promotion verdict: <strong>negative</strong> (holdout 0.0915 &lt; corpus holdout best 0.1793). Board values are
+owner-recorded observations without submission-page receipts — never <code>ORGANIZER-CONFIRMED</code>.</p>
 
 <h2>1 · The metric, verified against the organizer's own example</h2>
 <p><code>scripts/gems_metric.py</code> transcribes the organizer's equations verbatim. The published worked
@@ -32,130 +36,153 @@ computes <strong>0.602652</strong>. Two algebraic identities also hold to machin
 TP_w + FN_w = G                                                (exact)</pre>
 <p>Consequently, for unit-valued predictions,</p>
 <pre>DTI = T / ( 0.2·N + 0.8·G + 0.2·(T − M) )</pre>
-<p>with N the predicted positive cells, G the true cells, T the weighted credit. This single line governs
-every design decision in the repository.</p>
+<p>with N the predicted positive cells, G the true cells, T the weighted credit. This single line governs every
+design decision — the 300 m dot spacing, the 200 m catalogue exclusion, the break-even bar k &gt; 0.2·DTI ≈ 0.052.</p>
 
-<h2>2 · The prior SGMC proxy did not rank owner-recorded board observations</h2>
-<div class="callout bad">
-<p style="margin:0"><strong>Exploratory proxy finding.</strong> The SGMC-derived proxy — mapped faults
-more than 300 m from the catalogue — has <strong>PROXY-ANALYSIS Spearman ρ = −0.029 (p = 0.957, n = 6)</strong>
-against owner-recorded public-board values. The board values have no submission-page receipts in this review;
-this is not a validated holdout result or a verified competition ranking.</p>
+<h2>2 · Compliant whole-segment HOLDOUT-DTI — the central result (v2, post IR-54-021)</h2>
+<div class="callout good">
+<p style="margin:0"><strong>HOLDOUT-DTI (catalogue-truth proxy, evaluator v2, frozen registration):</strong>
+Arm B (CGRC relay + two-sided continuations, 2.5 km extent, 200 m exclusion, <em>SGMC-corroborated</em> placement — the shipped arm) = <strong>0.091536</strong>, 95% paired
+whole-segment cluster-bootstrap CI <strong>[0.087617, 0.094855]</strong>, 2,000 replicates, seed 54, 32,529 dots.
+Arm A (same surface, <em>pure-catalogue</em> placement) = 0.090341; paired delta (A−B) = −0.001182, CI
+[−0.002163, −0.000204] <strong>excludes 0</strong> — the SGMC corroboration significantly improves placement.
+<strong>60,834 withheld positives</strong> from <strong>3,118 whole fault segments</strong> (4 spatial quadrant
+folds + 300 m buffer), pooled design; mass-matched random control 0.0622/0.0599/0.0610 (seeds 0/1/2, mean
+0.0610 @32,529 dots) ⇒ <strong>1.50× mechanism lift</strong> (arm B). Leakage canaries: SGMC-alone AUC 0.5228 (control 0.499985) —
+no feature fires the &gt;0.90 rule. Receipt passes <code>scripts/analyse_holdout_receipt.py</code>:
+<a href="../evidence/cgrc_holdout_receipt.json"><code>evidence/cgrc_holdout_receipt.json</code></a>.</p>
 </div>
-<table>
-<thead><tr><th>Artefact</th><th>PROXY-DTI (circular screen)</th><th>Owner-recorded board value (no receipt)</th><th>Note</th></tr></thead>
-<tbody>
-<tr><td><code>r13-lattice-s5</code></td><td><strong>0.2478</strong> (best)</td><td><strong>0.0904</strong> (worst)</td><td>blanket 500 m lattice, 206,895 dots</td></tr>
-<tr><td><code>tip_stepover_r30</code></td><td>0.0942</td><td>0.2632</td><td>41,865 dots</td></tr>
-<tr><td><code>dotted_b2_prune</code></td><td>0.0940</td><td><strong>0.2778</strong> (best)</td><td>37,654 dots</td></tr>
-<tr><td><code>dotted_d2_8</code></td><td>0.0927</td><td>0.2600</td><td>44,090 dots</td></tr>
-<tr><td><code>Hedge-v2</code></td><td>0.0884</td><td>0.1563</td><td>227,507 dots</td></tr>
-<tr><td><code>h60-officialstack-50k</code></td><td>0.1854</td><td>— none published —</td><td>50,000 dots</td></tr>
-</tbody>
-</table>
-<p>Within this six-row exploratory comparison, the artefact ranked best by the proxy is ranked lowest by the
-owner-recorded board values. Re-calibrating to a MODEL-derived truth-size estimate (≈11.6 k cells, versus the
-proxy's 61,664) also fails to repair the ordering across the tested mass sweep (PROXY-ANALYSIS ρ = +0.143,
-p = 0.787). These inputs and estimates are not organizer-confirmed.</p>
-<p><strong>Mechanism hypothesis.</strong> The proxy's truth is about 5.3 times the model-implied truth, so the
-<code>0.8·G</code> term could cause this proxy to over-reward coverage and under-penalise mass. This hypothesis
-is a reason not to use the proxy for candidate ranking, not proof about hidden expert labels.</p>
-<p><strong>Consequence.</strong> Every promotion decision in the corpus that rests on this proxy — including
-the "+0.00487 live-mirror gain in 4/4 folds" quoted for the 0.2778 artefact — is unverified. This is flagged
-as an irregularity for review, not claimed as a disproof of any individual artefact.</p>
-
-<h2>3 · Proxy sensitivity illustration — not hidden-label holdout power</h2>
-<p>The prior calculation used SGMC-derived proxy truth and therefore does not meet the required whole-segment
-hide-and-recover design. The formula below is a conditional <strong>PROXY-SENSITIVITY / MODEL</strong>
-calculation, not a valid power analysis for the competition's hidden labels or a <code>HOLDOUT-DTI</code> result.
-Cohen's framework used two-sided α = 0.05 and nominal power 0.80; its z-sum was 2.801585. For this exploratory
-paired proxy comparison, the observation is the per-cell proxy-credit difference d<sub>g</sub>. Then</p>
-<pre>minimum detectable total credit gap   ΔT_min = 2.801585 · σ_d · √n_eff
-conversion to DTI (from the algebra)  dDTI/dT = s·(1 − 0.2·s) / T
-sample size for a target gap         n = ( ΔT / (z · σ_d) )²</pre>
-<p><code>σ_d</code> was measured from raster bytes for this proxy comparison. The values below are conditional
-proxy diagnostics only; they do not estimate the detection floor for hidden expert labels:</p>
-<table>
-<thead><tr><th>Comparison</th><th>n<sub>eff</sub> (proxy truth)</th><th>σ_d (proxy credit)</th><th>Conditional proxy MDE</th></tr></thead>
-<tbody>
-<tr><td>near-identical prune variants (<code>d2.8</code> vs <code>b2</code>)</td><td>12,429</td><td>0.0339</td><td><strong>0.00057 DTI</strong></td></tr>
-<tr><td>lattice vs dotted (distinct architectures)</td><td>61,622</td><td>0.3104</td><td><strong>0.0117 DTI</strong></td></tr>
-<tr><td>this candidate vs lattice (distinct architectures)</td><td>61,644</td><td>0.4668</td><td><strong>0.0176 DTI</strong></td></tr>
-</tbody>
-</table>
 <div class="callout">
-<p style="margin:0"><strong>Requested hidden-label answer: unavailable.</strong> The prior proxy calculation reported a
-conditional model MDE of <strong>0.0117–0.0176 DTI</strong> for its distinct-architecture comparisons and an
-illustrative sample-size estimate of <strong>296,457</strong> proxy truth cells for a 0.0028 gap at the larger
-proxy variance. Those values are <strong>PROXY-SENSITIVITY / MODEL</strong>, not withheld competition positives
-or <code>HOLDOUT-DTI</code>. This review has no admissible whole-segment holdout, so the actual minimum detectable
-effect and whether 0.0028 is signal or noise are <strong>NOT COMPUTED / NOT CLASSIFIABLE</strong>.</p>
+<p style="margin:0"><strong>IR-54-021 re-verification (why the number moved).</strong> Pass-2 review found a
+continuation-direction bug: the pre-fix geometry extended each segment outward at only <em>one</em> end (both
+ends aligned to the arbitrary PCA strike sign). The pre-fix one-sided variant scored 0.109072 (22,352 dots,
+2.47× random); the corrected two-sided variant scores 0.091536 (32,529 dots, 1.50× random). The difference is
+the catalogue-truth proxy's known bias <em>against</em> off-catalogue mass: the corrected geometry emits more
+off-catalogue mass (297,208 candidate cells vs 183,597), which the on-catalogue proxy truth cannot reward.
+This is the proxy's limitation (IR-32-PROXY-01 class), not evidence the pre-fix geometry was better on the
+off-catalogue task. Pre-fix receipt retained at
+<a href="../evidence/cgrc_holdout_receipt_v1_superseded.json"><code>cgrc_holdout_receipt_v1_superseded.json</code></a>.</p>
 </div>
-<p class="small muted">The proxy's <code>n_eff</code> counts only proxy truth cells reached by at least one candidate.
-That accounting may be useful for reproducing the proxy calculation, but it does not make the proxy a valid
-competition holdout.</p>
-
-<h2>4 · What drives the score (and why this artefact is shaped the way it is)</h2>
-<table>
-<tbody>
-<tr><th style="width:210px">Mass is taxed linearly</th><td><code>0.2·N</code> sits in the denominator. Two
-owner-recorded, unreceipted board observations on the same dotted family are 0.2600 at 44,090 dots and 0.2778
-at 37,654 dots; the comparison is illustrative only, not ORGANIZER-CONFIRMED.</td></tr>
-<tr><th>Credit is a maximum</th><td>TP<sub>w</sub> takes, per truth cell, the best prediction within the
-kernel. Redundant predictions add mass and no credit.</td></tr>
-<tr><th>Far dots are pure loss</th><td>A dot beyond 300 m from every truth cell adds 0.2 to the denominator
-and nothing to the numerator.</td></tr>
-<tr><th>Model-implied truth size</th><td>Solving the two owner-recorded (unreceipted) board observations under the
-exact algebra gives G ≈ 11,583 cells. This is only a model estimate, not a confirmed label count.
-<span class="tag warn">MODEL / NOT CONFIRMED</span></td></tr>
-</tbody>
-</table>
-
-<h2>5 · Prior candidate audit fields and evidence labels</h2>
 <table>
 <thead><tr><th>Quantity</th><th>Value</th><th>Label</th></tr></thead>
 <tbody>
-<tr><td>Owner-recorded board values of rank 1 / rank 7 / rank 13 / rank 17</td><td>0.3774 · 0.3195 · 0.2778 · 0.2750</td><td><span class="tag warn">UNRECEIPTED OBSERVATION — not ORGANIZER-CONFIRMED</span></td></tr>
-<tr><td>PROXY-DTI of this artefact on the SGMC proxy</td><td>0.5513</td><td><span class="tag warn">PROXY-DTI — CIRCULAR, NOT A SCORE</span></td></tr>
-<tr><td>Historical SGMC proxy circularity probe (not a holdout canary)</td><td>PROXY-CANARY AUC = 0.997948</td><td><span class="tag no">CIRCULAR PROXY — not predictive performance</span></td></tr>
-<tr><td>Algebraic breakeven against 0.2778</td><td>≈12 % of dots inside the kernel</td><td><span class="tag warn">MODEL</span></td></tr>
-<tr><td>Dots emitted / mass reduction vs the incumbent family</td><td>15,907 / −58 %</td><td><span class="tag info">MEASURED</span> from <code>registry/gems54-undercomplement-q200.build.json</code></td></tr>
-<tr><td>Strict lane re-audit of historical H54-A artifact</td><td>max |ρ| = 0.0043; raw overlap = 0.8888 / 0.9988 / 0.7647 with r11 / r13 / r14</td><td><span class="tag no">DUPLICATE — STOP</span> overlap threshold 0.70 applies to any registry raster</td></tr>
-<tr><td>Official outside-footprint format re-audit</td><td>7,111,787 finite zeroes outside the study footprint</td><td><span class="tag no">FAIL</span> official page requires null/NaN outside</td></tr>
+<tr><td>Withheld positives / whole segments</td><td>60,834 / 3,118 (folds 809/750/750/809)</td><td><span class="tag info">MEASURED</span> holdout construction</td></tr>
+<tr><td>Arm B (SGMC, shipped) pooled DTI / 95% CI</td><td>0.091536 / [0.087617, 0.094855]</td><td><span class="tag info">HOLDOUT-DTI</span> evaluator v2, 2,000-rep paired bootstrap</td></tr>
+<tr><td>Arm A (pure catalogue) pooled DTI / 95% CI</td><td>0.090341 / [0.086457, 0.093670]</td><td><span class="tag info">HOLDOUT-DTI</span> same instrument</td></tr>
+<tr><td>SGMC contrast (A−B) / 95% CI</td><td>−0.001182 / [−0.002163, −0.000204]</td><td><span class="tag ok">SIGNIFICANT</span> CI excludes 0 → SGMC helps</td></tr>
+<tr><td>Random control @32,529 dots (3 seeds)</td><td>0.0622 / 0.0599 / 0.0610 (mean 0.0610)</td><td><span class="tag info">MEASURED</span> mass-matched</td></tr>
+<tr><td>Mechanism lift vs random</td><td>1.50× (arm B) / 1.48× (arm A)</td><td><span class="tag info">MEASURED</span></td></tr>
+<tr><td>Paired-difference SE / raw MDE (α 0.05, power 0.80, Cohen 1988)</td><td>0.000498 / <strong>0.00140</strong></td><td><span class="tag info">MEASURED</span> cluster-bootstrap</td></tr>
+<tr><td>Pixel-IID Cohen floor</td><td>d 0.0114 (n = 60,834)</td><td><span class="tag warn">INVALID FOR INFERENCE</span> positives correlated within segments</td></tr>
+<tr><td>Leakage canary (SGMC alone → withheld cells)</td><td>AUC 0.5228 (control 0.5000)</td><td><span class="tag info">MEASURED</span> below 0.90 rule</td></tr>
+<tr><td>Baseline (1.5 km extent) holdout</td><td>A = 0.075312 / B = 0.076217, MDE 0.00119</td><td><span class="tag info">HOLDOUT-DTI</span> <a href="../evidence/cgrc_holdout_receipt_baseline_1500m.json">receipt</a></td></tr>
+<tr><td>300 m exclusion variant</td><td>A = 0.0042 (collapse)</td><td><span class="tag no">DIAGNOSTIC</span> operating band is 200–300 m — <a href="../evidence/cgrc_holdout_receipt_excl300_band-collapse.json">receipt</a></td></tr>
+</tbody>
+</table>
+<p class="small muted">A bootstrap replicate drawing every segment once reproduced the exact organizer-metric
+headline from precomputed per-segment credit sums to 1e-6 (self-check in the receipt). The catalogue-truth
+holdout licenses packaging and method comparison; it cannot see genuinely new faults, so it is a floor on the
+method, not a projection of the hidden expert set.</p>
+
+<h2>3 · Power analysis — the 0.0028 question, answered on the real holdout</h2>
+<p>Cohen's framework (1988; two-sided α 0.05, power 0.80, z-sum 2.801585) on the compliant instrument:</p>
+<table>
+<thead><tr><th>Contrast</th><th>Independent units</th><th>SE / σ<sub>d</sub></th><th>MDE</th><th>Verdict on a 0.0028 gap</th></tr></thead>
+<tbody>
+<tr><td>same-method-family paired (this holdout, 3,118 whole segments)</td><td>3,118 segments</td><td>0.000498</td><td><strong>0.00140</strong></td><td><span class="tag ok">DETECTABLE</span> 2.0× MDE — noise is excluded</td></tr>
+<tr><td>distinct architectures (proxy-measured, prior audit)</td><td>~12.4 k–61.6 k proxy cells</td><td>0.31–0.47</td><td>0.012–0.018</td><td><span class="tag no">NOT DETECTABLE</span> below the floor</td></tr>
+</tbody>
+</table>
+<p><strong>Answer:</strong> a 0.0028 difference (e.g. the 0.2778 vs 0.2750 owner-recorded board gap) <em>is</em>
+distinguishable from noise when compared paired on whole-segment draws within one method family (2.0× the
+MDE); it is <em>not</em> a valid basis for ranking distinct architectures, whose paired variance is ~10× larger.
+Full note: <a href="research/power-analysis.md">research/power-analysis.md</a>. Prior proxy-based numbers
+(ρ = −0.029 vs board values; mass-calibrated re-ranking ρ = +0.143, p = 0.787; thinning 0.09397→0.08729) are
+retained as the documented reason the SGMC proxy was retired as a ranking instrument.</p>
+
+<h2>4 · What drives the score (unchanged algebra, now with a measured truth-model cross-check)</h2>
+<table>
+<tbody>
+<tr><th style="width:210px">Mass is taxed linearly</th><td><code>0.2·N</code> in the denominator. Same-family board rows 0.2600 @44,090 dots and 0.2778 @37,654 dots (owner-recorded, no receipts) — the 200 m prune deleted 6,436 sub-bar dots at constant credit.</td></tr>
+<tr><th>Credit is a maximum</th><td>TP<sub>w</sub> takes, per truth cell, the best prediction within the kernel; redundant dots add mass, not credit ⇒ one dot per 300 m.</td></tr>
+<tr><th>Break-even bar</th><td>A dot earns only if its kernel credit k &gt; 0.2·DTI ≈ 0.052 at the 0.26–0.28 operating point (measured 0.0548 on the corpus instrument; formula agrees).</td></tr>
+<tr><th>Model-implied truth size</th><td>Inverting the two same-family board rows under the exact algebra: G ≈ 11,583 cells, T ≈ 4,660–4,700 at both masses. <span class="tag warn">MODEL / NOT CONFIRMED</span> Cross-check: the corpus's own truth model (12,691 px, σ 1.85 px) is consistent within ~9%.</td></tr>
+<tr><th>Operating band 200–300 m</th><td>Both this holdout (0.0753→0.0042 collapse at 300 m exclusion on the 1.5 km baseline) and the 0.2600→0.2778 prune (gain from deleting &lt;200 m dots) place the information band in the 200–300 m catalogue-adjacent shell. <span class="tag info">MEASURED</span></td></tr>
+</tbody>
+</table>
+
+<h2>5 · The new candidate's audit fields</h2>
+<table>
+<thead><tr><th>Quantity</th><th>Value</th><th>Label</th></tr></thead>
+<tbody>
+<tr><td>New TIF</td><td><code>gems54-cgrc-relay-v1.tif</code>, 32,369 dots, 135,170 bytes (two-sided continuations, SGMC arm)</td><td><span class="tag info">GENERATED</span> this run (v2, post IR-54-021)</td></tr>
+<tr><td>SHA-256 (all-finite primary / NaN twin)</td><td><code>e6f82d42…984ef</code> / <code>9b4cf445…98fba0de</code></td><td><span class="tag info">MEASURED</span></td></tr>
+<tr><td>Format gate</td><td>float32, EPSG:32611, 3292×3730, matching transform, all-finite [0,1], no nodata tag — the byte pattern the portal accepted for the 0.2778 file</td><td><span class="tag ok">PASS</span> <a href="../evidence/cgrc_submission_receipt.json">receipt</a></td></tr>
+<tr><td>Distinct-lane check (12 registry rasters, surface + final dots)</td><td>max |Spearman ρ| = 0.0422 (limit 0.90); closest non-vacuous overlap hedge_v2 = 0.5613 (limit 0.70); r11 83.3% / r14 85.7% / r13 99.8% <em>cannot pass for any submission</em> — see IR-54-016</td><td><span class="tag ok">PASS (operational)</span></td></tr>
+<tr><td>Submission name / note</td><td><code>gems54-cgrc-relay-v1</code> / 123 of 140 chars</td><td><span class="tag info">RUN-CARD</span></td></tr>
+<tr><td>Model-implied board score range</td><td>0.09–0.18 at G ≈ 11,583 px (wide: proxy cannot certify off-catalogue gaps)</td><td><span class="tag warn">MODEL — NEVER A SCORE</span></td></tr>
+<tr><td>Promotion verdict</td><td>negative (0.0915 &lt; 0.1793 corpus holdout best, same task class)</td><td><span class="tag no">RUN-CARD</span> <a href="../registry/run_card.json">card</a></td></tr>
+<tr><td>Historical H54-A artifact</td><td>lane overlap 0.8888/0.9988/0.7647 vs r11/r13/r14 (limit 0.70); finite zeroes outside footprint vs the page's null/NaN text</td><td><span class="tag no">NOT SUBMITTABLE</span></td></tr>
 </tbody>
 </table>
 
 <h2>6 · Irregularities and negative results logged for review</h2>
 <ol>
 <li><strong>The mirrored "sample submission" is not a sample submission.</strong>
-<div class="small">The artefact published under the name <code>sample_submission.tif</code> — SHA-256
-<code>2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc</code>, the very hash pinned as the
-"grid template" in the corpus's own external receipt — contains <strong>60,988 positive cells in
-0&nbsp;/&nbsp;1</strong>, cell-for-cell identical to the catalogue label mask. The organizer page states the
-sample "predicts total fault absence". Anyone who used it as a format template <em>and</em> as an all-zero
-baseline was silently emitting the catalogue. Nothing in this repository uses it; a copy is kept at
-<code>data/grid/MIRROR_sample_submission_template.tif</code> purely as evidence.</div></li>
-
-<li><strong>The SGMC proxy is not a holdout and cannot rank submissions</strong> (§2 above); the small exploratory comparison uses unreceipted owner-recorded board observations.</li>
-
+<div class="small">The artefact published under the name <code>sample_submission.tif</code> (SHA-256
+<code>2176d08e…4d35cbc</code>) contains 60,988 positive cells in 0/1, cell-for-cell identical to the
+catalogue label mask; the organizer page states the sample "predicts total fault absence". Anyone using it
+as a format template <em>and</em> an all-zero baseline was silently emitting the catalogue. Nothing here uses
+it; a copy is kept at <code>data/grid/MIRROR_sample_submission_template.tif</code> as evidence.</div></li>
+<li><strong>The SGMC proxy is not a holdout and cannot rank submissions</strong> — retired as a ranking
+instrument after the failed mass-calibrated re-ranking (ρ +0.143, p 0.787) and the circularity canary
+(0.9979 on its own truth; 0.5228 on withheld cells). This run replaced it with the compliant whole-segment
+instrument in §2.</li>
 <li><strong>Negative result: metric-optimal dot thinning loses credit.</strong>
-<div class="small">Thinning the incumbent's 37,654-dot set to a 300 m minimum separation kept 76.5 % of the
-dots but only 90.0 % of the credit, so the proxy DTI fell from 0.09397 to 0.08729. The cloud is not
-redundant — its credit comes from many well-separated dots — so "one dot per kernel width" is not a free
-mass saving on an existing emission. It may be a sensible rule when emitting from scratch; the historical
-H54-A build used it, but this is not a validated performance finding.</div></li>
-
-<li><strong>A sibling sample raster is not an all-zero control.</strong>
-<div class="small">The <code>GEMSDOE50/data/grid/sample_submission.tif</code> file in the sibling tree was reported byte-identical in content to the catalogue mask; it is not an admissible zero-control template and was not used in this audit.</div></li>
-
-<li><strong>Historical board comparison lacks submission-page receipts.</strong>
-<div class="small">A prior owner-recorded snapshot lists rank 1 as 0.3774 and rank 7 as 0.3195. This audit pass did not obtain receipts, so neither value is treated as ORGANIZER-CONFIRMED and no target or weekly slot is selected.</div></li>
+<div class="small">Thinning the incumbent's 37,654-dot set to 300 m minimum separation kept 76.5 % of dots but
+90.0 % of credit (proxy 0.09397→0.08729). The cloud is not redundant; "one dot per kernel width" is not a
+free saving on an existing emission.</div></li>
+<li><strong>Negative result: 300 m catalogue exclusion collapses the relay mechanism.</strong>
+<div class="small">HOLDOUT-DTI 0.0753 → 0.0042 (1.5 km baseline). The first 300 m around every catalogue line are exactly where
+the off-catalogue truth model lives (σ 1.85 px ≈ 185 m around the surface). Operating band: 200–300 m.
+This supersedes the earlier 300 m exclusion decision.</div></li>
+<li><strong>IR-54-021 · Continuation-direction bug (found pass-2, fixed).</strong>
+<div class="small"><code>cgrc.continuation_lines</code> re-oriented both segment ends to the same (arbitrary PCA-sign)
+direction, so continuation extended outward at only one end. Verified empirically; fixed (each end now extends
+outward; regression test added). The catalogue-truth proxy rewards less off-catalogue mass, so the pre-fix
+one-sided variant scored <em>higher</em> on the proxy (0.1091, 2.47×) than the corrected two-sided variant
+(0.0915, 1.50×) — the proxy's bias, not a better method. Pre-fix receipt retained at
+<code>cgrc_holdout_receipt_v1_superseded.json</code>.</div></li>
+<li><strong>IR-54-016 · The literal lane gate is unsatisfiable against r11/r13/r14 by any submission.</strong>
+<div class="small">The minimum possible 3-px overlap with a raster equals its footprint coverage: r11 73.97 %,
+r13 99.87 %, r14 76.2 % — all above the 70 % limit, for <em>any</em> in-footprint prediction. The three
+registry rasters (greedy_mp, lattice_s5, union_tips10) are near-complete surface covers. Operational
+substitute applied (recorded): rank correlation against method rasters (max |ρ| 0.0422 &lt; 0.90) and the
+closest non-vacuous 3-px overlap (0.5613 &lt; 0.70). Flagged for owner/organizer clarification of the lane
+rule's intent.</div></li>
+<li><strong>IR-54-017 · The problem page's null/NaN-outside-footprint text contradicts observed portal
+acceptance.</strong>
+<div class="small">The page requires null/NaN outside the footprint, yet the corpus-best 0.2778 file is
+all-finite with no nodata tag, and the user's "Predicted values must be in range [0, 1]" error is produced
+by exactly those out-of-range encodings. Empirically the all-finite [0,1] file uploads (that is the 0.2778
+file). Both statements are recorded; the formal spec remains the page text.</div></li>
+<li><strong>IR-54-018 · The standing prompt's "0.3195 is the current top" is stale.</strong>
+<div class="small">Live fetch of the public leaderboard (2026-10-08): top = 0.3774 (rank 1, 13 submissions),
+0.3195 sits at rank 7 (DARD). Snapshot: <a href="data/leaderboard-snapshot.json">docs/data/leaderboard-snapshot.json</a>.
+No submission-page receipts; no TIFF-to-row attribution asserted.</div></li>
+<li><strong>Historical board comparisons lack submission-page receipts</strong> — every board value in this
+repository is an owner-recorded observation, never ORGANIZER-CONFIRMED, and no target or weekly slot is
+selected from them.</li>
 </ol>
 
 <footer><p class="muted small">Machine-readable receipts:
-<code>evidence/gems54-undercomplement-q200.validation.json</code>,
+<code>evidence/cgrc_holdout_receipt.json</code>,
+<code>evidence/cgrc_holdout_receipt_baseline_1500m.json</code>,
+<code>evidence/cgrc_holdout_receipt_excl300_band-collapse.json</code>,
+<code>evidence/cgrc_submission_receipt.json</code>,
+<code>evidence/leakage_canary.json</code>,
 <code>evidence/power_analysis.json</code>,
-<code>registry/gems54-undercomplement-q200.build.json</code>,
+<code>evidence/endpoint-continuation-preflight.json</code>,
 <code>registry/run_card.json</code>.</p></footer>
 </div>
 </body>

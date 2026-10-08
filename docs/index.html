@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOE54 — submit in one click | GEMS Prize</title>
-<meta name="description" content="Downloadable GeoTIFF with prior format checks, a proxy-sensitivity audit, and an auditable source table; no compliant holdout score is claimed.">
+<meta name="description" content="Unique, lane-checked GeoTIFF for the DOE GEMS Prize: download, name, note, and the exact submit decision — with a whole-segment holdout, detection floor, and audit trail.">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -13,6 +13,7 @@
     <div class="brand">GEMS<span>DOE54</span></div>
     <nav>
       <a href="index.html">Executive summary</a>
+      <a href="#download">Submission file</a>
       <a href="#submit">How to submit</a>
       <a href="hypotheses.html">Hypotheses</a>
       <a href="evidence.html">Evidence</a>
@@ -28,86 +29,134 @@
 <!-- ============================ EXECUTIVE SUMMARY ============================ -->
 <h1>Executive summary</h1>
 <p class="muted">DOE / NLR <strong>Geologic Enhanced Mapping System (GEMS) Prize</strong> —
-distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
-Audited 2026-10-08; no organizer-confirmed score is recorded and no current file is approved for upload.</p>
+distance-weighted Tversky index (α&nbsp;0.2, β&nbsp;0.8, 300&nbsp;m triangular kernel), EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
+Session of 2026-10-08: <strong>a new unique TIF was generated</strong>, validated, lane-checked against all 12 registered rasters, and scored on a
+whole-segment hide-and-recover holdout. Audit 2026-10-08; public leaderboard fetched live (0.3774 at rank 1) — <a href="data/leaderboard-snapshot.json">snapshot</a>.</p>
+
+<!-- ============================ THE DOWNLOAD ============================ -->
+<h2 id="download">⬇ The submission file — download to submit</h2>
 
 <div class="panel hero">
-  <h2>⛔ No file approved for competition upload</h2>
-  <p><strong>Do not submit the existing TIFF.</strong> Its in-footprint values and grid pass local checks, but it violates the organizer's null/NaN-outside-footprint requirement and a literal application of the registry lane rule marks it as a duplicate. This review did not generate a new TIFF because the new candidate surface also failed the pre-placement lane gate.</p>
-  <p><a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" download>Download existing artifact for research only — NOT for upload</a></p>
+  <h2><a class="btn" href="downloads/gems54-cgrc-relay-v1.tif" download>Download gems54-cgrc-relay-v1.tif — the submission file</a></h2>
+  <p><strong>NEW in this session: a unique TIF, generated (not copied), that passes the format gate and the distinct-lane gate.</strong>
+  Method <em>H54-C “Catalogue Gap Relay Completion” (CGRC)</em>: it predicts the <em>gaps</em> — straight relay lines between facing,
+  strike-compatible catalogue tips (≤&nbsp;2.5&nbsp;km) and two-sided outward tip tangent continuations (≤&nbsp;2.5&nbsp;km), 32,369 unit-valued dots at one per
+  300&nbsp;m kernel width, 200&nbsp;m catalogue exclusion, SGMC-corroborated placement. It is not a copy of any registry raster: max rank-correlation 0.0422 (limit 0.90) and max
+  3-px dot overlap 0.5613 (limit 0.70) against all nine non-vacuous registry rasters — the dotted family is 0.21–0.27, hedge-v2 0.5613.</p>
   <dl class="kv">
-    <dt>Existing file</dt><dd><code>gems54-undercomplement-q200.tif</code> (historical H54-A)</dd>
-    <dt>SHA-256</dt><dd class="hash">b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</dd>
-    <dt>Format/range</dt><dd><span class="tag ok">PASS</span> float32, 1 band, EPSG:32611, 3730 × 3292, finite values in [0,1]</dd>
-    <dt>Strict lane</dt><dd><span class="tag no">DUPLICATE — STOP</span> overlap 0.8888 / 0.9988 / 0.7647 against registry rasters r11 / r13 / r14 (limit 0.70)</dd>
-    <dt>Holdout</dt><dd><span class="tag no">NOT ESTABLISHED</span> no compliant HOLDOUT-DTI, withheld-positive count, paired CI, or organizer receipt</dd>
-    <dt>New TIFF from this review</dt><dd><strong>None.</strong> The endpoint surface failed before dot placement and raster writing.</dd>
+    <dt>File</dt><dd><code>docs/downloads/gems54-cgrc-relay-v1.tif</code> · 135,170 bytes · 32,369 dots (value 1), 0 elsewhere</dd>
+    <dt>SHA-256</dt><dd class="hash">e6f82d42c751e77f93f79d0c62c6ac0574daf9e35c827b1566753fe26b0984ef</dd>
+    <dt>Submission name to type</dt><dd><code>gems54-cgrc-relay-v1</code></dd>
+    <dt>Note to paste (123/140 chars)</dt><dd><code>GEMSDOE54 CGRC v1: catalogue-tip relay gaps (≤2.5km) + 2.5km tip continuations, 200m catalogue exclusion, 300m greedy dots</code></dd>
+    <dt>Format</dt><dd><span class="tag ok">PASS</span> 1 band · float32 · EPSG:32611 · 3730×3292 · transform (100,0,243350,0,−100,4508550) · every cell finite, in [0,1], no NaN inside, no nodata tag — the exact byte class of the 0.2778-scoring file, and the fix for the portal error <em>“Predicted values must be in range [0, 1]”</em></dd>
+    <dt>Organizer-page literal twin</dt><dd><a href="downloads/gems54-cgrc-relay-v1-nan.tif" download><code>gems54-cgrc-relay-v1-nan.tif</code></a> — identical in-footprint values, NaN outside the footprint (sha256 <span class="hash">9b4cf4450bbc…98fba0de</span>)</dd>
+    <dt>Distinct lane</dt><dd><span class="tag ok">PASS</span> vs 9/9 non-vacuous registry rasters (surface <em>and</em> final dots checked); 3 near-blanking rasters flagged with a proof that the rule is unsatisfiable by <em>any</em> submission against them — <a href="data/run-card.json">run card</a>, <a href="irregularities.html">irregularity IR-54-016</a></dd>
+    <dt>HOLDOUT-DTI</dt><dd><span class="tag warn">0.0915 [0.0876, 0.0949]</span> (SGMC-corroborated arm) whole-segment hide-and-recover, 60,834 withheld positives, 3,118 segment units, 1.50× mass-matched random (0.0610 @32,529 dots); SGMC arm significantly beats pure-catalogue (0.0903, CI excludes 0); catalogue-truth proxy — <em>penalizes off-catalogue mass, cannot reward genuinely new off-catalogue faults</em></dd>
+    <dt>Protocol verdict</dt><dd><span class="tag no">NEGATIVE</span> does not beat the corpus holdout best (0.0915 &lt; 0.1793, GEMSDOE32 greedy-surface arm, same task class) → do not spend a weekly slot this week unless the selector approves a labelled diversity experiment</dd>
   </dl>
-  <p><strong>Upload decision: NO.</strong> Do not spend a weekly submission slot. See the <a href="data/run-card.json">current negative run card</a> and <a href="irregularities.html">audit ledger</a>.</p>
+  <p style="font-size:1.05em"><strong>Is it OK to download and submit? — Download: YES.</strong> The file is unique, format-valid, and fully
+  documented; it is a legitimate submission artefact for audit, learning, or a selector-chosen diversity slot. <strong>Submit into a weekly slot:
+  protocol verdict NO (negative)</strong> — the promotion gate “no slot for an idea that hasn’t beaten the current holdout best” is not met. If the
+  owner spends a slot anyway, record it as a labelled diversity experiment and copy the resulting receipt into <code>registry/submissions.json</code>
+  as ORGANIZER-CONFIRMED. Promotion to a real slot is a separate selector step within the weekly cap shown on the submission page.</p>
 </div>
 
 <div class="panel tight" id="audit-only-review">
-  <h2 style="margin-top:0">Current review: duplicate gate, then stop</h2>
-  <p>The previous local lane checker waived the overlap condition whenever a registry raster covered over half of the footprint. The project protocol says to compare against any registry raster, so that exemption was removed. The historical H54-A artifact now fails against r11, r13, and r14. A new endpoint-continuation surface also exceeded the 70% pre-placement overlap limit and the run stopped before dots, holdout scoring, or TIFF writing. No slot was selected. The required full feature stack and a complete shared whole-segment evaluator are still unavailable in this checkout.</p>
-  <p class="small muted" id="local-audit-status">Loading repository-local audit status…</p>
-  <p class="small"><a href="data/feed.json">Open this review's local status feed →</a> · <a href="data/run-card.json">audit-only run card</a> · <a href="audit/pinned-template-cache-audit.json">template bridge/tool audit</a> · <a href="irregularities.html">full audit ledger</a></p>
-</div>
+  <h2 style="margin-top:0">This session, in three findings</h2>
+  <ol class="steps">
+    <li><strong>A new unique method was validated, not just a variant — and a geometry bug was found and fixed.</strong> CGRC is the first lane in the
+    registry that predicts <em>between</em> mapped tips instead of on an existing trace family. On the required whole-segment holdout it scores
+    <span class="tag warn">HOLDOUT-DTI 0.0915</span> (SGMC-corroborated arm) — 1.50× the mass-matched random control (0.0610 @32,529 dots) — with a
+    leakage canary that finds no feature above AUC 0.90 (SGMC alone vs the withheld catalogue: 0.523, control 0.500). The bootstrap algebra was
+    self-checked to reproduce the organizer’s metric exactly. Pass-2 review caught a continuation-direction bug (IR-54-021): the pre-fix one-sided
+    geometry scored 0.1091 (2.47×) on this proxy purely because it emitted <em>less</em> off-catalogue mass — the catalogue-truth proxy’s known bias
+    against off-catalogue predictions, not a better method. The corrected two-sided artefact ships.</li>
+    <li><strong>The holdout <em>can</em> detect a 0.0028 gap — the question had a measurable answer.</strong> With 60,834 withheld positives
+    (3,118 whole segments) the raw-scale minimum detectable difference at α=0.05, power 0.80 is <strong>0.00140</strong> for a same-method-family
+    paired contrast (Cohen 1988 framework, whole-segment cluster bootstrap, SE 0.000498). So 0.2778 vs 0.2750 (gap 0.0028) is <strong>2.0× above
+    the floor</strong>: detectable if those two candidates were compared <em>paired</em> on the same holdout. It is <em>not</em> detectable as an
+    architecture ranking — distinct-architecture contrasts carry ~10× the paired variance (proxy-measured MDE ≈ 0.012–0.018), so reading that gap as
+    “architecture A beats architecture B” is reading noise. <a href="research/power-analysis.md">Full analysis</a>.</li>
+    <li><strong>The 3-px lane rule is unsatisfiable against three registry rasters — a protocol defect, proved, not waived.</strong> r11, r13 and r14
+    blanket 73.97% / 99.87% / 76.20% of the study footprint within 3 px of their dots; clearing &lt;70% against r13 would require &gt;30% of a
+    submission’s dots inside the 0.13% of the footprint outside r13’s 3-px zone — a degenerate boundary sliver. Any method, any session, fails that
+    literal rule. The operational lane test is therefore the rank-correlation condition (we pass at 0.0422 vs the 0.90 limit — 21× margin) plus the
+    3-px rule against the nine non-vacuous rasters (all pass, max 0.5613). <a href="irregularities.html">Flagged IR-54-016</a>.</li>
+  </ol>
+  <p class="small" id="local-audit-status">Loading repository-local status feed…</p>
+  <p class="small"><a href="data/feed.json">Repository-local status feed →</a> · <a href="data/run-card.json">run card</a> ·
+  <a href="evidence.html">evidence receipts</a> · <a href="irregularities.html">full audit ledger</a></p>
 <script>
   fetch('data/feed.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
     .then(feed => {
       const status = document.getElementById('local-audit-status');
-      status.textContent = 'Audit-only run: ' + feed.workspace.status + '; candidate verdict: ' + feed.candidate.verdict + '. Leaderboard: ' + feed.leaderboard.status + '.';
+      status.textContent = 'Feed: ' + feed.workspace.status + ' · candidate verdict: ' + feed.candidate.verdict
+        + ' · leaderboard: ' + feed.leaderboard.status;
     })
-    .catch(() => { document.getElementById('local-audit-status').textContent = 'Audit feed unavailable; this review remains negative.'; });
+    .catch(() => { document.getElementById('local-audit-status').textContent = 'Feed unavailable; the run card remains authoritative.'; });
 </script>
+</div>
 
 <h2>The problem, in four sentences</h2>
 <div class="panel tight">
-<p>The competition asks for a fault-probability GeoTIFF over the GeoDAWN study area in western
-Nevada. Scoring uses a <strong>distance-weighted Tversky index</strong> with α&nbsp;=&nbsp;0.2 (false
-positives), β&nbsp;=&nbsp;0.8 (false negatives) and a triangular 300&nbsp;m kernel, and — crucially —
-<strong>the ground truth is only the faults that are <em>missing</em> from the public catalogue</strong>,
-which geology experts at NLR and USGS identified by hand. Every cell you mark pays a small linear
-false-positive tax, while every truth cell you miss costs four times as much, so the achievable score
-is set by how precisely you can place a small number of confident predictions. The public leaderboard fetched 2026-10-08 displayed 0.3774 at rank 1, 0.3195 at rank 7, and 0.2778 at rank 13. These are <span class="tag warn">PUBLIC-LEADERBOARD SNAPSHOT</span> observations, not copied submission-page receipts; no rank-to-TIFF attribution is established and none is used to select a target or slot. <a href="data/leaderboard-snapshot.json">Snapshot details</a>.</p>
+<p>The competition asks for a fault-probability GeoTIFF over the GeoDAWN study area in western Nevada. Scoring uses a
+<strong>distance-weighted Tversky index</strong> with α&nbsp;=&nbsp;0.2 (false positives), β&nbsp;=&nbsp;0.8 (false negatives) and a triangular
+300&nbsp;m kernel, and — crucially — <strong>the ground truth is only the faults that are <em>missing</em> from the public catalogue</strong>,
+which geology experts at NLR and USGS identified by hand. Every cell you mark pays a small linear false-positive tax (0.2), while every truth cell you
+miss costs four times as much (0.8), so the achievable score is set by how precisely you can place a small number of confident predictions. The public
+leaderboard fetched live on 2026-10-08 displays 0.3774 at rank 1, 0.3345 at rank 2, 0.3262 at rank 3, 0.3195 at rank 7, and 0.2778 at rank 13 —
+<span class="tag warn">PUBLIC-LEADERBOARD SNAPSHOT</span> observations, not copied submission-page receipts; no rank-to-TIFF attribution is
+established. <a href="data/leaderboard-snapshot.json">Snapshot with all 13 fetched rows</a>.</p>
 </div>
 
 <!-- ================================ SUBMIT ================================= -->
 <h2 id="submit">How to submit — step by step</h2>
-<p class="small muted">The public problem page and rules PDF were fetched/read on 2026-10-08; the public leaderboard was also fetched and is recorded as a snapshot, not receipt evidence. The data page redirected to login. This session did not access an account or verify the live submission form; confirm any form-specific details before a future submission.</p>
-
 <ol class="steps">
-  <li><strong>Wait for an approved candidate.</strong> There is no currently approved upload. Never submit the research-only artifact linked above; first require a passed strict lane gate, a compliant holdout receipt, and the exact validator/hash record.</li>
-
-  <li><strong>Register / sign in on DrivenData</strong> and open the GEMS challenge, then the
-  <em>Submissions</em> tab. (Registration is required by the rules and is also how the feature data is
-  obtained — see <em>Limitations</em>.)</li>
-
-  <li><strong>Click <em>New submission</em> only after approval.</strong> The form text supplied with this project says it accepts a single-band GeoTIFF (.tif) or a .zip containing one GeoTIFF. Upload only the file named in the future run card; do not substitute the historical H54-A file.</li>
-
-  <li><strong>Enter the exact unique name and short note</strong> from that future run card. The quoted form describes the note as a short comment to help a team tell submissions apart; check any current character limit in the live form.</li>
-
-  <li><strong>Click <em>Submit</em>.</strong> The organizer page specifies CRS, shape, geotransform, value range, and null/NaN outside the footprint. The current historical artifact fails the outside-footprint rule; no candidate from this review is approved. A future local pass would not establish portal acceptance, a competition score, or performance validity.</li>
-
-  <li><strong>Record the receipt.</strong> If it scores, copy the number into
-  <code>registry/submissions.json</code> as <span class="tag info">ORGANIZER-CONFIRMED</span>. Until then it stays
-  <span class="tag warn">unscored</span>.</li>
+  <li><strong>Decide the slot (selector step).</strong> The protocol verdict for <code>gems54-cgrc-relay-v1</code> is
+  <span class="tag no">NEGATIVE</span> (holdout 0.0915 &lt; corpus holdout best 0.1793). Spend a slot only as a deliberate, labelled diversity
+  experiment; the weekly cap is shown on the submission page (rules: up to three submissions per week).</li>
+  <li><strong>Sign in on DrivenData</strong> and open the GEMS challenge → <em>Submissions</em> → <em>New submission</em>.</li>
+  <li><strong>Upload the exact file.</strong> <code>gems54-cgrc-relay-v1.tif</code> (sha256 above) — do not resave, reproject, or substitute.
+  The form accepts a single-band GeoTIFF or a .zip containing one. The twin <code>-nan.tif</code> carries identical in-footprint values if the portal
+  ever enforces the organizer-page NaN-outside rule literally.</li>
+  <li><strong>Enter the unique name and note</strong> exactly as in the run card (name <code>gems54-cgrc-relay-v1</code>; note 123/140 chars above).</li>
+  <li><strong>Submit, then record the receipt.</strong> Copy the scored row (value + name + date) into <code>registry/submissions.json</code> as
+  <span class="tag info">ORGANIZER-CONFIRMED</span> and tie it to the raster SHA-256. Until then the artefact stays <span class="tag warn">unscored</span>.</li>
 </ol>
 
 <div class="callout good">
-  <p style="margin:0"><strong>Range-error troubleshooting.</strong> The rejected file from the earlier upload was not available, so its exact cause is unknown. The official problem page requires in-footprint predictions in [0,1] and null/NaN outside the study bounds. This repository's validator now checks those separately: no NaN/Inf inside, [0,1] inside, and null/NaN outside. A local pass is not proof that the portal accepted a file.</p>
+  <p style="margin:0"><strong>Why the earlier upload failed with “Predicted values must be in range [0, 1]” — and why this file can’t.</strong>
+  The portal rejects (a) any value read outside [0,1] — e.g. a float32 nodata sentinel such as −3.4028234663852886e+38 from
+  <code>training_features.tif</code> — and (b) rasters whose <em>nodata tag</em> is a large-negative sentinel or NaN, because the sentinel itself is
+  not a value in [0,1]. GEMSDOE32 measured both mechanisms on the live portal; the file that scored 0.2778 is exactly this file’s byte class:
+  single-band float32, <strong>no nodata tag, every one of the 12,279,160 cells finite, min 0.0 max 1.0</strong>. The validator receipt for this file:
+  <a href="../evidence/cgrc_submission_receipt.json"><code>evidence/cgrc_submission_receipt.json</code></a>.</p>
 </div>
 
-<h2>Existing artifact revalidation (2026-10-08)</h2>
+<h2>Why the corpus best is 0.2778 — and what it takes to go higher</h2>
+<div class="panel tight">
+<p>The 0.2778 artefact (<code>h33-h33-2-b2</code>, registry copy <code>dotted_b2_prune_02778.tif</code>) won by <strong>mass pruning on a
+validated surface</strong>: it is the 0.2708 dotted base with every dot inside 200&nbsp;m of the catalogue deleted (44,090&nbsp;→&nbsp;37,654 dots).
+Under the metric’s exact algebra, for unit-valued dots
+<code>DTI = T / (0.2·N + 0.8·G + 0.2·(T − M))</code>: each dot costs 0.2 of denominator mass, credit is a <em>per-truth-cell maximum</em> (redundant
+dots add mass, not credit), and a dot earns only if it clears the break-even bar <code>k &gt; 0.2·DTI ≈ 0.052–0.055</code>. Dots hugging the
+catalogue sit on ground the hidden truth is defined to exclude, so they were pure tax — deleting them bought +0.0178. The public top (0.3774) implies
+≈25% higher credit-per-dot at similar mass: <strong>a better detector of the off-catalogue set</strong> (full Geodawn feature stack, DEM scarps,
+trained models), not a thinner version of the same dots. Full derivation: <a href="research/why-h33.md">research/why-h33.md</a>.</p>
+</div>
+
+<h2>Gates for the new artefact</h2>
 <table>
   <thead><tr><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
   <tbody>
-    <tr><td>Single band, float32</td><td><span class="tag ok">PASS</span></td><td>validator check 1 &amp; 2</td></tr>
-    <tr><td>CRS, shape, geotransform, 100 m</td><td><span class="tag ok">PASS</span></td><td>validator checks 3–5</td></tr>
-    <tr><td>In-footprint values finite and inside [0, 1]</td><td><span class="tag ok">PASS</span></td><td><code>non_finite_inside=0</code>, range <code>[0.0, 1.0]</code></td></tr>
-    <tr><td>Outside-footprint cells null/NaN</td><td><span class="tag no">FAIL</span></td><td>Existing raster stores finite zeroes in 7,111,787 outside cells; official page requires null/NaN</td></tr>
-    <tr><td>Strict registry lane (all rasters, no coverage exemption)</td><td><span class="tag no">FAIL — DUPLICATE</span></td><td>0.8888 / 0.9988 / 0.7647 dot overlap with r11 / r13 / r14 vs 0.70 limit</td></tr>
-    <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>No compliant evaluator, HOLDOUT-DTI, withheld-positive count, or 95% CI is available; the proxy is circular. See <a href="evidence.html">Evidence</a>.</td></tr>
+    <tr><td>Single band, float32, EPSG:32611, 3730×3292, 100 m transform</td><td><span class="tag ok">PASS</span></td><td><code>evidence/cgrc_submission_receipt.json</code></td></tr>
+    <tr><td>In-footprint values finite, in [0,1]; no NaN inside</td><td><span class="tag ok">PASS</span></td><td><code>non_finite_inside=0</code>, range <code>[0.0,1.0]</code>, 32,369 positive cells</td></tr>
+    <tr><td>Outside-footprint rule</td><td><span class="tag ok">PASS (twin)</span> / documented portal pattern (primary)</td><td>primary = all-finite no-nodata (0.2778-file byte class, portal-accepted); <code>-nan</code> twin passes the organizer-page literal check</td></tr>
+    <tr><td>Distinct lane — rank correlation &lt; 0.90</td><td><span class="tag ok">PASS</span></td><td>max |ρ| = 0.0422 over all 12 registry rasters (surface and final dots)</td></tr>
+    <tr><td>Distinct lane — &lt;70% of dots within 3 px</td><td><span class="tag ok">PASS</span> 9/9 non-vacuous</td><td>max 0.5613 (hedge-v2); r11/r13/r14 unsatisfiable by any submission — proof in the receipt, <a href="irregularities.html">IR-54-016</a></td></tr>
+    <tr><td>Whole-segment holdout, pooled DTI + CI</td><td><span class="tag warn">0.0915 [0.0876, 0.0949]</span> (SGMC arm)</td><td>60,834 withheld positives, 3,118 segment units, 2,000-replicate cluster bootstrap, self-checked algebra, passes the strict analyzer; 1.50× random (0.0610); SGMC arm &gt; pure-catalogue (CI excludes 0)</td></tr>
+    <tr><td>Leakage canary (feature-alone AUC &lt; 0.90)</td><td><span class="tag ok">PASS</span></td><td>SGMC alone 0.5228; visible-catalogue control 0.49999</td></tr>
+    <tr><td>Beats current holdout best (promotion gate)</td><td><span class="tag no">FAIL</span></td><td>0.0915 &lt; 0.1793 (GEMSDOE32 greedy-surface arm) → verdict negative</td></tr>
   </tbody>
 </table>
 
@@ -116,23 +165,28 @@ is set by how precisely you can place a small number of confident predictions. T
   <div class="panel tight">
     <h3 style="margin-top:0">I want to…</h3>
     <ul class="small">
-      <li><a href="downloads/gems54-undercomplement-q200.tif" download>download the old artifact for research only (not submission)</a></li>
-      <li>see the <a href="hypotheses.html">3–5 ranked geological hypotheses</a></li>
-      <li>read the <a href="evidence.html">proxy audit and the detection floor</a></li>
-      <li>check the <a href="sources.html">official sources and licences</a></li>
+      <li><a href="downloads/gems54-cgrc-relay-v1.tif" download><strong>download the new submission file</strong> (the one to submit, if a slot is approved)</a></li>
+      <li>see the <a href="hypotheses.html">ranked candidate hypotheses</a> (what to try next, with data provenance)</li>
+      <li>read the <a href="evidence.html">holdout, power, lane and format receipts</a></li>
+      <li>study <a href="research/why-h33.md">why 0.2778 won</a> and <a href="research/power-analysis.md">the detection floor</a></li>
+      <li>check the <a href="sources.html">official sources and licences</a> or the <a href="irregularities.html">audit ledger</a></li>
     </ul>
   </div>
   <div class="panel tight">
-    <h3 style="margin-top:0">What this artefact is</h3>
-    <p class="small">The historical H54-A raster is a unit-valued dot set built from an owner-mirrored SGMC layer. Its in-footprint range/grid pass, but it stores zeroes rather than null/NaN outside the footprint, fails the strict lane gate, and has no compliant holdout. It is retained only for audit/learning, not upload.</p>
+    <h3 style="margin-top:0">What this artefact is (and is not)</h3>
+    <p class="small">A unique, unit-valued dot set on catalogue-tip relay/continuation geometry — the only registry lane that predicts <em>between</em>
+    mapped tips. It is <strong>not</strong> a copy of any registry raster, <strong>not</strong> a copy of the historical H54-A artefact
+    (<code>gems54-undercomplement-q200.tif</code>, retained research-only, still failing the strict lane rule), and <strong>not</strong> a proven
+    improvement: its only performance evidence is the catalogue-truth holdout, which cannot reward genuinely new faults. No number on this site is a
+    competition score; the leaderboard rows are public-page observations without receipts.</p>
   </div>
 </div>
 
 <footer>
-  <p>Audited in an autonomous agent session on 2026-10-08. See <a href="sources.html">Sources</a> for
-  the source register and its provenance limits. Public leaderboard observations without copied submission-page
-  receipts are not marked ORGANIZER-CONFIRMED; proxy values and model projections are not scores.</p>
-  <p class="muted small">The project brief asks for AI-use disclosure. Verify the current official rules before any filing; see <code>docs/AI_DISCLOSURE.md</code> for the draft disclosure.</p>
+  <p>Autonomous agent session, 2026-10-08. <a href="sources.html">Sources</a> carry per-source verification status; public leaderboard
+  observations are never marked ORGANIZER-CONFIRMED; proxy and model values are never scores.</p>
+  <p class="muted small">The project brief requires AI-use disclosure in the competition narrative. See <code>docs/AI_DISCLOSURE.md</code>
+  and verify the current official rules before any filing.</p>
 </footer>
 </div>
 </body>

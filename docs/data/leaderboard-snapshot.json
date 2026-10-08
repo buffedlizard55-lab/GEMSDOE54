@@ -2,13 +2,22 @@
   "schema": "gemsdoe54.public-leaderboard-snapshot.v1",
   "fetched_utc": "2026-10-08",
   "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-  "status": "PUBLIC-LEADERBOARD SNAPSHOT — official page fetched; no individual submission-page receipts copied",
-  "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",
+  "status": "PUBLIC-LEADERBOARD SNAPSHOT — official page fetched live this session; no individual submission-page receipts copied",
+  "receipt_policy": "These are observations from the live public leaderboard (participant handles as displayed), not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt. The 0.2778 row is not linked by this snapshot to the named H33 raster.",
   "selected_rows": [
-    {"rank": 1, "displayed_value": 0.3774},
-    {"rank": 7, "displayed_value": 0.3195},
-    {"rank": 13, "displayed_value": 0.2778},
-    {"rank": 17, "displayed_value": 0.2750}
+    {"rank": 1, "participant": "xiaofanhu", "displayed_value": 0.3774, "submissions": 13},
+    {"rank": 2, "participant": "alexoktaba", "displayed_value": 0.3345, "submissions": 25},
+    {"rank": 3, "participant": "nchuzhoy", "displayed_value": 0.3262, "submissions": 6},
+    {"rank": 4, "participant": "joeyfezster", "displayed_value": 0.3260, "submissions": 24},
+    {"rank": 5, "participant": "kinghorton42", "displayed_value": 0.3222, "submissions": 9},
+    {"rank": 6, "participant": "Batik Shirt Brothers (team)", "displayed_value": 0.3221, "submissions": 23},
+    {"rank": 7, "participant": "DARD", "displayed_value": 0.3195, "submissions": 16},
+    {"rank": 8, "participant": "ndavis7", "displayed_value": 0.2888, "submissions": 9},
+    {"rank": 9, "participant": "mzoorob", "displayed_value": 0.2884, "submissions": 27},
+    {"rank": 10, "participant": "GrigorSargsyan", "displayed_value": 0.2876, "submissions": 14},
+    {"rank": 11, "participant": "HardcoreTechGod", "displayed_value": 0.2854, "submissions": 6},
+    {"rank": 12, "participant": "op01", "displayed_value": 0.2797, "submissions": 8},
+    {"rank": 13, "participant": "extradr19", "displayed_value": 0.2778, "submissions": 12}
   ],
-  "interpretation": "The prompt's later statement that 0.3195 is the current top is stale relative to this fetched page. The public page displays 0.3774 at rank 1 and 0.3195 at rank 7. The 0.2778 entry at rank 13 is not linked by this snapshot to the named H33 raster."
+  "interpretation": "The prompt's statement that 0.3195 is the current top is stale: this live fetch displays 0.3774 at rank 1 and 0.3195 at rank 7 (DARD). Ranks 1-6 (0.3221-0.3774) sit in a band ~15% above the corpus best (0.2778); the gap to the top is consistent with a better off-catalogue detector at comparable dot mass (see docs/research/why-h33.md for the algebra). Participant handles are public leaderboard display names only; no account identity or receipt is asserted."
 }
