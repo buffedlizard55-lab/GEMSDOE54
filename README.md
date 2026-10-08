@@ -1,52 +1,50 @@
 # GEMSDOE54 — GEMS Prize submission repository
 
-> **Read this file first, every session.** It records the standing project brief,
-> source and provenance limits, experiment status, and upload gates. Re-check this
-> file and its linked run card before any work or submission.
+> **Read this file first, every session.** It contains the standing project charter,
+> evidence limitations, the current status, and explicit download/upload decisions.
 
 ---
 
-## ⛔ Submission status — read before downloading
+## ⛔ Current run: no new TIF cleared the gates
 
-**Do not submit any TIFF currently in this repository.** This review did not generate a new TIF. The pre-existing file below is available only as a research/forensic artifact; it is not approved for competition upload.
+**This review generated no new TIFF. Do not upload a file from this run, and do not spend a weekly submission slot on the archived H54-A file.** Two pre-placement surface screens tripped the literal registry-overlap stop rule before point placement. The current run card is [`docs/data/run-card.json`](docs/data/run-card.json); receipts are [`evidence/endpoint-continuation-preflight.json`](evidence/endpoint-continuation-preflight.json) and [`evidence/strict_lane_preflight.json`](evidence/strict_lane_preflight.json).
 
-**Existing artifact:** [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif)
+### Existing archive (for audit/research download only — not a current submission)
 
-**SHA-256:** `b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8`
+- **File:** [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif)
+- **SHA-256:** `b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8`
+- **Bytes:** 94,282 · **Positive cells:** 15,907 (archived build receipt; not a score)
 
-**Bytes:** 94,282 · **Positive cells:** 15,907
-
-| Gate | Status | Evidence |
+| Gate | Current review result | Evidence |
 |---|---|---|
-| In-footprint dtype/grid/range/finite checks | ✅ **PASS** | [`evidence/gems54-undercomplement-q200.validation.json`](evidence/gems54-undercomplement-q200.validation.json) |
-| Official outside-footprint null/NaN rule | ❌ **FAIL** — existing TIF stores finite zero values outside the study footprint | same receipt |
-| Strict registry lane rule | ❌ **DUPLICATE — STOP** (0.8888 near `r11`, 0.9988 near `r13`, 0.7647 near `r14`; limit 0.70) | same validator receipt |
-| Compliant hide-and-recover HOLDOUT-DTI / paired 95% CI | ❌ **NOT ESTABLISHED** | No compliant evaluator/receipt; prior SGMC proxy is circular |
-| New unique TIFF generated in this review | ❌ **NO** | Endpoint-continuation surface failed the pre-placement lane gate; dots/TIFF were not written |
-| Okay to upload/use a weekly slot | ❌ **NO** | Lane duplicate + no admissible holdout or organizer receipt |
+| Format / range / grid | ⚠️ Grid, dtype, and in-footprint range pass; current conservative outside-footprint null/NaN check **FAILS** because the archive stores zeroes outside the cached footprint. Official page not re-fetched. | [`evidence/h54a-archive-strict-revalidation.json`](evidence/h54a-archive-strict-revalidation.json) |
+| Literal lane uniqueness | ❌ **DUPLICATE — STOP**: raw 3-pixel overlap exceeds 70% for three dense registry rasters | [`evidence/h54a-archive-strict-revalidation.json`](evidence/h54a-archive-strict-revalidation.json) |
+| Required whole-segment hidden-label holdout | ❌ **NOT ESTABLISHED**; no compliant evaluator, withheld-positive count, paired 95% CI, or detection floor | [`docs/research/power-analysis.md`](docs/research/power-analysis.md) |
+| Safe to upload / weekly slot selected | ❌ **NO** | [`docs/data/run-card.json`](docs/data/run-card.json) |
 
-The old lane receipt marked the near-blanketing registry rasters “inadmissible” and ignored their overlap. That exemption is not in the user's stated rule (“any registry raster”), so the old “distinct lane” verdict is withdrawn. The official public page displayed 0.2778 at rank 13, but no submission-page receipt links that row to the named H33 artifact; do not claim it as an `ORGANIZER-CONFIRMED` score. There is no valid HOLDOUT-DTI, and no projection is treated as a score.
+The archived raster is retained for audit history and can be downloaded for local inspection, but **this repository does not recommend submitting it**. A GeoTIFF that passes some local format checks is not evidence of complete format compliance, geological validity, or competition performance.
 
-For audit/learning only, you can [download the pre-existing research artifact](docs/downloads/gems54-undercomplement-q200.tif). **That link is not an upload recommendation.** The mandatory request for a new unique TIF conflicts with the fail-closed rule: every attempted surface must stop when it exceeds the literal registry threshold. Do not manufacture uniqueness by choosing uncovered gaps. Proceed only with a genuinely distinct, scientifically motivated method that clears every registry raster before placement, plus authenticated inputs and a compliant whole-segment evaluator; otherwise keep the result negative and do not spend a submission slot.
+### This session's decision
 
-Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** with a copied submission-page receipt. Proxy values are **PROXY-DTI (screening only)** and projections are **MODEL**, never scores.
+Two surface-only screens are recorded: the earlier endpoint-continuation screen and the SGMC topology screen. Each had low rank-correlation but overlapped three near-covering registry rasters above the literal 70% stop threshold, and both stopped before final point placement. There is no new name, note, raster hash, or submission file from these screens. No `HOLDOUT-DTI` was produced. The user-reported difference 0.0028 between 0.2778 and 0.2750 remains **NOT CLASSIFIABLE** as signal or noise without valid withheld-segment counts and paired uncertainty.
+
+The top-ranked cross-gradient hypothesis is blocked: the full feature stack is absent locally and the owner-maintained public cache is not organizer-authenticated. The local checkout also lacks the requested `evaluate_holdout.py` and `submission_writer.py`; the inspected owner-template tree instead exposes a spatial-block evaluator and `submission_io.py`, which do not meet the whole-segment protocol. See [`docs/research/hypotheses-20261008.md`](docs/research/hypotheses-20261008.md) and [`docs/audit/current-review.md`](docs/audit/current-review.md).
+
+Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** copied from a submission-page receipt. User- or owner-reported values are not receipts. Proxy outputs are **PROXY-DTI**, and projections are **MODEL**, never scores.
+
 ---
 
-## Current audit-only review (2026-10-08)
+## Current repository review (2026-10-08)
 
-This review corrected the literal lane-check implementation and the outside-footprint validator. The prior TIF passes in-footprint grid/range checks but fails the official null/NaN-outside rule and the stated registry-overlap limit when all 11 registry rasters are checked without an undocumented near-cover exclusion. An endpoint-continuation surface also failed before placement; the run stopped without dot placement, holdout scoring, or TIFF generation. No new file is approved for upload.
+The review fixed three code-level issues: the lane checker now uses absolute rank correlation and the literal raw overlap threshold; informative holdout pixels exclude the zero-credit 300 m boundary; and the writer rejects non-float32 output. A pre-existing scratch-only preview was calculated out of order after the surface had already crossed its stop rule; it was never persisted or scored and is disclosed in the audit note. Tests cover each fix. No holdout run or weekly submission slot was used.
 
-The public owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eba791dc363305d4a3` was reassembled outside this checkout. All five feature shards and all three reconstructed TIFFs match the bridge manifest and committed runner-generated inventory; the feature cube is structurally varied. This proves byte integrity against owner-maintained pins, not organizer origin. No authenticated DrivenData download occurred. See [`docs/audit/pinned-template-cache-audit.json`](docs/audit/pinned-template-cache-audit.json).
-
-The official public leaderboard page was fetched on 2026-10-08. It displayed `0.3774` at rank 1 and `0.3195` at rank 7; `0.2778` appeared at rank 13. These are **PUBLIC-LEADERBOARD SNAPSHOT** observations, not submission-page receipts, so they are not labeled `ORGANIZER-CONFIRMED` and do not establish that the rank-13 row is the named H33 TIFF. The later prompt statement that `0.3195` is the top value is stale relative to that fetched page. See [`docs/data/leaderboard-snapshot.json`](docs/data/leaderboard-snapshot.json).
-
-The repository still lacks the full authenticated feature stack and a complete shared whole-segment evaluator/writer pair. The local `segment_blocks` helper includes the buffer, but it is only a utility and does not by itself produce a compliant holdout receipt. The public owner-maintained template audited earlier uses spatial blocks, not the required whole-segment protocol.
+The owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eba791dc363305d4a3` was inspected via GitHub API; its tree lists cached feature shards and a spatial-block evaluator, but its manifest cites owner mirrors rather than an authenticated organizer download. This is a provenance and protocol check, not a `HOLDOUT-DTI` result. See [`docs/audit/pinned-template-cache-audit.json`](docs/audit/pinned-template-cache-audit.json).
 
 ---
 
 ## 1. The standing prompt
 
-The following is the standing project brief, condensed from the user-provided session prompt. The extensive sibling-score list is owner-supplied and is intentionally not repeated here as verified data. Read this section, the linked research protocol, and the current run card before any project work.
+The following is the persistent project charter distilled from the full user prompt. It preserves the actionable requirements and exact holdout/lane rules; repeated prose and the long sibling-site score inventory are summarized because those values are user/owner claims, not verified organizer receipts. Read the linked current run card and source register for this session's status.
 
 > Review the repo.
 >
@@ -230,7 +228,7 @@ The following is the standing project brief, condensed from the user-provided se
 > Make suggestions for what work still needs to be done and any limitations that is in
 > the way of a successful project.
 
-**Evidence note:** this historical prompt preserves its original statement that 0.3195 was the top value; it is stale versus the public page fetched on 2026-10-08, which displayed 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13, and 0.2750 at rank 17. These are **PUBLIC-LEADERBOARD SNAPSHOT** observations only: no submission-page receipts were copied, and no TIFF is attributed to a row. See [`docs/data/leaderboard-snapshot.json`](docs/data/leaderboard-snapshot.json).
+**Evidence note:** the standing charter above summarizes the user's repeated requirements and preserves the main protocol. The long historical sibling-site score inventory is user-supplied/owner-reported and is not treated as verified without a corresponding organizer receipt.
 
 ---
 
@@ -238,13 +236,14 @@ The following is the standing project brief, condensed from the user-provided se
 
 | Item | Status |
 |---|---|
-| New unique TIF from this review | ❌ **not generated** — endpoint surface failed strict pre-placement lane check; no dots/TIFF were written |
-| Official metric re-implemented and regression-tested | ✅ `scripts/gems_metric.py`, reproduces the organizer's published worked example |
-| Proxy-based sensitivity estimate computed | ⚠️ `evidence/power_analysis.json` — circular SGMC proxy; **not a compliant HOLDOUT-DTI** |
-| 3–5 ranked hypotheses | ✅ [`docs/hypotheses.html`](docs/hypotheses.html) |
-| Executive summary subpage + how-to-submit | ✅ [`docs/index.html`](docs/index.html), [`docs/index.html#submit`](docs/index.html) |
-| Official sources with links | ✅ [`registry/sources.json`](registry/sources.json) |
-| Training a learned model (reference solution) | ❌ **blocked** — needs DrivenData login; see *Limitations* |
+| New unique TIF from this run | ❌ **NOT GENERATED** — the pre-placement surface triggered the literal lane stop rule |
+| Existing H54-A TIFF | ⚠️ Downloadable for audit only; strict local lane validator flags it as duplicate; **do not upload** |
+| Local format validator | ⚠️ Grid/dtype/in-footprint range pass; strict outside-footprint null/NaN check fails on archived zeroes. Official format page not re-fetched. |
+| Compliant whole-segment HOLDOUT-DTI / power floor | ❌ **NOT PRODUCED** — no complete evaluator, withheld-positive count, or paired CI |
+| Current 3–5 hypothesis shortlist | ✅ [`docs/research/hypotheses-20261008.md`](docs/research/hypotheses-20261008.md); no DTI effect is projected |
+| Executive summary + how-to-submit instructions | ✅ [`docs/index.html`](docs/index.html); clearly states there is no upload-approved file |
+| Official source links and verification status | ✅ [`docs/data/source-register.json`](docs/data/source-register.json); current review statuses are explicit, and unverified sources remain marked as such |
+| Learned model pipeline | ❌ **BLOCKED** — official feature stack absent/authentication not established; holdout tool mismatch also unresolved |
 
 ---
 
@@ -302,8 +301,8 @@ These estimates illustrate how much power depends on the comparison and its vari
 
 ### 3.3 What therefore drives the score — the exact algebra
 
-For unit-valued dot predictions the official metric collapses exactly (verified
-symbolically and numerically) to
+For unit-valued dot predictions the metric formula transcribed in this repository collapses (verified
+symbolically and numerically within the local implementation) to
 
 ```
 DTI = T / ( 0.2·N + 0.8·G + 0.2·(T − M) )
@@ -329,7 +328,7 @@ docs/
   evidence.html               ← the proxy audit + the power analysis, with receipts
   sources.html                ← auditable source table with official links
   downloads/
-    gems54-undercomplement-q200.tif   ← THE SUBMISSION FILE
+    gems54-undercomplement-q200.tif   ← archived H54-A raster; do not upload from this review
 data/
   grid/labels.tif             ← owner-mirrored label raster; origin not authenticated (sha256 7ba308cc…)
   external/derived_sgmc_faults_100m_u8.tif
@@ -338,26 +337,21 @@ data/
 src/gemsdoe54/                ← grid, emission, holdout library
 scripts/
   gems_metric.py              ← exact official metric (regression-tested)
-  build_submission.py         ← builds the artefact
+  build_submission.py         ← legacy builder defaults to ignored `work/`; no publish/selection gate
   validate_submission.py      ← format + range + lane gates
   collect_registry.py         ← assembles the parallel-run registry
   power_analysis.py           ← PROXY-SENSITIVITY illustration only; not hidden-label power
   analyse_holdout_receipt.py  ← strict analysis of a future compliant frozen receipt
   run_all.sh                  ← legacy reproduction pipeline; it rebuilds the prior H54-A artifact
 registry/
-  sources.json                ← every source, licence, and verification status
+  sources.json                ← legacy source record; current review status is in docs/data/source-register.json
   registry_rasters/ + manifest.json   ← prior artefacts for the lane check
   gems54-undercomplement-q200.build.json
-  run_card.json               ← the protocol's required run card
+  run_card.json               ← archived H54-A card; current review card is docs/data/run-card.json
 evidence/                     ← machine-readable receipts
 tests/                        ← metric + emission regressions
 ```
 
-## 5. Reproduce the historical H54-A run (legacy pipeline)
+## 5. Historical H54-A pipeline (legacy / not a current submission workflow)
 
-```bash
-bash scripts/run_all.sh
-```
-
-Requires `numpy`, `scipy`, `rasterio`. The competition inputs are already placed
-in `data/`; `scripts/fetch_inputs.sh` documents where each came from and its hash.
+`scripts/run_all.sh` is retained for audit history only. It rebuilds the old SGMC candidate, uses a circular SGMC proxy, and does not satisfy the current whole-segment holdout or literal lane requirements. **Do not run it to create or submit a current candidate.** The full feature cube and an authenticated blank sample are missing from `data/`; `scripts/fetch_inputs.sh` documents prior mirror paths and hashes but does not authenticate organizer origin.

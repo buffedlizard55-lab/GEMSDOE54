@@ -1,31 +1,69 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Current upload decision, GeoTIFF requirements, and future submission instructions for GEMSDOE54.">
-<title>Executive Summary & Submit Guide | GEMSDOE54</title><link rel="stylesheet" href="assets/audit-site.css"></head>
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="GEMS submission readiness and step-by-step portal instructions. No current TIFF is approved for upload." >
+  <title>Executive Summary & Submit Guide | GEMSDOE54</title><link rel="stylesheet" href="assets/audit-site.css">
+</head>
 <body>
-<header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
-<nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav></div></header>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
 <main>
-<section class="page-title"><div class="eyebrow">Executive summary · upload decision</div><h1>No file is approved for upload.</h1><p class="lead">The existing TIFF passes in-footprint range/grid checks but violates the official null/NaN-outside-footprint rule and the literal registry-lane threshold. This review stopped a new candidate before dot placement and did not generate a new TIF.</p></section>
-<section class="status-banner" aria-labelledby="upload-state"><div class="status-icon" aria-hidden="true">!</div><div>
-<h2 id="upload-state">UPLOAD DECISION: NO</h2><p>The prior H54-A artifact overlaps three registered rasters above the 70% limit when the lane rule is applied without exceptions. Its SGMC proxy is circular; there is no compliant HOLDOUT-DTI, paired 95% CI, or organizer receipt. Do not spend a competition slot.</p></div></section>
-<section class="section two-col"><div><div class="eyebrow">Historical artifact — research only</div><h2>Format is not performance or lane clearance</h2><ul class="list">
-<li><span class="bullet">01</span><span>Existing file: <code>gems54-undercomplement-q200.tif</code>; SHA-256 <code>b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</code>.</span></li>
-<li><span class="bullet">02</span><span>The one-band float32 grid, EPSG:32611, 3730×3292 shape, matching transform, and in-footprint values in [0,1] pass. However, the file stores finite zeroes outside the footprint; the official page requires null/NaN there, so the complete format check fails.</span></li>
-<li><span class="bullet">03</span><span>Strict lane fails: 0.8888, 0.9988, and 0.7647 of its dots are within 3 px of registry rasters r11, r13, and r14; protocol limit is 0.70 for any registry raster.</span></li>
-<li><span class="bullet">04</span><span>No new TIFF was written in this review. The endpoint-continuation score surface failed the pre-placement lane gate: max overlap 0.9992.</span></li>
-</ul></div><aside class="card"><span class="label">Not for submission</span><h3>gems54-undercomplement-q200.tif</h3><p class="detail">This download is retained for audit and learning only. It is not upload-approved.</p><a class="button" href="downloads/gems54-undercomplement-q200.tif" download>Download research artifact — NOT for upload</a><p class="small" style="margin-top:14px"><a href="../evidence/gems54-undercomplement-q200.validation.json">Open strict validation receipt</a></p></aside></section>
-<section class="section" aria-labelledby="requirements"><div class="eyebrow">When a future run clears all gates</div><h2 id="requirements">Submission sequence</h2><p>The official problem page and rules PDF were fetched/read on 2026-10-08. The competition data page redirected to login; no authenticated download or account access occurred. Format requirements below reflect the public problem page, not an upload receipt.</p><div class="grid">
-<article class="step"><div class="step-num">1</div><h3>Require a promotion decision</h3><p class="detail">A future file needs a passed strict lane comparison, authenticated inputs, compliant whole-segment-plus-buffer HOLDOUT-DTI with withheld-positive count and paired 95% CI, feature-alone leakage canaries, and format validation. No current file passes.</p></article>
-<article class="step"><div class="step-num">2</div><h3>Download the exact run-card file</h3><p class="detail">Use only the file/hash explicitly named by the approved run card. Do not resave, reproject, or substitute the historical artifact.</p></article>
-<article class="step"><div class="step-num">3</div><h3>Open the competition submission form</h3><p class="detail">Sign in to the official DrivenData competition and select “New submission.” Account access was not used in this review.</p></article>
-<article class="step"><div class="step-num">4</div><h3>Attach one 100 m GeoTIFF</h3><p class="detail">The official rules call for a single 100 m GeoTIFF. The problem page specifies one-band float32 on EPSG:32611 with matching bounds/grid, finite [0,1] values inside the footprint, and null/NaN outside it. Run the local validator before upload; do not assume it guarantees portal acceptance.</p></article>
-<article class="step"><div class="step-num">5</div><h3>Enter unique identifying text</h3><p class="detail">Copy the exact unique submission name and short note from the future run card. Check any character limit displayed in the live form.</p></article>
-<article class="step"><div class="step-num">6</div><h3>Preserve the organizer receipt</h3><p class="detail">Only a copied submission-page receipt can support an ORGANIZER-CONFIRMED score. Tie the receipt to the submitted raster SHA-256.</p></article>
-</div></section>
-<section class="section" aria-labelledby="error-title"><div class="eyebrow">Troubleshooting</div><h2 id="error-title">“Predicted values must be in range [0, 1]”</h2><div class="card"><p>The error indicates that the portal rejected a value it read as outside the allowed range. The exact rejected file was not available in this review, so its root cause is unknown. Common checks include NaN/Inf, nodata sentinels, negative values, or values above one.</p><p>Check a future candidate before upload:</p><pre>python scripts/validate_submission.py path/to/candidate.tif \
-  --labels data/grid/labels.tif --out evidence/candidate.validation.json</pre><p class="small">A passing local format/range check does not establish performance, organizer acceptance, or eligibility under the separate lane rule.</p></div></section>
-<section class="section callout warning"><p><strong>Current result:</strong> no new unique TIF was generated because the strict lane gate failed before placement. The only current TIFF is explicitly <strong>not okay to submit</strong>.</p><p><a href="data/run-card.json">Review the run card</a> · <a href="irregularities.html">Review irregularities</a> · <a href="research/hypotheses.md">Review ranked hypotheses</a></p></section>
-</main><footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p>Public leaderboard page snapshot fetched 2026-10-08; no submission-page receipts or artifact attribution.</div></footer>
-</body></html>
+  <section class="page-title"><div class="eyebrow">Executive summary · portal guide</div><h1>No upload-approved TIFF.</h1><p class="lead">This page explains the portal workflow for a future validated candidate. The current review generated no TIFF; the prior H54-A archive is only downloadable for inspection and is not recommended for upload.</p></section>
+
+  <section class="status-banner" aria-labelledby="upload-state">
+    <div class="status-icon" aria-hidden="true">!</div>
+    <div><h2 id="upload-state">Current status: DO NOT UPLOAD</h2><p>Neither pre-placement surface screen cleared the lane gate, and no compliant whole-segment HOLDOUT-DTI exists. The archived H54-A raster passes local grid/dtype/in-footprint range checks but fails the current conservative outside-footprint null/NaN check, and the literal overlap checker flags it as duplicate against three dense registry rasters. No weekly slot was used. See the <a href="data/run-card.json">current negative run card</a> and <a href="../evidence/h54a-archive-strict-revalidation.json">archive revalidation receipt</a>.</p></div>
+  </section>
+
+  <section class="section two-col">
+    <div>
+      <div class="eyebrow">Before opening the form</div><h2>File requirements</h2>
+      <ul class="list">
+        <li><span class="bullet">01</span><span>Use a single-band GeoTIFF (<code>.tif</code>) or a ZIP containing exactly one GeoTIFF, as described in the form text supplied with this project.</span></li>
+        <li><span class="bullet">02</span><span>Match the documented study-grid CRS, width/height, and geotransform exactly. The tracked <code>data/grid/MIRROR_sample_submission_template.tif</code> has the same 60,988 positive 0/1 cells as the labels on the local footprint (with NaN outside); it is not a blank baseline, and its organizer origin is unverified.</span></li>
+        <li><span class="bullet">03</span><span>Keep every scored in-footprint value finite and within <code>[0, 1]</code>. Prior source notes and the cached template indicate null/NaN outside the footprint; the official format page was not re-fetched in this review, so confirm the current rule before upload.</span></li>
+        <li><span class="bullet">04</span><span>Use the unique submission name and short note generated for that exact raster. This project's note limit is 140 characters.</span></li>
+        <li><span class="bullet">05</span><span>Do not treat format validity as permission to spend a weekly slot. Require a comparable, preregistered whole-fault-segment hide-and-recover HOLDOUT-DTI result and a passed promotion gate.</span></li>
+      </ul>
+    </div>
+    <aside class="card">
+      <span class="label">Archived H54-A artifact — inspection only</span>
+      <h3>gems54-undercomplement-q200.tif</h3>
+      <p class="detail">Grid/dtype/in-footprint checks pass, but the conservative outside-footprint null/NaN check and literal lane checker fail; there is no compliant HOLDOUT-DTI. The official format page was not re-fetched. Do not upload it based on this review.</p>
+      <a class="button" href="downloads/gems54-undercomplement-q200.tif" download>Download archive for inspection only</a>
+      <p class="small" style="margin-top:14px">SHA-256: <code>b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</code></p>
+      <p class="small">No current-session TIFF or note exists. Weekly-slot selection is separate and was not made here.</p>
+    </aside>
+  </section>
+
+  <section class="section" aria-labelledby="steps-title">
+    <div class="eyebrow">When a future candidate is approved</div><h2 id="steps-title">Exact upload sequence</h2>
+    <div class="grid">
+      <article class="step"><div class="step-num">1</div><h3>Check the separate slot selector</h3><p class="detail">This audit page does not approve a weekly slot. Only a separate selector may decide to submit an explicitly labelled experiment; first inspect the exact artifact hash, holdout evaluator/version, withheld-positive count, 95% CI, registry comparison, and format receipt.</p></article>
+      <article class="step"><div class="step-num">2</div><h3>Download the named GeoTIFF</h3><p class="detail">Save the exact linked <code>.tif</code> file. Do not resave, reproject, rename its contents, or substitute a ZIP from another run. If a ZIP is offered, confirm it contains a single GeoTIFF.</p></article>
+      <article class="step"><div class="step-num">3</div><h3>Open the official contest</h3><p class="detail">Use the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition page</a> and choose the new-submission flow. Use the normal sign-in flow; this review did not access a submission portal or bypass authentication.</p></article>
+      <article class="step"><div class="step-num">4</div><h3>Attach the file</h3><p class="detail">In “File to submit,” choose the downloaded single-band <code>.tif</code> (or the ZIP only if it contains one TIFF). Confirm the displayed filename matches the run card.</p></article>
+      <article class="step"><div class="step-num">5</div><h3>Enter the identifying fields</h3><p class="detail">Paste the exact unique submission name and short note supplied for that raster. Do not copy a prior name or use a projected score in the note.</p></article>
+      <article class="step"><div class="step-num">6</div><h3>Submit and preserve the receipt</h3><p class="detail">After portal validation, save the organizer's result/receipt and link it to the raster hash. Only that receipt can support an <code>ORGANIZER-CONFIRMED</code> score claim.</p></article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="error-title">
+    <div class="section-head"><div><div class="eyebrow">Troubleshooting</div><h2 id="error-title">“Predicted values must be in range [0, 1]”</h2></div></div>
+    <div class="card">
+      <p>The message indicates that the submitted prediction values failed the portal's range check. Common causes include NaN/Inf cells, a nodata sentinel such as a very large negative value, negative values, or values above one. The message alone does not tell us which value or cell caused the rejection; without the rejected file, no single root cause can be asserted.</p>
+      <p>Run the local validator against the candidate and the cached label footprint (the local label raster is not organizer-authenticated):</p>
+      <pre>python scripts/validate_submission.py path/to/candidate.tif \
+  --labels data/grid/labels.tif --out evidence/candidate.validation.json</pre>
+      <p class="small">A passing local check confirms only local format/range conditions. It does not confirm the organizer accepted the file, the holdout is powered, or the candidate should use a weekly slot.</p>
+    </div>
+  </section>
+
+  <section class="section callout warning"><p><strong>Current decision:</strong> no new candidate TIFF was generated because the pre-placement surface triggered the literal lane duplicate gate. The existing archive is downloadable for inspection only, fails the current literal lane gate, has no trustworthy holdout, and is not recommended for upload. No weekly slot was selected.</p></section>
+</main>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p>Last local status: see <a href="data/workspace-audit.json">workspace audit JSON</a>.</p></div></footer>
+</body>
+</html>

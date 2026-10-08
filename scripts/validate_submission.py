@@ -1,26 +1,11 @@
 #!/usr/bin/env python3
-"""Validate a candidate submission against every gate the competition imposes.
+"""Validate a candidate submission against the local format and lane gates.
 
-Gates
------
-FORMAT (organizer-published requirements, verified against
-https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/):
-
-  1.  CRS is the projected system for UTM zone 11N, EPSG:32611
-  2.  resolution 100 m and the same bounds as the training data
-  3.  a single band
-  4.  datatype float32
-  5.  every in-footprint value finite and inside [0, 1]
-  6.  every out-of-footprint cell is null/NaN, as stated on the organizer page
-
-RANGE (the user-observed portal error "Predicted values must be in range [0, 1]"):
-  only scored in-footprint cells are required to be finite and in [0,1]; outside
-  the study bounds must be null/NaN. The exact previously rejected file is not
-  available, so this validator cannot identify the cause of that earlier error.
-
-LANE (parallel-run protocol):
-  6.  rank-correlation against each registry raster must be <= 0.90
-  7.  at most 70 % of dots may fall within 3 px of any single registry raster's dots
+The literal parallel-run gate is applied to every registry raster: absolute
+Spearman rank correlation must be <= 0.90 and no more than 70% of candidate
+positive cells may lie within 3 pixels of that raster's positive cells.  A dense
+registry raster can make this overlap statistic non-discriminating; the report
+marks that condition, but does not silently exempt it from the stated threshold.
 """
 
 from __future__ import annotations
@@ -41,6 +26,13 @@ from gemsdoe54.grid import EXPECTED_CRS, EXPECTED_SHAPE, EXPECTED_TRANSFORM, FOO
 
 
 def check_format(path: Path, labels: Path) -> dict:
+    """Validate local grid/value rules against the cached label footprint.
+
+    Prior project notes and the cached sample mirror indicate that cells outside
+    the footprint should be null/NaN. The official competition page was not
+    fetched in this review; this is a conservative local contract, not portal
+    acceptance.
+    """
     out: dict = {"path": str(path), "checks": {}, "failures": []}
 
     def req(name: str, ok: bool, detail: str) -> None:
@@ -62,116 +54,196 @@ def check_format(path: Path, labels: Path) -> dict:
     with rasterio.open(labels) as src:
         lab = src.read(1)
         nodata = src.nodata
-    foot = lab != nodata
+        label_shape = (src.height, src.width)
+    req("labels_shape", label_shape == arr.shape, f"labels_shape={label_shape}; submission_shape={arr.shape}")
+    if nodata is None:
+        foot = np.ones(lab.shape, dtype=bool)
+        req("label_nodata_defined", False, "cached labels have no nodata sentinel; footprint is unverified")
+    else:
+        foot = lab != nodata
+        req("label_nodata_defined", True, f"nodata={nodata}")
     req("footprint_cells", int(foot.sum()) == FOOTPRINT_CELLS, f"cells={int(foot.sum())}")
-    if arr.shape == foot.shape:
+
+    if foot.shape == arr.shape:
         inside = arr[foot]
         outside = arr[~foot]
         inside_finite = np.isfinite(inside)
         req("no_nan_inside_footprint", bool(inside_finite.all()),
             f"non_finite_inside={int((~inside_finite).sum())}")
-        if inside.size:
+        if inside.size and inside_finite.any():
             finite_values = inside[inside_finite]
-            lo, hi = ((float(finite_values.min()), float(finite_values.max()))
-                      if finite_values.size else (float("nan"), float("nan")))
-            in_range = bool(inside_finite.all() and (inside >= 0.0).all() and (inside <= 1.0).all())
-            req("in_footprint_in_range", in_range, f"in-footprint finite range=[{lo}, {hi}]")
+            lo, hi = float(finite_values.min()), float(finite_values.max())
+            in_range = bool(inside_finite.all() and lo >= 0.0 and hi <= 1.0)
+            req("in_footprint_in_range", in_range, f"finite range=[{lo}, {hi}]")
         else:
-            lo = hi = float("nan")
-            req("in_footprint_in_range", False, "empty study footprint")
-        outside_null = bool(np.isnan(outside).all())
-        req("outside_footprint_null_or_nan", outside_null,
+            lo = hi = None
+            req("in_footprint_in_range", False, "no finite in-footprint values")
+        outside_is_nan = bool(np.isnan(outside).all())
+        req("outside_footprint_null_or_nan", outside_is_nan,
             f"non_nan_outside={int((~np.isnan(outside)).sum())}")
+        nan_inside = int(np.isnan(inside).sum())
+        nan_outside = int(np.isnan(outside).sum())
+        positive = inside[inside_finite & (inside > 0)]
     else:
-        lo = hi = float("nan")
-        req("no_nan_inside_footprint", False, f"array shape {arr.shape} differs from footprint {foot.shape}")
-        req("in_footprint_in_range", False, "cannot test: submission shape differs from footprint")
-        req("outside_footprint_null_or_nan", False, "cannot test: submission shape differs from footprint")
+        lo = hi = None
+        req("no_nan_inside_footprint", False, "submission/label shape mismatch")
+        req("in_footprint_in_range", False, "submission/label shape mismatch")
+        req("outside_footprint_null_or_nan", False, "submission/label shape mismatch")
+        nan_inside = nan_outside = None
+        positive = np.array([], dtype=arr.dtype)
 
-    positives = arr[foot][arr[foot] > 0] if arr.shape == foot.shape else np.array([], dtype=arr.dtype)
     out["values"] = {
-        "in_footprint_min": lo, "in_footprint_max": hi,
-        "positive_cells": int(positives.size),
-        "distinct_positive_values": int(np.unique(positives).size),
-        "nan_inside_footprint": int(np.isnan(arr[foot]).sum()) if arr.shape == foot.shape else None,
-        "nan_outside_footprint": int(np.isnan(arr[~foot]).sum()) if arr.shape == foot.shape else None,
+        "in_footprint_min": lo,
+        "in_footprint_max": hi,
+        "positive_cells": int(positive.size),
+        "distinct_positive_values": int(np.unique(positive).size),
+        "nan_inside_footprint": nan_inside,
+        "nan_outside_footprint": nan_outside,
     }
     out["passed"] = not out["failures"]
     return out
 
+def check_lane_arrays(
+    mine: np.ndarray,
+    registry: list[tuple[str, np.ndarray]],
+    footprint: np.ndarray,
+    *,
+    cell_px: int = 3,
+    max_rho: float = 0.90,
+    max_overlap: float = 0.70,
+) -> dict:
+    """Apply the literal rank-correlation and dot-overlap gates to in-memory arrays.
 
-def check_lane_array(mine: np.ndarray, registry: list[Path], foot: np.ndarray, *,
-                     cell_px: int = 3, max_rho: float = 0.90,
-                     max_overlap: float = 0.70) -> dict:
-    """Apply the parallel-run lane rule literally to a score surface or dot raster.
-
-    Positive cells are ``mine > 0`` inside the study footprint. Outside values
-    (including official NaN nodata) are ignored here and validated separately by
-    ``check_format``. A near-covering registry raster is not exempt: the stated
-    protocol says >70% proximity to *any* registry raster is a stop condition.
-    Coverage is reported to explain conservative flags, but never suppresses them.
+    This supports the required pre-placement check on a continuous candidate surface.
+    Dense/near-covering registry rasters are still evaluated against the numeric
+    overlap threshold; ``overlap_test_admissible`` is diagnostic metadata only.
     """
-    mine = np.asarray(mine, dtype=np.float64)
-    foot = np.asarray(foot, dtype=bool)
-    if mine.ndim != 2 or mine.shape != foot.shape:
-        raise ValueError("prediction and footprint must be same-shape 2-D arrays")
-    if not np.isfinite(mine[foot]).all():
-        raise ValueError("lane comparison requires finite predictions inside the footprint")
-    # A compliant final GeoTIFF has NaN/null outside the study bounds. Ignore
-    # outside-footprint values for lane scoring; the format validator separately
-    # enforces the organizer's outside-footprint rule.
-    mine = np.where(foot, mine, 0.0)
-    mine_dots = mine > 0
-    n_mine = int(mine_dots.sum())
-    d_mine = (distance_transform_edt(~mine_dots, sampling=(100.0, 100.0))
-              if n_mine else None)
+    values = np.asarray(mine)
+    foot = np.asarray(footprint, dtype=bool)
+    if values.ndim != 2 or values.shape != foot.shape:
+        raise ValueError("candidate and footprint must be same-shape two-dimensional arrays")
+    if not foot.any():
+        raise ValueError("footprint must contain at least one scored cell")
+    if not np.isfinite(values[foot]).all():
+        raise ValueError("candidate surface contains non-finite values inside footprint")
+    if isinstance(cell_px, bool) or not isinstance(cell_px, (int, np.integer)) or cell_px < 0:
+        raise ValueError("cell_px must be a nonnegative integer")
+    if not np.isfinite(max_rho) or not 0 <= max_rho <= 1:
+        raise ValueError("max_rho must be in [0, 1]")
+    if not np.isfinite(max_overlap) or not 0 <= max_overlap <= 1:
+        raise ValueError("max_overlap must be in [0, 1]")
+
+    candidate = (values > 0) & foot
+    n_mine = int(np.count_nonzero(candidate))
+    if not registry:
+        return {
+            "my_positive_cells": n_mine,
+            "my_dots": n_mine,
+            "max_absolute_rho_allowed": max_rho,
+            "max_overlap_allowed": max_overlap,
+            "rows": [],
+            "lane_drift_detected": None,
+            "flagged_registry": [],
+            "correlation_indeterminate_for": [],
+            "overlap_test_degenerate_for": [],
+            "degenerate_note": "",
+            "verdict": "INDETERMINATE - no registry rasters",
+        }
+    distance_to_candidate = (
+        distance_transform_edt(~candidate, sampling=(100.0, 100.0)) if n_mine else None
+    )
     rows = []
-    for reg in registry:
-        if not reg.exists():
-            continue
-        with rasterio.open(reg) as src:
-            if (src.height, src.width) != mine.shape:
-                raise ValueError(f"registry grid mismatch: {reg}")
-            other = src.read(1).astype(np.float64)
-        other = np.where(foot & np.isfinite(other), other, 0.0)
-        other_dots = other > 0
-        n_other = int(other_dots.sum())
-        rho_value = spearmanr(mine[foot], other[foot]).statistic
-        rho = float(rho_value) if np.isfinite(rho_value) else 0.0
-        if other_dots.any():
-            d = distance_transform_edt(~other_dots, sampling=(100.0, 100.0))
-            near = int((mine_dots & (d <= cell_px * 100.0)).sum())
-            coverage = float((d[foot] <= cell_px * 100.0).mean())
-            rev = int((other_dots & (d_mine <= cell_px * 100.0)).sum()) if d_mine is not None else 0
+    for name, raw_other in registry:
+        other = np.asarray(raw_other)
+        if other.ndim != 2 or other.shape != values.shape:
+            raise ValueError(f"registry raster {name!r} has shape {other.shape}, expected {values.shape}")
+        if np.issubdtype(other.dtype, np.number):
+            finite_other = np.isfinite(other)
+            other = np.where(finite_other, other, 0.0).astype(np.float64, copy=False)
         else:
-            near, coverage, rev = 0, 0.0, 0
-        frac = near / n_mine if n_mine else 0.0
-        rev_frac = rev / n_other if n_other else 0.0
+            other = other.astype(np.float64)
+        other_dots = (other > 0) & foot
+        n_other = int(np.count_nonzero(other_dots))
+
+        candidate_values = values[foot].astype(np.float64)
+        registry_values = other[foot]
+        if np.ptp(candidate_values) == 0 or np.ptp(registry_values) == 0:
+            rho = None
+        else:
+            rho_value = spearmanr(candidate_values, registry_values).statistic
+            rho = float(rho_value) if np.isfinite(rho_value) else None
+        if other_dots.any():
+            distance = distance_transform_edt(~other_dots, sampling=(100.0, 100.0))
+            near = int(np.count_nonzero(candidate & foot & (distance <= cell_px * 100.0)))
+            coverage = float(np.count_nonzero(foot & (distance <= cell_px * 100.0)) / max(int(foot.sum()), 1))
+        else:
+            near, coverage = 0, 0.0
+        fraction = near / n_mine if n_mine else None
+        rho_flag = rho is not None and abs(rho) > max_rho
+        overlap_flag = fraction is not None and fraction > max_overlap
         rows.append({
-            "registry": reg.name,
+            "registry": name,
             "registry_dots": n_other,
-            "registry_covers_fraction_of_footprint": round(coverage, 4),
-            "overlap_test_admissible": True,
-            "spearman_rho": round(rho, 4),
-            "abs_spearman_rho": round(abs(rho), 4),
+            "registry_covers_fraction_of_footprint": round(coverage, 6),
+            "overlap_test_admissible": coverage <= 0.50,
+            "spearman_rho": round(rho, 6) if rho is not None else None,
+            "absolute_spearman_rho": round(abs(rho), 6) if rho is not None else None,
+            "abs_spearman_rho": round(abs(rho), 6) if rho is not None else None,
             "dots_within_3px": near,
-            "fraction_of_my_dots": round(frac, 4),
-            "fraction_of_registry_dots_within_3px_of_mine": round(rev_frac, 4),
-            "rho_flag": abs(rho) > max_rho,
-            "overlap_flag": frac > max_overlap,
+            "fraction_of_my_dots": round(fraction, 6) if fraction is not None else None,
+            "fraction_of_registry_dots_within_3px_of_mine": (
+                round(int(np.count_nonzero(other_dots &
+                    (distance_to_candidate <= cell_px * 100.0))) / n_other, 6)
+                if n_other and n_mine else 0.0
+            ),
+            "rho_flag": bool(rho_flag),
+            "overlap_flag": bool(overlap_flag),
+            "overlap_degenerate_but_threshold_still_applied": bool(coverage > 0.50),
         })
-    flagged = [r["registry"] for r in rows if r["rho_flag"] or r["overlap_flag"]]
+
+    flagged = [row["registry"] for row in rows if row["rho_flag"] or row["overlap_flag"]]
+    degenerate = [row["registry"] for row in rows if not row["overlap_test_admissible"]]
+    correlation_indeterminate = [row["registry"] for row in rows if row["spearman_rho"] is None]
+    if flagged:
+        verdict = "DUPLICATE - STOP"
+    elif n_mine == 0:
+        verdict = "INDETERMINATE - no positive candidate cells"
+    elif correlation_indeterminate:
+        verdict = "INDETERMINATE - undefined rank correlation"
+    else:
+        verdict = "distinct lane"
     return {
+        "my_positive_cells": n_mine,
         "my_dots": n_mine,
+        "max_absolute_rho_allowed": max_rho,
         "max_rho_allowed": max_rho,
         "max_overlap_allowed": max_overlap,
         "rows": rows,
         "lane_drift_detected": bool(flagged),
         "flagged_registry": flagged,
-        "overlap_test_degenerate_for": [],
-        "degenerate_note": "None: protocol overlap threshold was applied to every registry raster, including near-covering rasters.",
-        "verdict": "DUPLICATE - STOP" if flagged else "distinct lane",
+        "correlation_indeterminate_for": correlation_indeterminate,
+        "overlap_test_degenerate_for": degenerate,
+        "degenerate_note": (
+            "Dense registries may cover most of the footprint, making dot overlap non-discriminating. "
+            "The literal protocol threshold is nevertheless applied; inspect this alongside rank correlation."
+        ) if degenerate else "",
+        "verdict": verdict,
     }
+
+
+def check_lane_array(mine: np.ndarray, registry: list[Path], footprint: np.ndarray, *,
+                     cell_px: int = 3, max_rho: float = 0.90,
+                     max_overlap: float = 0.70) -> dict:
+    """Path-based wrapper for :func:`check_lane_arrays` used by final-raster gates."""
+    rasters = []
+    for reg in registry:
+        if not reg.exists():
+            raise FileNotFoundError(f"registry raster is missing: {reg}")
+        with rasterio.open(reg) as src:
+            other = src.read(1)
+        rasters.append((reg.name, other))
+    return check_lane_arrays(mine, rasters, footprint, cell_px=cell_px,
+                             max_rho=max_rho, max_overlap=max_overlap)
 
 
 def check_lane(path: Path, registry: list[Path], labels: Path, *, cell_px: int = 3,
@@ -181,7 +253,17 @@ def check_lane(path: Path, registry: list[Path], labels: Path, *, cell_px: int =
     with rasterio.open(labels) as src:
         lab = src.read(1)
         foot = lab != src.nodata
-    return check_lane_array(mine, registry, foot, cell_px=cell_px,
+
+    candidate_path = path.resolve()
+    unique_registry = []
+    seen: set[Path] = set()
+    for reg in registry:
+        key = reg.resolve()
+        if key == candidate_path or key in seen:
+            continue
+        seen.add(key)
+        unique_registry.append(reg)
+    return check_lane_array(mine, unique_registry, foot, cell_px=cell_px,
                             max_rho=max_rho, max_overlap=max_overlap)
 
 
@@ -200,28 +282,24 @@ def main() -> int:
     reg_dir = Path(args.registry_dir)
     regs = sorted(reg_dir.glob("*.tif")) if reg_dir.exists() else []
     regs.extend(Path(p) for p in args.extra_registry)
-    # Remove exact duplicate path references, and never compare an artifact with itself.
-    unique_regs = []
-    seen = set()
-    for reg in regs:
-        key = reg.resolve()
-        if key == sub.resolve() or key in seen:
-            continue
-        seen.add(key)
-        unique_regs.append(reg)
-    lane = check_lane(sub, unique_regs, Path(args.labels)) if unique_regs else {
+    lane = check_lane(sub, regs, Path(args.labels)) if regs else {
         "note": "no registry rasters present; run scripts/collect_registry.py first",
         "lane_drift_detected": None,
+        "verdict": "INDETERMINATE - no registry rasters",
     }
     report = {"submission": str(sub), "format": fmt, "lane": lane}
-    text = json.dumps(report, indent=2)
+    text = json.dumps(report, indent=2, allow_nan=False)
     print(text)
     if args.out:
-        Path(args.out).write_text(text + "\n", encoding="utf-8")
+        out = Path(args.out)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(text + "\n", encoding="utf-8")
     if not fmt["passed"]:
         return 1
-    if lane.get("lane_drift_detected"):
-        return 2
+    if lane.get("lane_drift_detected") is True:
+        return 3
+    if lane.get("lane_drift_detected") is None or str(lane.get("verdict", "")).startswith("INDETERMINATE"):
+        return 4
     return 0
 
 

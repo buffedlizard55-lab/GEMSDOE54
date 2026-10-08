@@ -13,7 +13,7 @@
 <main>
   <section class="page-title"><div class="eyebrow">Research notebook</div><h1>Validation before interpretation.</h1><p class="lead">The task is not to find a pattern that looks geological. It is to show that a frozen, leak-free method predicts withheld structure better than a comparable baseline, with uncertainty small enough to support the claim.</p></section>
 
-  <section class="status-banner"><div class="status-icon" aria-hidden="true">!</div><div><h2>Current evidence state: no compliant result from this review</h2><p>The repository contains owner-mirrored label/SGMC files and a pre-existing H54-A candidate, but no authenticated DrivenData download or complete local feature stack. A separate public-template bridge is hash-consistent and nonconstant, but its pins do not authenticate origin. The local segment-buffer helper is not a full evaluator; the audited root template uses spatial blocks. The prior H54-A proxy is circular. A new endpoint-continuation surface failed the literal pre-placement lane rule; no holdout DTI or trustworthy ranking was produced.</p></div></section>
+  <section class="status-banner"><div class="status-icon" aria-hidden="true">!</div><div><h2>Current evidence state: no compliant result from this review</h2><p>The repository contains owner-mirrored label/SGMC files and a pre-existing H54-A archive, but no local feature cube or authenticated DrivenData download. The public owner-template bridge is not organizer-authenticated; its tree exposes a spatial-block evaluator, not the required whole-segment hide-and-recover evaluator. Two surface-only screens stopped at the literal lane-overlap gate before emission. No trustworthy DTI ranking is established.</p></div></section>
 
   <section class="section" id="power">
     <div class="eyebrow">Prerequisite</div><h2>Power and the DTI detection floor</h2>
@@ -46,25 +46,26 @@
     <div class="eyebrow">Parallel-lane gate</div><h2>Duplicate detection is a hard stop</h2>
     <div class="card">
       <p>Before placement and after the final raster write, compare decoded prediction pixels—not TIFF bytes, compression, or filenames—with every accessible registry raster. Stop and record a duplicate if rank-correlation exceeds 0.90 or more than 70% of candidate dots are within 3 pixels of one prior raster's dots.</p>
-      <p><strong>Current result:</strong> the endpoint-continuation score surface failed pre-placement: maximum absolute Spearman correlation 0.0585, but 0.9992 of candidate surface cells were within 3 px of r13; overlaps with r11 and r14 were 0.7479 and 0.8853. The prior H54-A artifact also fails the literal rule. See <a href="../evidence/endpoint-continuation-preflight.json">preflight receipt</a> and <a href="../registry/run_card.json">historical artifact re-audit</a>.</p>
+      <p><strong>Current result:</strong> both in-memory screens had low absolute rank correlation (endpoint continuation max 0.0585; SGMC topology max 0.010694), but each surface's raw 3-pixel support overlap exceeded 70% against <code>r11_greedy_mp</code>, <code>r13_lattice_s5_00904</code>, and <code>r14_union_tips10_lat6</code>. The literal protocol therefore says <strong>duplicate — stop before placement</strong>; no final dots or TIFF exist. Receipts: <a href="../evidence/endpoint-continuation-preflight.json">endpoint-continuation</a> and <a href="../evidence/strict_lane_preflight.json">SGMC topology</a>. A separate re-check flags the archived H54-A raster too. Dense coverage makes the overlap test non-discriminating, but this review did not waive the stated threshold.</p>
     </div>
   </section>
 
   <section class="section" aria-labelledby="hypotheses-title">
-    <div class="section-head"><div><div class="eyebrow">Research backlog</div><h2 id="hypotheses-title">Ranked candidate hypotheses</h2></div><p>Qualitative priority only; no DTI improvement is projected.</p></div>
-    <div class="card"><p>The detailed ranking specifies layers, physical signatures, catalogue-missing mechanisms, local prior-art distinctions, confounders, source checks, and implementation cost.</p>
-      <ol>
-        <li>Endpoint-tangent continuation of visible fault traces — best locally testable; pre-placement lane gate failed, so no holdout was run.</li>
-        <li>Geothermal-expression gate on mapped structures — public GDR packages listed; exact files/lineage not checked.</li>
-        <li>Time-series InSAR — Copernicus/NASA access portals identified; exact scenes not checked.</li>
-        <li>Multi-season Landsat thermal persistence — official no-cost product source identified; exact scene coverage not checked.</li>
-        <li>Groundwater head/discharge response — official USGS data source identified; local station coverage not checked.</li>
-      </ol>
-      <p><a href="hypotheses.html">Open ranked hypothesis page →</a> · <a href="research/hypotheses.md">Read full preregistration →</a></p>
-    </div>
+    <div class="section-head"><div><div class="eyebrow">Research backlog</div><h2 id="hypotheses-title">Candidate hypotheses</h2></div><p>Qualitative prioritization only. No expected DTI value is projected, and no hypothesis is certified globally untried.</p></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Priority</th><th>Specific layers / signature</th><th>Why potentially off-catalogue</th><th>New-data gate / confounder</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>First</td><td>Proposed families if present in the official cube: TMI / reduced-to-pole magnetic gradients plus isostatic-gravity anomaly/slope; cross-gradient edge coherence. Exact band names/presence unverified.</td><td>Co-located density and magnetization boundaries may reveal a buried fault without a clear scarp.</td><td>Lithologic contacts, intrusions, basin margins, and survey seams mimic edges. Official feature stack absent locally; owner mirror is not authenticated.</td><td><span class="state blocked">Blocked — no compliant holdout</span></td></tr>
+        <tr><td>Second</td><td>Proposed families if present: surface conductivity and depth-to-conductive-base / depth-layer summaries; exact feature names/presence unverified.</td><td>Conductive alteration or fluid pathways may follow concealed permeable structure.</td><td>Clay, saline groundwater, and lithology mimic the signal. Same missing / unauthenticated feature-stack blocker.</td><td><span class="state blocked">Blocked — no compliant holdout</span></td></tr>
+        <tr><td>Third</td><td>Independent SGMC linework; high-order network junctions outside the local catalogue buffer.</td><td>Connected damage zones may focus permeability where the local catalogue has no corresponding trace.</td><td>Rasterization, snapping, map age, and non-fault linework mimic junctions. Surface preflight crossed the literal lane overlap threshold; no TIFF emitted.</td><td><span class="state blocked">Negative preflight</span></td></tr>
+        <tr><td>Fourth</td><td>USGS 3DEP 1 m DEM; multi-scale slope, profile/plan curvature, and along-strike coherence.</td><td>Subtle scarps may express faulting that is blurred at 100 m.</td><td>Channels, terraces, roads, and erosional scarps mimic faults. Tile index and coverage absent / unchecked.</td><td><span class="state blocked">Not viable yet</span></td></tr>
+        <tr><td>Fifth</td><td>Sentinel-1 time-series InSAR line-of-sight displacement gradients.</td><td>Persistent deformation could identify a blind active structure without a mapped surface scarp.</td><td>Groundwater change, landslides, atmospheric delay, and decorrelation mimic signal. Coverage, access, and terms not checked.</td><td><span class="state blocked">Not viable yet</span></td></tr>
+      </tbody>
+    </table></div>
+    <p class="small" style="margin-top:12px">The <a href="research/hypotheses-20261008.md">full 2026-10-08 shortlist</a> names specific layers, physical signatures, catalogue-missing rationale, differences from local prior art, cost, and non-fault mimics. No numeric DTI effect is projected. External source coverage / access / licence remain unverified where stated.</p>
   </section>
 
-  <section class="section callout warning"><p><strong>Experiment budget:</strong> this audit pass ran no holdout experiment, wrote no TIFF, and selected no weekly slot. A candidate score-surface array was computed solely for the mandatory pre-placement duplicate check. The prior H54-A run card records its own experiment count and candidate. The required whole-segment evaluator, trusted feature provenance, and independent validation remain open; this pass's verdict is negative.</p></section>
+  <section class="section callout warning"><p><strong>Experiment budget:</strong> two surface-only preflights were run; both stopped before emission. No holdout experiment, final raster, or weekly submission slot was used. The required whole-segment evaluator, trusted feature provenance, and independent validation remain open; this pass's verdict is negative.</p></section>
 </main>
 <footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p><a href="data/run-card.json">Run card JSON</a> · <a href="audit/irregularities.md">Irregularities</a></p></div></footer>
 </body>

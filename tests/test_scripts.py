@@ -1,11 +1,23 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+
+
+def test_retired_legacy_pipeline_fails_closed_without_side_effects():
+    env = os.environ.copy()
+    completed = subprocess.run(
+        ["bash", str(ROOT / "scripts/run_all.sh")],
+        check=False, capture_output=True, text=True, env=env,
+    )
+    assert completed.returncode == 2
+    assert "historical H54-A pipeline is retired" in completed.stderr
+    assert "No build or registry update was performed" in completed.stderr
 
 
 def test_workspace_audit_cli_writes_blocked_report(tmp_path):

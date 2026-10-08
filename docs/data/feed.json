@@ -5,21 +5,25 @@
     "existing_artifact_approved_for_upload": false,
     "existing_artifact_downloadable_for_research": true,
     "existing_repository_artifact": {
-      "format_validation": "FAIL \u2014 outside-footprint cells are finite zeroes, contrary to official page",
+      "approved_for_upload": false,
+      "downloadable_for_research": true,
+      "format_status_in_this_run": "FAIL under the current local format contract: archived raster stores finite zeroes outside the label footprint; expected null/NaN per prior source notes and sample mirror. Not organizer acceptance.",
+      "format_validation": "FAIL \u2014 outside_footprint_null_or_nan check; archive has finite zeroes outside. The official rule was not re-fetched in this review.",
       "holdout_validation": "NOT ESTABLISHED",
-      "in_footprint_range_validation": "PASS",
       "name": "gems54-undercomplement-q200",
       "path": "docs/downloads/gems54-undercomplement-q200.tif",
+      "provenance": "pre-existing H54-A artifact; not generated in this run",
+      "selection_by_this_run": false,
       "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
-      "strict_lane_validation": "FAIL \u2014 DUPLICATE",
-      "upload_approved": false
+      "strict_lane_status_in_this_run": "DUPLICATE - STOP due raw 3-pixel overlap with three dense registry rasters",
+      "upload_recommendation": "DO NOT UPLOAD based on this review"
     },
-    "holdout_status": "NOT RUN \u2014 the candidate surface failed the pre-placement duplicate-lane rule, which requires stopping before dot placement and holdout scoring.",
+    "holdout_status": "NOT RUN \u2014 the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
     "new_candidate_downloadable": false,
     "safe_to_upload": false,
     "verdict": "negative"
   },
-  "generated_utc": "2026-10-08T22:17:53+00:00",
+  "generated_utc": "2026-10-08T22:41:16+00:00",
   "leaderboard": {
     "fetched_utc": "2026-10-08",
     "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",

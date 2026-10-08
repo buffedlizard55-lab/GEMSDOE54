@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Regression tests for the official GEMS metric.
+"""Regression tests for the metric implementation recorded in local source notes.
 
-Test 1 is the organizer's own published worked example.  If this passes, the
-implementation is anchored to the competition page rather than to anyone's
-recollection of it.
+The problem-page link was not fetched in the current review. These tests check the
+transcribed formulas and worked example; they do not establish organizer acceptance
+or a fresh verification of the current competition page.
 """
 
 from __future__ import annotations
@@ -19,15 +19,15 @@ sys.path.insert(0, str(ROOT / "scripts"))
 from gems_metric import ALPHA, BETA, RADIUS_M, dti_components, kernel_mass  # noqa: E402
 
 
-def test_official_worked_example() -> None:
-    """Page 967 '# Scoring example': TP_w=3.00, FP_w=1.89, FN_w=2.00 -> 0.60."""
+def test_transcribed_worked_example() -> None:
+    """Locally recorded worked example: TP_w=3.00, FP_w=1.89, FN_w=2.00 -> ~0.60."""
     tp, fp, fn = 3.00, 1.89, 2.00
     got = tp / (tp + ALPHA * fp + BETA * fn + 1e-8)
     assert abs(got - 0.60) < 0.005, f"expected ~0.60, got {got}"
-    print(f"  OK  organizer worked example -> {got:.6f} (page states 0.60)")
+    print(f"  OK  transcribed worked example -> {got:.6f} (locally recorded value rounds to 0.60)")
 
 
-def test_constants_match_the_published_definition() -> None:
+def test_constants_match_the_transcribed_definition() -> None:
     assert ALPHA == 0.2 and BETA == 0.8 and RADIUS_M == 300.0
     print("  OK  alpha=0.2, beta=0.8, R=300 m")
 
@@ -93,8 +93,8 @@ def test_perfect_prediction_scores_one() -> None:
 
 
 if __name__ == "__main__":
-    test_official_worked_example()
-    test_constants_match_the_published_definition()
+    test_transcribed_worked_example()
+    test_constants_match_the_transcribed_definition()
     test_exact_algebraic_identities()
     test_closed_form_for_unit_predictions()
     test_no_truth_gives_zero()

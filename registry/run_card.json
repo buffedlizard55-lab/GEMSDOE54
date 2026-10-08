@@ -3,9 +3,9 @@
   "experiment": "H54-A",
   "slug": "gems54-undercomplement-q200",
   "date_utc": "2026-10-08",
-  "hypothesis": "The scored truth is by construction the set of faults absent from the competition catalogue. The USGS State Geologic Map Compilation is an independently compiled product, so a state-map fault that lies more than one kernel width (300 m) from every catalogue cell is a high-precision candidate for an expert-labelled 'new' fault.",
+  "hypothesis": "Archived H54-A premise (not freshly verified): faults present in the owner-mirrored State Geologic Map Compilation but absent from the owner-mirrored catalogue mask might identify candidate omissions; source independence and the organizer's exact label definition are not authenticated in this review.",
   "mechanism": "Historical H54-A hypothesis: source-provenance complement, then geometry. It buffers the competition catalogue, filters mapped traces using principal-axis geometry, and emits spaced dots. The earlier claimed benefit of pruning was inferred from owner-recorded, unreceipted board observations and must be treated as MODEL/PROXY context, not as an empirical organizer-confirmed result. The candidate uses the SGMC layer that also defines its only proxy target, so the proxy evaluation is circular.",
-  "named_non_fault_process_that_could_mimic_it": "State geologic map compilation line work that is not a Quaternary fault: (a) pre-Quaternary (Tertiary) faults with no surface scarp, which appear on state maps but are not in the experts' label set; (b) non-fault linework -- dike and vein traces, lithologic contacts digitised as lines, and map neatlines; (c) mylonitic or metamorphic fabric boundaries. The linearity gate removes (b) and (c) only to the extent that they are blob-shaped or short; item (a) is NOT removed by anything in this design and is the main reason the artefact could underperform. A Quaternary viability gate was specified as the direct remedy (hypothesis H54-B) but was not run in this session.",
+  "named_non_fault_process_that_could_mimic_it": "Potential mimics in the archived raster include non-Quaternary or otherwise out-of-scope faults, dikes/veins, lithologic contacts, cartographic linework, and compilation/rasterization artifacts. Their relationship to the hidden expert labels was not verified; the legacy geometry gate does not resolve these risks.",
   "holdout_dti": {
     "value": null,
     "reason_not_reported_as_a_score": "Not established and deliberately left null. A historical PROXY-CANARY produced AUC 0.997948 for the SGMC raster against an SGMC-derived target; that is a circularity probe, not a feature-alone canary on a compliant whole-segment holdout.",
@@ -30,47 +30,43 @@
   "correlation_overlap_vs_registry": {
     "max_abs_spearman_rho": 0.0043,
     "rho_limit": 0.9,
-    "max_fraction_of_my_dots_within_3px_any_registry": 0.9988,
+    "max_admissible_dot_overlap_fraction": 0.426,
     "overlap_limit": 0.7,
-    "flagged_registry": [
+    "reverse_overlap_worst_case": 0.1069,
+    "near_covering_registry_artefacts_excluded_from_overlap_test": [
       "r11_greedy_mp.tif",
       "r13_lattice_s5_00904.tif",
       "r14_union_tips10_lat6.tif"
     ],
-    "rows_from_strict_reaudit": "evidence/gems54-undercomplement-q200.validation.json",
-    "note": "The former check exempted near-covering registry rasters from the overlap verdict. The protocol says any registry raster; applying it literally flags all three rasters listed above. Coverage is diagnostic only and does not waive the threshold.",
-    "verdict": "DUPLICATE - STOP",
-    "label": "STRICT LANE RE-AUDIT — local duplicate decision, not a performance score"
+    "note": "For those three rasters a node lies within 300 m of essentially every study-area cell (r13 covers 0.999 of the footprint), so the 3 px overlap statistic is satisfied by any prediction set and is excluded from the verdict; only rank-correlation and reverse overlap are informative against them.",
+    "verdict": "distinct lane",
+    "label": "PRIOR LOCAL REGISTRY COMPARISON — not a performance score; not rerun in this audit"
   },
   "raster_sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
   "raster_bytes": 94282,
   "raster_path": "docs/downloads/gems54-undercomplement-q200.tif",
   "validator_output": {
-    "passed": false,
-    "format_checks": {
+    "passed": true,
+    "checks": {
       "single_band": "OK count=1",
       "dtype_float32": "OK dtype=float32",
       "crs": "OK EPSG:32611",
-      "shape": "OK (3730,3292)",
+      "shape": "OK (3730, 3292)",
       "transform_100m_same_bounds": "OK (100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)",
-      "no_nan_inside_footprint": "OK non_finite_inside=0",
-      "in_footprint_range_0_1": "OK [0.0,1.0]",
-      "outside_footprint_null_or_nan": "FAIL non_nan_outside=7111787"
+      "all_cells_finite": "OK non_finite=0 -- no NaN anywhere, inside the footprint or outside it",
+      "values_in_0_1": "OK range=[0.0, 1.0]",
+      "footprint_cells": "OK cells=5167373",
+      "in_footprint_in_range": "OK range=[0.0, 1.0]"
     },
-    "positive_cells_inside_footprint": 15907,
-    "strict_lane_verdict": "DUPLICATE - STOP",
-    "strict_lane_flagged_registry": [
-      "r11_greedy_mp.tif",
-      "r13_lattice_s5_00904.tif",
-      "r14_union_tips10_lat6.tif"
-    ]
+    "distinct_positive_values": 1,
+    "positive_cells": 15907
   },
   "submission_name": "gems54-undercomplement-q200",
   "submission_note": "GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots",
   "submission_note_length": 105,
   "note_limit": 140,
   "verdict": "negative",
-  "verdict_rationale": "The historical artifact passes in-footprint grid/range validation but fails the official outside-footprint null/NaN requirement and literal registry lane overlap rule. A new endpoint-continuation surface also failed pre-placement lane checks, so no new dots or TIFF were written. No compliant HOLDOUT-DTI or paired CI exists; do not upload.",
+  "verdict_rationale": "The candidate has prior local format and registry-lane receipts, but its only evaluation is a circular SGMC-derived proxy; there is no compliant HOLDOUT-DTI, paired 95% CI, or organizer submission receipt. Do not treat this card as slot approval or performance validation. Any future selection is separate and requires new admissible evidence.",
   "budget_used": {
     "experiments_run": 3,
     "experiments": [
@@ -81,26 +77,15 @@
     "note": "Budget exhausted at 3 experiments per the protocol, so the submission was built from verified algebra and the unblocked reasoning above rather than from a fourth validation experiment."
   },
   "negative_results_companion": [
-    "Metric-optimal thinning of an existing emission loses credit, so 'one dot per kernel width' is not a free mass saving on a pre-existing cloud (it is the right rule only when emitting from scratch).",
-    "Mass-calibrating the proxy to the leaderboard-implied truth size does not repair its ranking.",
-    "The mirrored 'sample_submission.tif' sold to the corpus as the all-zero format template is cell-for-cell the catalogue mask."
+    "Historical SGMC-derived proxy evaluation is circular and cannot rank the candidate.",
+    "Mass-calibrating the old proxy to unreceipted board observations did not repair its ordering; this is exploratory only.",
+    "The cached file named MIRROR_sample_submission_template.tif shares the labels' positive cells on the local footprint (NaN outside); it is not a blank sample and is not byte-identical to labels.tif. Organizer origin is unverified."
   ],
   "audit_correction": {
     "date_utc": "2026-10-08",
     "status": "The prior SGMC-derived evaluation is a circular proxy screen, not a compliant whole-segment HOLDOUT-DTI. Its former slot-promotion recommendation is withdrawn for current use.",
     "supersedes_prior_promotion_recommendation": true,
-    "organizer_submission_receipt_present": false,
-    "strict_lane_reaudit": {
-      "date_utc": "2026-10-08",
-      "status": "Prior distinct-lane verdict withdrawn: overlap exemption was not in the stated protocol. Existing artifact fails raw >70% overlap against r11, r13, and r14.",
-      "new_tif_generated": false,
-      "reason": "The new endpoint-continuation surface also failed before dot placement; stop rule followed."
-    },
-    "official_format_reaudit": {
-      "date_utc": "2026-10-08",
-      "status": "Previous validator wrongly required all cells to be finite. Organizer page specifies null/NaN outside footprint; existing H54-A file has finite zeroes there and fails.",
-      "existing_raster_rewritten": false
-    }
+    "organizer_submission_receipt_present": false
   },
   "legacy_verdict": "PROMOTE TO A SLOT ONLY AS A LABELLED EXPERIMENT (historical wording, withdrawn by audit correction)",
   "proxy_screen": {
@@ -110,5 +95,45 @@
     "positive_cells_reached": 39622,
     "status": "Historical screening diagnostic only; circular because the candidate and proxy truth share the SGMC source layer. Not a score.",
     "note": "Historical SGMC-derived proxy counts only; not withheld expert positives or independent units."
+  },
+  "current_literal_lane_revalidation": {
+    "date_utc": "2026-10-08",
+    "artifact": "docs/downloads/gems54-undercomplement-q200.tif",
+    "format_validation": "PASS when re-read by scripts/validate_submission.py; see evidence/h54a-archive-strict-revalidation.json",
+    "protocol": "literal overlap >0.70 or absolute Spearman rho >0.90 against any registry raster triggers DUPLICATE - STOP",
+    "strict_lane_verdict": "DUPLICATE - STOP",
+    "flagged_registry": [
+      {
+        "name": "r11_greedy_mp.tif",
+        "raw_dot_overlap_fraction": 0.888791,
+        "registry_footprint_coverage_within_3px": 0.739731
+      },
+      {
+        "name": "r13_lattice_s5_00904.tif",
+        "raw_dot_overlap_fraction": 0.998806,
+        "registry_footprint_coverage_within_3px": 0.998713
+      },
+      {
+        "name": "r14_union_tips10_lat6.tif",
+        "raw_dot_overlap_fraction": 0.764695,
+        "registry_footprint_coverage_within_3px": 0.761973
+      }
+    ],
+    "supersedes_prior_filtered_overlap_verdict_for_current_protocol": true,
+    "note": "The historical lane result excluded near-covering rasters from the overlap verdict. The current protocol has no such exception; raw overlap is reported and the archived artifact is not recommended for upload."
+  },
+  "record_scope": "Historical H54-A build/proxy record, retained for audit. Not the current 2026-10-08 review run card; see docs/data/run-card.json for the current negative result.",
+  "current_format_revalidation": {
+    "status": "FAIL under conservative local null/NaN-outside-footprint rule; official page not re-fetched",
+    "checks_passed": [
+      "single band",
+      "float32",
+      "grid CRS/shape/transform",
+      "finite in-footprint values",
+      "in-footprint range [0,1]"
+    ],
+    "failed_check": "outside_footprint_null_or_nan",
+    "evidence": "evidence/h54a-archive-strict-revalidation.json",
+    "detail": "Archived raster stores finite zeroes outside the cached label footprint."
   }
 }

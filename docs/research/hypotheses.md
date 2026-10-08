@@ -1,5 +1,9 @@
 # Candidate geological hypotheses — ranked backlog (2026-10-08)
 
+## Archive note — superseded by the current review
+
+This is a prior shortlist retained for audit history. Source-access statements below reflect an earlier repository review and were not re-fetched in the current review. Use [`hypotheses-20261008.md`](hypotheses-20261008.md) as the current five-hypothesis ranking; it includes current provenance/availability caveats and the second surface-only preflight.
+
 ## Decision summary
 
 These are hypotheses, not findings. Expected improvement is **qualitative only**; no DTI projection or leaderboard-score claim is used as an estimate. Public prior-art pages supplied in the project brief are owner-maintained, are not a complete scientific registry, and their scores were not independently confirmed from submission receipts. Therefore novelty means “distinct from the code paths visible in this checkout,” not globally novel.
