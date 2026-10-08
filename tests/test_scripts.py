@@ -45,7 +45,10 @@ def test_audit_and_run_artifacts_are_strict_json_and_stay_fail_closed():
     assert run_card["verdict"] == "negative"
     assert run_card["submission"]["downloadable_tif_from_this_run"] is False
     assert run_card["submission"]["existing_repository_artifact"]["holdout_validation"].startswith("NOT ESTABLISHED")
-    assert run_card["holdout_dti"]["withheld_positive_count"] is None
+    assert run_card["holdout_dti"]["withheld_positive_count"] == 60988
+    assert run_card["holdout_dti"]["status"].startswith("RUN")
+    assert run_card["submission"]["ok_to_submit"] is False
+    assert run_card["submission"]["ok_to_download_for_submission"] is False
     assert cache_audit["result"].startswith("HASHES_MATCH_OWNER_PINS")
     assert "not an organizer-authenticated" in cache_audit["source"]["role"]
     assert cache_audit["shared_tool_review"]["matches_required_whole_segment_hide_recover"] is False
@@ -56,3 +59,18 @@ def test_feed_link_is_outside_element_replaced_by_audit_javascript():
     status_line = next(line for line in page.splitlines() if 'id="local-audit-status"' in line)
     assert "<a " not in status_line
     assert '<a href="data/feed.json">Open this review\'s local status feed →</a>' in page
+
+
+def test_mag_ridge_builder_refuses_negative_variants():
+    import subprocess
+    import sys
+
+    for variant in ("dense", "spaced"):
+        proc = subprocess.run(
+            [sys.executable, str(ROOT / "scripts/build_mag_ridge_submission.py"),
+             "--variant", variant, "--name", "gate-regression-test", "--note", "x", "--team-label", "t"],
+            capture_output=True, text=True, cwd=ROOT,
+        )
+        assert proc.returncode != 0
+        assert "REFUSED" in proc.stderr
+        assert not (ROOT / "docs/downloads/gate-regression-test.tif").exists()

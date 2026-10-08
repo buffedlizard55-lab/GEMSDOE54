@@ -35,6 +35,8 @@ def main() -> int:
             "candidate_this_run": run_card.get("submission", {}).get("candidate_this_run", False),
             "tif_downloadable": run_card.get("submission", {}).get("downloadable_tif_from_this_run", False),
             "safe_to_upload": run_card.get("submission", {}).get("safe_to_upload_from_this_run", False),
+            "ok_to_submit": run_card.get("submission", {}).get("ok_to_submit", False),
+            "ok_to_download_for_submission": run_card.get("submission", {}).get("ok_to_download_for_submission", False),
             "holdout_status": run_card.get("holdout_dti", {}).get("status", "not recorded"),
             "existing_repository_artifact": run_card.get("submission", {}).get("existing_repository_artifact"),
         },

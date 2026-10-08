@@ -9,8 +9,8 @@
       "id": "dd-problem",
       "what": "Competition problem description: metric definition, mathematical representation, scoring example, submission format",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
-      "status": "REACHED",
-      "evidence": "A prior source note records reading the organizer problem page and transcribing its metric/formats into scripts/gems_metric.py. This audit did not freshly authenticate competition data or fetch a submission receipt.",
+      "status": "REACHED (2026-10-08)",
+      "evidence": "Re-read this session (2026-10-08) via fetch of the competition problem page: metric (distance-weighted Tversky, alpha 0.2, beta 0.8, triangular 300 m kernel) and submission format (single-band float32 GeoTIFF, EPSG:32611, 100 m, values in [0,1]). The metric is transcribed in scripts/gems_metric.py and regression-tested.",
       "licence": "n/a - reading only"
     },
     {
@@ -33,8 +33,8 @@
       "id": "rules-pdf",
       "what": "DOE / NLR GEMS Prize Official Rules, September 2026",
       "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
-      "status": "REACHED",
-      "evidence": "A prior source note records reading Section 3.2 and its format, submission-frequency, label-provenance, and AI-disclosure requirements. This audit did not freshly verify those pages; see docs/data/source-register.json for the current source status.",
+      "status": "REACHED (2026-10-08)",
+      "evidence": "Re-read this session (2026-10-08) via fetch of the PDF, chunks 0-3: section 3.2 (up to three submissions per week), 3.4-3.5 (one final submission), AI-use disclosure; \u00a73.3 label-source statement conflicts with \u00a72 (IR-54-024).",
       "licence": "US Government document"
     },
     {

@@ -1,31 +1,28 @@
 {
   "schema": "gemsdoe54.run-card.v1",
-  "run_scope": "Audit-only pass on arena/0d3be5e8-gemsdoe54. The pre-existing H54-A artifact on main was not rebuilt, reevaluated, selected, or submitted by this pass.",
-  "hypothesis": "No new candidate selected: the owner-mirror feature bridge is hash-consistent but not organizer-authenticated, and no complete shared evaluator producing the required whole-segment hide-and-recover receipt is available.",
-  "mechanism": "NOT EVALUATED — no candidate experiment or compliant holdout run was performed.",
-  "named_non_fault_mimic": "Not applicable: no new candidate hypothesis was selected or scored.",
+  "run_scope": "Magnetic-ridge experiment pass on arena/9bf5e2bb-gemsdoe54 (3 experiments: E1 frozen, E2 exploratory, E3 detection floor). The pre-existing H54-A artifact was not rebuilt, selected, or submitted. No new TIFF was generated because no candidate passed the frozen rule.",
+  "hypothesis": "Magnetic edge ridge (catalogue-free, length-gated) carries fault location signal missing from the USGS catalogue. Frozen dense design E1 is NEGATIVE: it scores below the matched random null.",
+  "mechanism": "Magnetic edge ridges can trace lithological and structural contacts that coincide with some faults. E1 candidate DTI 0.0163 vs null 0.0332 (cand-null CI [-0.0234, -0.0135]). E2 spaced (exploratory) is 0.0124 vs null 0.0102 (CI [-0.0011, +0.0062], includes 0). Full detail: evidence/run_card_mag_ridge.json.",
+  "named_non_fault_mimic": "Lithological contacts, intrusive margins, and magnetic edges from basement geometry without faulting.",
   "holdout_dti": {
-    "label": "HOLDOUT-DTI",
-    "status": "NOT RUN — no complete compliant evaluator receipt; the existing H54-A proxy is circular and is not HOLDOUT-DTI",
-    "evaluator_version": null,
-    "withheld_positive_count": null,
-    "ci95": null
+    "label": "HOLDOUT-DTI (local catalogued-fault hide-and-recover; NOT a leaderboard score)",
+    "status": "RUN: E1 frozen dense negative; E2 spaced exploratory negative under the frozen rule",
+    "evaluator_version": "gemsdoe54-segment-holdout-v1 (gems_metric.dti_components, official equations)",
+    "withheld_positive_count": 60988,
+    "ci95": "see evidence/mag_ridge_holdout.json and evidence/mag_ridge_spaced_holdout.json (segment-group jackknife, 913 units)"
   },
   "power": {
-    "status": "NOT COMPUTED for this run — no compliant holdout replicates/paired variance; owner-mirror total label positives are not withheld positives or independent units",
-    "independent_unit_count": null,
-    "cohen_d_minimum_detectable": null,
-    "raw_dti_detection_floor": null,
-    "comparison_to_claimed_gap_0_0028": "NOT CLASSIFIABLE from this run; the 0.0028 figure is a user-supplied leaderboard-gap example, not a local result"
+    "status": "COMPUTED (E3, evidence/detection_floor.json): pair-specific jackknife MDE A-B 0.0022, A-C 0.0015 on this holdout",
+    "comparison_to_claimed_gap_0_0028": "Holdout-detectable only for near-identical ridge variants. NOT CLASSIFIABLE for the board values 0.2778 vs 0.2750, which use a different hidden truth."
   },
   "registry_similarity": {
     "rank_correlation": null,
     "fraction_of_dots_within_3_px": null,
-    "status": "NOT RUN for this pass — no new raster exists; the previous H54-A run has its own separate registry comparison in registry/run_card.json"
+    "status": "NOT RUN for this pass \u2014 no new raster exists; the previous H54-A run has its own separate registry comparison in registry/run_card.json"
   },
   "raster_sha256": null,
   "validator": {
-    "status": "NOT APPLICABLE — this pass generated no raster",
+    "status": "NOT APPLICABLE \u2014 this pass generated no raster",
     "no_nan_inside_footprint": null,
     "values_in_0_1": null,
     "crs_shape_transform_match": null,
@@ -46,7 +43,12 @@
       "prior_format_validation": "PASS per its own receipt; not revalidated by this audit-only pass",
       "holdout_validation": "NOT ESTABLISHED; its SGMC-derived proxy is circular",
       "selection_by_this_run": false
-    }
+    },
+    "ok_to_submit": false,
+    "ok_to_download_for_submission": false,
+    "download_for_inspection_only": true,
+    "verdict_for_users": "NOT OK TO SUBMIT. The file may be downloaded only to inspect it. No holdout result supports submitting it, and the new magnetic-ridge candidates did not pass the frozen holdout rule."
   },
-  "verdict": "negative"
+  "verdict": "negative",
+  "run_card_v2": "evidence/run_card_mag_ridge.json"
 }

@@ -1,0 +1,50 @@
+{
+  "label": "HOLDOUT-DTI-derived detection floor (E3). Not a candidate score; not ORGANIZER-CONFIRMED.",
+  "experiment": "E3 detection floor",
+  "partition": {
+    "seed": 20261008,
+    "folds": 4,
+    "units_segment_groups": 913
+  },
+  "withheld_positives": 60988,
+  "pooled_dti_first_partition": {
+    "A": 0.016291,
+    "B": 0.02184,
+    "C": 0.012358
+  },
+  "pairs": [
+    {
+      "pair": "A - B",
+      "description": "near-identical pair (quantile 0.98 vs 0.97)",
+      "point_difference_pooled_dti": -0.005549,
+      "jackknife_se": 0.000784,
+      "ci95": [
+        -0.007085,
+        -0.004013
+      ],
+      "mde_80pct_power_alpha05_raw_dti": 0.002196,
+      "gap_0_0028_inside_detection_floor": false,
+      "ci_excludes_zero": true
+    },
+    {
+      "pair": "A - C",
+      "description": "dense vs spaced emission (same ridge)",
+      "point_difference_pooled_dti": 0.003934,
+      "jackknife_se": 0.000518,
+      "ci95": [
+        0.002918,
+        0.004949
+      ],
+      "mde_80pct_power_alpha05_raw_dti": 0.001452,
+      "gap_0_0028_inside_detection_floor": false,
+      "ci_excludes_zero": true
+    }
+  ],
+  "cohen_framework": {
+    "minimum_detectable_cohen_d_units": 0.0928,
+    "naive_pixel_level_d_if_pixels_were_independent": 0.02269,
+    "note": "The pixel-level d is anti-conservative: fault pixels within a segment are spatially dependent and pooled DTI is nonlinear, so the segment-group jackknife is the valid floor. The naive pixel d is shown only to make the error visible."
+  },
+  "interpretation": "A gap of 0.0028 is compared with the MDE of each pair. If it is below the MDE, the gap cannot be separated from noise by this holdout, so no ranking should be read from it.",
+  "runtime_s": 139.2
+}

@@ -5,52 +5,51 @@
 
 ---
 
-## ⬇️ THE SUBMISSION FILE — read this box before anything else
+## ⛔ SUBMISSION VERDICT: NOT OK TO SUBMIT (read first)
 
-**File:** [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif)
-**SHA-256:** `b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8`
-**Bytes:** 94,282 · **Positive cells:** 15,907
+| Question | Answer |
+|---|---|
+| **OK to submit any file from this repo?** | **NO.** No candidate has a passing holdout result (see *Holdout results*, below). |
+| **OK to download?** | **Only for inspection** (format checks, reading the raster). Not for upload. |
+| **File on the site** | [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif), SHA-256 `b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8`, 94,282 bytes, 15,907 positive cells. Format-valid per its prior receipt. Holdout-DTI: **not established**. |
+| **New TIFF generated this pass?** | No. The magnetic-ridge candidates failed the frozen decision rule, so no new file was built for upload. |
+| **Slot recommended?** | No. |
 
-**Download status:** yes — this existing file is format-valid and registry-distinct according to its prior run receipt. **Upload selection:** not made by this review. It has no trustworthy HOLDOUT-DTI or organizer receipt; treat it only as an unvalidated experiment.
+The decision rule is in [`docs/index.html`](docs/index.html#verdict) and [`evidence/run_card_mag_ridge.json`](evidence/run_card_mag_ridge.json). A file is OK to submit only when all of these hold: a HOLDOUT-DTI with evaluator version, withheld-positive count and 95 % CI; paired CIs against the matched null and the placebo both above 0 (segment-group jackknife); leakage canary AUC ≤ 0.90; the format validator passes; and the owner records a selection.
 
-| Gate | Status | Evidence |
-|---|---|---|
-| Format is portal-legal (float32, 1 band, EPSG:32611, 3730×3292, all values finite and in [0, 1]) | ✅ **PASS** (9/9 checks) | [`evidence/gems54-undercomplement-q200.validation.json`](evidence/gems54-undercomplement-q200.validation.json) |
-| Distinct from every prior artefact in the registry (lane check) | ✅ **PASS** (max \|ρ\| = 0.004 vs a 0.90 limit) | same file, `lane` block |
-| Beats a baseline on a compliant hidden-label holdout | ❌ **NOT ESTABLISHED** | No HOLDOUT-DTI or paired CI; see *Proxy sensitivity*, below |
+**Note field** (for a future approved file only): `GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots` (105 characters).
 
-It is **format-valid and registry-distinct per its prior local receipts, but performance is unvalidated.** This review does not approve or select a weekly slot; promotion is a separate selector decision. The old run card contains a **MODEL projection**, not a measurement, against an owner-recorded and unreceipted board value:
+Score-labeling policy: report a score only as **HOLDOUT-DTI** (evaluator version, withheld-positive count, 95 % CI) or **ORGANIZER-CONFIRMED** (copied from a submission-page receipt). Proxy values are **PROXY-DTI (screening only)**; projections are **MODEL**, never scores.
 
-> Conditional on the unverified 0.2778 board observation, the model projected that
-> the artefact might exceed it if at least ≈12 % of its 15,907 dots fall within
-> the 300 m metric kernel of a hidden expert fault cell. The old card's ≈13 %
-> comparison is also a model inference based on unreceipted records. Neither value
-> is HOLDOUT-DTI or ORGANIZER-CONFIRMED; this audit does not validate the prediction.
+---
 
-**A short note to paste into the submission form's "Note" field** (105 characters,
-under the portal's limit):
+## Holdout results (this pass, 2026-10-08)
 
-```
-GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots
-```
+Local hide-and-recover holdout: catalogued faults withheld in whole buffered segments (300 m buffer, 913 independent units, 4 folds, 60,988 withheld positives). Evaluator `gemsdoe54-segment-holdout-v1` (official equations). Uncertainty: exact leave-one-segment-group-out jackknife. **These are HOLDOUT-DTI numbers, not leaderboard scores.**
 
-**A short comment for your team to tell submissions apart later:**
+| Experiment | Candidate DTI | cand − matched random null (95 % CI) | cand − placebo (95 % CI) | Verdict |
+|---|---:|---:|---:|---|
+| E1 · dense magnetic ridge (frozen prereg v2) | 0.0163 | −0.0185 [−0.0234, −0.0135] | +0.0136 [+0.0089, +0.0183] | **negative**: below the null |
+| E2 · spaced ridge, 3 px (exploratory) | 0.0124 | +0.0026 [−0.0011, +0.0062] | +0.0106 [+0.0070, +0.0142] | **negative**: CI includes 0 |
+| E3 · detection floor (pair-specific) | — | A−B MDE 0.0022; A−C MDE 0.0015 | — | measurement only |
 
-```
-undercomplement-q200 — state-map fault complement, catalogue-excluded, 200 m dots
-```
+Files: [`evidence/mag_ridge_holdout.json`](evidence/mag_ridge_holdout.json), [`evidence/mag_ridge_spaced_holdout.json`](evidence/mag_ridge_spaced_holdout.json), [`evidence/detection_floor.json`](evidence/detection_floor.json), preregistrations [`evidence/preregistration_mag_ridge.json`](evidence/preregistration_mag_ridge.json) and [`evidence/preregistration_mag_ridge_spaced.json`](evidence/preregistration_mag_ridge_spaced.json), run card [`evidence/run_card_mag_ridge.json`](evidence/run_card_mag_ridge.json).
 
-Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** with a copied submission-page receipt. Proxy values are **PROXY-DTI (screening only)** and projections are **MODEL**, never scores. This audit pass produced neither a valid holdout score nor an organizer receipt.
+**Detection floor (answers the 0.2778 vs 0.2750 question).** On this holdout, the 80 %-power floor for a paired comparison is 0.0015–0.0022 DTI, so a 0.0028 gap *could* be detected between near-identical ridge variants. That does not transfer to the board. The board uses a hidden truth set and a different scorer, and its variance is unmeasured. **The board gap is NOT CLASSIFIABLE.** The earlier proxy analysis (Section 3.2) is also not classifiable.
+
+**Disclosures.** The prereg was written before holdout scoring but committed after a smoke run. E1's first attempt was killed (exit 137). The E1 16-split run was stopped after 4 splits, because split-to-split spread is not a valid CI here. The plateau NMS fix came before the E1 rerun; real-raster equivalence was verified (19,914 cells, zero symmetric difference). The q value was chosen after seeing counts. E2 was motivated post hoc. The prereg's rule text still says "split-level CI" while the amended method is the jackknife (IR-54-025). See [`docs/audit/irregularities.md`](docs/audit/irregularities.md) (IR-54-012 … IR-54-025).
+
+**Limitations.** The holdout hides USGS-catalogue faults, but the hidden test is new faults outside the catalogue, so this is a proxy. The official feature file is owner-mirrored, not organizer-authenticated. The SGMC-layer canary (AUC 0.998) is circular.
 
 ---
 
 ## Current audit-only review (2026-10-08)
 
-This PR is an audit/documentation lane only. It did not emit another TIFF, run a compliant hide-and-recover experiment, or choose a weekly slot. The existing `gems54-undercomplement-q200.tif` and its experiment card came from a previously merged run; the artifact is format-valid and registry-distinct according to that run's receipts, but the SGMC-derived proxy is circular for its evidence layer, so there is no trustworthy `HOLDOUT-DTI` and no performance validation. Do not report it as a win or treat this review as a slot selection.
+This pass ran the three magnetic-ridge experiments above on the local holdout. It did not emit a new TIFF or choose a weekly slot, because no candidate passed the frozen rule. The existing `gems54-undercomplement-q200.tif` and its experiment card came from a previously merged run; the artifact is format-valid and registry-distinct according to that run's receipts, but the SGMC-derived proxy is circular for its evidence layer, so there is no trustworthy `HOLDOUT-DTI` and no performance validation. Do not report it as a win or treat this review as a slot selection.
 
 The public owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eba791dc363305d4a3` was reassembled outside this checkout. All five feature shards and all three reconstructed TIFFs match the bridge manifest and committed runner-generated inventory; the feature cube is structurally varied. This proves byte integrity against owner-maintained pins, not organizer origin. No authenticated DrivenData download occurred. See [`docs/audit/pinned-template-cache-audit.json`](docs/audit/pinned-template-cache-audit.json).
 
-A code review found that the shared `src/gemsdoe54/holdout.py::segment_blocks` helper documented a buffer but ignored `buffer_px`; this PR fixes that bug and adds a synthetic regression test. The helper is not a full end-to-end evaluator, and the inspected public root template's workflow uses spatial blocks. No compliant `HOLDOUT-DTI`, power floor, or paired CI was produced. This is not a private fork; the fix is proposed to the shared repository through this branch and PR.
+A code review found that the shared `src/gemsdoe54/holdout.py::segment_blocks` helper documented a buffer but ignored `buffer_px`; this PR fixes that bug and adds a synthetic regression test. The helper is not a full end-to-end evaluator, and the inspected public root template's workflow uses spatial blocks. The local holdout numbers above are now produced, and the detection floor was measured. This is not a private fork; the fix is proposed to the shared repository through this branch and PR.
 
 ---
 
@@ -255,6 +254,8 @@ starts from the same base.
 | 3–5 ranked hypotheses | ✅ [`docs/hypotheses.html`](docs/hypotheses.html) |
 | Executive summary subpage + how-to-submit | ✅ [`docs/index.html`](docs/index.html), [`docs/index.html#submit`](docs/index.html) |
 | Official sources with links | ✅ [`registry/sources.json`](registry/sources.json) |
+| Local HOLDOUT-DTI for the magnetic-ridge candidates (E1, E2) | ✅ **run**: both negative under the frozen rule; see *Holdout results* |
+| Detection floor (E3) for the holdout | ✅ **measured**; pair-specific; board gap NOT CLASSIFIABLE |
 | Training a learned model (reference solution) | ❌ **blocked** — needs DrivenData login; see *Limitations* |
 
 ---
@@ -353,6 +354,9 @@ scripts/
   validate_submission.py      ← format + range + lane gates
   collect_registry.py         ← assembles the parallel-run registry
   power_analysis.py           ← PROXY-SENSITIVITY illustration only; not hidden-label power
+  run_segment_holdout.py      ← E1/E2: segment-group holdout with jackknife CIs and official-metric cross-check
+  detection_floor.py          ← E3: jackknife SE and 80 %-power floor for paired variants
+  build_mag_ridge_submission.py ← builds a submission for a chosen variant (not run: no variant passed)
   analyse_holdout_receipt.py  ← strict analysis of a future compliant frozen receipt
   run_all.sh                  ← legacy reproduction pipeline; it rebuilds the prior H54-A artifact
 registry/

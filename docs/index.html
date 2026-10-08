@@ -31,38 +31,51 @@
 distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
 Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
 
-<div class="panel hero">
-  <h2>⬇️ Download the submission — one click</h2>
-  <p><strong>Everything you need is this single file.</strong> Download it, then upload it on the
-  DrivenData <em>New submission</em> form. Nothing else in this repository is required.</p>
-
-  <p><a class="btn" href="downloads/gems54-undercomplement-q200.tif" download>⬇ Download gems54-undercomplement-q200.tif</a>
-  &nbsp;<a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" target="_blank" rel="noopener">view raw file</a></p>
+<div class="panel hero" id="verdict">
+  <h2>Submission verdict: <span class="tag no">NOT OK TO SUBMIT</span></h2>
+  <div class="callout">
+    <p style="margin:0"><strong>Do not upload any file from this repository to DrivenData.</strong>
+    The only file here, <code>gems54-undercomplement-q200.tif</code>, has no holdout result that supports it.
+    The new magnetic-ridge candidate did <strong>not</strong> beat the matched random null on the frozen holdout, so no slot is recommended.</p>
+    <p class="small" style="margin:8px 0 0"><strong>OK to download?</strong> Yes, for <em>inspection only</em> (format checks, reading the raster).
+    <strong>OK to submit?</strong> No. Read the <a href="#why">evidence</a> and the <a href="#submit">rules for when this changes</a>.</p>
+  </div>
+  <p><a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" download>⬇ Download for inspection only</a>
+  &nbsp;<a class="btn secondary" href="#submit">How submission works (future)</a></p>
 
   <dl class="kv">
-    <dt>File</dt><dd><code>gems54-undercomplement-q200.tif</code></dd>
-    <dt>Size</dt><dd>94,282 bytes</dd>
+    <dt>File</dt><dd><code>gems54-undercomplement-q200.tif</code> (prior H54-A artefact; not generated in this pass)</dd>
     <dt>SHA-256</dt><dd class="hash">b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</dd>
-    <dt>Predictions</dt><dd>15,907 positive cells, every one exactly <code>1.0</code>; all other cells <code>0.0</code></dd>
-    <dt>Grid</dt><dd>3730 × 3292, EPSG:32611, 100 m, origin (243350.0, 4508550.0)</dd>
-    <dt>Datatype</dt><dd>float32, single band, <strong>no NaN and no nodata tag anywhere</strong></dd>
+    <dt>Format</dt><dd>float32, single band, 3730 × 3292, EPSG:32611, 100 m; values 0 or 1; 15,907 positive cells; no NaN, no nodata tag</dd>
+    <dt>Holdout (HOLDOUT-DTI)</dt><dd><strong>NOT ESTABLISHED</strong>: this file was never scored on the compliant holdout. Its only proxy is circular (SGMC layer, AUC 0.998 in the canary).</dd>
   </dl>
 
-  <h3>Short note to paste into the form's "Note" field</h3>
-  <p><code>GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d&gt;300m, linearity gate, 200m dots</code></p>
-  <p class="small muted">105 characters — inside the portal's short-comment field. A team-facing label to
-  tell submissions apart is also in the README: <code>undercomplement-q200 — state-map fault complement, catalogue-excluded, 200 m dots</code>.</p>
-
   <div class="callout">
-    <p style="margin:0"><strong>Download and submission status:</strong><br>
-    <span class="tag ok">FORMAT: PASS</span> &nbsp;<span class="tag ok">REGISTRY LANE: PASS</span> &nbsp;<span class="tag no">HOLDOUT: NOT VALIDATED</span> &nbsp;<span class="tag warn">SLOT SELECTED HERE: NO</span></p>
-    <p class="small" style="margin:8px 0 0">This pre-existing artifact is downloadable and passed its prior local format/lane checks. Its only proxy is circular for the candidate's evidence layer, so it has no trustworthy HOLDOUT-DTI and must not be presented as a win. This review did not select or spend a weekly slot. The break-even statement above is a <em>MODEL projection</em>, not a score.</p>
+    <p style="margin:0"><strong>Decision rule.</strong>
+    A file is OK to submit only when <em>all</em> of these hold: (1) it has a HOLDOUT-DTI with evaluator version, withheld-positive count and 95 % CI; (2) its paired CIs against the matched null and the placebo both lie above 0 (segment-group jackknife); (3) the leakage canary is at most 0.90 AUC; (4) its format validator passes; (5) the owner records a selection. Until then the answer is no.</p>
   </div>
+</div>
+
+<div class="panel tight" id="why">
+  <h2 style="margin-top:0">Why it is not OK to submit: the holdout results</h2>
+  <p>Local holdout = catalogued faults hidden in whole buffered segments (300 m buffer, 913 independent units, 4 folds, 60,988 withheld positives). Every number is <span class="tag warn">HOLDOUT-DTI</span> with evaluator <code>gemsdoe54-segment-holdout-v1</code>; none is an organizer score.</p>
+  <table>
+    <thead><tr><th>Experiment</th><th>Candidate DTI</th><th>cand − matched random null (95 % CI)</th><th>cand − placebo (95 % CI)</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td>E1 · dense magnetic ridge (frozen)</td><td>0.0163</td><td>−0.0185 [−0.0234, −0.0135]</td><td>+0.0136 [+0.0089, +0.0183]</td><td><span class="tag no">NEGATIVE</span>: below the null</td></tr>
+      <tr><td>E2 · spaced ridge, 3 px (exploratory)</td><td>0.0124</td><td>+0.0026 [−0.0011, +0.0062]</td><td>+0.0106 [+0.0070, +0.0142]</td><td><span class="tag no">NEGATIVE</span>: CI includes 0</td></tr>
+    </tbody>
+  </table>
+  <p class="small">Random placement with the same count beats the dense ridge, because dense 1-px lines add redundant dots that the pooled TP term does not credit. The spaced variant only ties the null. Neither clears the rule, so neither gets a slot. The placebo (a shifted ridge) scores lower, so the ridge does carry some location signal; it is not enough to beat matched random placement.</p>
+  <p class="small"><strong>Leakage canary:</strong> PASS (no feature above AUC 0.90) in E1 and E2. Source files: <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_holdout.json">mag_ridge_holdout.json</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_spaced_holdout.json">mag_ridge_spaced_holdout.json</a>, full card <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/run_card_mag_ridge.json">run_card_mag_ridge.json</a>.</p>
+
+  <h3>Can the holdout detect the 0.2778 vs 0.2750 gap?</h3>
+  <p class="small">E3 (<a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/detection_floor.json">detection_floor.json</a>) measured the jackknife standard error of paired differences. Pair A−B (two near-identical quantile thresholds) has an 80 %-power floor of 0.0022; pair A−C (dense vs spaced) has 0.0015. So a 0.0028 gap <em>could</em> be detected on this holdout for near-identical variants. <strong>This does not settle the board question:</strong> the board values use a hidden truth set and a different scorer, and the variance of those comparisons is unknown. The board gap is <span class="tag warn">NOT CLASSIFIABLE</span>.</p>
 </div>
 
 <div class="panel tight" id="audit-only-review">
   <h2 style="margin-top:0">Current audit-only review</h2>
-  <p>The file above is from a previously merged H54-A experiment; this branch did not generate another TIFF or choose a submission slot. This review found a checksum-consistent owner-mirror feature bridge, but no authenticated portal download. It also found and fixes a bug in the shared whole-segment helper: its documented <code>buffer_px</code> parameter was ignored. The helper is not a full evaluator; the public root workflow remains spatial-block based, and no compliant HOLDOUT-DTI or confidence interval was produced.</p>
+  <p>The file above is from a previously merged H54-A experiment. This pass ran three magnetic-ridge experiments (E1 frozen, E2 exploratory, E3 detection floor) on the local holdout. Neither candidate passed the rule, so this pass generated no new TIFF and recommends no slot. The pass also found a checksum-consistent owner-mirror feature bridge but no authenticated portal download, and fixed a bug in the shared whole-segment helper, whose documented <code>buffer_px</code> parameter was ignored. Local HOLDOUT-DTI numbers are not leaderboard scores.</p>
   <p class="small muted" id="local-audit-status">Loading repository-local audit status…</p>
   <p class="small"><a href="data/feed.json">Open this review's local status feed →</a> · <a href="data/run-card.json">audit-only run card</a> · <a href="audit/pinned-template-cache-audit.json">template bridge/tool audit</a> · <a href="irregularities.html">full audit ledger</a></p>
 </div>
@@ -89,61 +102,29 @@ not <span class="tag warn">ORGANIZER-CONFIRMED</span> scores and are not used to
 </div>
 
 <!-- ================================ SUBMIT ================================= -->
-<h2 id="submit">How to submit — step by step</h2>
-<p class="small muted">Verified against
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">the competition problem description</a>
-(submission format) and
-<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">the DOE/NLR Official Rules, §3.2</a>
-(three submissions per week).</p>
-
-<ol class="steps">
-  <li><strong>Download the file.</strong> Use the green button above. The download is the exact artefact
-  whose SHA-256 is printed beside it; if your copy's hash differs, do not upload it.</li>
-
-  <li><strong>Register / sign in on DrivenData</strong> and open the GEMS challenge, then the
-  <em>Submissions</em> tab. (Registration is required by the rules and is also how the feature data is
-  obtained — see <em>Limitations</em>.)</li>
-
-  <li><strong>Click <em>New submission</em>.</strong> The form accepts <em>a single-band GeoTIFF
-  (.tif)</em>, or a .zip containing one. Upload
-  <code>gems54-undercomplement-q200.tif</code> directly — do not zip or re-encode it.</li>
-
-  <li><strong>Optionally paste the 105-character note</strong> from the green panel above into the
-  <em>Note</em> field. This is the field the form describes as "a short comment to help you or your team
-  tell submissions apart later".</li>
-
-  <li><strong>Click <em>Submit</em>.</strong> The portal re-checks CRS, shape, geotransform and the
-  value range. The prior local validator receipt records all four format checks as passing for this file;
-  that does not establish portal acceptance, a competition score, or performance validity.</li>
-
-  <li><strong>Record the receipt.</strong> If it scores, copy the number into
-  <code>registry/submissions.json</code> as <span class="tag info">ORGANIZER-CONFIRMED</span>. Until then it stays
-  <span class="tag warn">unscored</span>.</li>
-</ol>
+<h2 id="submit">Submission rules and how it works</h2>
+<p class="small muted">Official sources for manual review:
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">DrivenData problem description (metric and submission format)</a> ·
+<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">DOE/NLR Official Rules (PDF)</a> ·
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">public leaderboard</a>.</p>
 
 <div class="callout good">
-  <p style="margin:0"><strong>Why the earlier upload failed.</strong> The portal's message
-  <em>"Predicted values must be in range [0, 1]"</em> is raised when the raster it reads contains a value
-  outside [0,&nbsp;1] — most often a <code>nodata</code> sentinel such as <code>-1</code>,
-  <code>255</code> or <code>-32768</code> that the reader does not mask, or a NaN that the validator
-  treats as a number. This repository therefore emits <strong>no nodata tag and no NaN at all</strong>:
-  the array is finite everywhere and every value is exactly <code>0.0</code> or <code>1.0</code>.
-  <code>scripts/validate_submission.py</code> re-reads the written file from disk and asserts
-  <code>min&nbsp;&gt;=&nbsp;0</code>, <code>max&nbsp;&lt;=&nbsp;1</code> and
-  <code>non_finite&nbsp;==&nbsp;0</code> before the file is allowed to be published.</p>
+  <p style="margin:0"><strong>Current answer: NO submission.</strong> Use this page as a checklist. Only the owner can mark a file OK to submit, and only after the decision rule above is met.</p>
 </div>
 
-<h2>Prior artifact's recorded build checks (not re-run in this audit pass)</h2>
-<table>
-  <thead><tr><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
-  <tbody>
-    <tr><td>Single band, float32</td><td><span class="tag ok">PASS</span></td><td>validator check 1 &amp; 2</td></tr>
-    <tr><td>CRS, shape, geotransform, 100 m</td><td><span class="tag ok">PASS</span></td><td>validator checks 3–5</td></tr>
-    <tr><td>All cells finite; values inside [0, 1]</td><td><span class="tag ok">PASS</span></td><td>validator checks 6–9; <code>non_finite=0</code>, range <code>[0.0, 1.0]</code></td></tr>
-    <tr><td>Distinct from every registry artefact (lane check)</td><td><span class="tag ok">PASS</span></td><td>max |ρ| = 0.004 vs 0.90 limit; max admissible overlap 0.43 vs 0.70 limit</td></tr>
-    <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>No compliant evaluator, HOLDOUT-DTI, withheld-positive count, or 95% CI is available; the proxy is circular. See <a href="evidence.html">Evidence</a>.</td></tr>
-  </tbody>
-</table>
+<h3>If a file is approved in future, the steps are</h3>
+<ol class="steps">
+  <li><strong>Check the approval.</strong> The file's run card must show <code>ok_to_submit: true</code> and a HOLDOUT-DTI with a CI. This repository has none today.</li>
+  <li><strong>Download the approved file</strong> and confirm its SHA-256 matches the run card. If it differs, do not upload it.</li>
+  <li><strong>Sign in to DrivenData</strong> and open the GEMS competition's <em>Submissions</em> area. The competition data page requires a login (verified: redirect to login); no authenticated download was made in this pass.</li>
+  <li><strong>Upload one single-band GeoTIFF (.tif)</strong> directly. Do not zip or re-encode it unless the form requires it.</li>
+  <li><strong>Optional note (max 140 characters):</strong> <code>GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots</code> (105 characters). This is a draft; a future approved file will need its own note.</li>
+  <li><strong>Submit, then record the receipt.</strong> Only a number copied from the submission page counts as ORGANIZER-CONFIRMED. Record it in <code>registry/submissions.json</code>. Until then it stays unscored.</li>
+</ol>
+
+<div class="callout">
+  <p style="margin:0"><strong>The "Predicted values must be in range [0, 1]" error.</strong> A user reported this message from the portal. The repository holds no receipt of that upload, so its cause is <span class="tag warn">NOT ESTABLISHED</span>. The file here has only values 0 and 1 and no NaN. The validator (<code>scripts/validate_submission.py</code>) checks that before any file is published. This does not show that the portal will accept the file.</p>
+</div>
 
 <h2>Where you are in the repository</h2>
 <div class="grid2">
@@ -166,7 +147,7 @@ not <span class="tag warn">ORGANIZER-CONFIRMED</span> scores and are not used to
 </div>
 
 <footer>
-  <p>Audited in an autonomous agent session on 2026-10-08. See <a href="sources.html">Sources</a> for
+  <p>Audited in an autonomous agent session on 2026-10-08 (branch arena/9bf5e2bb-gemsdoe54). See <a href="sources.html">Sources</a> for
   the source register and its provenance limits. Owner-recorded leaderboard observations without submission
   receipts are not marked ORGANIZER-CONFIRMED; proxy values and model projections are not scores.</p>
   <p class="muted small">This work used an AI agent. The DOE/NLR rules (§3.2) require disclosing

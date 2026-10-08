@@ -1,0 +1,141 @@
+{
+  "schema": "gemsdoe54.run-card.v2",
+  "run_id": "GEMSDOE54-MAG-RIDGE-2026-10-08",
+  "date_utc": "2026-10-08",
+  "branch": "arena/9bf5e2bb-gemsdoe54",
+  "budget": {
+    "experiments_used": 3,
+    "limit": "3 experiments or 2 hours",
+    "E1": "frozen dense ridge (prereg v2)",
+    "E2": "spaced ridge, exploratory",
+    "E3": "detection floor"
+  },
+  "hypothesis": "Magnetic edge ridge (horizontal-gradient / total-horizontal-derivative ridge over the 19-band training stack, catalogue-free, length-gated) marks fault-like linear features missing from the USGS catalogue.",
+  "mechanism": "Magnetic edge ridges can trace lithological and structural contacts, and faults may coincide with such contacts. Not verified for hidden new faults.",
+  "named_non_fault_mimic": "Lithological contacts, intrusive margins and magnetic edges from basement geometry without faulting; raster artefacts along invalid-sentinel edges (masked, dilated 2 px).",
+  "holdout": {
+    "label": "HOLDOUT-DTI (local catalogued-fault hide-and-recover; NOT a leaderboard score)",
+    "evaluator_version": "gemsdoe54-segment-holdout-v1 (gems_metric.dti_components, official equations)",
+    "withheld_positive_count": 60988,
+    "independent_units": 913,
+    "uncertainty": "exact leave-one-segment-group-out jackknife on the first partition",
+    "E1_dense_frozen": {
+      "cand_dti_first_partition": 0.016291,
+      "null_dti_first_partition": 0.03478,
+      "placebo_dti_first_partition": 0.002676,
+      "cand_minus_null": -0.018489,
+      "cand_minus_null_ci95": [
+        -0.023431,
+        -0.013547
+      ],
+      "cand_minus_placebo": 0.013615,
+      "cand_minus_placebo_ci95": [
+        0.008908,
+        0.018323
+      ],
+      "verdict": "negative",
+      "promote_eligible": false
+    },
+    "E2_spaced_exploratory": {
+      "cand_dti_first_partition": 0.012358,
+      "null_dti_first_partition": 0.009764,
+      "placebo_dti_first_partition": 0.00179,
+      "cand_minus_null": 0.002593,
+      "cand_minus_null_ci95": [
+        -0.001052,
+        0.006239
+      ],
+      "cand_minus_placebo": 0.010567,
+      "cand_minus_placebo_ci95": [
+        0.006956,
+        0.014179
+      ],
+      "verdict": "negative",
+      "promote_eligible": false
+    }
+  },
+  "detection_floor": {
+    "label": "HOLDOUT-DTI-derived floor measurement (not a candidate score)",
+    "pairs": [
+      {
+        "pair": "A - B",
+        "description": "near-identical pair (quantile 0.98 vs 0.97)",
+        "point_difference_pooled_dti": -0.005549,
+        "jackknife_se": 0.000784,
+        "ci95": [
+          -0.007085,
+          -0.004013
+        ],
+        "mde_80pct_power_alpha05_raw_dti": 0.002196,
+        "gap_0_0028_inside_detection_floor": false,
+        "ci_excludes_zero": true
+      },
+      {
+        "pair": "A - C",
+        "description": "dense vs spaced emission (same ridge)",
+        "point_difference_pooled_dti": 0.003934,
+        "jackknife_se": 0.000518,
+        "ci95": [
+          0.002918,
+          0.004949
+        ],
+        "mde_80pct_power_alpha05_raw_dti": 0.001452,
+        "gap_0_0028_inside_detection_floor": false,
+        "ci_excludes_zero": true
+      }
+    ],
+    "gap_0_0028": "Detectable on this holdout for near-identical ridge variants: pair MDEs 0.0022 (A-B) and 0.0015 (A-C) are below 0.0028. This does not transfer to the board values 0.2778 vs 0.2750, which use a different hidden truth and an unmeasured SE. Board comparison: NOT CLASSIFIABLE."
+  },
+  "leakage_canary": {
+    "cut": 0.9,
+    "status": "PASS",
+    "flags": [],
+    "note": "Feature-alone canary in the E1/E2 runs. Prior SGMC-layer AUC 0.998 in leakage_canary.json is circular and is a leakage warning."
+  },
+  "registry_similarity": {
+    "status": "NOT RUN for a new raster",
+    "reason": "no raster generated because no candidate passed the frozen rule"
+  },
+  "raster_sha256": null,
+  "validator": {
+    "status": "NOT RUN",
+    "reason": "no new raster generated"
+  },
+  "submission": {
+    "candidate_this_run": false,
+    "name": null,
+    "note": null,
+    "note_character_limit": 140,
+    "ok_to_submit": false,
+    "ok_to_download_for_submission": false,
+    "download_for_inspection_only": "docs/downloads/gems54-undercomplement-q200.tif (prior artefact, no HOLDOUT-DTI)"
+  },
+  "verdict": "negative",
+  "verdict_reason": "E1 frozen dense ridge is significantly BELOW the matched random null (cand-null CI excludes 0 on the negative side) and above the placebo. E2 spaced (exploratory) is not significantly above the null (CI includes 0) and is above the placebo. Neither is promote-eligible under the jackknife rule. No slot recommended.",
+  "disclosures": [
+    "Prereg written before holdout scoring but committed after a smoke run (IR-54-021).",
+    "E1 first attempt killed (exit 137, likely OOM) after split 0 (IR-54-016).",
+    "E1 16-split run stopped after 4 splits; split-spread CI invalid (IR-54-017).",
+    "Plateau NMS fix before E1 rerun; real-raster equivalence 19,914 cells, zero symmetric difference (IR-54-018).",
+    "q=0.98 vs 0.995 chosen after seeing counts (IR-54-019).",
+    "E2 motivated post hoc by diagnostic (IR-54-020).",
+    "Prereg rule text still says 'split-level 95% CI' while the amended uncertainty method is the jackknife. Under the superseded split-level t-CI, E2 cand-null would be approximately [+0.0012, +0.0032] and would look positive. That method is not valid here because the candidate is identical across splits (IR-54-025)."
+  ],
+  "limitations": [
+    "Holdout withholds USGS-catalogue faults; hidden test is new faults outside the catalogue.",
+    "Catalogue-recovery holdout is a proxy for hidden-label performance.",
+    "Owner-mirrored feature file; organizer origin not authenticated.",
+    "The 0.2778 vs 0.2750 board comparison is not classifiable from this holdout."
+  ],
+  "sources": [
+    "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+    "https://docs.nlr.gov/docs/fy26osti/96647.pdf"
+  ],
+  "artifacts": [
+    "evidence/preregistration_mag_ridge.json",
+    "evidence/preregistration_mag_ridge_spaced.json",
+    "evidence/mag_ridge_holdout.json",
+    "evidence/mag_ridge_spaced_holdout.json",
+    "evidence/detection_floor.json"
+  ]
+}

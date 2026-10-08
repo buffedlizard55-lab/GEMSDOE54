@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Clear, step-by-step instructions for submitting a verified GEMS GeoTIFF.">
+  <meta name="description" content="Executive summary and submit guide for GEMSDOE54: the current answer is no submission; the holdout tests and the rules for a future approved file.">
   <title>Executive Summary & Submit Guide | GEMSDOE54</title><link rel="stylesheet" href="assets/audit-site.css">
 </head>
 <body>
@@ -11,59 +11,74 @@
   <nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
 </div></header>
 <main>
-  <section class="page-title"><div class="eyebrow">Executive summary · portal guide</div><h1>Download is not validation.</h1><p class="lead">This page explains the existing artifact's exact format receipt and the upload workflow. The artifact is not backed by a trustworthy HOLDOUT-DTI, and this audit pass does not select a weekly slot.</p></section>
+  <section class="page-title"><div class="eyebrow">Executive summary · submit guide</div>
+    <h1>Current answer: do not submit.</h1>
+    <p class="lead">Three local holdout experiments were run on 2026-10-08. The new magnetic-ridge candidates did not beat the matched random null under the frozen rule, so no file was built for upload and no weekly slot is recommended.</p>
+  </section>
 
   <section class="status-banner" aria-labelledby="upload-state">
-    <div class="status-icon" aria-hidden="true">!</div>
-    <div><h2 id="upload-state">Current status: DOWNLOADABLE, NOT PERFORMANCE-VALIDATED</h2><p>A prior main-line experiment provides a single-band TIF with a recorded local format/lane pass. Its only proxy is circular for its SGMC evidence layer, so no trustworthy HOLDOUT-DTI or organizer submission receipt exists. This audit-only pass generated no file and did not approve or select a weekly slot. See the prior card at <a href="../registry/run_card.json">registry/run_card.json</a> and the separate negative audit card at <a href="data/run-card.json">data/run-card.json</a>.</p></div>
+    <div><h2 id="upload-state">OK to submit? NO. OK to download? Inspection only.</h2>
+    <p>The only file in <code>docs/downloads/</code> is the prior H54-A artefact <code>gems54-undercomplement-q200.tif</code>. Its format checks pass on its own receipt, but it has no HOLDOUT-DTI. Downloading it is fine for reading the raster; uploading it is not supported by any evidence in this repository.</p></div>
+    <div><a class="button" href="downloads/gems54-undercomplement-q200.tif" download>Download for inspection</a></div>
   </section>
 
-  <section class="section two-col">
-    <div>
-      <div class="eyebrow">Before opening the form</div><h2>File requirements</h2>
-      <ul class="list">
-        <li><span class="bullet">01</span><span>Use a single-band GeoTIFF (<code>.tif</code>) or a ZIP containing exactly one GeoTIFF, as described in the form text supplied with this project.</span></li>
-        <li><span class="bullet">02</span><span>Match the documented study-grid CRS, width/height, and geotransform exactly. The tracked <code>data/grid/MIRROR_sample_submission_template.tif</code> is known to equal the label mask and is not a valid zero baseline; see the audit page before using any template.</span></li>
-        <li><span class="bullet">03</span><span>Keep every stored value finite and within <code>[0, 1]</code>. This project applies the range check to the whole stored raster, including outside-footprint cells, to avoid NaN/Inf and sentinel values being parsed as predictions.</span></li>
-        <li><span class="bullet">04</span><span>Use the unique submission name and short note generated for that exact raster. This project's note limit is 140 characters.</span></li>
-        <li><span class="bullet">05</span><span>Do not treat format validity as permission to spend a weekly slot. Require a comparable, preregistered whole-fault-segment hide-and-recover HOLDOUT-DTI result and a passed promotion gate.</span></li>
-      </ul>
-    </div>
-    <aside class="card">
-      <span class="label">Pre-existing H54-A artifact</span>
-      <h3>gems54-undercomplement-q200.tif</h3>
-      <p class="detail">The prior receipt reports format-valid and registry-distinct. It does not establish performance or approval by this review.</p>
-      <a class="button" href="downloads/gems54-undercomplement-q200.tif" download>Download existing TIF</a>
-      <p class="small" style="margin-top:14px">SHA-256: <code>b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</code></p>
-      <p class="small">Do not represent it as a win. Weekly-slot selection is separate and was not made here.</p>
-    </aside>
+  <section class="section">
+    <div class="eyebrow">What was tested</div>
+    <h2>Holdout results (HOLDOUT-DTI, local, not leaderboard scores)</h2>
+    <p class="small">Catalogued faults withheld in whole buffered segments (300 m buffer, 913 independent units, 4 folds, 60,988 withheld positives). Evaluator <code>gemsdoe54-segment-holdout-v1</code>. 95 % CIs from an exact segment-group jackknife.</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Experiment</th><th>Candidate DTI</th><th>cand − null (95 % CI)</th><th>cand − placebo (95 % CI)</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td>E1 · dense magnetic ridge (frozen)</td><td>0.0163</td><td>−0.0185 [−0.0234, −0.0135]</td><td>+0.0136 [+0.0089, +0.0183]</td><td>Negative: below the random null</td></tr>
+        <tr><td>E2 · spaced ridge, 3 px (exploratory)</td><td>0.0124</td><td>+0.0026 [−0.0011, +0.0062]</td><td>+0.0106 [+0.0070, +0.0142]</td><td>Negative: CI includes 0</td></tr>
+        <tr><td>E3 · detection floor</td><td>—</td><td>A−B MDE 0.0022; A−C MDE 0.0015</td><td>—</td><td>Measurement only</td></tr>
+      </tbody>
+    </table></div>
+    <p class="small"><strong>What the numbers mean.</strong> Dense 1-px ridge lines add redundant dots that the pooled DTI does not credit, so they lose to random placement. The spaced variant ties the null. Neither clears the frozen rule. The ridge does carry some location signal, since it beats a shifted-ridge placebo, but not enough to beat matched random placement.</p>
+    <p class="small"><strong>Can this holdout detect 0.2778 vs 0.2750?</strong> On this holdout a 0.0028 gap between two near-identical ridge variants would be detectable (pair floors 0.0015–0.0022). The board values use a hidden truth and a different scorer, so the board gap is <strong>not classifiable</strong> here.</p>
+    <p class="small">Sources: <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/run_card_mag_ridge.json">run card (JSON)</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_holdout.json">E1 receipt</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_spaced_holdout.json">E2 receipt</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/detection_floor.json">E3 receipt</a>.</p>
   </section>
 
-  <section class="section" aria-labelledby="steps-title">
-    <div class="eyebrow">When a future candidate is approved</div><h2 id="steps-title">Exact upload sequence</h2>
+  <section class="section">
+    <div class="eyebrow">Rules</div>
+    <h2>When is a file OK to submit?</h2>
+    <p>All five conditions must hold. Until they do, the answer is no.</p>
+    <ol class="steps">
+      <li>The file has a HOLDOUT-DTI with evaluator version, withheld-positive count and 95 % CI.</li>
+      <li>Its paired CIs against the matched random null and against the placebo both lie entirely above 0 (segment-group jackknife).</li>
+      <li>The leakage canary is at most AUC 0.90 for every feature.</li>
+      <li>The format validator passes (single band, float32, EPSG:32611, 100 m, same bounds, no NaN in the footprint, values in [0, 1]).</li>
+      <li>The owner records a selection. Selection is a separate step from scoring; this page never selects a file.</li>
+    </ol>
+  </section>
+
+  <section class="section">
+    <div class="eyebrow">When a file is approved</div>
+    <h2>Exact upload sequence</h2>
     <div class="grid">
-      <article class="step"><div class="step-num">1</div><h3>Check the separate slot selector</h3><p class="detail">This audit page does not approve a weekly slot. Only a separate selector may decide to submit an explicitly labelled experiment; first inspect the exact artifact hash, holdout evaluator/version, withheld-positive count, 95% CI, registry comparison, and format receipt.</p></article>
-      <article class="step"><div class="step-num">2</div><h3>Download the named GeoTIFF</h3><p class="detail">Save the exact linked <code>.tif</code> file. Do not resave, reproject, rename its contents, or substitute a ZIP from another run. If a ZIP is offered, confirm it contains a single GeoTIFF.</p></article>
-      <article class="step"><div class="step-num">3</div><h3>Open the official contest</h3><p class="detail">Use the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition page</a> and choose the new-submission flow. A login is required; no competition account was used in this audit pass.</p></article>
-      <article class="step"><div class="step-num">4</div><h3>Attach the file</h3><p class="detail">In “File to submit,” choose the downloaded single-band <code>.tif</code> (or the ZIP only if it contains one TIFF). Confirm the displayed filename matches the run card.</p></article>
-      <article class="step"><div class="step-num">5</div><h3>Enter the identifying fields</h3><p class="detail">Paste the exact unique submission name and short note supplied for that raster. Do not copy a prior name or use a projected score in the note.</p></article>
-      <article class="step"><div class="step-num">6</div><h3>Submit and preserve the receipt</h3><p class="detail">After portal validation, save the organizer's result/receipt and link it to the raster hash. Only that receipt can support an <code>ORGANIZER-CONFIRMED</code> score claim.</p></article>
+      <article class="step"><div class="step-num">1</div><h3>Check the run card</h3><p class="detail">The file's run card must show <code>ok_to_submit: true</code>. The current card in <code>docs/data/run-card.json</code> shows <code>false</code>.</p></article>
+      <article class="step"><div class="step-num">2</div><h3>Download and check the hash</h3><p class="detail">Confirm the SHA-256 matches the run card. If it differs, do not upload.</p></article>
+      <article class="step"><div class="step-num">3</div><h3>Sign in to DrivenData</h3><p class="detail">Open the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">competition problem page</a> for the submission format. The data page requires a login (verified: it redirects to login). No credential is stored here.</p></article>
+      <article class="step"><div class="step-num">4</div><h3>Attach one GeoTIFF</h3><p class="detail">Upload a single-band <code>.tif</code> directly. Use a ZIP only if the form asks for one and it contains one TIFF.</p></article>
+      <article class="step"><div class="step-num">5</div><h3>Note (max 140 characters)</h3><p class="detail">Use the note from the approved run card. The note for this prior file (105 characters) is <code>GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d&gt;300m, linearity gate, 200m dots</code>. It applies only if this file is approved.</p></article>
+      <article class="step"><div class="step-num">6</div><h3>Submit and keep the receipt</h3><p class="detail">Only a number copied from the submission page is ORGANIZER-CONFIRMED. Record it in <code>registry/submissions.json</code> with the raster hash.</p></article>
     </div>
+    <p class="small">Before upload, run the local validator. This does not guarantee portal acceptance:</p>
+    <pre><code>python scripts/validate_submission.py docs/downloads/gems54-undercomplement-q200.tif --labels data/grid/labels.tif --out evidence/candidate.validation.json</code></pre>
   </section>
 
-  <section class="section" aria-labelledby="error-title">
-    <div class="section-head"><div><div class="eyebrow">Troubleshooting</div><h2 id="error-title">“Predicted values must be in range [0, 1]”</h2></div></div>
-    <div class="card">
-      <p>The message indicates that the submitted prediction values failed the portal's range check. Common causes include NaN/Inf cells, a nodata sentinel such as a very large negative value, negative values, or values above one. The message alone does not tell us which value or cell caused the rejection; without the rejected file, no single root cause can be asserted.</p>
-      <p>Run the local validator against the official sample before upload:</p>
-      <pre>python scripts/validate_submission.py path/to/candidate.tif \
-  --labels data/grid/labels.tif --out evidence/candidate.validation.json</pre>
-      <p class="small">A passing local check confirms only local format/range conditions. It does not confirm the organizer accepted the file, the holdout is powered, or the candidate should use a weekly slot.</p>
-    </div>
+  <section class="section">
+    <div class="eyebrow">The "[0, 1]" error</div>
+    <h2>"Predicted values must be in range [0, 1]"</h2>
+    <p>A user reported this message from the portal. The repository holds no receipt of that upload, so the cause is <strong>not established</strong>. Typical causes are NaN or Inf values, a nodata sentinel such as a large negative number, or values outside [0, 1]. This file has only the values 0 and 1 and no NaN, and the local validator checks for those conditions.</p>
   </section>
 
-  <section class="section callout warning"><p><strong>Current decision:</strong> one prior artifact is downloadable and has a format/lane pass in its own receipt, but no trustworthy holdout or organizer result is established. This audit pass generated no file and does not select or promote it to a weekly slot.</p></section>
+  <section class="section callout warning"><p><strong>Official links for manual review:</strong>
+  <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">DrivenData problem description</a> ·
+  <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">DOE/NLR Official Rules (§3.2: up to three submissions per week)</a> ·
+  <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">leaderboard</a>.
+  Board values in the brief (0.3774, 0.3195, 0.2778, 0.2750) are unverified user claims with no receipt.</p></section>
 </main>
-<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p>Last local status: see <a href="data/workspace-audit.json">workspace audit JSON</a>.</p></div></footer>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p><p>Machine-readable status: <a href="data/run-card.json">run card</a> · <a href="data/workspace-audit.json">workspace audit JSON</a>.</p></div></footer>
 </body>
 </html>
