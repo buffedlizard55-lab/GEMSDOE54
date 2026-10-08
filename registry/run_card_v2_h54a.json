@@ -1,0 +1,222 @@
+{
+  "run_card_version": "parallel-run protocol v2 (whole-segment holdout, evaluator gemsdoe54-segment-cv v1)",
+  "generated_utc": "2026-10-08T23:13:26+00:00",
+  "experiment": {
+    "id": "H54-A",
+    "slug": "gems54-undercomplement-q200",
+    "candidate_key_in_holdout": "C1_sgmc_complement",
+    "status": "re-evaluated under the whole-segment holdout; not an organizer score"
+  },
+  "hypothesis": "Faults absent from the competition catalogue are most likely to be mapped on the USGS State Geologic Map Compilation (SGMC) as linework lying more than one kernel width (300 m) from every catalogue cell. A linearity gate and 200 m dot spacing turn that linework into a sparse prediction with low false-positive mass.",
+  "mechanism": "Visible-catalogue exclusion (300 m) removes linework whose credit is already claimed; the linearity gate keeps long traces and drops blob-shaped map artefacts; spaced dots reduce redundant false positives. Under the organizer metric, dots that earn zero credit only raise the FP term (see scripts/holdout_segment_cv.py docstring and tests/test_segment_cv.py).",
+  "mimic_process": "Map linework that is not a Quaternary fault: pre-Quaternary faults without scarps, dikes and veins digitised as lines, lithologic contacts, and neatlines. The linearity gate removes only blob-shaped artefacts; it does not remove long non-fault contacts.",
+  "holdout": {
+    "label": "HOLDOUT-DTI (evaluator gemsdoe54-segment-cv v1; catalogue-recovery truth, not hidden-test labels)",
+    "evaluator": {
+      "name": "gemsdoe54-segment-cv",
+      "version": "v1",
+      "metric": "organizer DTI alpha=0.2 beta=0.8 kernel=300 m triangular",
+      "script_sha256": "2c856141f4e4e7426655cbc224ac9576aac91f8365e3bd96ac7833f943b23700",
+      "seed": 20261008,
+      "bootstrap_replicates": 1000,
+      "shift_nulls": 30
+    },
+    "candidate": "C1_sgmc_complement",
+    "pooled_dti": 0.048338,
+    "ci95_percentile": [
+      0.042399,
+      0.054084
+    ],
+    "bootstrap_sd": 0.002991,
+    "withheld_positive_cells": 60988,
+    "independent_units_segments": 3199,
+    "folds": 5,
+    "controls": {
+      "C0_random_admissible_control": {
+        "pooled_dti": 0.010413,
+        "ci95_percentile": [
+          0.009081,
+          0.011744
+        ]
+      }
+    },
+    "paired_vs_control": {
+      "point": 0.037925,
+      "bootstrap_se": 0.00294,
+      "ci95_percentile": [
+        0.031737,
+        0.043691
+      ],
+      "mde_raw_80pct_two_sided": 0.008236,
+      "bootstrap_sign_p": 0.0
+    },
+    "paired_vs_rivals": {
+      "C2_geodetic_shear_ridge": {
+        "point": 0.038519,
+        "bootstrap_se": 0.003341,
+        "ci95_percentile": [
+          0.031853,
+          0.044913
+        ],
+        "mde_raw_80pct_two_sided": 0.009361,
+        "bootstrap_sign_p": 0.0
+      },
+      "C3_magnetic_hgrad_ridge": {
+        "point": 0.033506,
+        "bootstrap_se": 0.003407,
+        "ci95_percentile": [
+          0.026716,
+          0.039979
+        ],
+        "mde_raw_80pct_two_sided": 0.009546,
+        "bootstrap_sign_p": 0.0
+      }
+    },
+    "shift_null_C1": {
+      "n": 30,
+      "mean": 0.004188,
+      "sd": 0.000747,
+      "p95": 0.005128,
+      "max": 0.006247
+    },
+    "shift_null_scope": "computed for C1 (SGMC-complement dot pattern) only",
+    "canary_flagged_features": [],
+    "candidate_leakage_status": "CLEAR",
+    "cohen_d_min_units_total": 0.04955,
+    "cohen_d_min_units_per_fold": 0.111,
+    "mde_raw_from_paired_bootstrap_se": {
+      "C1_sgmc_complement minus C0_random_admissible_control": 0.008236,
+      "C2_geodetic_shear_ridge minus C0_random_admissible_control": 0.004509,
+      "C3_magnetic_hgrad_ridge minus C0_random_admissible_control": 0.004874,
+      "C1_sgmc_complement minus C2_geodetic_shear_ridge": 0.009361,
+      "C1_sgmc_complement minus C3_magnetic_hgrad_ridge": 0.009546
+    },
+    "limitations": [
+      "Truth is the owner-mirrored catalogue (labels==1), not the organizer's hidden expert set.",
+      "Hidden test faults are by construction absent from the catalogue; catalogue faults are better mapped.",
+      "Feature rasters are owner-claimed bridge copies (hash-consistent, not organizer-authenticated)."
+    ]
+  },
+  "overlap_vs_registry": {
+    "scope": "every grid-aligned sibling raster in the GEMSDOE family (not only the 11 registry rasters)",
+    "siblings_scanned": {
+      "files_seen": 1200,
+      "grid_rasters": 1177,
+      "off_grid_skipped": 23,
+      "unreadable": 0,
+      "submission_like": 1131,
+      "self_excluded": 1,
+      "sibling_repos": 53
+    },
+    "exact_file_matches": [],
+    "exact_decoded_matches": [],
+    "max_spearman_rho": 0.511436,
+    "max_spearman_rho_source": "7GEMSDOE/external/scored/gemsdoe3-sgmc-gap-7251c22bb4.tif",
+    "max_overlap_cand_in_sib_all": 1.0,
+    "max_overlap_cand_in_sib_nondegenerate": 1.0,
+    "max_overlap_source": "13GEMSDOE/data/external_sgmc/derived_sgmc_faults_100m_u8.tif",
+    "overlap_degenerate_siblings_count": 119,
+    "siblings_with_overlap_above_limit": 152,
+    "lane_check": "FAIL",
+    "protocol": {
+      "rank_rho_limit": 0.9,
+      "dot_overlap_limit": 0.7,
+      "dot_radius_px": 3.0,
+      "rank_sample_cells": 200000,
+      "rank_sample_seed": 20261008
+    }
+  },
+  "submission_file": {
+    "path": "docs/downloads/gems54-undercomplement-q200.tif",
+    "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
+    "bytes": 94282,
+    "driver": "GTiff",
+    "bands": 1,
+    "dtype": "float32",
+    "nodata": null,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nan_cells": 0,
+    "unique_values_in_footprint": [
+      0.0,
+      1.0
+    ],
+    "positive_cells": 15907,
+    "min_in_footprint": 0.0,
+    "max_in_footprint": 1.0,
+    "nonzero_outside_footprint": 0
+  },
+  "builder_receipt_ref": "registry/gems54-undercomplement-q200.build.json",
+  "builder_receipt_summary": {
+    "slug": "gems54-undercomplement-q200"
+  },
+  "validator_output": {
+    "path": "evidence/validator_output.json",
+    "format_passed": true,
+    "format_checks": {
+      "single_band": {
+        "ok": true,
+        "detail": "count=1"
+      },
+      "dtype_float32": {
+        "ok": true,
+        "detail": "dtype=float32"
+      },
+      "crs": {
+        "ok": true,
+        "detail": "crs=EPSG:32611"
+      },
+      "shape": {
+        "ok": true,
+        "detail": "shape=(3730,3292)"
+      },
+      "transform_100m_same_bounds": {
+        "ok": true,
+        "detail": "transform=(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
+      },
+      "all_cells_finite": {
+        "ok": true,
+        "detail": "non_finite=0"
+      },
+      "values_in_0_1": {
+        "ok": true,
+        "detail": "range=[0.0, 1.0]"
+      },
+      "footprint_cells": {
+        "ok": true,
+        "detail": "cells=5167373"
+      },
+      "in_footprint_in_range": {
+        "ok": true,
+        "detail": "in-footprint range=[0.0, 1.0]"
+      }
+    },
+    "format_failures": [],
+    "lane_verdict": "distinct lane"
+  },
+  "note": "GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots",
+  "note_chars": 105,
+  "note_within_limit": true,
+  "verdict_rule_checks": {
+    "1_validator_all_pass": true,
+    "2_lane_check_pass": false,
+    "3_candidate_canary_clear": true,
+    "4_pooled_ci_lower_above_control_ci_upper": true,
+    "5_paired_vs_control_ci_lower_above_0": true,
+    "6_no_rival_significantly_better": true
+  },
+  "verdict": "negative",
+  "verdict_meaning": "does not pass the pre-registered holdout gates",
+  "labels_policy": "HOLDOUT-DTI = whole-segment holdout receipt with evaluator, withheld positives and 95% CI. ORGANIZER-CONFIRMED = none for this artefact. MODEL/PROXY values are not scores."
+}

@@ -5,6 +5,25 @@
 
 ---
 
+## ⬇️ SUBMISSION STATUS — read this before anything else (updated 2026-10-08)
+
+**Verdict: no file in this repository is cleared for upload.** Both GeoTIFFs below are format-valid, but neither passes the uniqueness requirement. The executive summary is at [`docs/submit-verdict.html`](docs/submit-verdict.html).
+
+| File | Holdout (HOLDOUT-DTI, whole-segment) | Lane / uniqueness | Run card |
+|---|---|---|---|
+| [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif) (H54-A, SGMC complement) · SHA-256 `b430615a…efd8` · 15,907 dots | **0.0483** [0.0424, 0.0541] (best tested; control 0.0104) | **FAIL.** 100 % of its dots lie within 3 px of GEMSDOE3's `gapfinder-v2-sgmc-gap` (ρ 0.51) | [`registry/run_card_v2_h54a.json`](registry/run_card_v2_h54a.json): negative |
+| [`docs/downloads/gems54-magedge-hgrad-ridge.tif`](docs/downloads/gems54-magedge-hgrad-ridge.tif) (H54-B, magnetic gradient ridge) · SHA-256 `6d086c09…8d9e` · 19,197 dots | 0.0148 [0.0118, 0.0180] (beats control, below H54-A) | **FAIL.** 81.6 % overlap with GEMSDOE40 `h8-asa-spi-depthkde`; 75.7 % with GEMSDOE46 `dfa-corroborated` | [`registry/run_card_v2_magedge.json`](registry/run_card_v2_magedge.json): negative |
+
+**Official rules (verified verbatim, [`docs/rules-gate.html`](docs/rules-gate.html)).** You may submit *your own model's* single-band GeoTIFF (§3.2; original work, A.5(1)) if you are eligible (§1.3) and you sign the certification (§1.3, A.1). You must disclose generative-AI use in the narrative (§3.2). Three submissions per week at most (§3.2, §3.4). Copying another team's file is not permitted, and this includes every GEMSDOE sibling artefact.
+
+**Your uniqueness rule.** Both files fail it against the full sibling set (1,177 grid-aligned rasters, [`evidence/uniqueness_gems54-undercomplement-q200.json`](evidence/uniqueness_gems54-undercomplement-q200.json), [`evidence/uniqueness_gems54-magedge-hgrad-ridge.json`](evidence/uniqueness_gems54-magedge-hgrad-ridge.json)). The protocol limit is 70 % of dots within 3 px of any sibling's dots. The earlier "registry-distinct" claim covered only 11 registry rasters and is withdrawn (IR-54-048).
+
+**Holdout rule.** Do not spend a slot unless the holdout best is beaten. H54-B does not beat H54-A, and H54-A is not unique. No slot is recommended. Slot selection is not made by this repository.
+
+**Score labels.** `HOLDOUT-DTI` = whole-segment holdout with evaluator `gemsdoe54-segment-cv` v1, withheld positives and 95 % CI. `ORGANIZER-CONFIRMED` = none. `BOARD-UNVERIFIED` = user-reported board values (0.2778, 0.2750, 0.2708). `MODEL` = inference. Projections are never scores.
+
+---
+
 ## ⛔ Current run: no new TIF cleared the gates
 
 **This review generated no new TIFF. Do not upload a file from this run, and do not spend a weekly submission slot on the archived H54-A file.** Two pre-placement surface screens tripped the literal registry-overlap stop rule before point placement. The current run card is [`docs/data/run-card.json`](docs/data/run-card.json); receipts are [`evidence/endpoint-continuation-preflight.json`](evidence/endpoint-continuation-preflight.json) and [`evidence/strict_lane_preflight.json`](evidence/strict_lane_preflight.json).
@@ -61,6 +80,26 @@ Files: [`evidence/mag_ridge_holdout.json`](evidence/mag_ridge_holdout.json), [`e
 The review fixed three code-level issues: the lane checker now uses absolute rank correlation and the literal raw overlap threshold; informative holdout pixels exclude the zero-credit 300 m boundary; and the writer rejects non-float32 output. A pre-existing scratch-only preview was calculated out of order after the surface had already crossed its stop rule; it was never persisted or scored and is disclosed in the audit note. Tests cover each fix. No holdout run or weekly submission slot was used.
 
 The owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eba791dc363305d4a3` was inspected via GitHub API; its tree lists cached feature shards and a spatial-block evaluator, but its manifest cites owner mirrors rather than an authenticated organizer download. This is a provenance and protocol check, not a `HOLDOUT-DTI` result. See [`docs/audit/pinned-template-cache-audit.json`](docs/audit/pinned-template-cache-audit.json).
+
+---
+
+## Session results (2026-10-08)
+
+**What was built.** [`scripts/holdout_segment_cv.py`](scripts/holdout_segment_cv.py) (evaluator `gemsdoe54-segment-cv` v1): 5-fold whole-segment hide-and-recover over 3,199 catalogue components (60,988 withheld positives), 300 m buffer, visible-only features, pixel-exact visible masking, organizer DTI (α 0.2, β 0.8, 300 m triangular kernel) decomposed per fold and cross-checked against the grid metric, paired cluster bootstrap (1,000 replicates), single-feature canary (19 bands, SGMC, distance), and 30 torus-shift nulls. Receipt: [`evidence/holdout_segment_cv_v1.json`](evidence/holdout_segment_cv_v1.json).
+
+**Headline holdout numbers (HOLDOUT-DTI, catalogue recovery).** C0 chance control 0.0104 [0.0091, 0.0117]; C1 SGMC complement 0.0483 [0.0424, 0.0541]; C2 geodetic shear ridge 0.0098 [0.0072, 0.0128] (no signal over chance); C3 magnetic gradient ridge 0.0148 [0.0118, 0.0180]. Paired C1 minus C0 +0.0379 [+0.0317, +0.0437]; C1 minus C3 +0.0335 [+0.0267, +0.0400]. Canary: no feature flagged (highest single-feature AUC 0.756, distance to visible catalogue, a withholding artefact; SGMC 0.526). C1 shift null p95 0.0051.
+
+**Detection floor and the 0.0028 board gap.** Cohen d_min at 80 % power for 3,199 units is 0.0496 (0.111 per fold). Raw MDE for the paired comparisons is 0.0045 to 0.0095 at the observed correlations. The 0.0028 board gap is inside the floor of every paired comparison here. Units are raster fragments (IR-54-039), so the floors are indicative. See [`evidence/detection_floor_segments.json`](evidence/detection_floor_segments.json).
+
+**The top artefact (GEMSDOE32 H33-2-B2).** Registry-verified: the parent 0.2708 raster has 40,199 dots, and the child 37,654 dots is byte-identical to the owner's file. Deleted dots: 2,545. Under the organizer metric, deleting zero-credit dots leaves TP and FN unchanged and lowers FP by one per dot, so DTI rises. The identity is verified numerically. The 0.2778 value is user-reported and the owner's manifest says UNSCORED. The owner's audit is internally inconsistent (IR-54-034). Beating 0.2778 is possible in principle, but nothing here establishes it. See [`docs/top-artefact.html`](docs/top-artefact.html) and [`evidence/top_artefact_analysis.json`](evidence/top_artefact_analysis.json).
+
+**Reproducibility.** `build_submission.py` rebuilt H54-A byte-for-byte. The rebuild exposed a receipt-path bug, now fixed (IR-54-049). `build_unique_submission.py` builds H54-B. Both run cards are generated by `make_run_card.py` from receipts, with no hand-typed numbers.
+
+**Standing corrections (session memory).** The 0.2708 base has 40,199 dots, not 44,090 (44,090 is the 0.2600 raster). The deletion count is 2,545, not 6,436 (IR-54-041). The owner-mirrored sample file is not all-zero, which contradicts the format page (IR-54-032). The label source is cited differently in §2 and §3.3 of the rules (IR-54-030).
+
+**Limitations.** (1) The holdout truth is the catalogue, not the hidden expert set. (2) Feature rasters are owner-claimed copies (hash-consistent, not organizer-authenticated). (3) The chance control is not spacing-matched. (4) Segments are raster fragments. (5) The leaderboard is unreadable, and the brief's top value conflicts (0.3774 versus 0.3195). (6) Submission-count and eligibility cannot be checked from this repository.
+
+**Remaining work.** (a) A new candidate in a lane that no sibling occupies and that also beats 0.0483 under the same evaluator. (b) Validate hypotheses 4 and 5 (InSAR, Landsat thermal); both need new data pulls. (c) Spacing-matched control (random lines through the same gate). (d) Organizer confirmation of label source, sample format and submission count (IR-54-030, IR-54-032, IR-54-040). (e) Licence check before the label mirror stays public (IR-54-031).
 
 ---
 
@@ -343,6 +382,8 @@ hidden truth mass of ≈11,583 cells. This is an algebraic sensitivity analysis,
 ---
 
 ## 4. Repository layout
+
+> **Added in PR #11 (whole-segment holdout, full sibling lane audit, rules gate):** `docs/submit-verdict.html` (executive summary and submit steps), `docs/rules-gate.html`, `docs/holdout.html`, `docs/top-artefact.html`, `docs/hypotheses-holdout.html`; scripts `holdout_segment_cv.py`, `sibling_uniqueness.py`, `make_run_card.py`, `detection_floor_segments.py`, `build_unique_submission.py`, `top_artefact_analysis.py`; receipts `evidence/holdout_segment_cv_v1.json`, `evidence/uniqueness_*.json`, `registry/run_card_v2_*.json`; the H54-B file `docs/downloads/gems54-magedge-hgrad-ridge.tif`. Irregularities IR-54-030 to IR-54-049 are appended to the ledger.
 
 ```
 README.md                     ← you are here (standing prompt + status)

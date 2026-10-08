@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Official-rules gate: whether you may download and submit the GEMS GeoTIFF, with verbatim rule text and links.">
+  <title>Rules gate: may I submit this file? | GEMSDOE54</title>
+  <link rel="stylesheet" href="assets/audit-site.css">
+</head>
+<body>
+<header class="site-header"><div class="header-inner">
+  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="submit-verdict.html">Submit guide</a><a aria-current="page" href="rules-gate.html">Rules gate</a><a href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a href="hypotheses-holdout.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
+</div></header>
+<main>
+  <section class="page-title">
+    <div class="eyebrow">Official rules gate · verified against the NLR rules PDF (September 2026)</div>
+    <h1>May I download this file and submit it?</h1>
+    <p class="lead">Short answer: <strong>only as your own model's output</strong>, by an eligible competitor who signs the certification, with generative-AI use disclosed. Each condition is quoted below from the official text, with its link.</p>
+  </section>
+
+  <section class="callout danger" aria-labelledby="verdict">
+    <h2 id="verdict">Verdict for <code>gems54-undercomplement-q200.tif</code></h2>
+    <p><strong>Conditionally permitted under the competition rules. Not cleared under this repository's uniqueness requirement, which both files fail (see the <a href="submit-verdict.html">executive summary</a>).</strong> Not permitted if the file is treated as someone else's work. The file was produced by this repository's own build code (<code>scripts/build_submission.py</code>) from the competition's training labels and a USGS state geologic map layer. Re-running that code reproduces it byte-for-byte (see the <a href="submit-verdict.html">submit guide</a>). Three things are <em>not</em> decided by this repository and must be confirmed by the person who registers:</p>
+    <ol>
+      <li>Your eligibility under §1.3 (we cannot verify it).</li>
+      <li>The certification in §1.3 and Appendix A.1, which only you can sign.</li>
+      <li>The generative-AI disclosure in the narrative required by §3.2 (draft: <a href="AI_DISCLOSURE.md">AI_DISCLOSURE.md</a>).</li>
+    </ol>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Condition-by-condition</h2><p class="small">Quotes are verbatim from the official rules (NLR, September 2026). Section numbers are the rules' own.</p></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Question</th><th>Official text (verbatim)</th><th>Status for this file</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Who may compete?</strong><br><span class="small">§1.3</span></td>
+          <td>“An individual prize competitor (who is not competing as a member of a group) must be a U.S. citizen or permanent resident.” “Private entities must be incorporated in and maintain a primary place of business in the United States.” “Academic institutions must be based in the United States and accredited by a nationally recognized accrediting agency or association.”</td>
+          <td><strong>Unknown to us.</strong> Only you can establish this. Ineligible groups include DOE/NLR/FFRDC personnel as listed in §1.3.</td>
+        </tr>
+        <tr>
+          <td><strong>Must the submission be original work?</strong><br><span class="small">Appendix A.5(1)</span></td>
+          <td>“The competitor’s entire submission is an original work by the competitor and the competitor has not included third-party content … unless (i) otherwise requested by the prize administrator or disclosed by the competitor in the submission and (ii) the competitor has acquired the necessary rights …”</td>
+          <td><strong>Yes if you run the included code yourself.</strong> <strong>No</strong> for any file copied from another person's or team's repository. This includes every GEMSDOE sibling artefact and the previously published top-scoring GEMSDOE32 file. Those may be studied for learning only.</td>
+        </tr>
+        <tr>
+          <td><strong>What is the submission?</strong><br><span class="small">§3.2 Process overview</span></td>
+          <td>“You must submit a single GeoTIFF with a single raster layer at 100-meter resolution containing your model's predictions of fault locations for the entirety of the GeoDAWN study area.”</td>
+          <td><strong>Format passes</strong> (single band, float32, EPSG:32611, 3730 × 3292, values in [0, 1], NaN outside the footprint; 9 of 9 checks in <a href="../evidence/validator_output.json">evidence/validator_output.json</a>). The competition page's format requirements are linked from the <a href="submit-verdict.html">submit guide</a>.</td>
+        </tr>
+        <tr>
+          <td><strong>Generative-AI disclosure</strong><br><span class="small">§3.2</span></td>
+          <td>“Using generative AI technology in the development of your prize submission is allowed. However, you must indicate in the narrative (not included in the word count) the extent to which, if any, you used generative AI technology and how you used it to develop your submission …”</td>
+          <td><strong>Required, and yours to file.</strong> A draft describing how this repository was produced is in <a href="AI_DISCLOSURE.md">AI_DISCLOSURE.md</a>. You are responsible for its accuracy under §3.2.</td>
+        </tr>
+        <tr>
+          <td><strong>How many uploads?</strong><br><span class="small">§3.2 and §3.4</span></td>
+          <td>“You can make multiple submissions, subject to the limits specified on the competition website (three submissions per week).” “…each participating entity … may submit more than one set of predictions for automated scoring … up to three per week … By the submission deadline, you must select only one set of predictions to use as your final submission …”</td>
+          <td><strong>Limit applies to you.</strong> This repository does not select a slot or a final submission (protocol: do not pick submissions). Confirm your upload count on the DrivenData submission page; the 63 public repositories are not themselves submissions.</td>
+        </tr>
+        <tr>
+          <td><strong>Certification</strong><br><span class="small">§1.3 and Appendix A.1</span></td>
+          <td>“I certify under penalty of perjury that the named competitor meets the eligibility requirements for this prize competition and complies with all other rules in the official rules document.”</td>
+          <td><strong>Yours to sign.</strong> Not signed or implied by this repository.</td>
+        </tr>
+        <tr>
+          <td><strong>Code for finalists</strong><br><span class="small">§3.5</span></td>
+          <td>“Their solution's complete code assets and documentation … should be able to sufficiently reproduce the winning results and generate predictions on new data samples.”</td>
+          <td><strong>Supplied for this file</strong>: the builder, the receipt <code>registry/gems54-undercomplement-q200.build.json</code>, and the hash check in the submit guide. Finalist status is not yet reached.</td>
+        </tr>
+        <tr>
+          <td><strong>Public elements</strong><br><span class="small">Appendix A.4</span></td>
+          <td>“The elements of the submission that are designated as public will become publicly available as part of this prize.”</td>
+          <td><strong>Note.</strong> This site publishes the TIF and its receipts publicly. Confirm that this is compatible with what you designate as public in your submission package.</td>
+        </tr>
+        <tr>
+          <td><strong>Training data terms</strong><br><span class="small">§3.3 and the competition data page</span></td>
+          <td>§3.3: the training labels “were obtained from the INGENIOUS project's Great Basin Regional Dataset Compilation.” The competition page lists the labels as from the USGS Quaternary Fault and Fold Database and NLR/USGS experts (see the irregularity below).</td>
+          <td><strong>To verify before publishing.</strong> This repository mirrors the training labels (<code>data/grid/labels.tif</code>) and a derived USGS SGMC raster. Check the competition's data licence terms before keeping the label mirror public. This is flagged as IR-54-031.</td>
+        </tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Label-provenance inconsistency (flagged)</h2></div>
+    <div class="panel">
+      <p>The official text names two different sources for the training labels. §2 says: “The labels for this prize come from the USGS Quaternary Fault and Fold Database and from a set of newly identified faults labeled by geology experts.” §3.3 says: “These labels were obtained from the INGENIOUS project's Great Basin Regional Dataset Compilation” (doi:10.15121/1881483). The DrivenData labels section cites both. This does not change the upload gate, but it matters for any claim about what the labels contain. It is recorded as IR-54-030.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>Official links</h2></div>
+    <div class="cta-row">
+      <a class="button" href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR official rules (PDF, September 2026)</a>
+      <a class="button" href="https://www.herox.com/GEMSPrize/resource/2274">HeroX rules page (links to the PDF)</a>
+      <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData: metric and submission format</a>
+      <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DrivenData competition home</a>
+    </div>
+    <p class="small">The DrivenData leaderboard and data tab cannot be read without login or because the page is client-rendered. Nothing on this page depends on them.</p>
+  </section>
+</main>
+<footer class="footer"><div class="footer-inner"><span>Verbatim quotes checked against the official PDF on 2026-10-08. Not legal advice.</span></div></footer>
+</body>
+</html>
