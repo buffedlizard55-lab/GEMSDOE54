@@ -1,0 +1,67 @@
+{
+  "question": "Does the proxy holdout rank submissions the way the real leaderboard does?",
+  "answer": "No. The ordering is inverted at both ends.",
+  "n_paired_artefacts": 6,
+  "spearman_proxy_dti_vs_leaderboard": {
+    "rho": -0.0286,
+    "p_value": 0.9572
+  },
+  "spearman_lift_vs_leaderboard": {
+    "rho": 0.1429,
+    "p_value": 0.7872
+  },
+  "inversion": {
+    "proxy_ranks_first": "r13_lattice_s5_00904",
+    "proxy_ranks_first_leaderboard_score": 0.0904,
+    "leaderboard_ranks_first": "dotted_b2_prune_02778",
+    "leaderboard_first_score": 0.2778,
+    "leaderboard_ranks_last": "r13_lattice_s5_00904",
+    "leaderboard_last_score": 0.0904,
+    "proxy_score_of_leaderboard_last": 0.247784
+  },
+  "rows": [
+    {
+      "candidate": "dotted_b2_prune_02778",
+      "n_dots": 37654,
+      "proxy_dti": 0.093946,
+      "lift_vs_matched_random": 1.312,
+      "leaderboard_public_score": 0.2778
+    },
+    {
+      "candidate": "dotted_d2_8_02600",
+      "n_dots": 44090,
+      "proxy_dti": 0.092727,
+      "lift_vs_matched_random": 1.167,
+      "leaderboard_public_score": 0.26
+    },
+    {
+      "candidate": "dotted_d2_8_02708",
+      "n_dots": 40199,
+      "proxy_dti": 0.093836,
+      "lift_vs_matched_random": 1.246,
+      "leaderboard_public_score": 0.2708
+    },
+    {
+      "candidate": "hedge_v2_01563",
+      "n_dots": 227507,
+      "proxy_dti": 0.088371,
+      "lift_vs_matched_random": 0.461,
+      "leaderboard_public_score": 0.1563
+    },
+    {
+      "candidate": "r13_lattice_s5_00904",
+      "n_dots": 206895,
+      "proxy_dti": 0.247784,
+      "lift_vs_matched_random": 1.326,
+      "leaderboard_public_score": 0.0904
+    },
+    {
+      "candidate": "tip_stepover_r30_02632",
+      "n_dots": 41865,
+      "proxy_dti": 0.094213,
+      "lift_vs_matched_random": 1.244,
+      "leaderboard_public_score": 0.2632
+    }
+  ],
+  "conclusion": "The artefact the proxy scores highest is the one the leaderboard scores lowest, and an artefact that the proxy scores WORSE THAN MATCHED RANDOM scored 0.1563 on the real leaderboard. The proxy is therefore usable for one narrow purpose only: confirming that a candidate's dots land on real mapped faults. It must never be used to choose between candidates, and no number derived from it may be quoted as an expected competition score."
+}

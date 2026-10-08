@@ -80,6 +80,102 @@ def segment_blocks(mask: np.ndarray, buffer_px: int) -> tuple[np.ndarray, list[s
     return lab.astype(np.int32), notes
 
 
+def spatial_folds(footprint: np.ndarray, blocks: int = 4) -> np.ndarray:
+    """Assign every in-footprint cell to one of ``blocks`` compact spatial regions.
+
+    Folds are contiguous tiles, never random pixels: a random split would leave
+    both halves of a single fault on opposite sides of the split and report a
+    spatial-generalisation score that no submission could fail.
+    """
+    rows, cols = np.nonzero(footprint)
+    if rows.size == 0:
+        raise ValueError("empty footprint")
+    side = int(round(blocks ** 0.5))
+    r0, r1, c0, c1 = rows.min(), rows.max() + 1, cols.min(), cols.max() + 1
+    fold = np.full(footprint.shape, -1, dtype=np.int8)
+    rstep = max(1, -(-(r1 - r0) // side))
+    cstep = max(1, -(-(c1 - c0) // side))
+    idx = ((rows - r0) // rstep) * side + ((cols - c0) // cstep)
+    fold[rows, cols] = (idx % blocks).astype(np.int8)
+    return fold
+
+
+def pooled_metric(
+    truth: np.ndarray,
+    dots: np.ndarray,
+    *,
+    kernel_px: float = 3.0,
+    alpha: float = 0.2,
+    beta: float = 0.8,
+) -> tuple[float, float, float, float]:
+    """Organizer metric on a unit-valued dot set, computed from its own algebra.
+
+    Returns ``(dti, tp_w, fp_w, fn_w)`` where ``tp_w = sum over truth cells of the
+    best kernel value any dot achieves``.  Distances are true Euclidean
+    distances, so a dot pair separated by more than the kernel cannot interact --
+    which is exactly the regime the emission policy targets.
+    """
+    if not dots.any():
+        return 0.0, 0.0, float(dots.sum()), float(truth.sum())
+    tp_w = 0.0
+    if truth.any():
+        # TP: for each truth cell, the best credit any dot gives it.
+        d_dot = distance_transform_edt(~dots, sampling=(1.0, 1.0))
+        credit = np.clip(1.0 - d_dot / kernel_px, 0.0, None)
+        tp_w = float(credit[truth].sum())
+        # FP: for each dot, 1 minus the best credit it earns from a truth cell.
+        # This is distance to the nearest TRUTH cell, not to the nearest dot --
+        # reading the dot distance here would make every dot look perfect.
+        d_truth = distance_transform_edt(~truth, sampling=(1.0, 1.0))
+        ys, xs = np.nonzero(dots)
+        earned = np.clip(1.0 - d_truth[ys, xs] / kernel_px, 0.0, 1.0)
+        fp_w = float(np.sum(1.0 - earned))
+    else:
+        fp_w = float(dots.sum())
+    fn_w = float(truth.sum()) - tp_w
+    # Tversky index: TP is in the denominator as well as the numerator.
+    # Omitting it makes the ratio exceed 1.0 for any candidate whose precision is
+    # above alpha, which is exactly how a wrong implementation scores 4.52 on a
+    # trace it covers one dot per 3 px.
+    denom = tp_w + alpha * fp_w + beta * fn_w
+    dti = 0.0 if denom <= 0 else tp_w / denom
+    return dti, tp_w, fp_w, fn_w
+
+
+def shift_null_ci(
+    truth: np.ndarray,
+    dots: np.ndarray,
+    *,
+    shifts: int = 5,
+    step_px: int = 550,
+    kernel_px: float = 3.0,
+) -> dict[str, float]:
+    """Confidence band on the score from a torus shift null.
+
+    Bootstrap resampling is the wrong null for a spatially autocorrelated target:
+    resampled fault segments keep their real geometry, so the interval collapses
+    and flatters every candidate.  Shifting the *entire prediction* by several
+    hundred cells instead asks the question that matters -- how much does the
+    score depend on the prediction being in the right place at all? -- and gives
+    a band whose width is honest about spatial correlation.
+    """
+    scores = []
+    for i in range(1, shifts + 1):
+        d = i * step_px
+        rolled = np.roll(np.roll(dots, d, axis=0), 2 * d, axis=1)
+        s, _, _, _ = pooled_metric(truth, rolled, kernel_px=kernel_px)
+        scores.append(s)
+    scores = np.asarray(scores, dtype=np.float64)
+    return {
+        "n_shifts": int(scores.size),
+        "shift_px": step_px,
+        "mean": float(scores.mean()) if scores.size else 0.0,
+        "sd": float(scores.std(ddof=1)) if scores.size > 1 else 0.0,
+        "min": float(scores.min()) if scores.size else 0.0,
+        "max": float(scores.max()) if scores.size else 0.0,
+    }
+
+
 def informative_truth_cells(truth: np.ndarray, dots: np.ndarray) -> int:
     """Truth cells that lie within the 300 m kernel of at least one dot.
 
@@ -148,6 +244,9 @@ def write_receipt(path: str, payload: dict) -> None:
 __all__ = [
     "HoldoutResult",
     "segment_blocks",
+    "spatial_folds",
+    "pooled_metric",
+    "shift_null_ci",
     "informative_truth_cells",
     "detect_leakage",
     "write_receipt",

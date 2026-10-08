@@ -58,7 +58,12 @@ print("minimum detectable (near-identical pair):", d["minimum_detectable"])
 PY
 
 echo
-echo "== 8. sync published hashes with the built artefact =="
+echo "== 8. blocked holdout screening + proxy audit =="
+python3 scripts/run_holdout.py > /dev/null
+python3 scripts/proxy_audit.py
+
+echo
+echo "== 9. sync published hashes with the built artefact =="
 python3 scripts/sync_receipts.py
 
 echo

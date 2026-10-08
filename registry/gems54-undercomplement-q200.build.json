@@ -2,7 +2,7 @@
   "slug": "gems54-undercomplement-q200",
   "submission_note": "GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots",
   "note_length": 105,
-  "generated_utc": "2026-10-08T18:31:08+00:00",
+  "generated_utc": "2026-10-08T18:43:05+00:00",
   "inputs": {
     "labels": {
       "path": "data/grid/labels.tif",

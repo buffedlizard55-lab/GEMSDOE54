@@ -262,17 +262,25 @@ mapped faults more than 300 m from the competition catalogue*. Six artefacts hav
 **both** downloadable bytes **and** a published public-leaderboard score, so the
 holdout can be checked against the leaderboard directly:
 
-| artefact | proxy DTI | public score |
-|---|---:|---:|
-| `r13-lattice-s5` | **0.2478** | 0.0904 |
-| `h60-officialstack-50k` | 0.1854 | *(none published)* |
-| `tip_stepover_r30` | 0.0942 | 0.2632 |
-| `dotted_b2_prune` | 0.0940 | **0.2778** |
-| `dotted_d2_8` | 0.0927 | 0.2600 |
-| `Hedge-v2` | 0.0884 | 0.1563 |
+| artefact | proxy DTI | lift vs matched random | public score |
+|---|---:|---:|---:|
+| `r13-lattice-s5` | **0.2478** | 1.33× | 0.0904 |
+| `h60-officialstack-50k` | 0.1854 | **2.12×** | *(none published)* |
+| `tip_stepover_r30` | 0.0942 | 1.24× | 0.2632 |
+| `dotted_b2_prune` | 0.0940 | 1.31× | **0.2778** |
+| `dotted_d2_8` | 0.0927 | 1.17× | 0.2600 |
+| `Hedge-v2` | 0.0884 | **0.46×** | 0.1563 |
 
 **Spearman ρ(proxy, leaderboard) = −0.029, p = 0.957, n = 6.** The artefact the
 proxy likes best is the one the leaderboard likes least.
+
+*Lift* is each artefact's proxy DTI divided by a uniform-random dot field of the
+same dot count, so it removes the free advantage of raw mass. It sharpens the
+inversion instead of softening it: `Hedge-v2` scores **0.46×, i.e. worse than
+random dots** on the proxy, yet it scored **0.1563** on the real leaderboard —
+beating the lattice (0.0904) that the proxy puts first. A gate on which a real
+submission ranks below random is not a gate. Reproduce with
+`python3 scripts/run_holdout.py && python3 scripts/proxy_audit.py`.
 
 Re-calibrating the proxy's mass to the leaderboard-implied truth size does **not**
 repair the ordering (ρ = +0.14, p = 0.79; the lattice stays first at every mass
@@ -329,6 +337,29 @@ rows gives the leaderboard-implied hidden truth mass **G ≈ 11,583 cells**, whi
 independently reproduces the sibling corpus's own 12,226 estimate.
 
 ---
+
+### 3.4 Local-only working data (not in Git)
+
+The development sandbox carried a 3.6 GB tree of cloned sibling repositories under
+`/home/user/_scratch`. It is **deleted**, because it blew past the workspace
+snapshot budget and none of it is needed to reproduce this repository: the two
+inputs the builder reads are hash-pinned in `data/` and the eleven registry
+rasters are cached in `registry/registry_rasters/`.
+
+What was kept, in `/home/user/_keep` (3.9 MB, outside Git):
+
+| file | what it is | why kept |
+|---|---|---|
+| `proxy_catalogue_sgmc.tif` | the corpus's proxy truth: SGMC classes 1 (20,491) and 2 (61,664) | the only truth set available without organizer credentials; class 2 defines the holdout |
+| `gdr_wellspring_in_footprint.csv` | 27,093 GDR-mapped springs and wells | evidence layer for hypothesis H54-B |
+| `prior_positive_union.npz`, `prior_artifact_signatures.npz` | corpus-wide dot unions and signatures | uniqueness cross-checks |
+| `sibling-audit.json`, `uniqueness-audit.json`, `h61_prior_corpus_receipt.json` | the corpus's own audit records | source of the published-score column above |
+| `gemsdoe30_external_receipt.json` | the hash-pinning receipt | provenance for `data/` |
+| `evidence/*.json` | the corpus's holdout and calibration records | the raw material for the negative results |
+
+`scripts/collect_registry.py` now reuses an already-collected raster when its
+original source has been pruned, so the pipeline runs unchanged with the scratch
+tree absent.
 
 ## 4. Repository layout
 
