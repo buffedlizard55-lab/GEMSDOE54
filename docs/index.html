@@ -33,7 +33,7 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
 
 <div class="panel hero">
   <h2>⛔ No upload-approved TIFF from this review</h2>
-  <p><strong>No new TIFF was generated.</strong> The pre-placement candidate surface exceeded the literal registry-overlap stop threshold, so the experiment stopped before point placement. There is no current-session file to submit, no compliant HOLDOUT-DTI, and no weekly slot has been used.</p>
+  <p><strong>No new TIFF was generated.</strong> Two pre-placement surface screens exceeded the literal registry-overlap stop threshold and stopped before point placement. There is no current-session file to submit, no compliant HOLDOUT-DTI, and no weekly slot has been used.</p>
 
   <p><a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" download>Download the archived H54-A TIFF for inspection only</a>
   &nbsp;<a class="btn secondary" href="data/run-card.json">Open the current run card</a></p>
@@ -41,7 +41,7 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
   <dl class="kv">
     <dt>Archive filename</dt><dd><code>gems54-undercomplement-q200.tif</code> (pre-existing; not generated in this review)</dd>
     <dt>Archive SHA-256</dt><dd class="hash">b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</dd>
-    <dt>Local format checks</dt><dd>PASS on re-read: one-band float32, EPSG:32611, 3730 × 3292, finite values in [0, 1]</dd>
+    <dt>Local format checks</dt><dd>Grid/dtype/in-footprint range pass; current conservative null/NaN-outside-footprint check fails because the archive stores finite zeroes outside the cached footprint. Official rule not re-fetched.</dd>
     <dt>Literal lane check</dt><dd><strong>FAIL — duplicate stop</strong> under raw 3-pixel overlap with three dense registry rasters</dd>
     <dt>Whole-segment holdout</dt><dd><strong>NOT ESTABLISHED</strong>; no evaluator version, withheld-positive count, or paired 95% CI</dd>
     <dt>Upload decision</dt><dd><strong>DO NOT UPLOAD</strong> the archived artifact based on this review; no new candidate is available</dd>
@@ -53,7 +53,7 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
 </div>
 <div class="panel tight" id="audit-only-review">
   <h2 style="margin-top:0">Current audit-only review</h2>
-  <p>The linked archive is from a previously built H54-A experiment; this review emitted no new TIFF and selected no submission slot. The literal lane gate stopped the candidate surface before placement. This review also fixed lane-check handling of absolute rank correlation / dense-registry overlaps, corrected the positive-kernel boundary count, and restricted the writer to float32. The local segment-buffer helper is still only a helper, not an end-to-end evaluator; the inspected owner-template workflow is spatial-block based, so no compliant HOLDOUT-DTI or confidence interval is available.</p>
+  <p>The linked archive is from a previously built H54-A experiment; this review emitted no new TIFF and selected no submission slot. Two surface-only lane screens stopped before placement. The archive also fails the current conservative outside-footprint null/NaN check. The current code applies absolute rank correlation / literal dense-registry overlap and restricts the writer to float32. The local segment-buffer helper is still only a helper, not an end-to-end evaluator; the inspected owner-template workflow is spatial-block based, so no compliant HOLDOUT-DTI or confidence interval is available.</p>
   <p class="small muted" id="local-audit-status">Loading repository-local audit status…</p>
   <p class="small"><a href="data/feed.json">Open this review's local status feed →</a> · <a href="data/run-card.json">audit-only run card</a> · <a href="audit/pinned-template-cache-audit.json">template bridge/tool audit</a> · <a href="irregularities.html">full audit ledger</a></p>
 </div>
@@ -91,9 +91,10 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
 <table>
   <thead><tr><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
   <tbody>
-    <tr><td>Single band, float32; CRS, shape, geotransform; finite values in [0, 1]</td><td><span class="tag ok">PASS</span> locally for the archive</td><td><a href="../evidence/h54a-archive-strict-revalidation.json">Fresh local revalidation receipt</a>; not organizer acceptance</td></tr>
+    <tr><td>Single band, float32; CRS, shape, geotransform; in-footprint finite values in [0, 1]</td><td><span class="tag ok">PASS</span> locally for the archive</td><td><a href="../evidence/h54a-archive-strict-revalidation.json">Fresh local revalidation receipt</a>; not organizer acceptance</td></tr>
+    <tr><td>Outside-footprint null/NaN (conservative local contract from prior notes/sample mirror)</td><td><span class="tag no">FAIL</span> archive contains finite zeroes outside</td><td>Official format page not re-fetched; the check is deliberately fail-closed pending confirmation.</td></tr>
     <tr><td>Literal lane check for archived H54-A file</td><td><span class="tag no">DUPLICATE — STOP</span></td><td>Raw overlap with <code>r11_greedy_mp</code>, <code>r13_lattice_s5_00904</code>, and <code>r14_union_tips10_lat6</code> exceeds the stated 70% threshold. See <a href="../evidence/h54a-archive-strict-revalidation.json">receipt</a>.</td></tr>
-    <tr><td>New candidate from this review</td><td><span class="tag no">NOT GENERATED</span></td><td>Pre-placement surface stopped at the literal overlap gate; see <a href="../evidence/strict_lane_preflight.json">preflight receipt</a>.</td></tr>
+    <tr><td>New candidate from this review</td><td><span class="tag no">NOT GENERATED</span></td><td>Both surface screens stopped at the literal overlap gate; see <a href="../evidence/endpoint-continuation-preflight.json">endpoint-continuation</a> and <a href="../evidence/strict_lane_preflight.json">SGMC-topology</a> receipts.</td></tr>
     <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>No compliant evaluator, withheld-positive count, paired 95% CI, or detection floor. The existing SGMC proxy is circular; see <a href="evidence.html">Evidence</a>.</td></tr>
   </tbody>
 </table>

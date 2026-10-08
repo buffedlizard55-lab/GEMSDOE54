@@ -99,7 +99,7 @@ def main() -> int:
     )
     report = {
         "schema": "gemsdoe54.strict-lane-preflight.v1",
-        "run_id": "GEMSDOE54-E1-SGMC-topology-surface-20261008",
+        "run_id": "GEMSDOE54-E2-SGMC-topology-surface-20261008",
         "result": result,
         "candidate_hypothesis": "High-angular-transition nodes in the owner-mirrored SGMC fault mask may mark connected damage zones outside the known catalogue.",
         "mechanism_status": "untested hypothesis; not evidence for a mapped Quaternary fault or geothermal upflow",

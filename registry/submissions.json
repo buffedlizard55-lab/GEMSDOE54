@@ -10,13 +10,15 @@
       "organizer_confirmed_score": null,
       "status": "ARCHIVED LOCAL ARTIFACT — no submission-page receipt; upload/scoring status is unverified",
       "positive_cells": 15907,
-      "format_validated": true,
-      "current_review_disposition": "ARCHIVED ONLY — not selected by this run; format passes locally but literal lane check flags DUPLICATE - STOP; holdout validation NOT ESTABLISHED; do not upload based on this review",
+      "format_validated": false,
+      "current_review_disposition": "ARCHIVED ONLY — no submission-page receipt; current conservative format check fails finite zeroes outside footprint; literal lane check also flags DUPLICATE - STOP; holdout NOT ESTABLISHED; do not upload",
       "current_literal_lane_status": "DUPLICATE - STOP",
       "safe_to_upload_current_review": false,
       "archived_build_note": "GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots",
       "note_pasted_into_portal": null,
-      "organizer_receipt_status": "NOT AVAILABLE in this review"
+      "organizer_receipt_status": "NOT AVAILABLE in this review",
+      "prior_format_check": "Older local range/grid check passed; superseded for current review because it did not require null/NaN outside the footprint.",
+      "current_format_validation": "FAIL under conservative local null/NaN-outside-footprint check; official page not re-fetched"
     }
   ]
 }

@@ -56,7 +56,7 @@ See [`../data/run-card.json`](../data/run-card.json) and [`../data/workspace-aud
 
 The current run still has no compliant `HOLDOUT-DTI`: evaluator version, withheld-positive count, independent whole-segment count, paired bootstrap distribution, 95% CI, and raw-scale detection floor are all unavailable. Therefore the user-reported difference 0.0028 between 0.2778 and 0.2750 remains **NOT CLASSIFIABLE** as signal or noise. The earlier values in `evidence/power_analysis.json` remain **PROXY-SENSITIVITY / MODEL** diagnostics against the circular SGMC-derived target; they must not be substituted for the missing holdout power calculation.
 
-The one current experiment was a registry-lane surface screen, not a DTI evaluation. Its overlap figures are screening diagnostics only. The exact stop reason is in [`../data/run-card.json`](../data/run-card.json); no weekly slot or performance claim follows from them.
+The two recorded experiments were registry-lane surface screens, not DTI evaluations. Their overlap figures are screening diagnostics only. The exact stop reason is in [`../data/run-card.json`](../data/run-card.json); no weekly slot or performance claim follows from them.
 
 ## References
 

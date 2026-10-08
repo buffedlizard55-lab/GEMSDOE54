@@ -23,39 +23,49 @@
         "ok": true,
         "detail": "transform=(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
       },
-      "all_cells_finite": {
-        "ok": true,
-        "detail": "non_finite=0"
-      },
-      "values_in_0_1": {
-        "ok": true,
-        "detail": "range=[0.0, 1.0]"
-      },
       "labels_shape": {
         "ok": true,
         "detail": "labels_shape=(3730, 3292); submission_shape=(3730, 3292)"
+      },
+      "label_nodata_defined": {
+        "ok": true,
+        "detail": "nodata=-1.0"
       },
       "footprint_cells": {
         "ok": true,
         "detail": "cells=5167373"
       },
+      "no_nan_inside_footprint": {
+        "ok": true,
+        "detail": "non_finite_inside=0"
+      },
       "in_footprint_in_range": {
         "ok": true,
-        "detail": "in-footprint range=[0.0, 1.0]"
+        "detail": "finite range=[0.0, 1.0]"
+      },
+      "outside_footprint_null_or_nan": {
+        "ok": false,
+        "detail": "non_nan_outside=7111787"
       }
     },
-    "failures": [],
+    "failures": [
+      "outside_footprint_null_or_nan: non_nan_outside=7111787"
+    ],
     "values": {
-      "min": 0.0,
-      "max": 1.0,
+      "in_footprint_min": 0.0,
+      "in_footprint_max": 1.0,
       "positive_cells": 15907,
-      "distinct_positive_values": 1
+      "distinct_positive_values": 1,
+      "nan_inside_footprint": 0,
+      "nan_outside_footprint": 0
     },
-    "passed": true
+    "passed": false
   },
   "lane": {
     "my_positive_cells": 15907,
+    "my_dots": 15907,
     "max_absolute_rho_allowed": 0.9,
+    "max_rho_allowed": 0.9,
     "max_overlap_allowed": 0.7,
     "rows": [
       {
@@ -65,6 +75,7 @@
         "overlap_test_admissible": true,
         "spearman_rho": 0.003741,
         "absolute_spearman_rho": 0.003741,
+        "abs_spearman_rho": 0.003741,
         "dots_within_3px": 3934,
         "fraction_of_my_dots": 0.247313,
         "fraction_of_registry_dots_within_3px_of_mine": 0.085436,
@@ -79,6 +90,7 @@
         "overlap_test_admissible": true,
         "spearman_rho": 0.002707,
         "absolute_spearman_rho": 0.002707,
+        "abs_spearman_rho": 0.002707,
         "dots_within_3px": 3983,
         "fraction_of_my_dots": 0.250393,
         "fraction_of_registry_dots_within_3px_of_mine": 0.075391,
@@ -93,6 +105,7 @@
         "overlap_test_admissible": true,
         "spearman_rho": 0.00331,
         "absolute_spearman_rho": 0.00331,
+        "abs_spearman_rho": 0.00331,
         "dots_within_3px": 3970,
         "fraction_of_my_dots": 0.249576,
         "fraction_of_registry_dots_within_3px_of_mine": 0.081967,
@@ -107,6 +120,7 @@
         "overlap_test_admissible": true,
         "spearman_rho": 0.003841,
         "absolute_spearman_rho": 0.003841,
+        "abs_spearman_rho": 0.003841,
         "dots_within_3px": 5739,
         "fraction_of_my_dots": 0.360785,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0767,
@@ -121,6 +135,7 @@
         "overlap_test_admissible": true,
         "spearman_rho": 0.004285,
         "absolute_spearman_rho": 0.004285,
+        "abs_spearman_rho": 0.004285,
         "dots_within_3px": 6783,
         "fraction_of_my_dots": 0.426416,
         "fraction_of_registry_dots_within_3px_of_mine": 0.10694,
@@ -135,6 +150,7 @@
         "overlap_test_admissible": true,
         "spearman_rho": -0.003668,
         "absolute_spearman_rho": 0.003668,
+        "abs_spearman_rho": 0.003668,
         "dots_within_3px": 4061,
         "fraction_of_my_dots": 0.255296,
         "fraction_of_registry_dots_within_3px_of_mine": 0.037393,
@@ -149,6 +165,7 @@
         "overlap_test_admissible": true,
         "spearman_rho": 0.000437,
         "absolute_spearman_rho": 0.000437,
+        "abs_spearman_rho": 0.000437,
         "dots_within_3px": 5075,
         "fraction_of_my_dots": 0.319042,
         "fraction_of_registry_dots_within_3px_of_mine": 0.050319,
@@ -163,6 +180,7 @@
         "overlap_test_admissible": false,
         "spearman_rho": 0.000485,
         "absolute_spearman_rho": 0.000485,
+        "abs_spearman_rho": 0.000485,
         "dots_within_3px": 14138,
         "fraction_of_my_dots": 0.888791,
         "fraction_of_registry_dots_within_3px_of_mine": 0.04914,
@@ -177,6 +195,7 @@
         "overlap_test_admissible": false,
         "spearman_rho": -0.00023,
         "absolute_spearman_rho": 0.00023,
+        "abs_spearman_rho": 0.00023,
         "dots_within_3px": 15888,
         "fraction_of_my_dots": 0.998806,
         "fraction_of_registry_dots_within_3px_of_mine": 0.048793,
@@ -191,6 +210,7 @@
         "overlap_test_admissible": false,
         "spearman_rho": -0.001472,
         "absolute_spearman_rho": 0.001472,
+        "abs_spearman_rho": 0.001472,
         "dots_within_3px": 12164,
         "fraction_of_my_dots": 0.764695,
         "fraction_of_registry_dots_within_3px_of_mine": 0.047157,
@@ -205,6 +225,7 @@
         "overlap_test_admissible": true,
         "spearman_rho": 0.003395,
         "absolute_spearman_rho": 0.003395,
+        "abs_spearman_rho": 0.003395,
         "dots_within_3px": 4007,
         "fraction_of_my_dots": 0.251902,
         "fraction_of_registry_dots_within_3px_of_mine": 0.079135,
@@ -219,6 +240,7 @@
       "r13_lattice_s5_00904.tif",
       "r14_union_tips10_lat6.tif"
     ],
+    "correlation_indeterminate_for": [],
     "overlap_test_degenerate_for": [
       "r11_greedy_mp.tif",
       "r13_lattice_s5_00904.tif",

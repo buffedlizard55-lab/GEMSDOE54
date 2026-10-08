@@ -30,7 +30,7 @@ No DTI increment is projected. “Expected opportunity” below is only a relati
 
 The top-ranked candidate is the magnetic–gravity cross-gradient, but the official competition feature cube is not in this checkout and its available public bridge is owner-maintained rather than organizer-authenticated. The shared pinned template provides a spatial-block evaluator, not the required whole-segment evaluator; the local `segment_blocks` helper is not an end-to-end scorer. Accordingly no valid whole-segment `HOLDOUT-DTI`, withheld-positive count, paired 95% CI, or actual holdout power floor can be produced. No weekly submission slot was used or recommended.
 
-A separate, low-cost SGMC topology **surface-only** lane preflight was run as experiment 1 and stopped at the literal registry-overlap gate. The result is in [`../../evidence/strict_lane_preflight.json`](../../evidence/strict_lane_preflight.json). It is not a DTI experiment, a completed candidate, or a generated submission. Negative/blocked findings are retained rather than replaced by a proxy score.
+Two surface-only lane preflights are now recorded. Experiment 1 tested catalogue-endpoint continuation and stopped at the literal lane gate ([receipt](../../evidence/endpoint-continuation-preflight.json)); experiment 2 screened SGMC topology and also stopped ([receipt](../../evidence/strict_lane_preflight.json)). Neither is a DTI experiment, completed candidate, or generated submission. Negative/blocked findings are retained rather than replaced by a proxy score.
 
 ## Manual-review sources
 

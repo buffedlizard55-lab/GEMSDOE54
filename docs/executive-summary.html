@@ -15,7 +15,7 @@
 
   <section class="status-banner" aria-labelledby="upload-state">
     <div class="status-icon" aria-hidden="true">!</div>
-    <div><h2 id="upload-state">Current status: DO NOT UPLOAD</h2><p>No new TIF cleared the pre-placement lane gate, and no compliant whole-segment HOLDOUT-DTI exists. The archived H54-A raster passes local format checks but the literal overlap checker flags it as duplicate against three dense registry rasters. No weekly slot was used. See the <a href="data/run-card.json">current negative run card</a> and <a href="../evidence/h54a-archive-strict-revalidation.json">archive revalidation receipt</a>.</p></div>
+    <div><h2 id="upload-state">Current status: DO NOT UPLOAD</h2><p>Neither pre-placement surface screen cleared the lane gate, and no compliant whole-segment HOLDOUT-DTI exists. The archived H54-A raster passes local grid/dtype/in-footprint range checks but fails the current conservative outside-footprint null/NaN check, and the literal overlap checker flags it as duplicate against three dense registry rasters. No weekly slot was used. See the <a href="data/run-card.json">current negative run card</a> and <a href="../evidence/h54a-archive-strict-revalidation.json">archive revalidation receipt</a>.</p></div>
   </section>
 
   <section class="section two-col">
@@ -24,7 +24,7 @@
       <ul class="list">
         <li><span class="bullet">01</span><span>Use a single-band GeoTIFF (<code>.tif</code>) or a ZIP containing exactly one GeoTIFF, as described in the form text supplied with this project.</span></li>
         <li><span class="bullet">02</span><span>Match the documented study-grid CRS, width/height, and geotransform exactly. The tracked <code>data/grid/MIRROR_sample_submission_template.tif</code> has the same 60,988 positive 0/1 cells as the labels on the local footprint (with NaN outside); it is not a blank baseline, and its organizer origin is unverified.</span></li>
-        <li><span class="bullet">03</span><span>Keep every stored value finite and within <code>[0, 1]</code>. This project applies the range check to the whole stored raster, including outside-footprint cells, to avoid NaN/Inf and sentinel values being parsed as predictions.</span></li>
+        <li><span class="bullet">03</span><span>Keep every scored in-footprint value finite and within <code>[0, 1]</code>. Prior source notes and the cached template indicate null/NaN outside the footprint; the official format page was not re-fetched in this review, so confirm the current rule before upload.</span></li>
         <li><span class="bullet">04</span><span>Use the unique submission name and short note generated for that exact raster. This project's note limit is 140 characters.</span></li>
         <li><span class="bullet">05</span><span>Do not treat format validity as permission to spend a weekly slot. Require a comparable, preregistered whole-fault-segment hide-and-recover HOLDOUT-DTI result and a passed promotion gate.</span></li>
       </ul>
@@ -32,7 +32,7 @@
     <aside class="card">
       <span class="label">Archived H54-A artifact — inspection only</span>
       <h3>gems54-undercomplement-q200.tif</h3>
-      <p class="detail">Local format checks pass, but the literal lane checker flags this file as duplicate; there is no compliant HOLDOUT-DTI. Do not upload it based on this review.</p>
+      <p class="detail">Grid/dtype/in-footprint checks pass, but the conservative outside-footprint null/NaN check and literal lane checker fail; there is no compliant HOLDOUT-DTI. The official format page was not re-fetched. Do not upload it based on this review.</p>
       <a class="button" href="downloads/gems54-undercomplement-q200.tif" download>Download archive for inspection only</a>
       <p class="small" style="margin-top:14px">SHA-256: <code>b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</code></p>
       <p class="small">No current-session TIFF or note exists. Weekly-slot selection is separate and was not made here.</p>

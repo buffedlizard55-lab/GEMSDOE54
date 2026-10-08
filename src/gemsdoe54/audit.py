@@ -268,11 +268,11 @@ def audit_workspace(data_dir: str | Path = "data") -> dict[str, Any]:
 
 
 def validate_submission(candidate_path: str | Path, reference_path: str | Path) -> dict[str, Any]:
-    """Validate one single-band prediction raster against the sample grid and numeric range.
+    """Validate one single-band prediction raster against the official sample grid.
 
-    All stored pixels, including cells outside the sample mask, must be finite and in [0, 1]. This
-    is intentionally stricter than relying on undocumented server-side mask handling and prevents
-    NaN/Inf values from reaching a submission portal.
+    The organizer's format page specifies finite [0,1] predictions inside the study
+    footprint and null/NaN outside it. The exact previously rejected upload is not
+    available, so this check cannot diagnose that historic error.
     """
     candidate_path, reference_path = Path(candidate_path), Path(reference_path)
     problems: list[str] = []
@@ -284,29 +284,38 @@ def validate_submission(candidate_path: str | Path, reference_path: str | Path) 
         pred_grid, ref_grid = _grid(pred), _grid(ref)
         if pred.count != 1:
             problems.append("prediction raster must have exactly one band")
+        dtype_float32 = pred.dtypes[0] == "float32"
+        if not dtype_float32:
+            problems.append("prediction raster must use float32 dtype")
         if ref.count != 1:
             problems.append("reference sample raster must have exactly one band")
         if pred.crs is None or ref.crs is None:
             problems.append("prediction and reference must both declare a CRS")
-        if not _same_grid(ref_grid, pred_grid):
+        grid_match = _same_grid(ref_grid, pred_grid)
+        if not grid_match:
             problems.append("CRS, dimensions, or geotransform do not exactly match the reference grid")
         values = pred.read(1, masked=False)
-        finite = np.isfinite(values)
-        if not finite.all():
-            problems.append("prediction contains NaN or infinity")
-        finite_values = values[finite]
-        if finite_values.size and (finite_values.min() < 0.0 or finite_values.max() > 1.0):
-            problems.append("prediction values must be within [0, 1]")
         footprint = ref.read_masks(1) > 0
-        if values.shape != footprint.shape:
-            inside_finite = None
-            inside_range = None
+        same_shape = values.shape == footprint.shape
+        if not same_shape:
+            problems.append("prediction dimensions do not match the reference footprint")
+            inside_finite = inside_range = outside_null = None
+            positive_count = None
         else:
             inside_values = values[footprint]
+            outside_values = values[~footprint]
             inside_finite = bool(np.isfinite(inside_values).all())
+            if not inside_finite:
+                problems.append("prediction contains NaN or infinity inside the footprint")
             inside_range = bool(inside_values.size == 0 or
-                                (np.isfinite(inside_values).all() and
-                                 inside_values.min() >= 0.0 and inside_values.max() <= 1.0))
+                                (inside_finite and (inside_values >= 0.0).all() and
+                                 (inside_values <= 1.0).all()))
+            if not inside_range:
+                problems.append("in-footprint prediction values must be within [0, 1]")
+            outside_null = bool(np.isnan(outside_values).all())
+            if not outside_null:
+                problems.append("outside-footprint cells must be null/NaN")
+            positive_count = int(np.count_nonzero((inside_values > 0) & np.isfinite(inside_values)))
         return {
             "ok": not problems,
             "problems": problems,
@@ -314,17 +323,15 @@ def validate_submission(candidate_path: str | Path, reference_path: str | Path) 
             "candidate_sha256": sha256_file(candidate_path),
             "single_band": pred.count == 1,
             "dtype": pred.dtypes[0],
-            "crs_shape_transform_match": _same_grid(ref_grid, pred_grid),
+            "dtype_float32": dtype_float32,
+            "crs_shape_transform_match": grid_match,
             "crs": pred_grid["crs"],
             "shape": [pred_grid["height"], pred_grid["width"]],
             "transform": pred_grid["transform"],
-            "all_pixels_finite": bool(finite.all()),
-            "all_pixels_in_range_0_1": bool(values.size == 0 or
-                                             (finite.all() and values.min() >= 0.0 and values.max() <= 1.0)),
             "no_nan_inside_footprint": inside_finite,
             "inside_footprint_in_range_0_1": inside_range,
+            "outside_footprint_null_or_nan": outside_null,
             "footprint_pixels": int(footprint.sum()),
-            "positive_pixels_inside_footprint": int(np.count_nonzero((values > 0) & footprint))
-                if values.shape == footprint.shape else None,
+            "positive_pixels_inside_footprint": positive_count,
             "note": "Format/range validation is not holdout evidence, organizer acceptance, or slot approval.",
         }

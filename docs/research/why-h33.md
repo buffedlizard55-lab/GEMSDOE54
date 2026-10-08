@@ -47,4 +47,4 @@ A compliant comparison must freeze whole fault segments plus a buffer, derive ca
 - Feature-alone leakage canaries, plus proof the prune radius was not selected on the scored hidden labels.
 - Pre-placement surface and final-dot correlation/overlap checks against an adequately documented registry.
 
-None of these proof conditions is present for the reported H33 value in this checkout. No claim is made that GEMSDOE54 can currently beat 0.2778, 0.3195, or 0.3774. The 2026-10-08 experiment stopped before emission, made no weekly-slot selection, and produced no new TIFF.
+None of these proof conditions is present for the reported H33 value in this checkout. No claim is made that GEMSDOE54 can currently beat 0.2778, 0.3195, or 0.3774. The two recorded 2026-10-08 surface screens stopped before emission, made no weekly-slot selection, and produced no new TIFF.

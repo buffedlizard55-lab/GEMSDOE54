@@ -122,5 +122,18 @@
     "supersedes_prior_filtered_overlap_verdict_for_current_protocol": true,
     "note": "The historical lane result excluded near-covering rasters from the overlap verdict. The current protocol has no such exception; raw overlap is reported and the archived artifact is not recommended for upload."
   },
-  "record_scope": "Historical H54-A build/proxy record, retained for audit. Not the current 2026-10-08 review run card; see docs/data/run-card.json for the current negative result."
+  "record_scope": "Historical H54-A build/proxy record, retained for audit. Not the current 2026-10-08 review run card; see docs/data/run-card.json for the current negative result.",
+  "current_format_revalidation": {
+    "status": "FAIL under conservative local null/NaN-outside-footprint rule; official page not re-fetched",
+    "checks_passed": [
+      "single band",
+      "float32",
+      "grid CRS/shape/transform",
+      "finite in-footprint values",
+      "in-footprint range [0,1]"
+    ],
+    "failed_check": "outside_footprint_null_or_nan",
+    "evidence": "evidence/h54a-archive-strict-revalidation.json",
+    "detail": "Archived raster stores finite zeroes outside the cached label footprint."
+  }
 }

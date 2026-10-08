@@ -8,8 +8,27 @@ import numpy as np
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from preflight_junction_lane import angular_transition_surface  # noqa: E402
-from validate_submission import check_lane_arrays  # noqa: E402
+from validate_submission import check_format, check_lane_arrays  # noqa: E402
 from gemsdoe54.grid import write_submission  # noqa: E402
+
+
+def test_cached_label_mirror_passes_local_null_outside_format_check():
+    report = check_format(
+        ROOT / "data/grid/MIRROR_sample_submission_template.tif",
+        ROOT / "data/grid/labels.tif",
+    )
+    assert report["passed"] is True
+    assert report["values"]["positive_cells"] == 60_988
+    assert report["values"]["nan_outside_footprint"] > 0
+
+
+def test_archived_h54a_fails_null_outside_format_gate():
+    report = check_format(
+        ROOT / "docs/downloads/gems54-undercomplement-q200.tif",
+        ROOT / "data/grid/labels.tif",
+    )
+    assert report["passed"] is False
+    assert any("outside_footprint_null_or_nan" in failure for failure in report["failures"])
 
 
 def test_angular_transition_surface_marks_crossing_but_not_straight_trace():

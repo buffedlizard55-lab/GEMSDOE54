@@ -142,8 +142,38 @@ def test_submission_validator_accepts_finite_in_range_matching_grid(tmp_path):
     report = validate_submission(candidate, ref)
     assert report["ok"] is True
     assert report["crs_shape_transform_match"] is True
+    assert report["dtype_float32"] is True
     assert report["no_nan_inside_footprint"] is True
-    assert report["all_pixels_in_range_0_1"] is True
+    assert report["inside_footprint_in_range_0_1"] is True
+    assert report["outside_footprint_null_or_nan"] is True
+
+
+def test_submission_validator_accepts_nan_only_outside_footprint(tmp_path):
+    ref = tmp_path / "sample.tif"
+    candidate = tmp_path / "candidate.tif"
+    footprint = np.zeros((32, 32), dtype=bool)
+    footprint[:, :20] = True
+    _write(ref, np.zeros((32, 32), dtype=np.float32), nodata=np.nan, mask=footprint)
+    values = np.full((32, 32), np.nan, dtype=np.float32)
+    values[footprint] = 0.4
+    _write(candidate, values, nodata=np.nan, mask=footprint)
+    report = validate_submission(candidate, ref)
+    assert report["ok"] is True
+    assert report["no_nan_inside_footprint"] is True
+    assert report["inside_footprint_in_range_0_1"] is True
+    assert report["outside_footprint_null_or_nan"] is True
+
+
+def test_submission_validator_rejects_finite_values_outside_footprint(tmp_path):
+    ref = tmp_path / "sample.tif"
+    candidate = tmp_path / "candidate.tif"
+    footprint = np.zeros((32, 32), dtype=bool)
+    footprint[:, :20] = True
+    _write(ref, np.zeros((32, 32), dtype=np.float32), nodata=np.nan, mask=footprint)
+    _write(candidate, np.zeros((32, 32), dtype=np.float32))
+    report = validate_submission(candidate, ref)
+    assert report["ok"] is False
+    assert "outside-footprint cells must be null/NaN" in report["problems"]
 
 
 def test_submission_validator_rejects_missing_crs_and_multiband(tmp_path):
@@ -158,6 +188,18 @@ def test_submission_validator_rejects_missing_crs_and_multiband(tmp_path):
     assert "prediction raster must have exactly one band" in validate_submission(multiband, ref)["problems"]
 
 
+def test_submission_validator_rejects_non_float32_prediction(tmp_path):
+    ref = tmp_path / "sample.tif"
+    candidate = tmp_path / "candidate.tif"
+    mask = np.ones((32, 32), dtype=bool)
+    _write(ref, np.zeros((32, 32), dtype=np.float32), nodata=np.nan, mask=mask)
+    _write(candidate, np.zeros((32, 32), dtype=np.float64))
+    report = validate_submission(candidate, ref)
+    assert report["ok"] is False
+    assert report["dtype_float32"] is False
+    assert "prediction raster must use float32 dtype" in report["problems"]
+
+
 def test_submission_validator_rejects_nan_and_out_of_range(tmp_path):
     ref = tmp_path / "sample.tif"
     candidate = tmp_path / "candidate.tif"
@@ -169,5 +211,5 @@ def test_submission_validator_rejects_nan_and_out_of_range(tmp_path):
     _write(candidate, p)
     report = validate_submission(candidate, ref)
     assert report["ok"] is False
-    assert "prediction contains NaN or infinity" in report["problems"]
-    assert "prediction values must be within [0, 1]" in report["problems"]
+    assert "prediction contains NaN or infinity inside the footprint" in report["problems"]
+    assert "in-footprint prediction values must be within [0, 1]" in report["problems"]

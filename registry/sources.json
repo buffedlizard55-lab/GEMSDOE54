@@ -10,15 +10,15 @@
       "what": "Competition problem description: metric definition, mathematical representation, scoring example, submission format",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
       "status": "REACHED",
-      "evidence": "A prior source note records reading the organizer problem page and transcribing its metric/formats into scripts/gems_metric.py. This audit did not freshly authenticate competition data or fetch a submission receipt.",
+      "evidence": "Fetched and read on 2026-10-08. It identifies the target as expert-labeled faults absent from the public USGS fault database; defines DTI with alpha 0.2, beta 0.8 and a 300 m triangular kernel; and specifies float32 EPSG:32611, 100 m, same bounds, and null/NaN outside bounds.",
       "licence": "n/a - reading only"
     },
     {
       "id": "dd-leaderboard",
       "what": "Public leaderboard",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-      "status": "HISTORICAL_PAGE_NOTE \u2014 no submission receipt",
-      "evidence": "A legacy note records a public leaderboard page read dated 2026-10-08. This audit did not independently preserve individual submission-page receipts; any values in prior files are historical owner-recorded observations, not ORGANIZER-CONFIRMED scores and not promotion evidence.",
+      "status": "PUBLIC_PAGE_FETCHED_2026-10-08; NO SUBMISSION RECEIPTS",
+      "evidence": "The fetched public page displayed 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13, and 0.2750 at rank 17. These are public leaderboard observations, not submission-page receipt scores; no TIFF-to-row attribution is confirmed. See docs/data/leaderboard-snapshot.json.",
       "licence": "n/a - reading only"
     },
     {
@@ -26,7 +26,7 @@
       "what": "Data download page (training_features.tif, labels.tif, sample_submission.tif, 1m_DEM_links.csv)",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
       "status": "BLOCKED",
-      "evidence": "HTTP 000 from the sandbox; a DrivenData login is required. No authenticated download was obtained. Existing label/grid files are owner-maintained hash-pinned mirrors; the hashes establish agreement with owner pins, not organizer origin.",
+      "evidence": "Page-fetch request redirected to the DrivenData login page on 2026-10-08; no authenticated download was obtained. Existing local rasters are owner-maintained hash-pinned mirrors, not organizer-authenticated.",
       "licence": "competition data, organizer terms"
     },
     {
@@ -34,7 +34,7 @@
       "what": "DOE / NLR GEMS Prize Official Rules, September 2026",
       "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
       "status": "REACHED",
-      "evidence": "A prior source note records reading Section 3.2 and its format, submission-frequency, label-provenance, and AI-disclosure requirements. This audit did not freshly verify those pages; see docs/data/source-register.json for the current source status.",
+      "evidence": "Fetched/read on 2026-10-08. Section 3.2 states a single 100 m GeoTIFF, up to three submissions per week, and generative-AI use disclosure in the narrative.",
       "licence": "US Government document"
     },
     {
@@ -64,7 +64,7 @@
         "https://mrdata.usgs.gov/geology/state/shp/CA.zip (24,977,406 bytes)"
       ],
       "status": "BLOCKED_FROM_SANDBOX",
-      "evidence": "Not reachable from the shell. The pinned receipt at data/external/GEMSDOE30_external_receipt.json records a successful fetch from a GitHub Actions runner with SHA-256 3b333ac0\u2026 (NV) and 78765ba4\u2026 (CA), and states the licence.",
+      "evidence": "Not reachable from the shell. The pinned receipt at data/external/GEMSDOE30_external_receipt.json records a successful fetch from a GitHub Actions runner with SHA-256 3b333ac0… (NV) and 78765ba4… (CA), and states the licence.",
       "licence": "US Government work / public domain (USGS Mineral Resources Program), per the pinned receipt",
       "derived_input_used_here": {
         "path": "data/external/derived_sgmc_faults_100m_u8.tif",
@@ -86,8 +86,8 @@
       "what": "GDR INGENIOUS compilation v2 (provenance check for the catalogue)",
       "landing": "https://gdr.openei.org/submissions/1391",
       "doi": "10.15121/1881483",
-      "status": "BLOCKED_FROM_SANDBOX",
-      "evidence": "Pinned receipt records a successful fetch of qfaults_ingenious_nad83conus117_2023-06-27.zip, SHA-256 c7b091c9\u2026, 6,131,182 bytes.",
+      "status": "PUBLIC_PAGE_READ; FILES NOT DOWNLOADED FROM THIS SESSION",
+      "evidence": "Official GDR page fetched/read on 2026-10-08. It states public accessibility and CC BY 4.0 and lists the relevant datasets. The pinned local receipt records an earlier download; the current session did not obtain the binaries or check their local coverage/lineage.",
       "licence": "CC BY 4.0, per the pinned receipt"
     },
     {
@@ -114,5 +114,5 @@
       "reason": "1m_DEM_links.csv is behind the DrivenData login and no mirror of it exists in any reachable repository, so no DEM-derived layer could be built in this session. This is the largest remaining scientific gap."
     }
   ],
-  "current_review_note": "Legacy source record preserved from main; its REACHED status refers to prior documentation/review. The current audit classification is in docs/data/source-register.json. Public board observations are not submission-page receipts."
+  "current_review_note": "Official problem, rules, data-login redirect, public leaderboard, and GDR landing pages were fetched/read on 2026-10-08. The leaderboard values remain public-page observations without submission receipts. Exact external-data coverage and competition-data downloads remain unverified."
 }

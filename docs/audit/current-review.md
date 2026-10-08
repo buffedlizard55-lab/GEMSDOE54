@@ -4,9 +4,9 @@
 
 ## Executive decision
 
-**Negative. No new submission TIFF was emitted, and no weekly slot was touched.** The 2026-10-08 experiment stopped before point placement because the candidate surface exceeded the literal 70% overlap gate against three registry rasters. Separately, a valid whole-fault-segment hide-and-recover result cannot be produced from the checked-out files: the official feature cube and a valid blank sample raster are absent, and the available public owner-template evaluator is spatial-block based rather than the required whole-segment evaluator.
+**Negative. No new submission TIFF was emitted, and no weekly slot was touched.** Two pre-placement surface screens stopped before point placement because their candidate supports exceeded the literal 70% overlap gate against three registry rasters. Separately, a valid whole-fault-segment hide-and-recover result cannot be produced from the checked-out files: the official feature cube and a valid blank sample raster are absent, and the available public owner-template evaluator is spatial-block based rather than the required whole-segment evaluator.
 
-The older `docs/downloads/gems54-undercomplement-q200.tif` remains in the repository for audit history. The updated local format validator still passes its single-band, float32, grid, finite-value, and [0, 1] checks. Under the **literal** lane rule now implemented, however, that archived raster is flagged as a duplicate by raw 3-pixel overlap with `r11_greedy_mp`, `r13_lattice_s5_00904`, and `r14_union_tips10_lat6`. It has no compliant HOLDOUT-DTI and is **not recommended for upload**.
+The older `docs/downloads/gems54-undercomplement-q200.tif` remains in the repository for audit history. It passes local single-band, float32, grid, in-footprint finite-value, and [0, 1] checks, but fails the current conservative null/NaN-outside-footprint contract because it stores finite zeroes outside the cached footprint. It is also flagged as a duplicate by raw 3-pixel overlap with `r11_greedy_mp`, `r13_lattice_s5_00904`, and `r14_union_tips10_lat6`. The official format page was not fetched in this review; the outside-NaN check follows prior repository notes and the mirrored template. The archive has no compliant HOLDOUT-DTI and is **not recommended for upload**.
 
 ## Repository inventory and data/protocol blockers
 
@@ -16,16 +16,24 @@ I checked the public owner-maintained `buffedlizard55-lab/GEMSDOE` repository at
 
 The official DrivenData data tab and user-supplied USGS / DOE / NLR pages were not fetched in this run. No DrivenData authentication was available. The public official reference-solution GitHub repository was checked at commit `aebe92f7c8a990f0e3443451b7a825d9afd6336b` for its README only; it is a baseline repository, not a holdout evaluator or score receipt.
 
-## Experiment 1: pre-placement lane screen
+## Experiment 1: endpoint-continuation surface preflight (carried from merged PR #7)
 
-A one-off SGMC topology surface was constructed **in memory only**: local SGMC pixels farther than 300 m from the local catalogue were scored by an 8-neighbour angular-transition count and a 5×5 local line-density term. It produced 57,758 positive support cells. The machine-readable receipt is [`../../evidence/strict_lane_preflight.json`](../../evidence/strict_lane_preflight.json).
+The repository already contains a 2026-10-08 in-memory endpoint-continuation surface receipt from PR #7; this review did not rerun it. It projects local catalogue-trace endpoints up to 1.5 km along their tangents, outside a 300 m visible-catalogue buffer. The surface had 32,491 positive cells. Its receipt is [`../../evidence/endpoint-continuation-preflight.json`](../../evidence/endpoint-continuation-preflight.json).
+
+- Maximum absolute Spearman correlation: 0.0585.
+- Raw fraction of surface-support cells within 3 px of `r11_greedy_mp`, `r13_lattice_s5_00904`, and `r14_union_tips10_lat6`: 0.7479, 0.9992, and 0.8853. Each exceeds the literal 0.70 threshold.
+- Result: **DUPLICATE — STOP before placement.** No holdout, final dots, or TIFF.
+
+## Experiment 2: SGMC topology surface preflight
+
+A second surface was constructed **in memory only**: local SGMC pixels farther than 300 m from the local catalogue were scored by an 8-neighbour angular-transition count and a 5×5 local line-density term. It produced 57,758 positive support cells. The receipt is [`../../evidence/strict_lane_preflight.json`](../../evidence/strict_lane_preflight.json).
 
 - Pre-placement maximum absolute Spearman correlation: 0.010694, below the 0.90 threshold.
 - Raw fraction of surface-support cells within 3 px of existing registry dots: `r11_greedy_mp` 0.901537, `r13_lattice_s5_00904` 0.999740, `r14_union_tips10_lat6` 0.765833. Each exceeds the literal 0.70 threshold.
 - Result: **DUPLICATE — STOP before point placement.** No final dot set, final-raster lane comparison, raster hash, or submission note exists for this run.
-- These overlap figures are registry-screening diagnostics, not DTI scores. The three registries cover most of the footprint, which makes raw overlap non-discriminating; the current protocol nevertheless gives no exception, so the experiment was stopped rather than silently overriding its gate.
+- Both screens are lane diagnostics, not DTI scores. The three registries cover much of the footprint, making raw overlap non-discriminating; the protocol nevertheless gives no exception, so both screens stopped rather than silently overriding its gate.
 
-**Process deviation, disclosed:** an earlier non-persisted scratch calculation formed a hypothetical top-200 point preview after the surface already exceeded the literal threshold. It was not written to disk, not used as a candidate or score, and no TIF was created from it. This was out of order relative to the stop rule. The formal repeatable script `scripts/preflight_junction_lane.py` now checks the surface and stops before placement; do not treat the scratch preview as a valid experiment result.
+**Process deviation, disclosed:** an earlier non-persisted scratch calculation formed a hypothetical top-200 point preview after Experiment 2's surface already exceeded the literal threshold. It was not written to disk, not used as a candidate or score, and no TIF was created from it. This was out of order relative to the stop rule. The formal repeatable SGMC script now checks the surface and stops before placement; do not treat the scratch preview as a valid experiment result. Total accounting is **two surface-only screens, zero holdout runs, zero TIFFs, zero slots**.
 
 ## Code-review fixes
 
@@ -33,7 +41,7 @@ A one-off SGMC topology surface was constructed **in memory only**: local SGMC p
 2. `src/gemsdoe54/holdout.py::informative_truth_cells` previously counted truths exactly 300 m from predictions even though the triangular kernel credit is zero at the radius. It now counts strictly positive-credit cells (`distance < 300 m`) and validates mask shapes.
 3. `src/gemsdoe54/grid.py::write_submission` previously allowed a caller-specified non-float32 dtype despite the submission format; it now fails closed unless the dtype is float32.
 4. The legacy submission builder now defaults to ignored `work/` rather than the public downloads directory, and the old `run_all.sh` has been retired as a side-effect-free failure stub.
-5. Added tests cover anti-correlation, dense-registry overlap, undefined Spearman, missing-registry indeterminacy, surface construction, the zero-credit kernel boundary, writer dtype, and the retired-pipeline guard. The full test suite passed locally (43 tests).
+5. Added tests cover anti-correlation, dense-registry overlap, undefined Spearman, missing-registry indeterminacy, surface construction, the zero-credit kernel boundary, writer dtype, and the retired-pipeline guard. The full test suite passed locally (56 tests).
 
 ## Power / score conclusion
 
