@@ -116,3 +116,28 @@ def emit_spaced_dots(
 
 def dot_count(dots: np.ndarray) -> int:
     return int(np.count_nonzero(dots))
+
+
+def trim_to_budget(dots: np.ndarray, priority: np.ndarray | None,
+                   budget: int) -> np.ndarray:
+    """Keep the top-``budget`` dots by placement priority (spacing preserved).
+
+    A subset of a valid spaced packing is still a valid spaced packing, so this
+    only removes the lowest-priority retained dots.  Ties break on row-major
+    order so the result is bit-reproducible.  Used to match mass between
+    compared arms so a contrast can never be won by emitting more pixels.
+    """
+    dots = np.asarray(dots, dtype=bool)
+    n = int(dots.sum())
+    if budget >= n:
+        return dots.copy()
+    ys, xs = np.nonzero(dots)
+    flat = ys * dots.shape[1] + xs
+    if priority is None:
+        order = np.argsort(flat, kind="stable")
+    else:
+        prio = np.asarray(priority, dtype=np.float64).ravel()
+        order = np.lexsort((flat, -prio[flat]))
+    keep = np.zeros(dots.shape, dtype=bool)
+    keep[ys[order[:budget]], xs[order[:budget]]] = True
+    return keep

@@ -1,0 +1,136 @@
+{
+  "schema": "gemsdoe54.holdout-receipt.v1",
+  "evaluator": {
+    "version": "gemsdoe54.cgrc-holdout.v2",
+    "metric": {
+      "name": "DTI",
+      "alpha": 0.2,
+      "beta": 0.8,
+      "kernel": "triangular",
+      "kernel_radius_m": 300.0,
+      "aggregation": "pooled (union of folds vs union of emissions)"
+    }
+  },
+  "design": {
+    "whole_fault_segments_withheld": true,
+    "catalogue_features_from_visible_faults_only": true,
+    "visible_fault_mask": "pixel_exact",
+    "buffer_m": 300.0,
+    "bootstrap_unit": "whole_fault_segment",
+    "withheld_positive_count": 60834,
+    "independent_unit_count": 3118,
+    "folds": 4,
+    "fold_assignment": "spatial quadrants at segment-centroid medians",
+    "mass_matched_across_arms": true,
+    "catalogue_exclusion_m": 200.0,
+    "max_gap_m": 2500.0,
+    "max_ext_m": 2500.0,
+    "truth_label": "HOLDOUT-DTI (catalogue-truth proxy): truth = withheld catalogue segments; cannot reward genuinely new off-catalogue faults"
+  },
+  "arms": {
+    "A": {
+      "description": "CGRC, pure catalogue geometry, no SGMC",
+      "n_dots": 22352,
+      "pooled_dti": 0.109072,
+      "tp_w": 5863.29,
+      "fp_w": 19581.94,
+      "fn_w": 54970.71,
+      "ci95_cluster_bootstrap": [
+        0.104645,
+        0.112783
+      ]
+    },
+    "B": {
+      "description": "CGRC with SGMC corroboration weight",
+      "n_dots": 22352,
+      "pooled_dti": 0.109081,
+      "tp_w": 5863.52,
+      "fp_w": 19569.67,
+      "fn_w": 54970.48,
+      "ci95_cluster_bootstrap": [
+        0.104872,
+        0.112698
+      ]
+    }
+  },
+  "comparison": {
+    "observed_pooled_delta_dti": 1.1e-05,
+    "pooled_delta_ci95_cluster_bootstrap": [
+      -0.001025,
+      0.001094
+    ],
+    "bootstrap_replicates": 2000,
+    "bootstrap_seed": 54,
+    "paired_across_arms": true
+  },
+  "power": {
+    "framework": "Cohen (1988); two-sided alpha=0.05, power=0.80, z_sum=2.801585",
+    "independent_unit": "whole withheld fault segments",
+    "independent_unit_count": 3118,
+    "cohen_d_mdd_unit_level": 0.050188,
+    "pooled_dti_raw_scale_mdd_from_bootstrap_se": 0.001513,
+    "bootstrap_se_of_paired_delta": 0.00054008,
+    "pixel_iid_cohen_d_floor_NOT_VALID": 0.011359,
+    "pixel_iid_warning": "pixel count is an optimistic independence bound; spatially correlated positives do not supply that many independent observations; not valid for decisions",
+    "question_0.0028": {
+      "gap": 0.0028,
+      "above_raw_scale_mdd": true,
+      "interpretation": "compare the gap to the bootstrap raw-scale MDE of a same-method-family paired contrast (the kind of comparison 0.2778 vs 0.2750 would be)"
+    }
+  },
+  "leakage_canary": {
+    "auc_cut": 0.9,
+    "sgmc_alone_auc_vs_withheld_catalogue": 0.522821,
+    "p_sgmc_given_withheld_truth": 0.061002,
+    "p_sgmc_given_background": 0.015361,
+    "visible_catalogue_alone_auc_control": 0.499985,
+    "flags": [],
+    "note": "Catalogue-truth holdout: any layer that independently maps catalogue faults will score high. This measures circularity, not hidden-label skill."
+  },
+  "folds_detail": [
+    {
+      "fold": 0,
+      "held_segments": 809,
+      "held_cells": 13139,
+      "visible_cells": 47817,
+      "n_dots": 16741
+    },
+    {
+      "fold": 1,
+      "held_segments": 750,
+      "held_cells": 13685,
+      "visible_cells": 47283,
+      "n_dots": 16704
+    },
+    {
+      "fold": 2,
+      "held_segments": 750,
+      "held_cells": 14466,
+      "visible_cells": 46471,
+      "n_dots": 16858
+    },
+    {
+      "fold": 3,
+      "held_segments": 809,
+      "held_cells": 19544,
+      "visible_cells": 41378,
+      "n_dots": 16124
+    }
+  ],
+  "inputs": {
+    "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "sgmc_sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c"
+  },
+  "timing_s": 55.1,
+  "random_control": {
+    "n_dots": 22352,
+    "dti_by_seed": [
+      0.044905,
+      0.044133,
+      0.043443
+    ],
+    "dti_mean": 0.04416,
+    "note": "mass-matched uniform random dots over the footprint; 3 seeds"
+  },
+  "mechanism_lift_vs_random": 2.4699
+}
