@@ -11,11 +11,12 @@ https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/):
   3.  a single band
   4.  datatype float32
   5.  every in-footprint value finite and inside [0, 1]
+  6.  every out-of-footprint cell is null/NaN, as stated on the organizer page
 
 RANGE (the user-observed portal error "Predicted values must be in range [0, 1]"):
-  the emitted raster is read back and its global min/max are asserted, and the
-  count of non-finite cells anywhere in the array is asserted to be zero, so no
-  sentinel (NaN, -1, 255, -32768) can be reinterpreted as a prediction.
+  only scored in-footprint cells are required to be finite and in [0,1]; outside
+  the study bounds must be null/NaN. The exact previously rejected file is not
+  available, so this validator cannot identify the cause of that earlier error.
 
 LANE (parallel-run protocol):
   6.  rank-correlation against each registry raster must be <= 0.90
@@ -58,83 +59,108 @@ def check_format(path: Path, labels: Path) -> dict:
         req("transform_100m_same_bounds", tr == want, f"transform={tr}")
         arr = src.read(1)
 
-    finite = np.isfinite(arr)
-    req("all_cells_finite", bool(finite.all()),
-        f"non_finite={int((~finite).sum())}")
-    lo, hi = float(arr.min()), float(arr.max())
-    req("values_in_0_1", lo >= 0.0 and hi <= 1.0, f"range=[{lo}, {hi}]")
-
     with rasterio.open(labels) as src:
         lab = src.read(1)
         nodata = src.nodata
     foot = lab != nodata
     req("footprint_cells", int(foot.sum()) == FOOTPRINT_CELLS, f"cells={int(foot.sum())}")
-    req("in_footprint_in_range", bool((arr[foot] >= 0).all() and (arr[foot] <= 1).all()),
-        f"in-footprint range=[{float(arr[foot].min())}, {float(arr[foot].max())}]")
+    if arr.shape == foot.shape:
+        inside = arr[foot]
+        outside = arr[~foot]
+        inside_finite = np.isfinite(inside)
+        req("no_nan_inside_footprint", bool(inside_finite.all()),
+            f"non_finite_inside={int((~inside_finite).sum())}")
+        if inside.size:
+            finite_values = inside[inside_finite]
+            lo, hi = ((float(finite_values.min()), float(finite_values.max()))
+                      if finite_values.size else (float("nan"), float("nan")))
+            in_range = bool(inside_finite.all() and (inside >= 0.0).all() and (inside <= 1.0).all())
+            req("in_footprint_in_range", in_range, f"in-footprint finite range=[{lo}, {hi}]")
+        else:
+            lo = hi = float("nan")
+            req("in_footprint_in_range", False, "empty study footprint")
+        outside_null = bool(np.isnan(outside).all())
+        req("outside_footprint_null_or_nan", outside_null,
+            f"non_nan_outside={int((~np.isnan(outside)).sum())}")
+    else:
+        lo = hi = float("nan")
+        req("no_nan_inside_footprint", False, f"array shape {arr.shape} differs from footprint {foot.shape}")
+        req("in_footprint_in_range", False, "cannot test: submission shape differs from footprint")
+        req("outside_footprint_null_or_nan", False, "cannot test: submission shape differs from footprint")
 
+    positives = arr[foot][arr[foot] > 0] if arr.shape == foot.shape else np.array([], dtype=arr.dtype)
     out["values"] = {
-        "min": lo, "max": hi,
-        "positive_cells": int((arr > 0).sum()),
-        "distinct_positive_values": int(np.unique(arr[arr > 0]).size),
+        "in_footprint_min": lo, "in_footprint_max": hi,
+        "positive_cells": int(positives.size),
+        "distinct_positive_values": int(np.unique(positives).size),
+        "nan_inside_footprint": int(np.isnan(arr[foot]).sum()) if arr.shape == foot.shape else None,
+        "nan_outside_footprint": int(np.isnan(arr[~foot]).sum()) if arr.shape == foot.shape else None,
     }
     out["passed"] = not out["failures"]
     return out
 
 
-def check_lane(path: Path, registry: list[Path], labels: Path, *, cell_px: int = 3,
-               max_rho: float = 0.90, max_overlap: float = 0.70) -> dict:
-    with rasterio.open(path) as src:
-        mine = src.read(1)
+def check_lane_array(mine: np.ndarray, registry: list[Path], foot: np.ndarray, *,
+                     cell_px: int = 3, max_rho: float = 0.90,
+                     max_overlap: float = 0.70) -> dict:
+    """Apply the parallel-run lane rule literally to a score surface or dot raster.
+
+    Positive cells are ``mine > 0`` inside the study footprint. Outside values
+    (including official NaN nodata) are ignored here and validated separately by
+    ``check_format``. A near-covering registry raster is not exempt: the stated
+    protocol says >70% proximity to *any* registry raster is a stop condition.
+    Coverage is reported to explain conservative flags, but never suppresses them.
+    """
+    mine = np.asarray(mine, dtype=np.float64)
+    foot = np.asarray(foot, dtype=bool)
+    if mine.ndim != 2 or mine.shape != foot.shape:
+        raise ValueError("prediction and footprint must be same-shape 2-D arrays")
+    if not np.isfinite(mine[foot]).all():
+        raise ValueError("lane comparison requires finite predictions inside the footprint")
+    # A compliant final GeoTIFF has NaN/null outside the study bounds. Ignore
+    # outside-footprint values for lane scoring; the format validator separately
+    # enforces the organizer's outside-footprint rule.
+    mine = np.where(foot, mine, 0.0)
     mine_dots = mine > 0
     n_mine = int(mine_dots.sum())
-    with rasterio.open(labels) as src:
-        lab = src.read(1)
-        foot = lab != src.nodata
-
-    n_foot = int(foot.sum())
+    d_mine = (distance_transform_edt(~mine_dots, sampling=(100.0, 100.0))
+              if n_mine else None)
     rows = []
     for reg in registry:
         if not reg.exists():
             continue
         with rasterio.open(reg) as src:
+            if (src.height, src.width) != mine.shape:
+                raise ValueError(f"registry grid mismatch: {reg}")
             other = src.read(1).astype(np.float64)
-        other = np.where(np.isfinite(other), other, 0.0)
+        other = np.where(foot & np.isfinite(other), other, 0.0)
         other_dots = other > 0
         n_other = int(other_dots.sum())
-        rho = float(spearmanr(mine[foot].astype(np.float64), other[foot]).statistic)
+        rho_value = spearmanr(mine[foot], other[foot]).statistic
+        rho = float(rho_value) if np.isfinite(rho_value) else 0.0
         if other_dots.any():
             d = distance_transform_edt(~other_dots, sampling=(100.0, 100.0))
             near = int((mine_dots & (d <= cell_px * 100.0)).sum())
-            # How much of the study area does this registry raster *cover* within
-            # the kernel?  A near-covering set (lattice / greedy blanket) places a
-            # node within 300 m of essentially every cell, so "my dots are within
-            # 3 px of its dots" becomes true by construction and carries no
-            # evidence about lane drift.  Reverse overlap is what discriminates.
             coverage = float((d[foot] <= cell_px * 100.0).mean())
-            rev = int((other_dots & (distance_transform_edt(~mine_dots, sampling=(100.0, 100.0))
-                                     <= cell_px * 100.0)).sum())
+            rev = int((other_dots & (d_mine <= cell_px * 100.0)).sum()) if d_mine is not None else 0
         else:
             near, coverage, rev = 0, 0.0, 0
         frac = near / n_mine if n_mine else 0.0
         rev_frac = rev / n_other if n_other else 0.0
-        # The overlap test is only admissible when the registry raster does not
-        # already cover the study area; otherwise the reported statistic is
-        # recorded but excluded from the verdict.
-        informative = coverage <= 0.50
         rows.append({
             "registry": reg.name,
             "registry_dots": n_other,
             "registry_covers_fraction_of_footprint": round(coverage, 4),
-            "overlap_test_admissible": informative,
+            "overlap_test_admissible": True,
             "spearman_rho": round(rho, 4),
+            "abs_spearman_rho": round(abs(rho), 4),
             "dots_within_3px": near,
             "fraction_of_my_dots": round(frac, 4),
             "fraction_of_registry_dots_within_3px_of_mine": round(rev_frac, 4),
-            "rho_flag": rho > max_rho,
-            "overlap_flag": (frac > max_overlap) and informative,
+            "rho_flag": abs(rho) > max_rho,
+            "overlap_flag": frac > max_overlap,
         })
     flagged = [r["registry"] for r in rows if r["rho_flag"] or r["overlap_flag"]]
-    degenerate = [r["registry"] for r in rows if not r["overlap_test_admissible"]]
     return {
         "my_dots": n_mine,
         "max_rho_allowed": max_rho,
@@ -142,15 +168,21 @@ def check_lane(path: Path, registry: list[Path], labels: Path, *, cell_px: int =
         "rows": rows,
         "lane_drift_detected": bool(flagged),
         "flagged_registry": flagged,
-        "overlap_test_degenerate_for": degenerate,
-        "degenerate_note": (
-            "For these registry rasters a node lies within 300 m of nearly every "
-            "study-area cell, so the 3 px overlap statistic is satisfied by any "
-            "prediction set and is excluded from the verdict; only the "
-            "rank-correlation and the reverse-overlap column are informative."
-        ) if degenerate else "",
+        "overlap_test_degenerate_for": [],
+        "degenerate_note": "None: protocol overlap threshold was applied to every registry raster, including near-covering rasters.",
         "verdict": "DUPLICATE - STOP" if flagged else "distinct lane",
     }
+
+
+def check_lane(path: Path, registry: list[Path], labels: Path, *, cell_px: int = 3,
+               max_rho: float = 0.90, max_overlap: float = 0.70) -> dict:
+    with rasterio.open(path) as src:
+        mine = src.read(1)
+    with rasterio.open(labels) as src:
+        lab = src.read(1)
+        foot = lab != src.nodata
+    return check_lane_array(mine, registry, foot, cell_px=cell_px,
+                            max_rho=max_rho, max_overlap=max_overlap)
 
 
 def main() -> int:
@@ -158,6 +190,8 @@ def main() -> int:
     ap.add_argument("submission")
     ap.add_argument("--labels", default=str(ROOT / "data/grid/labels.tif"))
     ap.add_argument("--registry-dir", default=str(ROOT / "registry/registry_rasters"))
+    ap.add_argument("--extra-registry", action="append", default=[],
+                    help="additional prior raster(s); may be supplied more than once")
     ap.add_argument("--out", default=None)
     args = ap.parse_args()
 
@@ -165,7 +199,17 @@ def main() -> int:
     fmt = check_format(sub, Path(args.labels))
     reg_dir = Path(args.registry_dir)
     regs = sorted(reg_dir.glob("*.tif")) if reg_dir.exists() else []
-    lane = check_lane(sub, regs, Path(args.labels)) if regs else {
+    regs.extend(Path(p) for p in args.extra_registry)
+    # Remove exact duplicate path references, and never compare an artifact with itself.
+    unique_regs = []
+    seen = set()
+    for reg in regs:
+        key = reg.resolve()
+        if key == sub.resolve() or key in seen:
+            continue
+        seen.add(key)
+        unique_regs.append(reg)
+    lane = check_lane(sub, unique_regs, Path(args.labels)) if unique_regs else {
         "note": "no registry rasters present; run scripts/collect_registry.py first",
         "lane_drift_detected": None,
     }
@@ -174,7 +218,11 @@ def main() -> int:
     print(text)
     if args.out:
         Path(args.out).write_text(text + "\n", encoding="utf-8")
-    return 0 if fmt["passed"] else 1
+    if not fmt["passed"]:
+        return 1
+    if lane.get("lane_drift_detected"):
+        return 2
+    return 0
 
 
 if __name__ == "__main__":

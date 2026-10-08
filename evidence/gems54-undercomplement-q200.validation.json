@@ -23,31 +23,35 @@
         "ok": true,
         "detail": "transform=(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
       },
-      "all_cells_finite": {
-        "ok": true,
-        "detail": "non_finite=0"
-      },
-      "values_in_0_1": {
-        "ok": true,
-        "detail": "range=[0.0, 1.0]"
-      },
       "footprint_cells": {
         "ok": true,
         "detail": "cells=5167373"
       },
+      "no_nan_inside_footprint": {
+        "ok": true,
+        "detail": "non_finite_inside=0"
+      },
       "in_footprint_in_range": {
         "ok": true,
-        "detail": "in-footprint range=[0.0, 1.0]"
+        "detail": "in-footprint finite range=[0.0, 1.0]"
+      },
+      "outside_footprint_null_or_nan": {
+        "ok": false,
+        "detail": "non_nan_outside=7111787"
       }
     },
-    "failures": [],
+    "failures": [
+      "outside_footprint_null_or_nan: non_nan_outside=7111787"
+    ],
     "values": {
-      "min": 0.0,
-      "max": 1.0,
+      "in_footprint_min": 0.0,
+      "in_footprint_max": 1.0,
       "positive_cells": 15907,
-      "distinct_positive_values": 1
+      "distinct_positive_values": 1,
+      "nan_inside_footprint": 0,
+      "nan_outside_footprint": 0
     },
-    "passed": true
+    "passed": false
   },
   "lane": {
     "my_dots": 15907,
@@ -60,6 +64,7 @@
         "registry_covers_fraction_of_footprint": 0.1509,
         "overlap_test_admissible": true,
         "spearman_rho": 0.0037,
+        "abs_spearman_rho": 0.0037,
         "dots_within_3px": 3934,
         "fraction_of_my_dots": 0.2473,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0854,
@@ -72,6 +77,7 @@
         "registry_covers_fraction_of_footprint": 0.1719,
         "overlap_test_admissible": true,
         "spearman_rho": 0.0027,
+        "abs_spearman_rho": 0.0027,
         "dots_within_3px": 3983,
         "fraction_of_my_dots": 0.2504,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0754,
@@ -84,6 +90,7 @@
         "registry_covers_fraction_of_footprint": 0.1601,
         "overlap_test_admissible": true,
         "spearman_rho": 0.0033,
+        "abs_spearman_rho": 0.0033,
         "dots_within_3px": 3970,
         "fraction_of_my_dots": 0.2496,
         "fraction_of_registry_dots_within_3px_of_mine": 0.082,
@@ -96,6 +103,7 @@
         "registry_covers_fraction_of_footprint": 0.2386,
         "overlap_test_admissible": true,
         "spearman_rho": 0.0038,
+        "abs_spearman_rho": 0.0038,
         "dots_within_3px": 5739,
         "fraction_of_my_dots": 0.3608,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0767,
@@ -108,6 +116,7 @@
         "registry_covers_fraction_of_footprint": 0.1921,
         "overlap_test_admissible": true,
         "spearman_rho": 0.0043,
+        "abs_spearman_rho": 0.0043,
         "dots_within_3px": 6783,
         "fraction_of_my_dots": 0.4264,
         "fraction_of_registry_dots_within_3px_of_mine": 0.1069,
@@ -120,6 +129,7 @@
         "registry_covers_fraction_of_footprint": 0.3193,
         "overlap_test_admissible": true,
         "spearman_rho": -0.0037,
+        "abs_spearman_rho": 0.0037,
         "dots_within_3px": 4061,
         "fraction_of_my_dots": 0.2553,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0374,
@@ -132,6 +142,7 @@
         "registry_covers_fraction_of_footprint": 0.2836,
         "overlap_test_admissible": true,
         "spearman_rho": 0.0004,
+        "abs_spearman_rho": 0.0004,
         "dots_within_3px": 5075,
         "fraction_of_my_dots": 0.319,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0503,
@@ -142,37 +153,40 @@
         "registry": "r11_greedy_mp.tif",
         "registry_dots": 272853,
         "registry_covers_fraction_of_footprint": 0.7397,
-        "overlap_test_admissible": false,
+        "overlap_test_admissible": true,
         "spearman_rho": 0.0005,
+        "abs_spearman_rho": 0.0005,
         "dots_within_3px": 14138,
         "fraction_of_my_dots": 0.8888,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0491,
         "rho_flag": false,
-        "overlap_flag": false
+        "overlap_flag": true
       },
       {
         "registry": "r13_lattice_s5_00904.tif",
         "registry_dots": 206895,
         "registry_covers_fraction_of_footprint": 0.9987,
-        "overlap_test_admissible": false,
+        "overlap_test_admissible": true,
         "spearman_rho": -0.0002,
+        "abs_spearman_rho": 0.0002,
         "dots_within_3px": 15888,
         "fraction_of_my_dots": 0.9988,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0488,
         "rho_flag": false,
-        "overlap_flag": false
+        "overlap_flag": true
       },
       {
         "registry": "r14_union_tips10_lat6.tif",
         "registry_dots": 192231,
         "registry_covers_fraction_of_footprint": 0.762,
-        "overlap_test_admissible": false,
+        "overlap_test_admissible": true,
         "spearman_rho": -0.0015,
+        "abs_spearman_rho": 0.0015,
         "dots_within_3px": 12164,
         "fraction_of_my_dots": 0.7647,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0472,
         "rho_flag": false,
-        "overlap_flag": false
+        "overlap_flag": true
       },
       {
         "registry": "tip_stepover_r30_02632.tif",
@@ -180,6 +194,7 @@
         "registry_covers_fraction_of_footprint": 0.1662,
         "overlap_test_admissible": true,
         "spearman_rho": 0.0034,
+        "abs_spearman_rho": 0.0034,
         "dots_within_3px": 4007,
         "fraction_of_my_dots": 0.2519,
         "fraction_of_registry_dots_within_3px_of_mine": 0.0791,
@@ -187,14 +202,14 @@
         "overlap_flag": false
       }
     ],
-    "lane_drift_detected": false,
-    "flagged_registry": [],
-    "overlap_test_degenerate_for": [
+    "lane_drift_detected": true,
+    "flagged_registry": [
       "r11_greedy_mp.tif",
       "r13_lattice_s5_00904.tif",
       "r14_union_tips10_lat6.tif"
     ],
-    "degenerate_note": "For these registry rasters a node lies within 300 m of nearly every study-area cell, so the 3 px overlap statistic is satisfied by any prediction set and is excluded from the verdict; only the rank-correlation and the reverse-overlap column are informative.",
-    "verdict": "distinct lane"
+    "overlap_test_degenerate_for": [],
+    "degenerate_note": "None: protocol overlap threshold was applied to every registry raster, including near-covering rasters.",
+    "verdict": "DUPLICATE - STOP"
   }
 }

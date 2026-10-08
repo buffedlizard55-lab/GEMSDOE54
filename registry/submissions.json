@@ -9,9 +9,13 @@
       "team_label": "undercomplement-q200 - state-map fault complement, catalogue-excluded, 200 m dots",
       "uploaded_utc": null,
       "organizer_confirmed_score": null,
-      "status": "UNSCORED - awaiting a submission-page receipt",
+      "status": "NOT SUBMITTED — historical research artifact only; official outside-footprint and strict lane checks fail",
       "positive_cells": 15907,
-      "format_validated": true
+      "format_validated": false,
+      "strict_lane_pass": false,
+      "upload_approved": false,
+      "in_footprint_range_validated": true,
+      "outside_footprint_null_or_nan": false
     }
   ]
 }

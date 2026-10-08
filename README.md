@@ -1,63 +1,52 @@
 # GEMSDOE54 — GEMS Prize submission repository
 
-> **Read this file first, every session.** It contains the standing prompt, the
-> verified facts, the current status, and the one-click submission artefact.
+> **Read this file first, every session.** It records the standing project brief,
+> source and provenance limits, experiment status, and upload gates. Re-check this
+> file and its linked run card before any work or submission.
 
 ---
 
-## ⬇️ THE SUBMISSION FILE — read this box before anything else
+## ⛔ Submission status — read before downloading
 
-**File:** [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif)
+**Do not submit any TIFF currently in this repository.** This review did not generate a new TIF. The pre-existing file below is available only as a research/forensic artifact; it is not approved for competition upload.
+
+**Existing artifact:** [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif)
+
 **SHA-256:** `b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8`
-**Bytes:** 94,282 · **Positive cells:** 15,907
 
-**Download status:** yes — this existing file is format-valid and registry-distinct according to its prior run receipt. **Upload selection:** not made by this review. It has no trustworthy HOLDOUT-DTI or organizer receipt; treat it only as an unvalidated experiment.
+**Bytes:** 94,282 · **Positive cells:** 15,907
 
 | Gate | Status | Evidence |
 |---|---|---|
-| Format is portal-legal (float32, 1 band, EPSG:32611, 3730×3292, all values finite and in [0, 1]) | ✅ **PASS** (9/9 checks) | [`evidence/gems54-undercomplement-q200.validation.json`](evidence/gems54-undercomplement-q200.validation.json) |
-| Distinct from every prior artefact in the registry (lane check) | ✅ **PASS** (max \|ρ\| = 0.004 vs a 0.90 limit) | same file, `lane` block |
-| Beats a baseline on a compliant hidden-label holdout | ❌ **NOT ESTABLISHED** | No HOLDOUT-DTI or paired CI; see *Proxy sensitivity*, below |
+| In-footprint dtype/grid/range/finite checks | ✅ **PASS** | [`evidence/gems54-undercomplement-q200.validation.json`](evidence/gems54-undercomplement-q200.validation.json) |
+| Official outside-footprint null/NaN rule | ❌ **FAIL** — existing TIF stores finite zero values outside the study footprint | same receipt |
+| Strict registry lane rule | ❌ **DUPLICATE — STOP** (0.8888 near `r11`, 0.9988 near `r13`, 0.7647 near `r14`; limit 0.70) | same validator receipt |
+| Compliant hide-and-recover HOLDOUT-DTI / paired 95% CI | ❌ **NOT ESTABLISHED** | No compliant evaluator/receipt; prior SGMC proxy is circular |
+| New unique TIFF generated in this review | ❌ **NO** | Endpoint-continuation surface failed the pre-placement lane gate; dots/TIFF were not written |
+| Okay to upload/use a weekly slot | ❌ **NO** | Lane duplicate + no admissible holdout or organizer receipt |
 
-It is **format-valid and registry-distinct per its prior local receipts, but performance is unvalidated.** This review does not approve or select a weekly slot; promotion is a separate selector decision. The old run card contains a **MODEL projection**, not a measurement, against an owner-recorded and unreceipted board value:
+The old lane receipt marked the near-blanketing registry rasters “inadmissible” and ignored their overlap. That exemption is not in the user's stated rule (“any registry raster”), so the old “distinct lane” verdict is withdrawn. The official public page displayed 0.2778 at rank 13, but no submission-page receipt links that row to the named H33 artifact; do not claim it as an `ORGANIZER-CONFIRMED` score. There is no valid HOLDOUT-DTI, and no projection is treated as a score.
 
-> Conditional on the unverified 0.2778 board observation, the model projected that
-> the artefact might exceed it if at least ≈12 % of its 15,907 dots fall within
-> the 300 m metric kernel of a hidden expert fault cell. The old card's ≈13 %
-> comparison is also a model inference based on unreceipted records. Neither value
-> is HOLDOUT-DTI or ORGANIZER-CONFIRMED; this audit does not validate the prediction.
+For audit/learning only, you can [download the pre-existing research artifact](docs/downloads/gems54-undercomplement-q200.tif). **That link is not an upload recommendation.** The mandatory request for a new unique TIF conflicts with the fail-closed rule: every attempted surface must stop when it exceeds the literal registry threshold. Do not manufacture uniqueness by choosing uncovered gaps. Proceed only with a genuinely distinct, scientifically motivated method that clears every registry raster before placement, plus authenticated inputs and a compliant whole-segment evaluator; otherwise keep the result negative and do not spend a submission slot.
 
-**A short note to paste into the submission form's "Note" field** (105 characters,
-under the portal's limit):
-
-```
-GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots
-```
-
-**A short comment for your team to tell submissions apart later:**
-
-```
-undercomplement-q200 — state-map fault complement, catalogue-excluded, 200 m dots
-```
-
-Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** with a copied submission-page receipt. Proxy values are **PROXY-DTI (screening only)** and projections are **MODEL**, never scores. This audit pass produced neither a valid holdout score nor an organizer receipt.
-
+Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** with a copied submission-page receipt. Proxy values are **PROXY-DTI (screening only)** and projections are **MODEL**, never scores.
 ---
 
 ## Current audit-only review (2026-10-08)
 
-This PR is an audit/documentation lane only. It did not emit another TIFF, run a compliant hide-and-recover experiment, or choose a weekly slot. The existing `gems54-undercomplement-q200.tif` and its experiment card came from a previously merged run; the artifact is format-valid and registry-distinct according to that run's receipts, but the SGMC-derived proxy is circular for its evidence layer, so there is no trustworthy `HOLDOUT-DTI` and no performance validation. Do not report it as a win or treat this review as a slot selection.
+This review corrected the literal lane-check implementation and the outside-footprint validator. The prior TIF passes in-footprint grid/range checks but fails the official null/NaN-outside rule and the stated registry-overlap limit when all 11 registry rasters are checked without an undocumented near-cover exclusion. An endpoint-continuation surface also failed before placement; the run stopped without dot placement, holdout scoring, or TIFF generation. No new file is approved for upload.
 
 The public owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eba791dc363305d4a3` was reassembled outside this checkout. All five feature shards and all three reconstructed TIFFs match the bridge manifest and committed runner-generated inventory; the feature cube is structurally varied. This proves byte integrity against owner-maintained pins, not organizer origin. No authenticated DrivenData download occurred. See [`docs/audit/pinned-template-cache-audit.json`](docs/audit/pinned-template-cache-audit.json).
 
-A code review found that the shared `src/gemsdoe54/holdout.py::segment_blocks` helper documented a buffer but ignored `buffer_px`; this PR fixes that bug and adds a synthetic regression test. The helper is not a full end-to-end evaluator, and the inspected public root template's workflow uses spatial blocks. No compliant `HOLDOUT-DTI`, power floor, or paired CI was produced. This is not a private fork; the fix is proposed to the shared repository through this branch and PR.
+The official public leaderboard page was fetched on 2026-10-08. It displayed `0.3774` at rank 1 and `0.3195` at rank 7; `0.2778` appeared at rank 13. These are **PUBLIC-LEADERBOARD SNAPSHOT** observations, not submission-page receipts, so they are not labeled `ORGANIZER-CONFIRMED` and do not establish that the rank-13 row is the named H33 TIFF. The later prompt statement that `0.3195` is the top value is stale relative to that fetched page. See [`docs/data/leaderboard-snapshot.json`](docs/data/leaderboard-snapshot.json).
+
+The repository still lacks the full authenticated feature stack and a complete shared whole-segment evaluator/writer pair. The local `segment_blocks` helper includes the buffer, but it is only a utility and does not by itself produce a compliant holdout receipt. The public owner-maintained template audited earlier uses spatial blocks, not the required whole-segment protocol.
 
 ---
 
 ## 1. The standing prompt
 
-The following is the project brief. It is reproduced in full so that every session
-starts from the same base.
+The following is the standing project brief, condensed from the user-provided session prompt. The extensive sibling-score list is owner-supplied and is intentionally not repeated here as verified data. Read this section, the linked research protocol, and the current run card before any project work.
 
 > Review the repo.
 >
@@ -241,7 +230,7 @@ starts from the same base.
 > Make suggestions for what work still needs to be done and any limitations that is in
 > the way of a successful project.
 
-**Evidence note:** this verbatim historical prompt includes user-supplied leaderboard values and status claims. Those remain claims unless backed by the corresponding organizer receipt; the current audit does not present them as verified scores.
+**Evidence note:** this historical prompt preserves its original statement that 0.3195 was the top value; it is stale versus the public page fetched on 2026-10-08, which displayed 0.3774 at rank 1, 0.3195 at rank 7, 0.2778 at rank 13, and 0.2750 at rank 17. These are **PUBLIC-LEADERBOARD SNAPSHOT** observations only: no submission-page receipts were copied, and no TIFF is attributed to a row. See [`docs/data/leaderboard-snapshot.json`](docs/data/leaderboard-snapshot.json).
 
 ---
 
@@ -249,7 +238,7 @@ starts from the same base.
 
 | Item | Status |
 |---|---|
-| A pre-existing format-legal, downloadable TIF from the earlier H54-A run | ✅ **available** — one click, section 0 above; not generated or selected by this audit |
+| New unique TIF from this review | ❌ **not generated** — endpoint surface failed strict pre-placement lane check; no dots/TIFF were written |
 | Official metric re-implemented and regression-tested | ✅ `scripts/gems_metric.py`, reproduces the organizer's published worked example |
 | Proxy-based sensitivity estimate computed | ⚠️ `evidence/power_analysis.json` — circular SGMC proxy; **not a compliant HOLDOUT-DTI** |
 | 3–5 ranked hypotheses | ✅ [`docs/hypotheses.html`](docs/hypotheses.html) |

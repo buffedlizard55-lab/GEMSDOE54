@@ -20,7 +20,7 @@
 <div class="wrap">
 
 <h1>Evidence, irregularities, and proxy sensitivity</h1>
-<p class="muted">Raster-derived proxy quantities and the local validator can be regenerated from repository bytes. Some comparisons use owner-recorded leaderboard observations without submission-page receipts; those are not <code>ORGANIZER-CONFIRMED</code> scores. No compliant whole-segment HOLDOUT-DTI was produced.</p>
+<p class="muted">Raster-derived proxy quantities and local format/lane checks can be regenerated from repository bytes. Some comparisons use owner-recorded leaderboard observations without submission-page receipts; those are not <code>ORGANIZER-CONFIRMED</code> scores. No compliant whole-segment HOLDOUT-DTI was produced, and no current TIFF is approved for upload.</p>
 
 <h2>1 · The metric, verified against the organizer's own example</h2>
 <p><code>scripts/gems_metric.py</code> transcribes the organizer's equations verbatim. The published worked
@@ -120,7 +120,8 @@ exact algebra gives G ≈ 11,583 cells. This is only a model estimate, not a con
 <tr><td>Historical SGMC proxy circularity probe (not a holdout canary)</td><td>PROXY-CANARY AUC = 0.997948</td><td><span class="tag no">CIRCULAR PROXY — not predictive performance</span></td></tr>
 <tr><td>Algebraic breakeven against 0.2778</td><td>≈12 % of dots inside the kernel</td><td><span class="tag warn">MODEL</span></td></tr>
 <tr><td>Dots emitted / mass reduction vs the incumbent family</td><td>15,907 / −58 %</td><td><span class="tag info">MEASURED</span> from <code>registry/gems54-undercomplement-q200.build.json</code></td></tr>
-<tr><td>Lane drift vs registry</td><td>max |ρ| = 0.0043; max admissible dot overlap 0.426</td><td><span class="tag info">MEASURED</span> — limits 0.90 and 0.70</td></tr>
+<tr><td>Strict lane re-audit of historical H54-A artifact</td><td>max |ρ| = 0.0043; raw overlap = 0.8888 / 0.9988 / 0.7647 with r11 / r13 / r14</td><td><span class="tag no">DUPLICATE — STOP</span> overlap threshold 0.70 applies to any registry raster</td></tr>
+<tr><td>Official outside-footprint format re-audit</td><td>7,111,787 finite zeroes outside the study footprint</td><td><span class="tag no">FAIL</span> official page requires null/NaN outside</td></tr>
 </tbody>
 </table>
 
@@ -141,8 +142,8 @@ baseline was silently emitting the catalogue. Nothing in this repository uses it
 <div class="small">Thinning the incumbent's 37,654-dot set to a 300 m minimum separation kept 76.5 % of the
 dots but only 90.0 % of the credit, so the proxy DTI fell from 0.09397 to 0.08729. The cloud is not
 redundant — its credit comes from many well-separated dots — so "one dot per kernel width" is not a free
-mass saving on an existing emission. It <em>is</em> the right rule when emitting from scratch, which is what
-this submission does.</div></li>
+mass saving on an existing emission. It may be a sensible rule when emitting from scratch; the historical
+H54-A build used it, but this is not a validated performance finding.</div></li>
 
 <li><strong>A sibling sample raster is not an all-zero control.</strong>
 <div class="small">The <code>GEMSDOE50/data/grid/sample_submission.tif</code> file in the sibling tree was reported byte-identical in content to the catalogue mask; it is not an admissible zero-control template and was not used in this audit.</div></li>
