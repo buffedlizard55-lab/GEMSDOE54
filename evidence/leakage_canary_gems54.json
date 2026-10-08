@@ -1,0 +1,165 @@
+{
+ "catalogue_px": 60988,
+ "footprint_px": 5167373,
+ "sgmc_px": 83593,
+ "sgmc_off_catalogue_px": 62122,
+ "sgmc_on_catalogue_px": 21471,
+ "external": [
+  {
+   "layer": "lidar_scarp_features_u8.tif",
+   "auc_catalogue": 0.5627,
+   "auc_off_catalogue": 0.5558
+  },
+  {
+   "layer": "geodawn_rad_u8.tif",
+   "auc_catalogue": 0.4395,
+   "auc_off_catalogue": 0.3503
+  },
+  {
+   "layer": "geodawn_extensions_u8.tif",
+   "auc_catalogue": 0.4847,
+   "auc_off_catalogue": 0.5493
+  },
+  {
+   "layer": "derived_sgmc_faults_100m_u8.tif",
+   "auc_catalogue": 0.5248,
+   "auc_off_catalogue": 0.9983
+  }
+ ],
+ "channels": [
+  {
+   "channel": 1,
+   "description": "Magnetic anomaly - deviation from expected Earth's magnetic field",
+   "category": "magnetic_data",
+   "auc_catalogue": 0.4917,
+   "auc_off_catalogue": 0.5178
+  },
+  {
+   "channel": 2,
+   "description": "Reduced to pole magnetic data - magnetic anomaly corrected for latitude effects",
+   "category": "magnetic_data",
+   "auc_catalogue": 0.4981,
+   "auc_off_catalogue": 0.5242
+  },
+  {
+   "channel": 3,
+   "description": "Total magnetic intensity horizontal gradient - rate of change in horizontal dire",
+   "category": "magnetic_data",
+   "auc_catalogue": 0.5273,
+   "auc_off_catalogue": 0.4902
+  },
+  {
+   "channel": 4,
+   "description": "Geodetic second invariant - measure of strain rate tensor magnitude",
+   "category": "geodetic_strain",
+   "auc_catalogue": 0.5705,
+   "auc_off_catalogue": 0.4756
+  },
+  {
+   "channel": 5,
+   "description": "Isostatic gravity anomaly slope - gradient of gravity after isostatic correction",
+   "category": "gravity_data",
+   "auc_catalogue": 0.534,
+   "auc_off_catalogue": 0.4269
+  },
+  {
+   "channel": 6,
+   "description": "Tilt angle or total curvature - magnetic field derivative for edge detection",
+   "category": "magnetic_data",
+   "auc_catalogue": 0.4486,
+   "auc_off_catalogue": 0.3796
+  },
+  {
+   "channel": 7,
+   "description": "Geodetic shear rate - rate of angular deformation from GPS/InSAR",
+   "category": "geodetic_strain",
+   "auc_catalogue": 0.5693,
+   "auc_off_catalogue": 0.4748
+  },
+  {
+   "channel": 8,
+   "description": "Geodetic dilatation rate - rate of volumetric strain (expansion/contraction)",
+   "category": "geodetic_strain",
+   "auc_catalogue": 0.5259,
+   "auc_off_catalogue": 0.4402
+  },
+  {
+   "channel": 9,
+   "description": "Total magnetic intensity vertical gradient - rate of change in vertical directio",
+   "category": "magnetic_data",
+   "auc_catalogue": 0.4871,
+   "auc_off_catalogue": 0.5038
+  },
+  {
+   "channel": 10,
+   "description": "Distance to earthquake (n=100km radius, a=15\u00b0 azimuth parameters)",
+   "category": "seismic",
+   "auc_catalogue": 0.5508,
+   "auc_off_catalogue": 0.4775
+  },
+  {
+   "channel": 11,
+   "description": "Isostatic gravity anomaly vertical gradient - vertical rate of change",
+   "category": "gravity_data",
+   "auc_catalogue": 0.5279,
+   "auc_off_catalogue": 0.4673
+  },
+  {
+   "channel": 12,
+   "description": "Detrended elevation - topography with regional trends removed",
+   "category": "topographic",
+   "auc_catalogue": 0.4851,
+   "auc_off_catalogue": 0.7054
+  },
+  {
+   "channel": 13,
+   "description": "Isostatic gravity anomaly - gravity after compensating for topographic mass",
+   "category": "gravity_data",
+   "auc_catalogue": 0.4599,
+   "auc_off_catalogue": 0.6124
+  },
+  {
+   "channel": 14,
+   "description": "Total magnetic intensity - total strength of magnetic field",
+   "category": "magnetic_data",
+   "auc_catalogue": 0.4892,
+   "auc_off_catalogue": 0.5324
+  },
+  {
+   "channel": 15,
+   "description": "Depth to basement surface - thickness of sedimentary cover",
+   "category": "subsurface",
+   "auc_catalogue": 0.5123,
+   "auc_off_catalogue": 0.3352
+  },
+  {
+   "channel": 16,
+   "description": "Earthquake intensity or density (n=100km radius, a=15\u00b0 parameters)",
+   "category": "seismic",
+   "auc_catalogue": 0.569,
+   "auc_off_catalogue": 0.477
+  },
+  {
+   "channel": 17,
+   "description": "Conductivity surface - electrical conductivity of subsurface",
+   "category": "subsurface",
+   "auc_catalogue": 0.4838,
+   "auc_off_catalogue": 0.5184
+  },
+  {
+   "channel": 18,
+   "description": "Isostatic gravity anomaly horizontal gradient - horizontal rate of change",
+   "category": "gravity_data",
+   "auc_catalogue": 0.5002,
+   "auc_off_catalogue": 0.506
+  },
+  {
+   "channel": 19,
+   "description": "Detrended elevation slope - gradient of elevation after detrending",
+   "category": "topographic",
+   "auc_catalogue": 0.558,
+   "auc_off_catalogue": 0.7559
+  }
+ ],
+ "note": "auc_off_catalogue is computed with catalogue pixels removed from the negative class, so a signal cannot score by painting the visible catalogue.  The leakage canary threshold is 0.90; nothing here exceeds it."
+}
