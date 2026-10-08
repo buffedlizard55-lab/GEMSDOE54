@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GEMSDOE54 — submit in one click | GEMS Prize</title>
+<meta name="description" content="One-click GeoTIFF submission for the DOE GEMS Prize, with the exact metric, a measured detection floor, and an auditable source table.">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">GEMS<span>DOE54</span></div>
+    <nav>
+      <a href="index.html">Executive summary</a>
+      <a href="#submit">How to submit</a>
+      <a href="hypotheses.html">Hypotheses</a>
+      <a href="evidence.html">Evidence</a>
+      <a href="sources.html">Sources</a>
+    </nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- ============================ EXECUTIVE SUMMARY ============================ -->
+<h1>Executive summary</h1>
+<p class="muted">DOE / NLR <strong>Geologic Enhanced Mapping System (GEMS) Prize</strong> —
+distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
+Last verified 2026-10-08.</p>
+
+<div class="panel hero">
+  <h2>⬇️ Download the submission — one click</h2>
+  <p><strong>Everything you need is this single file.</strong> Download it, then upload it on the
+  DrivenData <em>New submission</em> form. Nothing else in this repository is required.</p>
+
+  <p><a class="btn" href="downloads/gems54-undercomplement-q200.tif" download>⬇ Download gems54-undercomplement-q200.tif</a>
+  &nbsp;<a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" target="_blank" rel="noopener">view raw file</a></p>
+
+  <dl class="kv">
+    <dt>File</dt><dd><code>gems54-undercomplement-q200.tif</code></dd>
+    <dt>Size</dt><dd>94,282 bytes</dd>
+    <dt>SHA-256</dt><dd class="hash">b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</dd>
+    <dt>Predictions</dt><dd>15,907 positive cells, every one exactly <code>1.0</code>; all other cells <code>0.0</code></dd>
+    <dt>Grid</dt><dd>3730 × 3292, EPSG:32611, 100 m, origin (243350.0, 4508550.0)</dd>
+    <dt>Datatype</dt><dd>float32, single band, <strong>no NaN and no nodata tag anywhere</strong></dd>
+  </dl>
+
+  <h3>Short note to paste into the form's "Note" field</h3>
+  <p><code>GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d&gt;300m, linearity gate, 200m dots</code></p>
+  <p class="small muted">105 characters — inside the portal's short-comment field. A team-facing label to
+  tell submissions apart is also in the README: <code>undercomplement-q200 — state-map fault complement, catalogue-excluded, 200 m dots</code>.</p>
+
+  <div class="callout">
+    <p style="margin:0"><strong>Is it OK to download and submit this file?</strong><br>
+    <span class="tag ok">FORMAT: YES</span> &nbsp;<span class="tag ok">UNIQUE: YES</span> &nbsp;<span class="tag warn">PROVEN TO BEAT 0.2778: NO</span></p>
+    <p class="small" style="margin:8px 0 0">It is <em>portal-legal</em> and <em>unlike any prior artefact</em>, so uploading it is safe and
+    it will be scored. It is an <em>unvalidated experiment</em>, so it must not be presented as a win.
+    The bet is stated in one line so it can be checked: <strong>it beats 0.2778 if at least ≈12 % of its
+    15,907 dots land within the 300 m metric kernel of a hidden expert fault cell</strong> — the current
+    best public family achieves ≈13 % on that same definition.</p>
+  </div>
+</div>
+
+<h2>The problem, in four sentences</h2>
+<div class="panel tight">
+<p>The competition asks for a fault-probability GeoTIFF over the GeoDAWN study area in western
+Nevada. Scoring uses a <strong>distance-weighted Tversky index</strong> with α&nbsp;=&nbsp;0.2 (false
+positives), β&nbsp;=&nbsp;0.8 (false negatives) and a triangular 300&nbsp;m kernel, and — crucially —
+<strong>the ground truth is only the faults that are <em>missing</em> from the public catalogue</strong>,
+which geology experts at NLR and USGS identified by hand. Every cell you mark pays a small linear
+false-positive tax, while every truth cell you miss costs four times as much, so the achievable score
+is set by how precisely you can place a small number of confident predictions. Published best public
+score is <strong>0.3774</strong> (rank 1, xiaofanhu), and this repository's target baseline is the
+<strong>0.2778</strong> at rank 13.</p>
+</div>
+
+<!-- ================================ SUBMIT ================================= -->
+<h2 id="submit">How to submit — step by step</h2>
+<p class="small muted">Verified against
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">the competition problem description</a>
+(submission format) and
+<a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">the DOE/NLR Official Rules, §3.2</a>
+(three submissions per week).</p>
+
+<ol class="steps">
+  <li><strong>Download the file.</strong> Use the green button above. The download is the exact artefact
+  whose SHA-256 is printed beside it; if your copy's hash differs, do not upload it.</li>
+
+  <li><strong>Register / sign in on DrivenData</strong> and open the GEMS challenge, then the
+  <em>Submissions</em> tab. (Registration is required by the rules and is also how the feature data is
+  obtained — see <em>Limitations</em>.)</li>
+
+  <li><strong>Click <em>New submission</em>.</strong> The form accepts <em>a single-band GeoTIFF
+  (.tif)</em>, or a .zip containing one. Upload
+  <code>gems54-undercomplement-q200.tif</code> directly — do not zip or re-encode it.</li>
+
+  <li><strong>Optionally paste the 105-character note</strong> from the green panel above into the
+  <em>Note</em> field. This is the field the form describes as "a short comment to help you or your team
+  tell submissions apart later".</li>
+
+  <li><strong>Click <em>Submit</em>.</strong> The portal re-checks CRS, shape, geotransform and the
+  value range. This file passes all four by construction — it is all-finite, single-band float32 on
+  EPSG:32611, so the <em>"Predicted values must be in range [0, 1]"</em> error cannot be raised by it.</li>
+
+  <li><strong>Record the receipt.</strong> If it scores, copy the number into
+  <code>registry/submissions.json</code> as <span class="tag info">ORGANIZER-CONFIRMED</span>. Until then it stays
+  <span class="tag warn">unscored</span>.</li>
+</ol>
+
+<div class="callout good">
+  <p style="margin:0"><strong>Why the earlier upload failed.</strong> The portal's message
+  <em>"Predicted values must be in range [0, 1]"</em> is raised when the raster it reads contains a value
+  outside [0,&nbsp;1] — most often a <code>nodata</code> sentinel such as <code>-1</code>,
+  <code>255</code> or <code>-32768</code> that the reader does not mask, or a NaN that the validator
+  treats as a number. This repository therefore emits <strong>no nodata tag and no NaN at all</strong>:
+  the array is finite everywhere and every value is exactly <code>0.0</code> or <code>1.0</code>.
+  <code>scripts/validate_submission.py</code> re-reads the written file from disk and asserts
+  <code>min&nbsp;&gt;=&nbsp;0</code>, <code>max&nbsp;&lt;=&nbsp;1</code> and
+  <code>non_finite&nbsp;==&nbsp;0</code> before the file is allowed to be published.</p>
+</div>
+
+<h2>Verified status of this run</h2>
+<table>
+  <thead><tr><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
+  <tbody>
+    <tr><td>Single band, float32</td><td><span class="tag ok">PASS</span></td><td>validator check 1 &amp; 2</td></tr>
+    <tr><td>CRS, shape, geotransform, 100 m</td><td><span class="tag ok">PASS</span></td><td>validator checks 3–5</td></tr>
+    <tr><td>All cells finite; values inside [0, 1]</td><td><span class="tag ok">PASS</span></td><td>validator checks 6–9; <code>non_finite=0</code>, range <code>[0.0, 1.0]</code></td></tr>
+    <tr><td>Distinct from every registry artefact (lane check)</td><td><span class="tag ok">PASS</span></td><td>max |ρ| = 0.004 vs 0.90 limit; max admissible overlap 0.43 vs 0.70 limit</td></tr>
+    <tr><td>Beats the 0.2778 baseline on a validated holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>the only available holdout does not rank submissions (ρ = −0.03 vs the leaderboard); see <a href="evidence.html">Evidence</a></td></tr>
+  </tbody>
+</table>
+
+<h2>Where you are in the repository</h2>
+<div class="grid2">
+  <div class="panel tight">
+    <h3 style="margin-top:0">I want to…</h3>
+    <ul class="small">
+      <li><a href="downloads/gems54-undercomplement-q200.tif" download>download the submission file</a></li>
+      <li>see the <a href="hypotheses.html">3–5 ranked geological hypotheses</a></li>
+      <li>read the <a href="evidence.html">proxy audit and the detection floor</a></li>
+      <li>check the <a href="sources.html">official sources and licences</a></li>
+    </ul>
+  </div>
+  <div class="panel tight">
+    <h3 style="margin-top:0">What this artefact is</h3>
+    <p class="small">A <strong>unit-valued dot set</strong>, not a probability field. Dots are placed on
+    USGS State Geologic Map Compilation faults that lie more than 300 m from the competition catalogue,
+    filtered to trace-like shapes, and thinned so that no two dots are closer than 200 m. The rationale,
+    the algebra and the falsifiable prediction are on the <a href="evidence.html">Evidence</a> page.</p>
+  </div>
+</div>
+
+<footer>
+  <p>Built and verified by an autonomous agent session on 2026-10-08. Every factual claim on this site
+  is traceable to a fetched page or to bytes in this repository — see
+  <a href="sources.html">Sources</a>. Numbers are labelled <span class="tag info">ORGANIZER-CONFIRMED</span>,
+  <span class="tag info">PROXY-DTI</span> or <span class="tag warn">MODEL</span>; a projection is never
+  presented as a score.</p>
+  <p class="muted small">This work used an AI agent. The DOE/NLR rules (§3.2) require disclosing
+  generative-AI use in the prize narrative; see <code>docs/AI_DISCLOSURE.md</code>.</p>
+</footer>
+</div>
+</body>
+</html>
