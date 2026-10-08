@@ -20,18 +20,10 @@
 <div class="wrap">
 
 <h1>Candidate hypotheses, ranked</h1>
-<p class="muted">Five candidates that were not already in the corpus, each with the layer it uses, the
-physical signature it targets, why it should find faults <em>missing from</em> the catalogue rather than
-faults already in it, and how it differs from prior work. Ranked by expected DTI improvement times
-probability of success, divided by implementation cost.</p>
+<p class="muted">This is a historical hypothesis ledger, not a current candidate selection or performance ranking. Its mechanisms and costs are qualitative proposals; no DTI improvement is validated. The current audit found no admissible whole-segment holdout and selected no method or weekly slot. See <a href="research.html">the current research protocol</a>.</p>
 
 <div class="callout">
-<p style="margin:0"><strong>Two facts govern this ranking.</strong>
-(1) The scored truth is <em>only</em> faults absent from the catalogue, so a prediction near a
-catalogued fault earns nothing and still pays the linear mass tax
-<code>0.2·N</code>. (2) The existing holdout does not rank submissions (ρ&nbsp;=&nbsp;−0.03 against
-the leaderboard, n&nbsp;=&nbsp;6), so every candidate below is ranked on the <em>strength of its
-mechanism</em> and its cost, not on a holdout score. See <a href="evidence.html">Evidence</a>.</p>
+<p style="margin:0"><strong>Current gate status.</strong> The SGMC-derived proxy is not a holdout: the H54-A candidate and proxy target share source data, and the small exploratory comparison to historical owner-recorded board observations has no submission-page receipts. No candidate below has a validated competition score or a current selection. The official metric algebra is a design constraint, not evidence that any hypothesis will improve performance. See <a href="evidence.html">Evidence</a> and <a href="research.html">the current audit</a>.</p>
 </div>
 
 <!-- ====================================================================== -->
@@ -56,13 +48,10 @@ within 200 m of the catalogue. This candidate (a) excludes the <em>full 300 m ke
 dot can be earning credit from a catalogued fault; (b) replaces bounding-box elongation — which is
 orientation-dependent and rejects a 45° line — with the PCA eigenvalue ratio; and (c) derives the dot
 spacing from the metric's mass/credit algebra rather than from a fixed rule.</td></tr>
-<tr><th>Expected benefit</th><td>15,907 dots against the incumbent family's 37,654, i.e. <strong>58 % less mass</strong>.
-Beats 0.2778 if ≥ ≈12 % of dots hit the 300 m kernel; the incumbent family's implied hit rate is ≈13 %.</td></tr>
+<tr><th>Legacy model projection (not a result)</th><td>The prior build receipt records 15,907 emitted dots versus an owner-recorded, unreceipted family count of 37,654. The old ≈12 % threshold and ≈13 % comparator are model estimates only; neither is HOLDOUT-DTI or ORGANIZER-CONFIRMED, and this audit does not select or promote H54-A.</td></tr>
 <tr><th>Cost</th><td><span class="tag ok">LOW</span> — implemented, runs in seconds on CPU.</td></tr>
 <tr><th>Validation status</th><td><span class="tag no">CANNOT BE VALIDATED ON THE EXISTING PROXY</span>
-The proxy's truth is built from the same SGMC raster, so the feature-alone leakage canary returns AUC = 0.998
-by construction. The submission's PROXY-DTI of 0.5513 is therefore a self-consistency check and is
-<strong>not</strong> reported as a score. New external data is needed to test it honestly — specifically an
+The SGMC-derived proxy target is built from the same SGMC raster, so the historical PROXY-CANARY returns AUC = 0.997948 by construction. The submission's PROXY-DTI of 0.551333 is a self-consistency diagnostic only; neither number is a compliant holdout result or a score. New external data is needed to test it honestly — specifically an
 independent fault compilation that is <em>not</em> SGMC and <em>not</em> the catalogue.</td></tr>
 </tbody>
 </table>
@@ -91,10 +80,7 @@ proximity.</td></tr>
 <tr><th>Expected benefit</th><td>Precision, not recall: a smaller, cleaner dot set at roughly constant
 credit, which is exactly the direction the algebra rewards.</td></tr>
 <tr><th>Cost</th><td><span class="tag warn">MEDIUM</span> — one afternoon; the CSV is already local.</td></tr>
-<tr><th>Data check</th><td>Present locally: <code>gdr_wellspring_in_footprint.csv</code> (2,146,771 bytes) and
-<code>derived_gdr_volcanics_100m_u8.tif</code>. Licence recorded in the sibling receipt as CC BY 4.0
-(DOI 10.15121/1881483), which permits reuse with attribution and sponsor sharing.
-ComCat is <strong>blocked on rights</strong> and must not be used until that is closed.</td></tr>
+<tr><th>Data check</th><td>These files are not present in the current checkout. The paths and licence wording come from prior sibling-repository notes and have not been reverified here; do not assume availability or redistribution permission. ComCat rights remain unresolved and it must not be used until checked.</td></tr>
 </tbody>
 </table>
 
@@ -181,18 +167,12 @@ at better resolution.</td></tr>
 </tbody>
 </table>
 
-<h2>What the ranking means for the next session</h2>
+<h2>What remains open</h2>
 <div class="panel tight">
-<p>The only candidate that is <em>both</em> unblocked and scientifically distinct from prior work is
-<strong>H54-C</strong> (catalogue topology from vector traces). H54-A is shipped here because it is
-implemented, format-legal and measurable; H54-B and H54-C are the two that should be built next, in that
-order once the well-inventory licence is confirmed. H54-D remains the highest-upside idea in the project and
-the only reason it is not first is that its input list is behind a login.</p>
+<p>No candidate is selected, promoted, or queued for a weekly slot by this audit. All ideas remain hypotheses until trusted inputs and a complete shared whole-segment evaluator are available. The pre-existing H54-A TIFF is a separate historical artifact: it is downloadable and format-checked, but performance is not validated.</p>
 </div>
 
-<footer><p class="muted small">Mechanisms here are stated as mechanisms, not as measured outcomes. No
-candidate on this page has a validated holdout DTI, because the available holdout does not rank submissions —
-see <a href="evidence.html">Evidence</a>.</p></footer>
+<footer><p class="muted small">Mechanisms here are proposals, not measured outcomes. The SGMC-derived proxy is not an admissible holdout, and this repository has no valid HOLDOUT-DTI — see <a href="evidence.html">Evidence</a> and <a href="research.html">Research</a>.</p></footer>
 </div>
 </body>
 </html>

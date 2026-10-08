@@ -1,0 +1,52 @@
+{
+  "schema": "gemsdoe54.run-card.v1",
+  "run_scope": "Audit-only pass on arena/0d3be5e8-gemsdoe54. The pre-existing H54-A artifact on main was not rebuilt, reevaluated, selected, or submitted by this pass.",
+  "hypothesis": "No new candidate selected: the owner-mirror feature bridge is hash-consistent but not organizer-authenticated, and no complete shared evaluator producing the required whole-segment hide-and-recover receipt is available.",
+  "mechanism": "NOT EVALUATED — no candidate experiment or compliant holdout run was performed.",
+  "named_non_fault_mimic": "Not applicable: no new candidate hypothesis was selected or scored.",
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "status": "NOT RUN — no complete compliant evaluator receipt; the existing H54-A proxy is circular and is not HOLDOUT-DTI",
+    "evaluator_version": null,
+    "withheld_positive_count": null,
+    "ci95": null
+  },
+  "power": {
+    "status": "NOT COMPUTED for this run — no compliant holdout replicates/paired variance; owner-mirror total label positives are not withheld positives or independent units",
+    "independent_unit_count": null,
+    "cohen_d_minimum_detectable": null,
+    "raw_dti_detection_floor": null,
+    "comparison_to_claimed_gap_0_0028": "NOT CLASSIFIABLE from this run; the 0.0028 figure is a user-supplied leaderboard-gap example, not a local result"
+  },
+  "registry_similarity": {
+    "rank_correlation": null,
+    "fraction_of_dots_within_3_px": null,
+    "status": "NOT RUN for this pass — no new raster exists; the previous H54-A run has its own separate registry comparison in registry/run_card.json"
+  },
+  "raster_sha256": null,
+  "validator": {
+    "status": "NOT APPLICABLE — this pass generated no raster",
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "validator_output": null
+  },
+  "submission": {
+    "candidate_this_run": false,
+    "name": null,
+    "note": null,
+    "note_character_limit": 140,
+    "downloadable_tif_from_this_run": false,
+    "safe_to_upload_from_this_run": false,
+    "existing_repository_artifact": {
+      "name": "gems54-undercomplement-q200",
+      "path": "docs/downloads/gems54-undercomplement-q200.tif",
+      "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
+      "provenance": "previously merged H54-A experiment; see registry/run_card.json",
+      "prior_format_validation": "PASS per its own receipt; not revalidated by this audit-only pass",
+      "holdout_validation": "NOT ESTABLISHED; its SGMC-derived proxy is circular",
+      "selection_by_this_run": false
+    }
+  },
+  "verdict": "negative"
+}

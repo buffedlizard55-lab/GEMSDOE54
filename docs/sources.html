@@ -14,7 +14,9 @@
     <a href="index.html#submit">How to submit</a>
     <a href="hypotheses.html">Hypotheses</a>
     <a href="evidence.html">Evidence</a>
+    <a href="research.html">Research protocol</a>
     <a href="sources.html">Sources</a>
+    <a href="irregularities.html">Audit ledger</a>
   </nav>
 </div></header>
 <div class="wrap">
@@ -45,10 +47,10 @@ and every page marked <code>REACHED</code> below was read through it.</p>
   <td>The distance-weighted Tversky definition, k(d) = max(1 − d/R, 0) with R = 300 m, α = 0.2, β = 0.8; the worked example TP<sub>w</sub> = 3.00, FP<sub>w</sub> = 1.89, FN<sub>w</sub> = 2.00 → 0.60; and the format rules (EPSG:32611, 100 m, same bounds, single layer float32, values 0–1, null or NaN outside bounds). Transcribed into <code>scripts/gems_metric.py</code>, which reproduces 0.602652.</td>
 </tr>
 <tr>
-  <td>Public leaderboard</td>
+  <td>Public leaderboard (historical note only)</td>
   <td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">leaderboard</a></td>
-  <td><span class="tag ok">REACHED</span></td>
-  <td>Read 2026-10-08: rank 1 xiaofanhu 0.3774; rank 2 alexoktaba 0.3345; rank 3 nchuzhoy 0.3262; rank 7 DARD 0.3195; rank 13 extradr19 0.2778; rank 17 wbg1 0.2750. Used to correct the brief's stale "0.3195 is the highest score".</td>
+  <td><span class="tag warn">NO SUBMISSION RECEIPT</span></td>
+  <td>A legacy note records a public-page read dated 2026-10-08 and lists rank/score pairs, but this audit did not independently preserve a submission-page receipt. Treat those figures only as historical owner-recorded observations, not as ORGANIZER-CONFIRMED scores; do not use them as a target or promotion evidence.</td>
 </tr>
 <tr>
   <td>DOE / NLR GEMS Prize Official Rules, September 2026</td>
@@ -70,6 +72,27 @@ and every page marked <code>REACHED</code> below was read through it.</p>
 </tr>
 </tbody>
 </table>
+
+<h2>Owner-maintained template and mirror audit</h2>
+<p>The bytes below were obtained through public GitHub, not through an authenticated DrivenData session. Matching a repository's own checksum pins establishes byte integrity against those pins; it does not prove organizer origin.</p>
+<table>
+<thead><tr><th>Source</th><th>Link</th><th>Status</th><th>Finding</th></tr></thead>
+<tbody>
+<tr>
+  <td>GEMSDOE shared template/data bridge</td>
+  <td><a href="https://github.com/buffedlizard55-lab/GEMSDOE/tree/dcbbb192e56b2b32c0a131eba791dc363305d4a3" target="_blank" rel="noopener">pinned public commit</a><br><a href="audit/pinned-template-cache-audit.json">local hash/tool audit</a></td>
+  <td><span class="tag warn">HASH PINS MATCH; ORIGIN UNAUTHENTICATED</span></td>
+  <td>All five feature shards and the three reconstructed TIFFs match the owner bridge manifest and committed runner-generated inventory. The feature cube is structurally varied. The root evaluator uses spatial blocks; this project requires whole-segment hide-and-recover. No candidate or score was generated from this bridge.</td>
+</tr>
+<tr>
+  <td>GEMSDOE52 checked-in cache</td>
+  <td><a href="https://github.com/buffedlizard55-lab/GEMSDOE52/tree/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4" target="_blank" rel="noopener">pinned public commit</a><br><a href="audit/sibling-cache-audit.json">local integrity receipt</a></td>
+  <td><span class="tag no">REJECTED</span></td>
+  <td>Its tracked raster hashes do not match its manifest; all checked-in feature bands are constant. Quarantined, not used for modeling.</td>
+</tr>
+</tbody>
+</table>
+<p class="small muted"><a href="data/source-register.json">Open this review's machine-readable source register →</a></p>
 
 <h2>Evidence layers used by the submission</h2>
 <table>

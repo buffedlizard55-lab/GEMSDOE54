@@ -22,7 +22,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SCRATCH = Path("/home/user/_scratch")
 
-# (alias, source path relative to SCRATCH, published public score or None)
+# (alias, source path relative to SCRATCH, owner-recorded unverified board value or None)
 SOURCES: list[tuple[str, str, float | None]] = [
     ("dotted_d2_8_02600", "GEMSDOE48/data/families/dotted_d2_8_02600.tif", 0.2600),
     ("dotted_b2_prune_02778", "GEMSDOE48/data/families/dotted_b2_prune_02778.tif", 0.2778),
@@ -63,22 +63,7 @@ def main() -> int:
     for alias, rel, score in SOURCES:
         src = SCRATCH / rel
         if not src.exists():
-            # The scratch tree is a pruning target and is not part of the
-            # repository.  A previously-collected raster under --out is just as
-            # good as its original source, so keep it rather than reporting the
-            # artefact as unavailable and dropping it from the manifest.
-            cached = out / f"{alias}.tif"
-            if cached.exists():
-                digest = sha256(cached)
-                seen.setdefault(digest, alias)
-                entries.append({
-                    "alias": alias, "source": rel, "status": "cached",
-                    "sha256": digest, "bytes": cached.stat().st_size,
-                    "published_public_score": score,
-                    "score_is_published_not_verified": score is not None,
-                })
-            else:
-                entries.append({"alias": alias, "source": rel, "status": "missing"})
+            entries.append({"alias": alias, "source": rel, "status": "missing"})
             continue
         digest = sha256(src)
         if digest in seen:
@@ -95,9 +80,7 @@ def main() -> int:
             "published_public_score": score,
             "score_is_published_not_verified": score is not None,
         })
-    n_cached = sum(1 for e in entries if e.get("status") == "cached")
     manifest = {
-        "n_cached": n_cached,
         "note": ("Registry of prior GEMSDOE artefacts used only for the parallel-run "
                  "lane-drift check. Published scores are the values quoted on the "
                  "sibling sites and on the public leaderboard; they are NOT organizer "
@@ -106,8 +89,7 @@ def main() -> int:
         "entries": entries,
     }
     Path(args.manifest).write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
-    print(f"collected {manifest['n_collected']} registry rasters "
-          f"({manifest['n_cached']} reused from {out.name}/) -> {out}")
+    print(f"collected {manifest['n_collected']} registry rasters -> {out}")
     return 0
 
 

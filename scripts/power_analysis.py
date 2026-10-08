@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Detection floor of the holdout: what DTI gap can it actually resolve?
+"""Exploratory sensitivity calculation on an SGMC-derived proxy, not a holdout floor.
+
+All paired-credit samples, variance estimates, and DTI values in this report are
+conditional on the circular proxy target below. They are not HOLDOUT-DTI, do not
+estimate the hidden-label detection floor, and must not be used to rank candidates.
 
 Framework
 ---------
@@ -13,14 +17,14 @@ Behavioral Sciences*, 1988) for a two-sided test at level alpha with power
 with z_{1-0.025} = 1.959964 and z_{1-0.20} = 0.841621, so z-sum = 2.801585 for
 alpha = 0.05 and power = 0.80.
 
-The right unit of analysis here is a *true fault cell*, and the right design is
-**paired**: two candidate rasters are scored on the same withheld set, so the
-per-cell credit difference `d_g = c_A(g) - c_B(g)` is the observation.  Then
+For this exploratory proxy diagnostic, the calculation pairs candidate credit over
+proxy-positive cells. This does not make those cells withheld expert labels or
+independent experimental units. The formulas below are conditional on this proxy and
+are not a compliant holdout design. Then
 
-    n_eff = number of withheld truth cells that lie within the 300 m kernel of at
-            least one prediction of either candidate ("informative" cells -
-            everything else is identical for both candidates and carries no
-            information about the difference)
+    n_eff = number of proxy-positive cells that lie within the 300 m kernel of at
+            least one prediction of either candidate ("informative" cells for this
+            proxy-only paired-credit calculation)
     sigma_d = SD of d_g over those cells   (measured, not assumed)
     D_min   = 2.801585 * sigma_d / sqrt(n_eff)          [in credit units]
     MDD_DTI = D_min * dDTI/dT                            [in DTI units]
@@ -34,7 +38,7 @@ Inverting gives the sample size needed to detect a given DTI gap:
 
     n_required = ( 2.801585 * sigma_d * dDTI/dT / dDTI )^2
 
-Run:  python scripts/power_analysis.py
+Run (proxy sensitivity only):  python scripts/power_analysis.py
 """
 
 from __future__ import annotations
@@ -88,12 +92,14 @@ def main() -> int:
     proxy = sg & (d_cat > 300.0)
 
     out: dict = {
+        "analysis_label": "PROXY-SENSITIVITY / MODEL — circular SGMC target; not HOLDOUT-DTI or a hidden-label detection floor",
+        "board_input_status": "Historical owner-recorded values, not submission-page receipts; not ORGANIZER-CONFIRMED",
         "z_sum_alpha05_power80": round(Z_SUM_80, 6),
         "z_sum_alpha05_power90": round(Z_SUM_90, 6),
         "proxy_truth_cells": int(proxy.sum()),
     }
 
-    # --- two real candidates that the leaderboard actually separates -----------
+    # --- prior candidate pairs, evaluated on the circular proxy only -------------
     a_path = ROOT / "registry/registry_rasters/dotted_d2_8_02600.tif"
     b_path = ROOT / "registry/registry_rasters/dotted_b2_prune_02778.tif"
     cand_path = ROOT / "docs/downloads/gems54-undercomplement-q200.tif"
@@ -113,18 +119,19 @@ def main() -> int:
         dti_q = dti_components(q, proxy.astype(np.float64)).dti
         return {
             "pair": [name],
-            "published_scores": {
+            "owner_recorded_board_observations": {
                 "a": p_lb, "b": q_lb,
                 "difference": (None if (p_lb is None or q_lb is None)
                                else round(abs(p_lb - q_lb), 6)),
-                "note": "None = this artefact has no published public score",
+                "label": "UNRECEIPTED OBSERVATIONS — not ORGANIZER-CONFIRMED",
+                "note": "None = no value is included in the historical record for this artefact",
             },
             "proxy_dti": {name.split(" vs ")[0]: round(dti_p, 6),
                           name.split(" vs ")[1]: round(dti_q, 6)},
-            "n_informative_truth_cells": n_eff,
+            "n_informative_proxy_cells": n_eff,
             "mean_paired_credit_difference": round(mean_d, 6),
             "sd_paired_credit_difference": round(sigma, 6),
-            "sigma_over_note": "measured from bytes, not assumed",
+            "sigma_over_note": "measured from raster bytes for the circular SGMC-derived proxy; not hidden-holdout variance",
         }
 
     pairs = {
@@ -143,23 +150,25 @@ def main() -> int:
 
     pair = pairs["near_identical_prune_variants"]
     sigma = pair["sd_paired_credit_difference"]
-    n_eff = pair["n_informative_truth_cells"]
+    n_eff = pair["n_informative_proxy_cells"]
 
-    # --- detection floor at the leaderboard operating point -------------------
+    # --- conditional proxy sensitivity at an unreceipted MODEL operating point ---
     operating = {
-        "name": "public leaderboard 0.2778 cluster",
+        "label": "MODEL point from an owner-recorded, unreceipted board observation; not ORGANIZER-CONFIRMED",
+        "name": "proxy-analysis operating point",
         "dti": 0.2778,
         "T_credit": 4841.0,
         "N_dots": 37654,
         "M": 2169.0,
         "G_true": 11583.0,
         "provenance": ("T, M, G are a MODEL: G = 11,583 is the two-point inversion of the "
-                       "0.2600 and 0.2778 leaderboard rows under the exact metric algebra, "
+                       "0.2600 and 0.2778 owner-recorded, unreceipted board observations under the exact metric algebra, "
                        "and it independently reproduces the corpus's own 12,226 estimate. "
                        "The value is an estimate, never an organizer-confirmed truth."),
     }
     s = operating["dti"]
     T = operating["T_credit"]
+    out["detection_floor_label"] = "PROXY-SENSITIVITY / MODEL only; actual hidden-label MDE is not computed"
     d_dti_dT = s * (1.0 - 0.2 * s) / T
     out["operating_point"] = operating
     out["dDTI_dT_at_operating_point"] = d_dti_dT
@@ -173,17 +182,17 @@ def main() -> int:
         n_req90 = (dT / (Z_SUM_90 * sigma)) ** 2
         out.setdefault("detection_floor", {})[f"dti_gap_{target:.4f}"] = {
             "credit_gap_T": round(dT, 3),
-            "n_truth_cells_required_power80": int(np.ceil(n_req80)),
-            "n_truth_cells_required_power90": int(np.ceil(n_req90)),
-            "available_informative_cells": n_eff,
-            "detectable_with_available_cells": bool(n_req80 <= n_eff),
+            "n_proxy_cells_required_power80": int(np.ceil(n_req80)),
+            "n_proxy_cells_required_power90": int(np.ceil(n_req90)),
+            "available_informative_proxy_cells": n_eff,
+            "detectable_with_available_proxy_cells": bool(n_req80 <= n_eff),
         }
 
     # minimum detectable DTI gap at the cells we actually have
     dT_min80 = Z_SUM_80 * sigma * np.sqrt(n_eff)
     dT_min90 = Z_SUM_90 * sigma * np.sqrt(n_eff)
     out["minimum_detectable"] = {
-        "n_informative_cells_used": n_eff,
+        "n_informative_proxy_cells_used": n_eff,
         "credit_gap_min_power80": round(dT_min80, 3),
         "credit_gap_min_power90": round(dT_min90, 3),
         "dti_mdd_power80": round(dT_min80 * d_dti_dT, 6),
@@ -203,7 +212,7 @@ def main() -> int:
             "fp_w": round(comp.fp_w, 4),
             "fn_w": round(comp.fn_w, 4),
             "n_dots": int((c > 0).sum()),
-            "n_truth_cells_reached": int((cc > 0).sum()),
+            "n_proxy_cells_reached": int((cc > 0).sum()),
             "circularity": ("The candidate's only evidence layer is the same USGS SGMC "
                             "raster the proxy is built from, so this number is a "
                             "self-consistency check, not validation."),

@@ -11,22 +11,21 @@
 **SHA-256:** `b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8`
 **Bytes:** 94,282 · **Positive cells:** 15,907
 
-**Is it OK to download and submit this file? — Yes, to upload. No, not blindly.**
+**Download status:** yes — this existing file is format-valid and registry-distinct according to its prior run receipt. **Upload selection:** not made by this review. It has no trustworthy HOLDOUT-DTI or organizer receipt; treat it only as an unvalidated experiment.
 
 | Gate | Status | Evidence |
 |---|---|---|
 | Format is portal-legal (float32, 1 band, EPSG:32611, 3730×3292, all values finite and in [0, 1]) | ✅ **PASS** (9/9 checks) | [`evidence/gems54-undercomplement-q200.validation.json`](evidence/gems54-undercomplement-q200.validation.json) |
 | Distinct from every prior artefact in the registry (lane check) | ✅ **PASS** (max \|ρ\| = 0.004 vs a 0.90 limit) | same file, `lane` block |
-| Beats the current best public score on a validated holdout | ❌ **NOT ESTABLISHED** | see *Detection floor*, below |
+| Beats a baseline on a compliant hidden-label holdout | ❌ **NOT ESTABLISHED** | No HOLDOUT-DTI or paired CI; see *Proxy sensitivity*, below |
 
-It is **format-safe and unique, but it is an unvalidated experiment.** A parallel
-run may upload it into a weekly slot; it must not be presented as a win. Its
-expected score is a *falsifiable prediction*, not a measurement:
+It is **format-valid and registry-distinct per its prior local receipts, but performance is unvalidated.** This review does not approve or select a weekly slot; promotion is a separate selector decision. The old run card contains a **MODEL projection**, not a measurement, against an owner-recorded and unreceipted board value:
 
-> The artefact exceeds the 0.2778 public score **if and only if at least ≈12 % of
-> its 15,907 dots lie within the 300 m metric kernel of a hidden expert fault
-> cell.** The current best-performing public artefact family achieves ≈13 % on
-> the same definition. This is the entire bet, stated so it can be checked.
+> Conditional on the unverified 0.2778 board observation, the model projected that
+> the artefact might exceed it if at least ≈12 % of its 15,907 dots fall within
+> the 300 m metric kernel of a hidden expert fault cell. The old card's ≈13 %
+> comparison is also a model inference based on unreceipted records. Neither value
+> is HOLDOUT-DTI or ORGANIZER-CONFIRMED; this audit does not validate the prediction.
 
 **A short note to paste into the submission form's "Note" field** (105 characters,
 under the portal's limit):
@@ -41,9 +40,17 @@ GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, 
 undercomplement-q200 — state-map fault complement, catalogue-excluded, 200 m dots
 ```
 
-Every number in this repository carries an explicit evidence label:
-**HOLDOUT-DTI**, **ORGANIZER-CONFIRMED**, **PROXY-DTI (screening only)** or
-**MODEL**. A projection is never written as a score.
+Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** with a copied submission-page receipt. Proxy values are **PROXY-DTI (screening only)** and projections are **MODEL**, never scores. This audit pass produced neither a valid holdout score nor an organizer receipt.
+
+---
+
+## Current audit-only review (2026-10-08)
+
+This PR is an audit/documentation lane only. It did not emit another TIFF, run a compliant hide-and-recover experiment, or choose a weekly slot. The existing `gems54-undercomplement-q200.tif` and its experiment card came from a previously merged run; the artifact is format-valid and registry-distinct according to that run's receipts, but the SGMC-derived proxy is circular for its evidence layer, so there is no trustworthy `HOLDOUT-DTI` and no performance validation. Do not report it as a win or treat this review as a slot selection.
+
+The public owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eba791dc363305d4a3` was reassembled outside this checkout. All five feature shards and all three reconstructed TIFFs match the bridge manifest and committed runner-generated inventory; the feature cube is structurally varied. This proves byte integrity against owner-maintained pins, not organizer origin. No authenticated DrivenData download occurred. See [`docs/audit/pinned-template-cache-audit.json`](docs/audit/pinned-template-cache-audit.json).
+
+A code review found that the shared `src/gemsdoe54/holdout.py::segment_blocks` helper documented a buffer but ignored `buffer_px`; this PR fixes that bug and adds a synthetic regression test. The helper is not a full end-to-end evaluator, and the inspected public root template's workflow uses spatial blocks. No compliant `HOLDOUT-DTI`, power floor, or paired CI was produced. This is not a private fork; the fix is proposed to the shared repository through this branch and PR.
 
 ---
 
@@ -234,15 +241,17 @@ starts from the same base.
 > Make suggestions for what work still needs to be done and any limitations that is in
 > the way of a successful project.
 
+**Evidence note:** this verbatim historical prompt includes user-supplied leaderboard values and status claims. Those remain claims unless backed by the corresponding organizer receipt; the current audit does not present them as verified scores.
+
 ---
 
 ## 2. Honest status in one screen
 
 | Item | Status |
 |---|---|
-| A unique, format-legal, downloadable submission TIF | ✅ **done** — one click, section 0 above |
+| A pre-existing format-legal, downloadable TIF from the earlier H54-A run | ✅ **available** — one click, section 0 above; not generated or selected by this audit |
 | Official metric re-implemented and regression-tested | ✅ `scripts/gems_metric.py`, reproduces the organizer's published worked example |
-| Holdout detection floor computed (Cohen power analysis) | ✅ `evidence/power_analysis.json` |
+| Proxy-based sensitivity estimate computed | ⚠️ `evidence/power_analysis.json` — circular SGMC proxy; **not a compliant HOLDOUT-DTI** |
 | 3–5 ranked hypotheses | ✅ [`docs/hypotheses.html`](docs/hypotheses.html) |
 | Executive summary subpage + how-to-submit | ✅ [`docs/index.html`](docs/index.html), [`docs/index.html#submit`](docs/index.html) |
 | Official sources with links | ✅ [`registry/sources.json`](registry/sources.json) |
@@ -252,72 +261,55 @@ starts from the same base.
 
 ## 3. What this repository actually found
 
-Three results, in order of importance. All three are **verifiable from bytes in
-this repository**, not asserted.
+Three findings from the prior H54-A run, in order of importance. Raster-derived
+proxy quantities and algebra can be recomputed from repository bytes; leaderboard
+values are only owner-recorded observations without submission-page receipts, and
+all proxy/score comparisons below are exploratory rather than validated performance.
 
-### 3.1 The project's holdout could not rank submissions — an unflagged irregularity
+### 3.1 The prior SGMC proxy did not rank owner-recorded board values
 
-The sibling repositories promote candidates on a holdout whose truth is *USGS SGMC
-mapped faults more than 300 m from the competition catalogue*. Six artefacts have
-**both** downloadable bytes **and** a published public-leaderboard score, so the
-holdout can be checked against the leaderboard directly:
+A prior sibling-corpus analysis used an SGMC proxy: mapped faults more than 300 m
+from the competition catalogue. It is not the required whole-segment hide-and-recover
+holdout. The prior repository records six artefacts with downloadable bytes and
+leaderboard values, but this audit pass has no submission-page receipts; those values
+are **owner-recorded leaderboard observations**, not `ORGANIZER-CONFIRMED` scores.
 
-| artefact | proxy DTI | lift vs matched random | public score |
-|---|---:|---:|---:|
-| `r13-lattice-s5` | **0.2478** | 1.33× | 0.0904 |
-| `h60-officialstack-50k` | 0.1854 | **2.12×** | *(none published)* |
-| `tip_stepover_r30` | 0.0942 | 1.24× | 0.2632 |
-| `dotted_b2_prune` | 0.0940 | 1.31× | **0.2778** |
-| `dotted_d2_8` | 0.0927 | 1.17× | 0.2600 |
-| `Hedge-v2` | 0.0884 | **0.46×** | 0.1563 |
+| artefact | PROXY-DTI (circular screening) | owner-recorded board value (not receipt) |
+|---|---:|---:|
+| `r13-lattice-s5` | **0.2478** | 0.0904 |
+| `h60-officialstack-50k` | 0.1854 | *(none published)* |
+| `tip_stepover_r30` | 0.0942 | 0.2632 |
+| `dotted_b2_prune` | 0.0940 | **0.2778** |
+| `dotted_d2_8` | 0.0927 | 0.2600 |
+| `Hedge-v2` | 0.0884 | 0.1563 |
 
-**Spearman ρ(proxy, leaderboard) = −0.029, p = 0.957, n = 6.** The artefact the
-proxy likes best is the one the leaderboard likes least.
+**PROXY-ANALYSIS:** Spearman ρ(proxy, owner-recorded board values) = −0.029, p = 0.957, n = 6. The artefact ranked highest by this proxy is ranked lowest among those recorded board values. This is a caution about the proxy, not a verified competition ranking or a holdout result.
 
-*Lift* is each artefact's proxy DTI divided by a uniform-random dot field of the
-same dot count, so it removes the free advantage of raw mass. It sharpens the
-inversion instead of softening it: `Hedge-v2` scores **0.46×, i.e. worse than
-random dots** on the proxy, yet it scored **0.1563** on the real leaderboard —
-beating the lattice (0.0904) that the proxy puts first. A gate on which a real
-submission ranks below random is not a gate. Reproduce with
-`python3 scripts/run_holdout.py && python3 scripts/proxy_audit.py`.
-
-Re-calibrating the proxy's mass to the leaderboard-implied truth size does **not**
-repair the ordering (ρ = +0.14, p = 0.79; the lattice stays first at every mass
-from 12 k to 62 k truth cells). The mechanism is that the proxy's truth
-(61,664 cells) is ≈5.3 × the leaderboard-implied truth (≈11.6 k cells), so the
-proxy systematically over-rewards coverage and under-penalises mass.
+Re-calibrating the proxy's mass to a **MODEL-derived** truth-size estimate from those
+owner-recorded values does not repair the ordering (PROXY-ANALYSIS: ρ = +0.14,
+p = 0.79; the lattice stays first in the tested 12 k–62 k-cell sweep). The mechanism
+hypothesis is that the proxy's 61,664 truth cells are much more numerous than the
+model-implied ≈11.6 k cells, so this proxy may over-reward coverage and under-penalise
+mass. These are not organizer-confirmed labels or scores.
 
 *Consequence:* every "candidate beats incumbent on the local holdout" conclusion
 in the sibling corpus — including the "+0.00487 live-mirror gain in 4/4 folds"
 quoted on the GEMSDOE32 site — rests on a gate that has not been shown to order
 submissions. Full receipts: [`docs/evidence.html`](docs/evidence.html).
 
-### 3.2 The 0.0028 gap is far below the detection floor (the requested power analysis)
+### 3.2 Proxy sensitivity illustration — not a detection floor for hidden faults
 
-Cohen's framework, two-sided α = 0.05, power 0.80, z-sum = 2.801585. For a paired
-comparison on withheld truth cells, the minimum detectable total credit gap is
-`ΔT = z · σ_d · √n` and it converts to DTI through the exact metric algebra
-`dDTI/dT = s(1 − 0.2s)/T`.
+The prior paired-credit calculation uses an SGMC-derived proxy as its truth. The candidate's evidence layer is also SGMC, and its feature-alone canary flags circularity. These calculations therefore do **not** satisfy the required whole-segment hide-and-recover design and cannot be interpreted as `HOLDOUT-DTI` or as power for the hidden expert labels.
 
-`σ_d` (the SD of the per-cell paired credit difference) is **measured from bytes**,
-and it turns out to be the whole story — it depends on how different the two
-candidates are:
+Conditional on that proxy only, the exploratory analysis used Cohen's framework (two-sided α = 0.05, nominal power 0.80) and measured paired-credit variation from raster bytes. The following are **PROXY-SENSITIVITY / MODEL** diagnostics; they are retained for auditability, not promotion:
 
-| comparison | n (informative truth cells) | σ_d | floor, power 0.80 |
+| comparison | n_eff (proxy truth cells) | σ_d (proxy paired credit) | conditional proxy MDE |
 |---|---:|---:|---:|
-| near-identical prune variants (`d2.8` vs `b2`) | 12,429 | 0.034 | **0.00057 DTI** |
-| lattice vs dotted (distinct architectures) | 61,622 | 0.310 | **0.0117 DTI** |
-| candidate vs lattice (distinct architectures) | 61,644 | 0.467 | **0.0176 DTI** |
+| near-identical prune variants (`d2.8` vs `b2`) | 12,429 | 0.034 | 0.00057 DTI |
+| lattice vs dotted (distinct architectures) | 61,622 | 0.310 | 0.0117 DTI |
+| candidate vs lattice (distinct architectures) | 61,644 | 0.467 | 0.0176 DTI |
 
-**Answer to the brief's question.** To resolve a 0.0028 DTI gap at
-distinct-architecture noise you would need **296,457** informative withheld truth
-cells at that σ_d; the holdout supplies **12,429** — short by a factor of 24.
-Against a holdout of this size, **0.0028, 0.0050, 0.0100 and 0.0200 are all
-indistinguishable from noise for the architecture comparisons the project ran**.
-It is only "detectable" in the special case of near-identical inputs, which is
-precisely the comparison whose ranking the holdout gets wrong. So: **0.0028 is
-noise being read as a ranking.** Receipts: [`docs/evidence.html`](docs/evidence.html).
+These estimates illustrate how much power depends on the comparison and its variance, but the proxy's circularity and poor agreement with owner-recorded leaderboard order invalidate it as the requested holdout. **This repository has no valid minimum-detectable DTI floor for the hidden-label task.** The example gap `0.0028` is therefore **NOT CLASSIFIABLE** as signal or noise here; no conclusion is inferred from the proxy table. See the negative audit run card and [`docs/evidence.html`](docs/evidence.html) for the prior exploratory receipt.
 
 ### 3.3 What therefore drives the score — the exact algebra
 
@@ -330,36 +322,13 @@ DTI = T / ( 0.2·N + 0.8·G + 0.2·(T − M) )
 
 where `N` = predicted positive cells, `G` = true cells, `T` = weighted credit,
 `M = Σ_x max_g k(d(x,g))`, because `FP_w = N − M` and `FN_w = G − T` exactly. The
-leaderboard-verified reading of this, from two rows on the same dotted family
-(0.2600 at 44,090 dots → 0.2778 at 37,654 dots, i.e. **−17 % mass bought +0.0178**),
-is that **mass is taxed and credit is the binding constraint**. Inverting those two
-rows gives the leaderboard-implied hidden truth mass **G ≈ 11,583 cells**, which
-independently reproduces the sibling corpus's own 12,226 estimate.
+exploratory **MODEL reading** from two owner-recorded board observations on the same
+dotted family (0.2600 at 44,090 dots and 0.2778 at 37,654 dots) is that mass is taxed
+and credit may be binding. Inverting those two unreceipted rows gives a model-implied
+hidden truth mass of ≈11,583 cells. This is an algebraic sensitivity analysis, not an
+`ORGANIZER-CONFIRMED` result or a verified hidden-label count.
 
 ---
-
-### 3.4 Local-only working data (not in Git)
-
-The development sandbox carried a 3.6 GB tree of cloned sibling repositories under
-`/home/user/_scratch`. It is **deleted**, because it blew past the workspace
-snapshot budget and none of it is needed to reproduce this repository: the two
-inputs the builder reads are hash-pinned in `data/` and the eleven registry
-rasters are cached in `registry/registry_rasters/`.
-
-What was kept, in `/home/user/_keep` (3.9 MB, outside Git):
-
-| file | what it is | why kept |
-|---|---|---|
-| `proxy_catalogue_sgmc.tif` | the corpus's proxy truth: SGMC classes 1 (20,491) and 2 (61,664) | the only truth set available without organizer credentials; class 2 defines the holdout |
-| `gdr_wellspring_in_footprint.csv` | 27,093 GDR-mapped springs and wells | evidence layer for hypothesis H54-B |
-| `prior_positive_union.npz`, `prior_artifact_signatures.npz` | corpus-wide dot unions and signatures | uniqueness cross-checks |
-| `sibling-audit.json`, `uniqueness-audit.json`, `h61_prior_corpus_receipt.json` | the corpus's own audit records | source of the published-score column above |
-| `gemsdoe30_external_receipt.json` | the hash-pinning receipt | provenance for `data/` |
-| `evidence/*.json` | the corpus's holdout and calibration records | the raw material for the negative results |
-
-`scripts/collect_registry.py` now reuses an already-collected raster when its
-original source has been pruned, so the pipeline runs unchanged with the scratch
-tree absent.
 
 ## 4. Repository layout
 
@@ -373,7 +342,7 @@ docs/
   downloads/
     gems54-undercomplement-q200.tif   ← THE SUBMISSION FILE
 data/
-  grid/labels.tif             ← organizer label raster (sha256 7ba308cc…)
+  grid/labels.tif             ← owner-mirrored label raster; origin not authenticated (sha256 7ba308cc…)
   external/derived_sgmc_faults_100m_u8.tif
   external/GEMSDOE30_external_receipt.json
   grid/MIRROR_sample_submission_template.tif   ← see Irregularity #2
@@ -383,8 +352,9 @@ scripts/
   build_submission.py         ← builds the artefact
   validate_submission.py      ← format + range + lane gates
   collect_registry.py         ← assembles the parallel-run registry
-  power_analysis.py           ← Cohen detection floor from measured σ_d
-  run_all.sh                  ← reproduce everything end to end
+  power_analysis.py           ← PROXY-SENSITIVITY illustration only; not hidden-label power
+  analyse_holdout_receipt.py  ← strict analysis of a future compliant frozen receipt
+  run_all.sh                  ← legacy reproduction pipeline; it rebuilds the prior H54-A artifact
 registry/
   sources.json                ← every source, licence, and verification status
   registry_rasters/ + manifest.json   ← prior artefacts for the lane check
@@ -394,7 +364,7 @@ evidence/                     ← machine-readable receipts
 tests/                        ← metric + emission regressions
 ```
 
-## 5. Reproduce in one command
+## 5. Reproduce the historical H54-A run (legacy pipeline)
 
 ```bash
 bash scripts/run_all.sh

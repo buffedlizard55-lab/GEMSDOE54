@@ -1,16 +1,13 @@
 #!/usr/bin/env python3
-"""Does the proxy holdout actually rank submissions?  Test it against the leaderboard.
+"""Exploratory comparison of an SGMC-derived proxy with owner-recorded board values.
 
-The corpus's promotion decisions rest on a proxy holdout: USGS SGMC faults more
-than 300 m from the competition catalogue.  A holdout is only usable as a gate if
-it orders artefacts the way the real scored leaderboard orders them.  This script
-tests exactly that, on every artefact that has BOTH downloadable bytes and a
-published public score, and reports the inversion.
+The proxy target is USGS SGMC mapped faults more than 300 m from the competition
+catalogue. It is not a whole-segment holdout and is not a valid performance gate.
+This script compares prior proxy calculations with historical, owner-recorded board
+observations; there are no submission-page receipts, so the board values are not
+ORGANIZER-CONFIRMED. The result is exploratory and cannot validate a candidate.
 
-It also attaches a mass control.  A raw proxy DTI rewards any candidate that
-sprays dots over the study area, because 200 k dots cover a lot of a small truth
-set.  ``lift`` divides each candidate's proxy DTI by a matched-count uniform
-random field scored the same way, which removes that trivial advantage.
+A matched-count random field is retained as a proxy-sensitivity control only.
 """
 
 from __future__ import annotations
@@ -47,7 +44,7 @@ def main() -> int:
             "n_dots": r["n_dots"],
             "proxy_dti": r["proxy_dti"],
             "lift_vs_matched_random": r["lift_vs_matched_random"],
-            "leaderboard_public_score": lb,
+            "owner_recorded_board_value_unreceipted": lb,
         })
 
     if len(rows) < 4:
@@ -55,57 +52,57 @@ def main() -> int:
 
     proxy = [r["proxy_dti"] for r in rows]
     lift = [r["lift_vs_matched_random"] for r in rows]
-    lb = [r["leaderboard_public_score"] for r in rows]
+    lb = [r["owner_recorded_board_value_unreceipted"] for r in rows]
 
     rho, p = spearmanr(proxy, lb)
     rho_lift, p_lift = spearmanr(lift, lb)
 
     best_proxy = max(rows, key=lambda r: r["proxy_dti"])
-    best_lb = max(rows, key=lambda r: r["leaderboard_public_score"])
-    worst_lb = min(rows, key=lambda r: r["leaderboard_public_score"])
+    best_lb = max(rows, key=lambda r: r["owner_recorded_board_value_unreceipted"])
+    worst_lb = min(rows, key=lambda r: r["owner_recorded_board_value_unreceipted"])
 
     out = {
-        "question": "Does the proxy holdout rank submissions the way the real leaderboard does?",
+        "analysis_label": "PROXY-ANALYSIS / exploratory; not HOLDOUT-DTI or ORGANIZER-CONFIRMED",
+        "board_value_status": "Historical owner-recorded values without submission-page receipts",
+        "question": "Does the SGMC-derived proxy order candidates like the historical owner-recorded board observations?",
         "answer": "No. The ordering is inverted at both ends.",
         "n_paired_artefacts": len(rows),
-        "spearman_proxy_dti_vs_leaderboard": {
+        "spearman_proxy_dti_vs_owner_recorded_board_values": {
             "rho": round(float(rho), 4), "p_value": round(float(p), 4),
         },
-        "spearman_lift_vs_leaderboard": {
+        "spearman_lift_vs_owner_recorded_board_values": {
             "rho": round(float(rho_lift), 4), "p_value": round(float(p_lift), 4),
         },
         "inversion": {
             "proxy_ranks_first": best_proxy["candidate"],
-            "proxy_ranks_first_leaderboard_score": best_proxy["leaderboard_public_score"],
-            "leaderboard_ranks_first": best_lb["candidate"],
-            "leaderboard_first_score": best_lb["leaderboard_public_score"],
-            "leaderboard_ranks_last": worst_lb["candidate"],
-            "leaderboard_last_score": worst_lb["leaderboard_public_score"],
-            "proxy_score_of_leaderboard_last": worst_lb["proxy_dti"],
+            "proxy_ranks_first_owner_recorded_board_value": best_proxy["owner_recorded_board_value_unreceipted"],
+            "owner_recorded_board_ranks_first": best_lb["candidate"],
+            "owner_recorded_board_value_first": best_lb["owner_recorded_board_value_unreceipted"],
+            "owner_recorded_board_ranks_last": worst_lb["candidate"],
+            "owner_recorded_board_value_last": worst_lb["owner_recorded_board_value_unreceipted"],
+            "proxy_dti_of_owner_recorded_board_last": worst_lb["proxy_dti"],
         },
         "rows": rows,
         "conclusion": (
-            "The artefact the proxy scores highest is the one the leaderboard scores "
-            "lowest, and an artefact that the proxy scores WORSE THAN MATCHED RANDOM "
-            "scored 0.1563 on the real leaderboard. The proxy is therefore usable for "
-            "one narrow purpose only: confirming that a candidate's dots land on real "
-            "mapped faults. It must never be used to choose between candidates, and no "
-            "number derived from it may be quoted as an expected competition score."
+            "This exploratory six-row comparison does not validate candidate performance. The board "
+            "inputs are unreceipted owner-recorded observations. The SGMC proxy can describe "
+            "agreement with the SGMC layer only; it cannot confirm hidden faults or predict "
+            "competition performance. Do not use it to choose candidates or quote a score."
         ),
     }
     path = ROOT / "evidence/proxy_audit.json"
     path.write_text(json.dumps(out, indent=2) + "\n", encoding="utf-8")
 
     print(f"paired artefacts: {len(rows)}")
-    print(f"Spearman(proxy DTI, leaderboard)  rho = {rho:+.3f}  p = {p:.3f}")
-    print(f"Spearman(lift,      leaderboard)  rho = {rho_lift:+.3f}  p = {p_lift:.3f}")
+    print(f"PROXY-ANALYSIS Spearman(proxy DTI, owner-recorded board) rho = {rho:+.3f} p = {p:.3f}")
+    print(f"PROXY-ANALYSIS Spearman(lift, owner-recorded board) rho = {rho_lift:+.3f} p = {p_lift:.3f}")
     print()
     print(f"  proxy ranks FIRST : {best_proxy['candidate']} "
-          f"(proxy {best_proxy['proxy_dti']:.4f} -> leaderboard {best_proxy['leaderboard_public_score']})")
-    print(f"  leaderboard FIRST : {best_lb['candidate']} "
-          f"(leaderboard {best_lb['leaderboard_public_score']} -> proxy {best_lb['proxy_dti']:.4f})")
-    print(f"  leaderboard LAST  : {worst_lb['candidate']} "
-          f"(leaderboard {worst_lb['leaderboard_public_score']} -> proxy {worst_lb['proxy_dti']:.4f}, "
+          f"(PROXY-DTI {best_proxy['proxy_dti']:.4f} -> owner-recorded board {best_proxy['owner_recorded_board_value_unreceipted']})")
+    print(f"  owner-recorded board FIRST : {best_lb['candidate']} "
+          f"(board observation {best_lb['owner_recorded_board_value_unreceipted']} -> PROXY-DTI {best_lb['proxy_dti']:.4f})")
+    print(f"  owner-recorded board LAST  : {worst_lb['candidate']} "
+          f"(board observation {worst_lb['owner_recorded_board_value_unreceipted']} -> PROXY-DTI {worst_lb['proxy_dti']:.4f}, "
           f"lift {worst_lb['lift_vs_matched_random']}x)")
     print(f"\nwrote {path}")
     return 0

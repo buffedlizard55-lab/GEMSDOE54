@@ -1,17 +1,13 @@
 {
-  "truth": "USGS SGMC faults > 300 m from the competition catalogue",
-  "truth_cells": 61664,
   "metric": {
     "alpha": 0.2,
     "beta": 0.8,
     "kernel_m": 300,
     "kernel_px": 3
   },
-  "label": "SCREENING ONLY - this holdout does not rank submissions",
-  "spearman_proxy_vs_leaderboard": -0.029,
   "spearman_p_value": 0.957,
   "leakage_cut": 0.9,
-  "warning": "Candidates marked circular_for_this_truth are scored against the layer they were built from. Their numbers are self-consistency checks. No candidate here has a validated holdout score, and none of these numbers may be quoted as an expected competition score.",
+  "warning": "Rows describe agreement with an SGMC-derived proxy, not hidden expert labels. The candidate built from SGMC is circular for this proxy. Historical board comparison is based on unreceipted owner-recorded values. No compliant holdout score, confidence interval, or performance claim is produced.",
   "results": [
     {
       "candidate": "GEMSDOE54 artefact (this repository)",
@@ -21,10 +17,10 @@
       "fp_w": 61.138,
       "fn_w": 31165.984,
       "credit_per_dot": 1.91727,
-      "matched_random_control_dti": 0.033753,
       "lift_vs_matched_random": 16.297,
-      "informative_truth_cells": 39665,
-      "shift_null": {
+      "informative_proxy_cells": 39665,
+      "matched_random_control_proxy_dti": 0.033753,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.009662,
@@ -32,7 +28,7 @@
         "min": 0.005466,
         "max": 0.016568
       },
-      "circular_for_this_truth": true
+      "circular_for_proxy_target": true
     },
     {
       "candidate": "dotted_b2_prune_02778",
@@ -42,10 +38,10 @@
       "fp_w": 35270.918,
       "fn_w": 56265.384,
       "credit_per_dot": 0.143374,
-      "matched_random_control_dti": 0.071625,
       "lift_vs_matched_random": 1.312,
-      "informative_truth_cells": 13328,
-      "shift_null": {
+      "informative_proxy_cells": 13328,
+      "matched_random_control_proxy_dti": 0.071625,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.024749,
@@ -53,7 +49,7 @@
         "min": 0.013859,
         "max": 0.035268
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "dotted_d2_8_02600",
@@ -63,10 +59,10 @@
       "fp_w": 41645.186,
       "fn_w": 56216.312,
       "credit_per_dot": 0.123558,
-      "matched_random_control_dti": 0.079466,
       "lift_vs_matched_random": 1.167,
-      "informative_truth_cells": 13574,
-      "shift_null": {
+      "informative_proxy_cells": 13574,
+      "matched_random_control_proxy_dti": 0.079466,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.027751,
@@ -74,7 +70,7 @@
         "min": 0.01563,
         "max": 0.038837
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "dotted_d2_8_02708",
@@ -84,10 +80,10 @@
       "fp_w": 37767.283,
       "fn_w": 56224.05,
       "credit_per_dot": 0.135325,
-      "matched_random_control_dti": 0.075292,
       "lift_vs_matched_random": 1.246,
-      "informative_truth_cells": 13491,
-      "shift_null": {
+      "informative_proxy_cells": 13491,
+      "matched_random_control_proxy_dti": 0.075292,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.026122,
@@ -95,7 +91,7 @@
         "min": 0.014556,
         "max": 0.037125
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "h52_coincidence8_80k",
@@ -105,10 +101,10 @@
       "fp_w": 75210.184,
       "fn_w": 51709.394,
       "credit_per_dot": 0.124433,
-      "matched_random_control_dti": 0.120875,
       "lift_vs_matched_random": 1.241,
-      "informative_truth_cells": 21176,
-      "shift_null": {
+      "informative_proxy_cells": 21176,
+      "matched_random_control_proxy_dti": 0.120875,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.040612,
@@ -116,7 +112,7 @@
         "min": 0.027324,
         "max": 0.051013
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "h60_officialstack_50k",
@@ -126,10 +122,10 @@
       "fp_w": 45537.577,
       "fn_w": 50415.137,
       "credit_per_dot": 0.224977,
-      "matched_random_control_dti": 0.087455,
       "lift_vs_matched_random": 2.119,
-      "informative_truth_cells": 27406,
-      "shift_null": {
+      "informative_proxy_cells": 27406,
+      "matched_random_control_proxy_dti": 0.087455,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.024009,
@@ -137,7 +133,7 @@
         "min": 0.011423,
         "max": 0.038688
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "h60_union_d2_75308",
@@ -147,10 +143,10 @@
       "fp_w": 73188.428,
       "fn_w": 56183.608,
       "credit_per_dot": 0.072773,
-      "matched_random_control_dti": 0.118216,
       "lift_vs_matched_random": 0.713,
-      "informative_truth_cells": 17592,
-      "shift_null": {
+      "informative_proxy_cells": 17592,
+      "matched_random_control_proxy_dti": 0.118216,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.038525,
@@ -158,7 +154,7 @@
         "min": 0.024659,
         "max": 0.0576
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "hedge_v2_01563",
@@ -168,10 +164,10 @@
       "fp_w": 218994.741,
       "fn_w": 53285.88,
       "credit_per_dot": 0.036826,
-      "matched_random_control_dti": 0.191693,
       "lift_vs_matched_random": 0.461,
-      "informative_truth_cells": 17576,
-      "shift_null": {
+      "informative_proxy_cells": 17576,
+      "matched_random_control_proxy_dti": 0.191693,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.036411,
@@ -179,7 +175,7 @@
         "min": 0.01553,
         "max": 0.061206
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "r11_greedy_mp",
@@ -189,10 +185,10 @@
       "fp_w": 261839.993,
       "fn_w": 38024.884,
       "credit_per_dot": 0.086637,
-      "matched_random_control_dti": 0.198655,
       "lift_vs_matched_random": 1.118,
-      "informative_truth_cells": 55531,
-      "shift_null": {
+      "informative_proxy_cells": 55531,
+      "matched_random_control_proxy_dti": 0.198655,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.072046,
@@ -200,7 +196,7 @@
         "min": 0.039128,
         "max": 0.108458
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "r13_lattice_s5_00904",
@@ -210,10 +206,10 @@
       "fp_w": 198660.797,
       "fn_w": 38444.816,
       "credit_per_dot": 0.112227,
-      "matched_random_control_dti": 0.186814,
       "lift_vs_matched_random": 1.326,
-      "informative_truth_cells": 61618,
-      "shift_null": {
+      "informative_proxy_cells": 61618,
+      "matched_random_control_proxy_dti": 0.186814,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.095006,
@@ -221,7 +217,7 @@
         "min": 0.057017,
         "max": 0.132325
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "r14_union_tips10_lat6",
@@ -231,10 +227,10 @@
       "fp_w": 184618.938,
       "fn_w": 44624.524,
       "credit_per_dot": 0.088641,
-      "matched_random_control_dti": 0.181512,
       "lift_vs_matched_random": 1.047,
-      "informative_truth_cells": 47184,
-      "shift_null": {
+      "informative_proxy_cells": 47184,
+      "matched_random_control_proxy_dti": 0.181512,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.073423,
@@ -242,7 +238,7 @@
         "min": 0.043565,
         "max": 0.102081
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     },
     {
       "candidate": "tip_stepover_r30_02632",
@@ -252,10 +248,10 @@
       "fp_w": 39412.163,
       "fn_w": 56170.229,
       "credit_per_dot": 0.131226,
-      "matched_random_control_dti": 0.075737,
       "lift_vs_matched_random": 1.244,
-      "informative_truth_cells": 13657,
-      "shift_null": {
+      "informative_proxy_cells": 13657,
+      "matched_random_control_proxy_dti": 0.075737,
+      "proxy_shift_sensitivity": {
         "n_shifts": 5,
         "shift_px": 550,
         "mean": 0.026835,
@@ -263,7 +259,12 @@
         "min": 0.014999,
         "max": 0.038051
       },
-      "circular_for_this_truth": false
+      "circular_for_proxy_target": false
     }
-  ]
+  ],
+  "analysis_label": "PROXY-DTI SCREENING ONLY \u2014 not HOLDOUT-DTI or a hidden-label score",
+  "proxy_target_description": "USGS SGMC faults > 300 m from the competition catalogue",
+  "proxy_target_cells": 61664,
+  "board_comparison_status": "Historical owner-recorded observations only; no submission-page receipts; exploratory and not ORGANIZER-CONFIRMED",
+  "spearman_proxy_vs_owner_recorded_board_values": -0.029
 }

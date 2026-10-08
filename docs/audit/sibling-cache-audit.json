@@ -1,0 +1,58 @@
+{
+  "schema": "gemsdoe54.sibling-cache-review.v1",
+  "source": {
+    "repository": "https://github.com/buffedlizard55-lab/GEMSDOE52",
+    "commit": "24c2630a9dfd69e6cef52495d8e3066d7d37b9d4",
+    "role": "read-only prior-art/data-integrity review; not the current checkout and not an official organizer source"
+  },
+  "result": "REJECTED FOR MODELING OR SUBMISSION",
+  "grid_observed": {
+    "width": 3292,
+    "height": 3730,
+    "crs": "EPSG:32611",
+    "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0]
+  },
+  "manifest_vs_checked_in_bytes": {
+    "training_features.tif": {
+      "manifest_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+      "observed_sha256": "9c450a754ed9586972877ced6865e619d5c35c6905970184908bc3d0518435ea",
+      "manifest_bytes": 418912844,
+      "observed_bytes": 3357961,
+      "matches": false
+    },
+    "labels.tif": {
+      "manifest_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "observed_sha256": "488dcb3386dc45cab38ef07021e91b629cb621f6a484ca42d53f2c45cd96347e",
+      "manifest_bytes": 425830,
+      "observed_bytes": 152999,
+      "matches": false
+    },
+    "sample_submission.tif": {
+      "manifest_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "observed_sha256": "9d35c34ae2293f00e7a9185f67c2428cc94d9bdbeb8166be885da5e6f6270291",
+      "manifest_bytes": 1599597,
+      "observed_bytes": 97091,
+      "matches": false
+    }
+  },
+  "feature_cube_check": {
+    "band_count": 19,
+    "nonconstant_bands_inside_footprint": 0,
+    "observation": "All checked-in feature bands are constant over the valid footprint; band 6 is 0.5 and the others are 0.0.",
+    "interpretation": "No spatial geologic signal is available in these bytes."
+  },
+  "label_and_template_check": {
+    "valid_footprint_pixels": 5167373,
+    "positive_label_pixels": 60988,
+    "sample_submission_inside_footprint_values": [0.0]
+  },
+  "provenance": {
+    "manifest_statement": "The sibling repository itself says the pins are owner-supplied mirrors and are NOT organizer-authenticated.",
+    "organizer_authentication": false,
+    "used_for_candidate_generation": false
+  },
+  "manual_review_links": [
+    "https://github.com/buffedlizard55-lab/GEMSDOE52/blob/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4/registry/data_manifest.json",
+    "https://github.com/buffedlizard55-lab/GEMSDOE52/blob/24c2630a9dfd69e6cef52495d8e3066d7d37b9d4/README.md"
+  ]
+}

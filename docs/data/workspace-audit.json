@@ -1,0 +1,31 @@
+{
+  "available_input_paths": {
+    "features": [],
+    "known_non_sample_templates": [
+      "data/grid/MIRROR_sample_submission_template.tif"
+    ],
+    "labels": [
+      "data/grid/labels.tif"
+    ],
+    "sample_submission": []
+  },
+  "checks": {},
+  "data_dir": "data",
+  "decision": "No model, holdout, or submission build is authorized until this audit passes and provenance is reviewed.",
+  "feature_aliases_found": [],
+  "feature_path": null,
+  "generated_utc": "2026-10-08T21:28:42+00:00",
+  "inputs": {},
+  "missing_inputs": [
+    "training_features.tif or numeric_features.tif",
+    "sample_submission.tif (known label-mask mirror is not accepted as a sample)"
+  ],
+  "provenance": {
+    "organizer_authentication": "not established",
+    "status": "not_checked"
+  },
+  "ready_for_competition_submission": false,
+  "ready_for_holdout": false,
+  "schema": "gemsdoe54.workspace-audit.v1",
+  "status": "blocked_missing_inputs"
+}

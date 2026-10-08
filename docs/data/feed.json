@@ -1,0 +1,37 @@
+{
+  "candidate": {
+    "candidate_this_run": false,
+    "existing_repository_artifact": {
+      "holdout_validation": "NOT ESTABLISHED; its SGMC-derived proxy is circular",
+      "name": "gems54-undercomplement-q200",
+      "path": "docs/downloads/gems54-undercomplement-q200.tif",
+      "prior_format_validation": "PASS per its own receipt; not revalidated by this audit-only pass",
+      "provenance": "previously merged H54-A experiment; see registry/run_card.json",
+      "selection_by_this_run": false,
+      "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8"
+    },
+    "holdout_status": "NOT RUN \u2014 no complete compliant evaluator receipt; the existing H54-A proxy is circular and is not HOLDOUT-DTI",
+    "safe_to_upload": false,
+    "tif_downloadable": false,
+    "verdict": "negative"
+  },
+  "generated_utc": "2026-10-08T21:28:42+00:00",
+  "leaderboard": {
+    "score_claims_are_organizer_confirmed": false,
+    "status": "not_fetched"
+  },
+  "schema": "gemsdoe54.local-feed.v1",
+  "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",
+  "sources": {
+    "official_data_download_authenticated": false,
+    "registered": 19
+  },
+  "workspace": {
+    "missing_inputs": [
+      "training_features.tif or numeric_features.tif",
+      "sample_submission.tif (known label-mask mirror is not accepted as a sample)"
+    ],
+    "ready_for_holdout": false,
+    "status": "blocked_missing_inputs"
+  }
+}

@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Leakage canary: test each feature ALONE against the holdout truth.
+"""Circularity probe: score one feature at a time against the historical SGMC proxy.
 
-The parallel-run protocol requires this before any feature is trusted: a single
-feature whose held-out AUC exceeds 0.90 is leakage until proven otherwise.  Here it
-is used for a stronger purpose -- to demonstrate, rather than assert, that the
-corpus's SGMC-derived proxy is *circular* for this submission, because the
-submission's only evidence layer is the same raster the proxy's truth is built from.
+This is not a compliant holdout leakage canary. The proxy target and the candidate's
+SGMC feature share the same source raster, so the output demonstrates circularity of
+that proxy only; it is not evidence of predictive skill on hidden expert labels.
+The actual protocol still requires feature-alone AUC checks on each frozen,
+whole-segment hide-and-recover fold.
 
 Run:  python scripts/leakage_canary.py
 """
@@ -67,18 +67,18 @@ def main() -> int:
         aucs[name] = round(max(auc, 1.0 - auc), 6)
 
     out = {
+        "label": "PROXY-CANARY — circular SGMC-derived target; not HOLDOUT-DTI",
         "auc_cut": 0.90,
-        "holdout_truth": "SGMC mapped faults > 300 m from the competition catalogue",
-        "holdout_truth_cells": int(proxy.sum()),
-        "withheld_positives_used": int(pos.sum()),
+        "proxy_target_description": "SGMC mapped faults > 300 m from the competition catalogue",
+        "proxy_positive_cells": int(proxy.sum()),
+        "proxy_positive_samples_used": int(pos.sum()),
         "negatives_subsampled": int(neg.sum()),
         "auc_by_feature": aucs,
         "leakage_flags": flags,
         "interpretation": (
-            "The SGMC raster scores AUC ~ 1.0 against an SGMC-derived truth. That is the "
-            "definition of leakage, and it is why this submission's PROXY-DTI is reported "
-            "as a circular self-consistency check and never as a score. Any candidate whose "
-            "evidence layer feeds the holdout truth cannot be validated on that holdout."
+            "The SGMC raster scores AUC near 1.0 against a target constructed from the same SGMC raster. "
+            "This demonstrates circularity of the SGMC-derived proxy only. It is not a compliant feature-alone "
+            "test on a whole-segment holdout, is not evidence of hidden-label prediction skill, and is not a score."
         ),
     }
     path = ROOT / "evidence/leakage_canary.json"

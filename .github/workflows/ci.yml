@@ -1,0 +1,25 @@
+name: Verify
+
+on:
+  pull_request:
+  push:
+    branches: [main, 'arena/**']
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+      - run: python -m pip install -e '.[test]'
+      - run: python -m pytest
+      - name: Audit workspace and build local feed without failing when private inputs are absent
+        run: |
+          python scripts/audit_workspace.py --data-dir data --output docs/data/workspace-audit.json
+          python scripts/build_feed.py

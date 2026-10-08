@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOE54 — submit in one click | GEMS Prize</title>
-<meta name="description" content="One-click GeoTIFF submission for the DOE GEMS Prize, with the exact metric, a measured detection floor, and an auditable source table.">
+<meta name="description" content="Downloadable GeoTIFF with prior format checks, a proxy-sensitivity audit, and an auditable source table; no compliant holdout score is claimed.">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -16,7 +16,9 @@
       <a href="#submit">How to submit</a>
       <a href="hypotheses.html">Hypotheses</a>
       <a href="evidence.html">Evidence</a>
+      <a href="research.html">Research protocol</a>
       <a href="sources.html">Sources</a>
+      <a href="irregularities.html">Audit ledger</a>
     </nav>
   </div>
 </header>
@@ -27,7 +29,7 @@
 <h1>Executive summary</h1>
 <p class="muted">DOE / NLR <strong>Geologic Enhanced Mapping System (GEMS) Prize</strong> —
 distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
-Last verified 2026-10-08.</p>
+Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
 
 <div class="panel hero">
   <h2>⬇️ Download the submission — one click</h2>
@@ -52,15 +54,26 @@ Last verified 2026-10-08.</p>
   tell submissions apart is also in the README: <code>undercomplement-q200 — state-map fault complement, catalogue-excluded, 200 m dots</code>.</p>
 
   <div class="callout">
-    <p style="margin:0"><strong>Is it OK to download and submit this file?</strong><br>
-    <span class="tag ok">FORMAT: YES</span> &nbsp;<span class="tag ok">UNIQUE: YES</span> &nbsp;<span class="tag warn">PROVEN TO BEAT 0.2778: NO</span></p>
-    <p class="small" style="margin:8px 0 0">It is <em>portal-legal</em> and <em>unlike any prior artefact</em>, so uploading it is safe and
-    it will be scored. It is an <em>unvalidated experiment</em>, so it must not be presented as a win.
-    The bet is stated in one line so it can be checked: <strong>it beats 0.2778 if at least ≈12 % of its
-    15,907 dots land within the 300 m metric kernel of a hidden expert fault cell</strong> — the current
-    best public family achieves ≈13 % on that same definition.</p>
+    <p style="margin:0"><strong>Download and submission status:</strong><br>
+    <span class="tag ok">FORMAT: PASS</span> &nbsp;<span class="tag ok">REGISTRY LANE: PASS</span> &nbsp;<span class="tag no">HOLDOUT: NOT VALIDATED</span> &nbsp;<span class="tag warn">SLOT SELECTED HERE: NO</span></p>
+    <p class="small" style="margin:8px 0 0">This pre-existing artifact is downloadable and passed its prior local format/lane checks. Its only proxy is circular for the candidate's evidence layer, so it has no trustworthy HOLDOUT-DTI and must not be presented as a win. This review did not select or spend a weekly slot. The break-even statement above is a <em>MODEL projection</em>, not a score.</p>
   </div>
 </div>
+
+<div class="panel tight" id="audit-only-review">
+  <h2 style="margin-top:0">Current audit-only review</h2>
+  <p>The file above is from a previously merged H54-A experiment; this branch did not generate another TIFF or choose a submission slot. This review found a checksum-consistent owner-mirror feature bridge, but no authenticated portal download. It also found and fixes a bug in the shared whole-segment helper: its documented <code>buffer_px</code> parameter was ignored. The helper is not a full evaluator; the public root workflow remains spatial-block based, and no compliant HOLDOUT-DTI or confidence interval was produced.</p>
+  <p class="small muted" id="local-audit-status">Loading repository-local audit status…</p>
+  <p class="small"><a href="data/feed.json">Open this review's local status feed →</a> · <a href="data/run-card.json">audit-only run card</a> · <a href="audit/pinned-template-cache-audit.json">template bridge/tool audit</a> · <a href="irregularities.html">full audit ledger</a></p>
+</div>
+<script>
+  fetch('data/feed.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
+    .then(feed => {
+      const status = document.getElementById('local-audit-status');
+      status.textContent = 'Audit-only run: ' + feed.workspace.status + '; candidate verdict: ' + feed.candidate.verdict + '. Leaderboard: ' + feed.leaderboard.status + '.';
+    })
+    .catch(() => { document.getElementById('local-audit-status').textContent = 'Audit feed unavailable; this review remains negative.'; });
+</script>
 
 <h2>The problem, in four sentences</h2>
 <div class="panel tight">
@@ -70,9 +83,9 @@ positives), β&nbsp;=&nbsp;0.8 (false negatives) and a triangular 300&nbsp;m ker
 <strong>the ground truth is only the faults that are <em>missing</em> from the public catalogue</strong>,
 which geology experts at NLR and USGS identified by hand. Every cell you mark pays a small linear
 false-positive tax, while every truth cell you miss costs four times as much, so the achievable score
-is set by how precisely you can place a small number of confident predictions. Published best public
-score is <strong>0.3774</strong> (rank 1, xiaofanhu), and this repository's target baseline is the
-<strong>0.2778</strong> at rank 13.</p>
+is set by how precisely you can place a small number of confident predictions. A prior repository record
+lists 0.3774 and 0.2778 as board observations, but this audit pass has no submission-page receipts; they are
+not <span class="tag warn">ORGANIZER-CONFIRMED</span> scores and are not used to select a target or weekly slot.</p>
 </div>
 
 <!-- ================================ SUBMIT ================================= -->
@@ -100,8 +113,8 @@ score is <strong>0.3774</strong> (rank 1, xiaofanhu), and this repository's targ
   tell submissions apart later".</li>
 
   <li><strong>Click <em>Submit</em>.</strong> The portal re-checks CRS, shape, geotransform and the
-  value range. This file passes all four by construction — it is all-finite, single-band float32 on
-  EPSG:32611, so the <em>"Predicted values must be in range [0, 1]"</em> error cannot be raised by it.</li>
+  value range. The prior local validator receipt records all four format checks as passing for this file;
+  that does not establish portal acceptance, a competition score, or performance validity.</li>
 
   <li><strong>Record the receipt.</strong> If it scores, copy the number into
   <code>registry/submissions.json</code> as <span class="tag info">ORGANIZER-CONFIRMED</span>. Until then it stays
@@ -120,7 +133,7 @@ score is <strong>0.3774</strong> (rank 1, xiaofanhu), and this repository's targ
   <code>non_finite&nbsp;==&nbsp;0</code> before the file is allowed to be published.</p>
 </div>
 
-<h2>Verified status of this run</h2>
+<h2>Prior artifact's recorded build checks (not re-run in this audit pass)</h2>
 <table>
   <thead><tr><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
   <tbody>
@@ -128,7 +141,7 @@ score is <strong>0.3774</strong> (rank 1, xiaofanhu), and this repository's targ
     <tr><td>CRS, shape, geotransform, 100 m</td><td><span class="tag ok">PASS</span></td><td>validator checks 3–5</td></tr>
     <tr><td>All cells finite; values inside [0, 1]</td><td><span class="tag ok">PASS</span></td><td>validator checks 6–9; <code>non_finite=0</code>, range <code>[0.0, 1.0]</code></td></tr>
     <tr><td>Distinct from every registry artefact (lane check)</td><td><span class="tag ok">PASS</span></td><td>max |ρ| = 0.004 vs 0.90 limit; max admissible overlap 0.43 vs 0.70 limit</td></tr>
-    <tr><td>Beats the 0.2778 baseline on a validated holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>the only available holdout does not rank submissions (ρ = −0.03 vs the leaderboard); see <a href="evidence.html">Evidence</a></td></tr>
+    <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>No compliant evaluator, HOLDOUT-DTI, withheld-positive count, or 95% CI is available; the proxy is circular. See <a href="evidence.html">Evidence</a>.</td></tr>
   </tbody>
 </table>
 
@@ -153,11 +166,9 @@ score is <strong>0.3774</strong> (rank 1, xiaofanhu), and this repository's targ
 </div>
 
 <footer>
-  <p>Built and verified by an autonomous agent session on 2026-10-08. Every factual claim on this site
-  is traceable to a fetched page or to bytes in this repository — see
-  <a href="sources.html">Sources</a>. Numbers are labelled <span class="tag info">ORGANIZER-CONFIRMED</span>,
-  <span class="tag info">PROXY-DTI</span> or <span class="tag warn">MODEL</span>; a projection is never
-  presented as a score.</p>
+  <p>Audited in an autonomous agent session on 2026-10-08. See <a href="sources.html">Sources</a> for
+  the source register and its provenance limits. Owner-recorded leaderboard observations without submission
+  receipts are not marked ORGANIZER-CONFIRMED; proxy values and model projections are not scores.</p>
   <p class="muted small">This work used an AI agent. The DOE/NLR rules (§3.2) require disclosing
   generative-AI use in the prize narrative; see <code>docs/AI_DISCLOSURE.md</code>.</p>
 </footer>

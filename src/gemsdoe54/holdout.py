@@ -1,7 +1,10 @@
 """Hide-and-recover holdout for the GEMS Prize, run the way the protocol demands.
 
-Protocol implemented here
--------------------------
+Protocol utilities and constraints
+-----------------------------------
+This module contains reusable helpers, not a complete trainer or end-to-end evaluator.
+A valid HOLDOUT-DTI still requires a frozen whole-segment hide-and-recover run and receipt.
+
 *   Withhold **whole fault segments** (connected components of the held-out
     source), not random pixels, and expand the withheld set by a buffer so that
     nothing within the metric's 300 m kernel of a withheld segment is learnable.
@@ -16,14 +19,11 @@ Protocol implemented here
 
 Why a *segment* holdout matters
 ------------------------------
-The corpus's previous holdouts withheld the competition catalogue and scored
-against a proxy built from the USGS State Geologic Map Compilation (SGMC)
-restricted to cells > 300 m from the catalogue.  That proxy is measured here to
-have **no rank-correlation with the public leaderboard** (Spearman rho = -0.03,
-p = 0.96, n = 6 artifacts with both bytes and a published score), and mass
-recalibrating it does not repair the ranking.  A holdout that cannot order two
-known submissions cannot be used as a promotion gate, so results from it are
-reported here as *screening* evidence only, never as a score.
+A prior SGMC-derived proxy was compared with six historical owner-recorded board
+observations, without submission-page receipts. The comparison is exploratory and
+is labelled PROXY-ANALYSIS; it is not a valid holdout ranking or ORGANIZER-CONFIRMED
+evidence. This module therefore treats proxy outputs as screening diagnostics only,
+never as scores or promotion gates.
 """
 
 from __future__ import annotations
@@ -67,25 +67,63 @@ class HoldoutResult:
 
 
 def segment_blocks(mask: np.ndarray, buffer_px: int) -> tuple[np.ndarray, list[str]]:
-    """Split ``mask`` into whole connected segments plus a buffer around each.
+    """Label whole fault segments and their Euclidean buffer collars.
 
-    Returns ``(block_index, notes)`` where ``block_index`` assigns every cell to the
-    id of the nearest withheld segment (0 = background).  The buffer guarantees
-    that a cell cannot be learned from a visible neighbour of the same trace.
+    Returns ``(block_index, notes)`` where source cells and every cell within
+    ``buffer_px`` of a source segment receive a positive buffered-group ID;
+    background outside all collars remains zero. If two collars overlap or touch,
+    their source components are merged into one buffered group so a shared collar
+    cell can never be assigned to one fold while remaining visible to the other.
+    The caller must still intersect the result with the valid study-area mask before
+    using it as a train/test exclusion map.
     """
-    lab, n = label(mask, structure=np.ones((3, 3), dtype=int))
-    if n == 0:
-        return np.zeros(mask.shape, dtype=np.int32), ["no segments found"]
-    notes = [f"{n} withheld segments", f"buffer = {buffer_px * 100} m"]
-    return lab.astype(np.int32), notes
+    raw_mask = np.asarray(mask)
+    if raw_mask.ndim != 2:
+        raise ValueError("mask must be a two-dimensional array")
+    if raw_mask.dtype.kind not in "bifu" or not np.isfinite(raw_mask).all():
+        raise ValueError("mask must contain only finite boolean/binary values")
+    if not np.isin(raw_mask, (0, 1)).all():
+        raise ValueError("mask must contain only binary values 0 and 1")
+    source = raw_mask.astype(bool, copy=False)
+    if isinstance(buffer_px, (bool, np.bool_)) or not isinstance(buffer_px, (int, np.integer)):
+        raise ValueError("buffer_px must be a nonnegative integer")
+    if buffer_px < 0:
+        raise ValueError("buffer_px must be a nonnegative integer")
+
+    source_labels, source_count = label(source, structure=np.ones((3, 3), dtype=int))
+    if source_count == 0:
+        return np.zeros(source.shape, dtype=np.int32), ["no segments found", f"buffer = {buffer_px * 100} m"]
+
+    if buffer_px == 0:
+        blocks = source_labels.astype(np.int32, copy=False)
+    else:
+        # This EDT is the Euclidean dilation the old helper documented but omitted:
+        # previously buffer_px appeared only in the receipt text. Labelling the union
+        # of collars merges source components whose buffers overlap, avoiding a split
+        # in which a shared buffer cell could remain visible to one component's fold.
+        within_buffer = distance_transform_edt(~source) <= float(buffer_px)
+        blocks, _ = label(within_buffer, structure=np.ones((3, 3), dtype=int))
+        blocks = blocks.astype(np.int32, copy=False)
+
+    buffered_group_count = int(blocks.max())
+    collar_cells = int(np.count_nonzero((blocks > 0) & ~source))
+    source_noun = "segment" if source_count == 1 else "segments"
+    group_noun = "group" if buffered_group_count == 1 else "groups"
+    notes = [
+        f"{source_count} source {source_noun}; {buffered_group_count} buffered {group_noun}",
+        f"buffer = {buffer_px * 100} m",
+        f"buffer collar cells = {collar_cells}",
+    ]
+    return blocks, notes
+
 
 
 def spatial_folds(footprint: np.ndarray, blocks: int = 4) -> np.ndarray:
-    """Assign every in-footprint cell to one of ``blocks`` compact spatial regions.
+    """Legacy spatial-block assignment; not an accepted holdout for this project.
 
-    Folds are contiguous tiles, never random pixels: a random split would leave
-    both halves of a single fault on opposite sides of the split and report a
-    spatial-generalisation score that no submission could fail.
+    This utility is retained for existing callers, but GEMSDOE54's required
+    evaluation unit is a whole fault segment with buffer. Do not use this helper
+    to claim a compliant HOLDOUT-DTI.
     """
     rows, cols = np.nonzero(footprint)
     if rows.size == 0:
@@ -150,14 +188,11 @@ def shift_null_ci(
     step_px: int = 550,
     kernel_px: float = 3.0,
 ) -> dict[str, float]:
-    """Confidence band on the score from a torus shift null.
+    """Exploratory torus-shift sensitivity band; not a confidence interval.
 
-    Bootstrap resampling is the wrong null for a spatially autocorrelated target:
-    resampled fault segments keep their real geometry, so the interval collapses
-    and flatters every candidate.  Shifting the *entire prediction* by several
-    hundred cells instead asks the question that matters -- how much does the
-    score depend on the prediction being in the right place at all? -- and gives
-    a band whose width is honest about spatial correlation.
+    This diagnostic is retained for historical proxy screens only. It does not
+    replace paired whole-segment cluster-bootstrap inference, and its output must
+    not be labelled HOLDOUT-DTI or used as a 95% confidence interval.
     """
     scores = []
     for i in range(1, shifts + 1):
@@ -174,6 +209,7 @@ def shift_null_ci(
         "min": float(scores.min()) if scores.size else 0.0,
         "max": float(scores.max()) if scores.size else 0.0,
     }
+
 
 
 def informative_truth_cells(truth: np.ndarray, dots: np.ndarray) -> int:

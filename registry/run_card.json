@@ -4,25 +4,28 @@
   "slug": "gems54-undercomplement-q200",
   "date_utc": "2026-10-08",
   "hypothesis": "The scored truth is by construction the set of faults absent from the competition catalogue. The USGS State Geologic Map Compilation is an independently compiled product, so a state-map fault that lies more than one kernel width (300 m) from every catalogue cell is a high-precision candidate for an expert-labelled 'new' fault.",
-  "mechanism": "Source-provenance complement, then geometry. (1) Exclude the catalogue with a 300 m buffer, because a prediction near a catalogued fault earns no credit while still paying the linear mass tax 0.2*N; this completes an empirically validated 200 m prune that public leaderboard evidence shows was worth +0.0178. (2) Gate on trace shape using the principal-axis eigenvalue ratio lambda_1/lambda_2 >= 6 and a principal extent >= 5 cells -- orientation invariant, where the two obvious alternatives (bounding-box fill fraction, bounding-box aspect ratio) are not. (3) Emit one dot per 200 m along the surviving traces, because TP_w is a per-truth-cell MAXIMUM, so redundancy costs 0.2 per dot and earns nothing.",
+  "mechanism": "Historical H54-A hypothesis: source-provenance complement, then geometry. It buffers the competition catalogue, filters mapped traces using principal-axis geometry, and emits spaced dots. The earlier claimed benefit of pruning was inferred from owner-recorded, unreceipted board observations and must be treated as MODEL/PROXY context, not as an empirical organizer-confirmed result. The candidate uses the SGMC layer that also defines its only proxy target, so the proxy evaluation is circular.",
   "named_non_fault_process_that_could_mimic_it": "State geologic map compilation line work that is not a Quaternary fault: (a) pre-Quaternary (Tertiary) faults with no surface scarp, which appear on state maps but are not in the experts' label set; (b) non-fault linework -- dike and vein traces, lithologic contacts digitised as lines, and map neatlines; (c) mylonitic or metamorphic fabric boundaries. The linearity gate removes (b) and (c) only to the extent that they are blob-shaped or short; item (a) is NOT removed by anything in this design and is the main reason the artefact could underperform. A Quaternary viability gate was specified as the direct remedy (hypothesis H54-B) but was not run in this session.",
   "holdout_dti": {
     "value": null,
-    "reason_not_reported_as_a_score": "Not established, and deliberately left null. The only available proxy builds its truth from the same USGS SGMC raster this artefact is built from, so the feature-alone leakage canary returns AUC = 0.998 by construction (uniform-control probe 0.500).",
-    "proxy_dti_circular": 0.551333,
-    "proxy_dti_label": "PROXY-DTI (circular; self-consistency check only; NOT a score)",
-    "withheld_positives": 61664,
-    "informative_withheld_positives": 39622,
-    "ci95": null
+    "reason_not_reported_as_a_score": "Not established and deliberately left null. A historical PROXY-CANARY produced AUC 0.997948 for the SGMC raster against an SGMC-derived target; that is a circularity probe, not a feature-alone canary on a compliant whole-segment holdout.",
+    "withheld_positives": null,
+    "informative_withheld_positives": null,
+    "ci95": null,
+    "label": "HOLDOUT-DTI",
+    "status": "NOT ESTABLISHED \u2014 prior evaluation used circular SGMC-derived proxy; no compliant whole-segment evaluator receipt or organizer submission receipt",
+    "evaluator_version": null
   },
   "detection_floor": {
     "framework": "Cohen (1988), two-sided alpha=0.05, power=0.80, z_sum=2.801585",
     "sigma_d_measured_near_identical_pair": 0.033869,
     "sigma_d_measured_distinct_architectures": 0.4668,
-    "n_informative_truth_cells": 12429,
-    "mdd_dti_near_identical": 0.000573,
-    "mdd_dti_distinct_architectures": 0.017596,
-    "verdict": "A 0.0028 DTI gap needs 296,457 informative withheld truth cells at distinct-architecture noise; the holdout supplies 12,429, short by 24x. The gap is inside the detection floor."
+    "verdict": "Conditional proxy-only sensitivity estimate; the actual hidden-label MDE was not computed, and the example 0.0028 gap is NOT CLASSIFIABLE as signal or noise.",
+    "label": "PROXY-SENSITIVITY / MODEL \u2014 not HOLDOUT-DTI",
+    "status": "NOT VALID for hidden-label power; the paired-credit inputs are measured on the circular SGMC-derived proxy.",
+    "n_informative_proxy_cells": 12429,
+    "mdd_dti_near_identical_proxy": 0.000573,
+    "mdd_dti_distinct_architectures_proxy": 0.017596
   },
   "correlation_overlap_vs_registry": {
     "max_abs_spearman_rho": 0.0043,
@@ -36,7 +39,8 @@
       "r14_union_tips10_lat6.tif"
     ],
     "note": "For those three rasters a node lies within 300 m of essentially every study-area cell (r13 covers 0.999 of the footprint), so the 3 px overlap statistic is satisfied by any prediction set and is excluded from the verdict; only rank-correlation and reverse overlap are informative against them.",
-    "verdict": "distinct lane"
+    "verdict": "distinct lane",
+    "label": "PRIOR LOCAL REGISTRY COMPARISON \u2014 not a performance score; not rerun in this audit"
   },
   "raster_sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
   "raster_bytes": 94282,
@@ -61,14 +65,8 @@
   "submission_note": "GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d>300m, linearity gate, 200m dots",
   "submission_note_length": 105,
   "note_limit": 140,
-  "verdict": {
-    "decision": "promote to a weekly slot is a SELECTOR decision, not made here",
-    "format_gates": "PASS 9/9",
-    "lane_gate": "PASS - distinct lane",
-    "validated_holdout": "NOT ESTABLISHED - no valid holdout exists for this artefact",
-    "negative_results_included": true
-  },
-  "verdict_rationale": "Format is portal-legal (9/9 checks) and the artefact is in a distinct lane (max |rho| = 0.004 vs a 0.90 limit), so uploading it is safe and it will be scored. It is NOT validated: it has no trustworthy holdout DTI, because the only holdout available cannot rank submissions and is circular against this artefact. It carries 58% less mass than the 0.2778 incumbent family. Its bet is stated so it can be checked: it beats 0.2778 if at least about 12% of its 15,907 dots fall within the 300 m kernel of a hidden expert fault cell, against an incumbent implied hit rate of about 13%.",
+  "verdict": "negative",
+  "verdict_rationale": "The candidate has prior local format and registry-lane receipts, but its only evaluation is a circular SGMC-derived proxy; there is no compliant HOLDOUT-DTI, paired 95% CI, or organizer submission receipt. Do not treat this card as slot approval or performance validation. Any future selection is separate and requires new admissible evidence.",
   "budget_used": {
     "experiments_run": 3,
     "experiments": [
@@ -83,35 +81,19 @@
     "Mass-calibrating the proxy to the leaderboard-implied truth size does not repair its ranking.",
     "The mirrored 'sample_submission.tif' sold to the corpus as the all-zero format template is cell-for-cell the catalogue mask."
   ],
-  "holdout_screening": {
-    "what_it_can_answer": "Whether a candidate's dots land on real, independently mapped faults that the competition catalogue does not contain.",
-    "what_it_cannot_answer": "Whether that skill transfers to the organisers' hidden expert labels. This holdout does not order submissions: Spearman rho = -0.029 (p = 0.957) against the public leaderboard across the 6 artefacts that have both bytes and a published score.",
-    "this_artefact": {
-      "proxy_dti": 0.550078,
-      "label": "PROXY-DTI (CIRCULAR for this artefact - NOT a score)",
-      "matched_random_control_dti": 0.033753,
-      "lift_vs_matched_random": 16.297,
-      "informative_truth_cells": 39665,
-      "shift_null": {
-        "n_shifts": 5,
-        "shift_px": 550,
-        "mean": 0.009662,
-        "sd": 0.00479,
-        "min": 0.005466,
-        "max": 0.016568
-      },
-      "circular_because": "The dots are placed on the SGMC raster and this holdout's truth is built from that same raster, so the score measures self-consistency. The single-feature leakage canary agrees: SGMC alone scores AUC = 0.998 against this truth, against a 0.90 cut."
-    },
-    "inversion": {
-      "proxy_ranks_first": "r13_lattice_s5_00904",
-      "proxy_ranks_first_leaderboard_score": 0.0904,
-      "leaderboard_ranks_first": "dotted_b2_prune_02778",
-      "leaderboard_first_score": 0.2778,
-      "leaderboard_ranks_last": "r13_lattice_s5_00904",
-      "leaderboard_last_score": 0.0904,
-      "proxy_score_of_leaderboard_last": 0.247784
-    },
-    "ci95": null,
-    "ci95_note": "No confidence interval is published for this artefact because no valid holdout exists for it. A bootstrap over truth segments would be the wrong null here: resampled segments keep their real geometry, so the interval collapses and flatters the candidate."
+  "audit_correction": {
+    "date_utc": "2026-10-08",
+    "status": "The prior SGMC-derived evaluation is a circular proxy screen, not a compliant whole-segment HOLDOUT-DTI. Its former slot-promotion recommendation is withdrawn for current use.",
+    "supersedes_prior_promotion_recommendation": true,
+    "organizer_submission_receipt_present": false
+  },
+  "legacy_verdict": "PROMOTE TO A SLOT ONLY AS A LABELLED EXPERIMENT (historical wording, withdrawn by audit correction)",
+  "proxy_screen": {
+    "label": "PROXY-DTI (circular; self-consistency check only; NOT a score)",
+    "proxy_dti": 0.551333,
+    "truth_cells": 61664,
+    "positive_cells_reached": 39622,
+    "status": "Historical screening diagnostic only; circular because the candidate and proxy truth share the SGMC source layer. Not a score.",
+    "note": "Historical SGMC-derived proxy counts only; not withheld expert positives or independent units."
   }
 }

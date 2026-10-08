@@ -1,15 +1,36 @@
+# Competition data and generated rasters are never committed by default.
+# Existing project artefacts (candidate + registry) are explicitly tracked in Git.
+/data/*
+!/data/README.md
+/work/
+/cache/
+*.tif
+*.tiff
+*.npz
+*.npy
+*.pt
+*.pth
+
 # Python
-__pycache__/
-*.py[cod]
 .venv/
 venv/
+*.egg-info/
+__pycache__/
+*.py[cod]
 .pytest_cache/
 .ruff_cache/
 .mypy_cache/
+.coverage
+htmlcov/
 
 # Local caches of regenerable derived arrays
 .cache/
 
-# NOTE: registry/registry_rasters/*.tif ARE tracked on purpose.  They are the
-# parallel-run lane-check inputs; without them the uniqueness gate in
-# scripts/validate_submission.py cannot be reproduced.  See registry/registry_manifest.json.
+# Build and editor state
+site/
+build/
+dist/
+.DS_Store
+
+# NOTE: registry/registry_rasters/*.tif and docs/downloads/*.tif are tracked
+# intentionally for this project's uniqueness test and prior experiment receipt.

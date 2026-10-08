@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-# Reproduce every artefact in this repository, in order, from the placed inputs.
+# Legacy reproduction of the prior H54-A artefact and its PROXY-only diagnostics.
+# This is not the audit-only workflow and does not produce a compliant HOLDOUT-DTI.
 #
 # Usage: bash scripts/run_all.sh
 set -euo pipefail
@@ -21,7 +22,7 @@ echo "== 4. build the submission =="
 python3 scripts/build_submission.py
 
 echo
-echo "== 5. leakage canary (feature-alone AUC vs the holdout) =="
+echo "== 5. PROXY-only circularity probe (not a holdout leakage canary) =="
 python3 scripts/leakage_canary.py > /dev/null
 python3 - <<'PY2'
 import json
@@ -46,24 +47,19 @@ for name, row in d["format"]["checks"].items():
 PY
 
 echo
-echo "== 7. power analysis / detection floor =="
+echo "== 7. PROXY sensitivity illustration (not hidden-label power) =="
 python3 scripts/power_analysis.py > /dev/null
 python3 - <<'PY'
 import json
 d = json.load(open("evidence/power_analysis.json"))
-print("dDTI/dT at the 0.2778 operating point:", d["dDTI_dT_at_operating_point"])
+print("PROXY-MODEL dDTI/dT at the owner-recorded 0.2778 input:", d["dDTI_dT_at_operating_point"])
 for k, v in d["measured_paired_designs"].items():
-    print(f"   {k}: n={v['n_informative_truth_cells']:,} sigma_d={v['sd_paired_credit_difference']}")
+    print(f"   {k}: n={v['n_informative_proxy_cells']:,} sigma_d={v['sd_paired_credit_difference']}")
 print("minimum detectable (near-identical pair):", d["minimum_detectable"])
 PY
 
 echo
-echo "== 8. blocked holdout screening + proxy audit =="
-python3 scripts/run_holdout.py > /dev/null
-python3 scripts/proxy_audit.py
-
-echo
-echo "== 9. sync published hashes with the built artefact =="
+echo "== 8. sync published hashes with the built artefact =="
 python3 scripts/sync_receipts.py
 
 echo
