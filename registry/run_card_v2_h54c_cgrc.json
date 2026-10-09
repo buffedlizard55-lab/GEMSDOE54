@@ -159,5 +159,5 @@
       "origin": "owner-mirrored USGS SGMC rasterisation, not organizer-authenticated"
     }
   },
-  "superseded_note_2026_10_09": "SUPERSEDED 2026-10-09: the lane verdict here ('distinct' via a 'vacuous' exclusion of r11/r13/r14) is withdrawn; the literal rule FAILS (validator: DUPLICATE - STOP). Current verdict: NOT CLEARED. See docs/data/run-card-cgrc.json (v3) and IR-54-050 to IR-54-066 in docs/irregularities.html."
+  "superseded_note_2026_10_09": "SUPERSEDED 2026-10-09: the lane verdict here ('distinct' via a 'vacuous' exclusion of r11/r13/r14) is withdrawn; the literal rule FAILS (validator: DUPLICATE - STOP). Current verdict: NOT CLEARED. See docs/data/run-card-cgrc.json (v3) and IR-54-066 to IR-54-082 in docs/irregularities.html."
 }

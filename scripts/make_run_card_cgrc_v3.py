@@ -108,7 +108,7 @@ def main() -> int:
         "date_utc": "2026-10-09",
         "supersedes": ("docs/data/run-card-cgrc.json v2 (2026-10-08). v2 said lane DISTINCT (by excluding "
                        "r11/r13/r14 as 'vacuous'), 'pre-placement surface' checked, 2 experiments, and "
-                       "'corpus holdout best 0.1793' (no receipt). All four are corrected here; see IR-54-050 onward."),
+                       "'corpus holdout best 0.1793' (no receipt). All four are corrected here; see IR-54-066 onward."),
         "generated_by": "scripts/make_run_card_cgrc_v3.py (no hand-typed numbers)",
         "candidate": {
             "name": NAME,
@@ -200,9 +200,9 @@ def main() -> int:
             "gate_result": ("NOT MET: candidate B = %.6f < %.6f (arm C)" % (b["pooled_dti"], best_same)
                             if not beats else "MET"),
             "removed_claim": ("'corpus holdout best 0.1793' (v2 card, index, registry, submissions.json): no "
-                              "receipt exists in this repository; not reproducible; removed (IR-54-052)."),
+                              "receipt exists in this repository; not reproducible; removed (IR-54-068)."),
             "v2_claim_withdrawn": ("v2 said CGRC 'beats the H54-A rule' (0.0915 vs 0.0483). That compared "
-                                   "different evaluators and folds; invalid (IR-54-051)."),
+                                   "different evaluators and folds; invalid (IR-54-067)."),
         },
         "power": {
             "framework": hold["power"]["framework"],
@@ -228,7 +228,7 @@ def main() -> int:
             "flags": [],
             "invalid_v1_canary": ("docs earlier cited AUC 0.997948 (evidence/leakage_canary.json, v1). Its "
                                   "construction does not match the holdout truth and is not comparable; "
-                                  "not used (IR-54-053)."),
+                                  "not used (IR-54-069)."),
         },
         "overlap": {"see": "lane"},
         "budget": {
@@ -274,7 +274,7 @@ def main() -> int:
              "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
              "status": "ORGANIZER-CONFIRMED (fetched 2026-10-09)"},
         ],
-        "irregularities": [f"IR-54-{n:03d}" for n in range(50, 67)],
+        "irregularities": [f"IR-54-{n:03d}" for n in range(66, 83)],
         "irregularities_file": "docs/audit/irregularities.md",
     }
     OUT.write_text(json.dumps(card, indent=2, default=str, allow_nan=False) + "\n", encoding="utf-8")

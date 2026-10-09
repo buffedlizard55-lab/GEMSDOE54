@@ -176,7 +176,7 @@ def main() -> int:
     ap = argparse.ArgumentParser()
     # defaults = the committed receipt's configuration (evidence/cgrc_holdout_receipt.json:
     # max_gap_m 2500, max_ext_m 2500, catalogue exclusion 200 m). The earlier 1500 m default did
-    # NOT reproduce that receipt (see IR-54-058 in audit/irregularities.md).
+    # NOT reproduce that receipt (see IR-54-074 in audit/irregularities.md).
     ap.add_argument("--max-gap-m", type=float, default=2500.0)
     ap.add_argument("--max-ext-m", type=float, default=2500.0)
     ap.add_argument("--exclude-cat-m", type=float, default=200.0)

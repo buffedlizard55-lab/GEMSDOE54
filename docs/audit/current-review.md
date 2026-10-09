@@ -64,16 +64,16 @@ The five current geological hypotheses and exact availability caveats are in [`.
 **Verdict:** NOT CLEARED. No file is cleared for submission. Download for inspection only. Budget 3 of 3 experiments; 0 submissions; the agent selected no slot.
 
 **What was checked (each by a script or receipt in this repository):**
-- Reproduction of the committed CGRC holdout receipt: exact match with the corrected 2500 m parameters (IR-54-058).
-- Same-folds comparison with the H54-A rule: C 0.147192 vs B 0.091536 (IR-54-051).
-- Cross-gradient arm X (magnetic–gravity): 0.055637, inadmissible at matched mass (IR-54-059).
-- Full-corpus lane: 1,198 siblings; literal rule FAIL against r11, r13, r14 and three siblings (IR-54-050).
-- Skipped-row second pass (45 rasters): maximum top-K overlap 0.025 (IR-54-054).
-- Validator on primary, twin and H54-A: primary and H54-A FAIL the null/NaN-outside contract; the twin PASSes (IR-54-056).
-- Witness check: H54-A has 98.85% of its dots within 3 px of GEMSDOE3 `gapfinder-v2-sgmc-gap` (IR-54-066).
-- Range forensics: 62 of 1,223 corpus rasters have values outside [0,1]; none is a leaderboard prediction (IR-54-060).
+- Reproduction of the committed CGRC holdout receipt: exact match with the corrected 2500 m parameters (IR-54-074).
+- Same-folds comparison with the H54-A rule: C 0.147192 vs B 0.091536 (IR-54-067).
+- Cross-gradient arm X (magnetic–gravity): 0.055637, inadmissible at matched mass (IR-54-075).
+- Full-corpus lane: 1,198 siblings; literal rule FAIL against r11, r13, r14 and three siblings (IR-54-066).
+- Skipped-row second pass (45 rasters): maximum top-K overlap 0.025 (IR-54-070).
+- Validator on primary, twin and H54-A: primary and H54-A FAIL the null/NaN-outside contract; the twin PASSes (IR-54-072).
+- Witness check: H54-A has 98.85% of its dots within 3 px of GEMSDOE3 `gapfinder-v2-sgmc-gap` (IR-54-082).
+- Range forensics: 62 of 1,223 corpus rasters have values outside [0,1]; none is a leaderboard prediction (IR-54-076).
 - Feature-stack provenance: sha256 matches the owner manifest; band names for bands 1–18 match the official reference notebook; band 19 remains ambiguous.
-- Leaderboard (public page, 2026-10-09): 0.3774 rank 1; 0.3195 rank 7; 0.2778 rank 13; 0.2750 rank 17 (IR-54-064).
+- Leaderboard (public page, 2026-10-09): 0.3774 rank 1; 0.3195 rank 7; 0.2778 rank 13; 0.2750 rank 17 (IR-54-080).
 - Tests: 94 passed.
 
 **Not done (limitations):** the full H54-A corpus re-scan (stopped at 300 of 1,232, about 7 s per file); the pre-placement surface check (not persisted); portal or organizer confirmation of the NaN convention; the source of the range error (no portal access offline); band-19 identity; the 0.2778 ↔ GEMSDOE32 link; any holdout that is not catalogue-truth.

@@ -40,7 +40,7 @@
 
 <section class="section" aria-labelledby="error"><div class="eyebrow">Error fix</div><h2 id="error">“Predicted values must be in range [0, 1]”: what we know and what to check</h2>
 <div class="card"><p><strong>What is established.</strong> The error text is what the portal returns. We could not reproduce it offline, so we do not know which pixel triggered it. Our two candidate files contain only the values 0 and 1 inside the footprint and no NaN inside it (validator output). Across the 1,223 corpus rasters we read, 62 contain values outside [0,1]. All are input, label or intermediate layers, and none is a leaderboard prediction. Examples: uint8 probability maps (0–237), int16 maps (down to −32768), int8 labels (−1..1), SGMC u8 (nodata 255).</p>
-<p><strong>What is not established.</strong> The earlier claim that a float32 sentinel or a NaN nodata tag causes this error was not verified (IR-54-060). The corpus also contains NaN-tagged files with owner-reported board values (IR-54-063). The claim that the all-finite file was "already accepted" by the portal has no receipt (IR-54-056).</p>
+<p><strong>What is not established.</strong> The earlier claim that a float32 sentinel or a NaN nodata tag causes this error was not verified (IR-54-076). The corpus also contains NaN-tagged files with owner-reported board values (IR-54-079). The claim that the all-finite file was "already accepted" by the portal has no receipt (IR-54-072).</p>
 <p><strong>Likeliest cause (hypothesis).</strong> An intermediate or input raster was uploaded in place of a prediction. This matches the out-of-range layers above.</p>
 <p><strong>Checklist before any upload.</strong></p>
 <ol class="list">
@@ -64,8 +64,8 @@
 <li>Persist and check the pre-placement priority surface for any candidate.</li>
 <li>Finish the full-corpus lane re-scan of H54-A (stopped at 300 of 1,232).</li>
 <li>Re-run the cross-gradient arm at matched mass only with new budget and a pre-registered rule.</li>
-<li>Obtain a source for the 0.1793 figure, or drop it everywhere (IR-54-052).</li>
-<li>Resolve the GEMSDOE32 ↔ 0.2778 link with the owner or organizer (IR-54-064).</li>
+<li>Obtain a source for the 0.1793 figure, or drop it everywhere (IR-54-068).</li>
+<li>Resolve the GEMSDOE32 ↔ 0.2778 link with the owner or organizer (IR-54-080).</li>
 </ul></section>
 </main>
 <footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a> · <a href="submit-verdict.html">Verdicts</a></p></div></footer>

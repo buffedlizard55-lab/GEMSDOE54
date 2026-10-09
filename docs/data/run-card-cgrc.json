@@ -1,7 +1,7 @@
 {
   "schema": "gemsdoe54.run-card.v3",
   "date_utc": "2026-10-09",
-  "supersedes": "docs/data/run-card-cgrc.json v2 (2026-10-08). v2 said lane DISTINCT (by excluding r11/r13/r14 as 'vacuous'), 'pre-placement surface' checked, 2 experiments, and 'corpus holdout best 0.1793' (no receipt). All four are corrected here; see IR-54-050 onward.",
+  "supersedes": "docs/data/run-card-cgrc.json v2 (2026-10-08). v2 said lane DISTINCT (by excluding r11/r13/r14 as 'vacuous'), 'pre-placement surface' checked, 2 experiments, and 'corpus holdout best 0.1793' (no receipt). All four are corrected here; see IR-54-066 onward.",
   "generated_by": "scripts/make_run_card_cgrc_v3.py (no hand-typed numbers)",
   "candidate": {
     "name": "gems54-cgrc-relay-v1",
@@ -536,8 +536,8 @@
       "dti": 0.147192
     },
     "gate_result": "NOT MET: candidate B = 0.091536 < 0.147192 (arm C)",
-    "removed_claim": "'corpus holdout best 0.1793' (v2 card, index, registry, submissions.json): no receipt exists in this repository; not reproducible; removed (IR-54-052).",
-    "v2_claim_withdrawn": "v2 said CGRC 'beats the H54-A rule' (0.0915 vs 0.0483). That compared different evaluators and folds; invalid (IR-54-051)."
+    "removed_claim": "'corpus holdout best 0.1793' (v2 card, index, registry, submissions.json): no receipt exists in this repository; not reproducible; removed (IR-54-068).",
+    "v2_claim_withdrawn": "v2 said CGRC 'beats the H54-A rule' (0.0915 vs 0.0483). That compared different evaluators and folds; invalid (IR-54-067)."
   },
   "power": {
     "framework": "Cohen (1988); two-sided alpha=0.05, power=0.80, z_sum=2.801585",
@@ -559,7 +559,7 @@
     "visible_catalogue_control_v2": 0.499985,
     "xgrad_alone_auc_vs_withheld_truth": 0.542591,
     "flags": [],
-    "invalid_v1_canary": "docs earlier cited AUC 0.997948 (evidence/leakage_canary.json, v1). Its construction does not match the holdout truth and is not comparable; not used (IR-54-053)."
+    "invalid_v1_canary": "docs earlier cited AUC 0.997948 (evidence/leakage_canary.json, v1). Its construction does not match the holdout truth and is not comparable; not used (IR-54-069)."
   },
   "overlap": {
     "see": "lane"
@@ -609,23 +609,23 @@
     }
   ],
   "irregularities": [
-    "IR-54-050",
-    "IR-54-051",
-    "IR-54-052",
-    "IR-54-053",
-    "IR-54-054",
-    "IR-54-055",
-    "IR-54-056",
-    "IR-54-057",
-    "IR-54-058",
-    "IR-54-059",
-    "IR-54-060",
-    "IR-54-061",
-    "IR-54-062",
-    "IR-54-063",
-    "IR-54-064",
-    "IR-54-065",
-    "IR-54-066"
+    "IR-54-066",
+    "IR-54-067",
+    "IR-54-068",
+    "IR-54-069",
+    "IR-54-070",
+    "IR-54-071",
+    "IR-54-072",
+    "IR-54-073",
+    "IR-54-074",
+    "IR-54-075",
+    "IR-54-076",
+    "IR-54-077",
+    "IR-54-078",
+    "IR-54-079",
+    "IR-54-080",
+    "IR-54-081",
+    "IR-54-082"
   ],
   "irregularities_file": "docs/audit/irregularities.md"
 }

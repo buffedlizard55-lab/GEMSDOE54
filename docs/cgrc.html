@@ -11,7 +11,7 @@
 
 <section class="page-title"><div class="eyebrow">CGRC run · run card v3 · 2026-10-09</div>
 <h1>gems54-cgrc-relay-v1: unique bytes, but a lane duplicate, and it does not beat the same-folds comparator. NOT CLEARED.</h1>
-<p class="lead">This page replaces the 2026-10-08 CGRC page. That page said “download YES / PASS” and cited a lane distinctness that depended on excluding three rasters, and a holdout comparison that mixed evaluators. Both are withdrawn (IR-54-050, IR-54-051). Every number below is traced to a receipt in the repository.</p></section>
+<p class="lead">This page replaces the 2026-10-08 CGRC page. That page said “download YES / PASS” and cited a lane distinctness that depended on excluding three rasters, and a holdout comparison that mixed evaluators. Both are withdrawn (IR-54-066, IR-54-067). Every number below is traced to a receipt in the repository.</p></section>
 
 <section class="status-banner" aria-labelledby="cgrc-state"><div class="status-icon" aria-hidden="true">!</div><div>
 <h2 id="cgrc-state">Submit: NO · Download: for inspection only</h2>
@@ -42,7 +42,7 @@
 <tr><td>Targeted witness: GEMSDOE3 gapfinder-v2-sgmc-gap</td><td>CGRC 0.036 (pass)</td></tr>
 <tr><td>Verdict</td><td><strong>DUPLICATE – STOP</strong> (literal rule)</td></tr>
 </tbody></table></div>
-<p class="small">Not checked: the pre-placement priority surface (it was not persisted; IR-54-057). The lane verdict is on final dots only. Chance-corrected excess = (observed − coverage)/(1 − coverage). Excess &gt; 0 means placement overlap above chance.</p></section>
+<p class="small">Not checked: the pre-placement priority surface (it was not persisted; IR-54-073). The lane verdict is on final dots only. Chance-corrected excess = (observed − coverage)/(1 − coverage). Excess &gt; 0 means placement overlap above chance.</p></section>
 
 <section class="section" aria-labelledby="holdout"><div class="eyebrow">HOLDOUT-DTI (catalogue-truth proxy, not an organizer score)</div><h2 id="holdout">Whole-segment hide-and-recover, same folds</h2>
 <p>Evaluator <code>gemsdoe54.cgrc-holdout.v2</code> (organizer equations, <code>scripts/gems_metric.py</code>). 60,834 withheld positives; 3,118 whole fault segments; 4 spatial quadrant folds with a 300 m buffer; features from the visible catalogue only; cluster bootstrap over segments, 2,000 replicates, seed 54.</p>
@@ -55,7 +55,7 @@
 </tbody></table></div>
 <p><strong>Paired contrasts (bootstrap, same segment draws):</strong> B − C = −0.055656 [−0.068896, −0.041997]; A − C = −0.056851 [−0.070242, −0.043026]; X − C = −0.091555 [−0.104537, −0.077115]; A − B = −0.001195 point, paired bootstrap CI [−0.002163, −0.000204] (excludes 0; the SGMC weight helps by about 0.0012 DTI, a small effect).</p>
 <p><strong>Gate:</strong> the candidate must beat the best same-evaluator, same-folds arm. That arm is C at 0.147192. B at 0.091536 does not. <strong>NOT MET.</strong></p>
-<p class="small">The receipt's “observed” delta of −0.001182 is the bootstrap mean; the point difference is −0.001195. The 2026-10-08 “CGRC beats H54-A” claim (0.0915 vs 0.0483) mixed evaluators and folds and is withdrawn (IR-54-051). The 0.1793 “corpus best” is unsourced and withdrawn (IR-54-052).</p></section>
+<p class="small">The receipt's “observed” delta of −0.001182 is the bootstrap mean; the point difference is −0.001195. The 2026-10-08 “CGRC beats H54-A” claim (0.0915 vs 0.0483) mixed evaluators and folds and is withdrawn (IR-54-067). The 0.1793 “corpus best” is unsourced and withdrawn (IR-54-068).</p></section>
 
 <section class="section two-col" aria-labelledby="canary"><div><div class="eyebrow">Leakage canary and power</div><h2 id="canary">Single-feature AUC (cutoff 0.90) and the 0.0028 question</h2>
 <ul class="list">
@@ -72,7 +72,7 @@
 <p class="small">The holdout is catalogue-truth. It cannot reward genuinely new faults, so it measures recovery of catalogued structure only.</p></div></section>
 
 <section class="section" aria-labelledby="error2"><div class="eyebrow">Error fix</div><h2 id="error2">Range error and the NaN convention</h2>
-<p>Read the full checklist on the <a href="executive-summary.html#error">submit guide</a>. Here, in brief: the primary file is all-finite with zeros outside the footprint. The organizer page asks for null/NaN outside. The twin has the same dots with NaN outside. Which convention the portal accepts is unverified (IR-54-056). Do not infer acceptance from the 0.2778 file.</p></section>
+<p>Read the full checklist on the <a href="executive-summary.html#error">submit guide</a>. Here, in brief: the primary file is all-finite with zeros outside the footprint. The organizer page asks for null/NaN outside. The twin has the same dots with NaN outside. Which convention the portal accepts is unverified (IR-54-072). Do not infer acceptance from the 0.2778 file.</p></section>
 
 </main>
 <footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a> · <a href="submit-verdict.html">Verdicts</a> · <a href="irregularities.html">Audit ledger</a></p></div></footer>

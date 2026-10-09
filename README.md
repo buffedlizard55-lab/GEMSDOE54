@@ -20,18 +20,18 @@
 | [`docs/downloads/gems54-magedge-hgrad-ridge.tif`](docs/downloads/gems54-magedge-hgrad-ridge.tif) (H54-B archive; SHA-256 `6d086c09…8d9e`) | 0.0148 (v1 evaluator; not comparable) | FAIL (2026-10-08 scan) | not re-run | **NOT CLEARED** |
 
 **Answers to the brief (short; each is traced in the linked page).**
-1. *Why did 0.2778 score highest?* It did not. The live public page (2026-10-09) shows **0.3774 at rank 1**, 0.3195 at rank 7, 0.2778 at rank 13 (extradr19) and 0.2750 at rank 17. The GEMSDOE32 link to 0.2778 is unverified. See [`docs/top-artefact.html`](docs/top-artefact.html) (IR-54-064).
+1. *Why did 0.2778 score highest?* It did not. The live public page (2026-10-09) shows **0.3774 at rank 1**, 0.3195 at rank 7, 0.2778 at rank 13 (extradr19) and 0.2750 at rank 17. The GEMSDOE32 link to 0.2778 is unverified. See [`docs/top-artefact.html`](docs/top-artefact.html) (IR-54-080).
 2. *Can we beat 0.2778 / 0.3195 / 0.3774?* Not shown. No candidate is cleared, and the one proxy winner (H54-A rule, 0.1472) is a lane duplicate.
 3. *Is the 0.0028 gap inside the holdout detection floor?* The holdout's raw-scale MDE is **0.001395** (paired, 3,118 whole-segment units). The gap is about twice that, so it is detectable on the holdout. On the board it is **NOT CLASSIFIABLE** (no paired board data).
 4. *Hypotheses.* The top-ranked magnetic–gravity cross-gradient was tested on the same folds: 0.0556 (not mass-matched, inadmissible) and it does not beat the gate. The others are not run. See [`docs/research/hypotheses-20261008.md`](docs/research/hypotheses-20261008.md).
 
 **Official rules (verified verbatim, [`docs/rules-gate.html`](docs/rules-gate.html)).** You may submit your own model's single-band GeoTIFF (§3.2). You must indicate in the narrative the extent of any generative-AI use (§3.2). Three submissions per week at most (§3.2, §3.4). One final submission (§3.5). Public-leaderboard scores may differ from the private final scores (§3.2).
 
-**Uniqueness (2026-10-09, full corpus).** 1,198 sibling rasters compared (self-twin excluded; 1,153 overlap-checked and 45 second-passed). Maximum |rho| 0.101 (PASS). Literal dot-overlap rule FAILS for CGRC (validator and lane summary: [`evidence/lane_summary_cgrc_v1.json`](evidence/lane_summary_cgrc_v1.json)). The earlier "vacuous" exclusion of r11, r13 and r14 is withdrawn (IR-54-050).
+**Uniqueness (2026-10-09, full corpus).** 1,198 sibling rasters compared (self-twin excluded; 1,153 overlap-checked and 45 second-passed). Maximum |rho| 0.101 (PASS). Literal dot-overlap rule FAILS for CGRC (validator and lane summary: [`evidence/lane_summary_cgrc_v1.json`](evidence/lane_summary_cgrc_v1.json)). The earlier "vacuous" exclusion of r11, r13 and r14 is withdrawn (IR-54-066).
 
 **Score labels.** `HOLDOUT-DTI` = local whole-segment proxy with evaluator version, withheld positives and 95% CI (v2: `gemsdoe54.cgrc-holdout.v2`, 60,834 withheld positives, 3,118 units). `ORGANIZER-CONFIRMED` = none in this repository. `BOARD-UNVERIFIED` = displayed public-page values (0.3774, 0.3195, 0.2778, 0.2750). Projections are never scores.
 
-**Corrections to the 2026-10-08 text** are listed in the audit ledger (IR-54-050 to IR-54-066): [`docs/irregularities.html`](docs/irregularities.html). Notably, the "0.1793 corpus holdout best" has no receipt and is withdrawn (IR-54-052), and the claim that CGRC beats the H54-A rule is withdrawn (IR-54-051).
+**Corrections to the 2026-10-08 text** are listed in the audit ledger (IR-54-066 to IR-54-082): [`docs/irregularities.html`](docs/irregularities.html). Notably, the "0.1793 corpus holdout best" has no receipt and is withdrawn (IR-54-068), and the claim that CGRC beats the H54-A rule is withdrawn (IR-54-067).
 
 ## Archived status (2026-10-08, superseded by the block above)
 
@@ -363,7 +363,7 @@ are **owner-recorded leaderboard observations**, not `ORGANIZER-CONFIRMED` score
 | `r13_lattice_s5_00904` | 206,895 | 0.247784 | 0.0904 |
 | `tip_stepover_r30_02632` | 41,865 | 0.094213 | 0.2632 |
 
-Source: [`evidence/proxy_audit.json`](evidence/proxy_audit.json). The 2026-10-08 table here included `h60_officialstack_50k`, which has no board value, and omitted `dotted_d2_8_02708`; that table is withdrawn (IR-54-062).
+Source: [`evidence/proxy_audit.json`](evidence/proxy_audit.json). The 2026-10-08 table here included `h60_officialstack_50k`, which has no board value, and omitted `dotted_d2_8_02708`; that table is withdrawn (IR-54-078).
 
 **PROXY-ANALYSIS:** Spearman ρ(proxy, owner-recorded board values) = −0.029, p = 0.957, n = 6. The artefact ranked highest by this proxy is ranked lowest among those recorded board values. This is a caution about the proxy, not a verified competition ranking or a holdout result.
 
