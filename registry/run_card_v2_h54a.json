@@ -218,5 +218,7 @@
   },
   "verdict": "negative",
   "verdict_meaning": "does not pass the pre-registered holdout gates",
-  "labels_policy": "HOLDOUT-DTI = whole-segment holdout receipt with evaluator, withheld positives and 95% CI. ORGANIZER-CONFIRMED = none for this artefact. MODEL/PROXY values are not scores."
+  "labels_policy": "HOLDOUT-DTI = whole-segment holdout receipt with evaluator, withheld positives and 95% CI. ORGANIZER-CONFIRMED = none for this artefact. MODEL/PROXY values are not scores.",
+  "superseded_by": "docs/data/run-card-2026-10-09.json",
+  "superseded_reason": "2026-10-09: lane verdicts in this file use the pre-fix logic (name-based exclusions or non-literal overlap). See IR-54-085, IR-54-087, IR-54-104."
 }

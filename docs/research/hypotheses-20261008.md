@@ -1,3 +1,5 @@
+> **Run 2 update (2026-10-08).** This document is the run-1 record. Current state: [download and verdict](../index.html) (own-model TIF for review only, not cleared to submit), [holdout v2](../holdout.html), [0.2778 mechanism](../top-artefact.html), and the README status block. Where this file conflicts with those, they win.
+
 # Candidate hypotheses — 2026-10-08 review
 
 ## Scope and novelty boundary
@@ -32,6 +34,19 @@ The top-ranked candidate is the magnetic–gravity cross-gradient, but the offic
 
 Two surface-only lane preflights are now recorded. Experiment 1 tested catalogue-endpoint continuation and stopped at the literal lane gate ([receipt](../../evidence/endpoint-continuation-preflight.json)); experiment 2 screened SGMC topology and also stopped ([receipt](../../evidence/strict_lane_preflight.json)). Neither is a DTI experiment, completed candidate, or generated submission. Negative/blocked findings are retained rather than replaced by a proxy score.
 
+## Second pass: holdout results (2026-10-08 / 09 UTC)
+
+Holdout receipts use evaluator `gemsdoe54-segment-cv` v1 and are labelled HOLDOUT-DTI (catalogue recovery, not organizer scores). Source receipts: [`evidence/holdout_segment_cv_v1_c4.json`](../../evidence/holdout_segment_cv_v1_c4.json), [`evidence/holdout_segment_cv_v1_c5.json`](../../evidence/holdout_segment_cv_v1_c5.json).
+
+| Hypothesis | Candidate | Pooled DTI, 95 % CI | Paired vs chance control | Result |
+|---|---|---:|---:|---|
+| 1 · cross-gradient coincidence | C4 (H1) | 0.0120 [0.0098, 0.0146] | +0.0016 [−0.0011, +0.0045] | **NEGATIVE**: not above chance; below C1 by 0.0363 |
+| 6 · basement-step ridge (new, from the bridge band `depth_to_base_surf`) | C5 | 0.0103 [0.0076, 0.0133] | −0.0001 [−0.0032, +0.0031] | **NEGATIVE**: at chance |
+
+- H1 is ranked first, and it is now holdout-tested and negative. Its physical premise (co-located magnetic and gravity gradients) does not separate catalogue faults from the chance control on this holdout. The lane conflict (sibling scan PASS versus literal DUPLICATE) is recorded as IR-54-063 and does not change the holdout result.
+- H6 (basement-step) was added as a candidate on the same bridge cube. It is at chance and significantly below the SGMC complement and the magnetic gradient ridge. It is not a new file.
+- Hypotheses 2, 3, 4 and 5 were not holdout-tested. Hypotheses 4 and 5 need new data pulls. Hypothesis 3 (state-map topology) overlaps with the SGMC family, which the holdout already shows to be co-located with catalogue faults (IR-54-057).
+
 ## Manual-review sources
 
 - [DrivenData GEMS problem description / provided features](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) — supplied by the user; not fetched in this run.
@@ -42,3 +57,20 @@ Two surface-only lane preflights are now recorded. Experiment 1 tested catalogue
 - [NASA ASF Sentinel-1 search](https://search.asf.alaska.edu/) and [Copernicus Data Space](https://dataspace.copernicus.eu/) — source leads; coverage and access not checked.
 
 A link is provided for manual review, not as evidence that the data are obtainable, licensed for the competition, or present in this checkout.
+
+
+## Status update 2026-10-09 (after the three-experiment budget)
+
+Budget: 3 of 3 experiments used. No submission slot was selected. The ranking above is unchanged; the status of each entry is:
+
+| Rank | Hypothesis | Status 2026-10-09 | Receipt |
+|---|---|---|---|
+| 1 | Magnetic–gravity cross-gradient coupling | **Tested, did not beat the gate.** Same folds: DTI 0.055637 [0.050279, 0.061440], pooled 26,783 dots against a 32,529 budget (not mass-matched; inadmissible). Canary clear (AUC 0.5426). Feature bands used: band 2 (reduced-to-pole magnetic) and band 13 (isostatic gravity), taken from the owner mirror. Band names match the official reference notebook for bands 1–18. | evidence/cgrc_holdout_samefolds_v4_xgrad.json |
+| 2 | Depth-persistent magnetotelluric conductivity | Not run. No MT product was present in the checkout, and none was fetched this session. | — |
+| 3 | SGMC state-map topology nodes | The SGMC-linearity placement (arm C, the H54-A rule) is the strongest same-folds proxy at 0.1472. It is a **lane duplicate**: 98.85% of its dots lie within 3 px of GEMSDOE3 `gapfinder-v2-sgmc-gap`. Any future topology idea must show a distinct lane first. | evidence/witness_h54a_vs_gapfinder_gemsdoe3.json; evidence/cgrc_holdout_samefolds_v3_h54a.json |
+| 4 | Multi-scale 1 m DEM scarp curvature | Not run. No 1 m DEM tile index in the checkout. The USGS 3DEP source is not reachable from this sandbox (egress limited to GitHub, npm and PyPI). | — |
+| 5 | InSAR deformation discontinuities | Not run. Sentinel-1 sources (NASA ASF, Copernicus Data Space) are not reachable from this sandbox. Obtainability is unverified. | — |
+
+Free official sources named for obtainability checks (not fetched this session): USGS 3DEP (DEM), NASA ASF DAAC and Copernicus Data Space (Sentinel-1), USGS GeoDAWN (already the competition's feature source), DOE/INGENIOUS GDR 1391 (label source). No external data was downloaded.
+
+Decision: nothing in this ranking is promoted. The next experiment needs a new budget and a pre-registered rule that includes a lane-distinctness requirement from the start.

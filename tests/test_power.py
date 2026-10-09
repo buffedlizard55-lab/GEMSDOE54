@@ -78,3 +78,12 @@ def test_receipt_rejects_too_few_bootstrap_draws():
     bad["comparison"]["pooled_delta_bootstrap"] = [0.0] * 999
     with pytest.raises(ValueError, match="at least 1000"):
         analyse_holdout_receipt(bad)
+
+
+def test_large_n_small_d_is_finite():
+    # regression (IR-54-050): nct returned NaN at n = 60,988 and brentq crashed; the normal fallback is ~ 2.80 / sqrt(n)
+    from gemsdoe54.power import minimum_detectable_cohen_d
+
+    d = minimum_detectable_cohen_d(60988)
+    assert np.isfinite(d)
+    assert abs(d - (1.959964 + 0.841621) / np.sqrt(60988)) < 1e-3

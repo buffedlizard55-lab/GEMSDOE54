@@ -39,12 +39,15 @@ def test_local_feed_carries_a_timestamped_public_snapshot_without_receipt_claim(
     )
     feed = json.loads(output.read_text())
     assert feed["leaderboard"]["status"].startswith("PUBLIC-LEADERBOARD SNAPSHOT")
-    assert feed["leaderboard"]["fetched_utc"] == "2026-10-08"
+    assert feed["leaderboard"]["fetched_utc"] == "2026-10-09"  # re-fetched 2026-10-09
     assert feed["leaderboard"]["score_claims_are_organizer_confirmed"] is False
-    assert {row["rank"] for row in feed["leaderboard"]["selected_rows"]} == {1, 7, 13, 17}
+    assert {1, 7, 13, 17} <= {row["rank"] for row in feed["leaderboard"]["selected_rows"]}  # named board rows kept
     assert feed["candidate"]["candidate_surface_preflighted"] is True
-    assert feed["candidate"]["candidate_tif_generated"] is False
-    assert feed["candidate"]["new_candidate_downloadable"] is False
+    # run 2: the own-model TIF exists and is downloadable for review only; it is never cleared to submit
+    assert feed["candidate"]["candidate_tif_generated"] is True
+    assert feed["candidate"]["new_candidate_downloadable"] is True
+    assert feed["candidate"]["safe_to_upload"] is False
+    assert feed["candidate"]["ok_to_submit"] is False
     assert feed["candidate"]["existing_artifact_downloadable_for_research"] is True
     assert feed["candidate"]["existing_artifact_approved_for_upload"] is False
     assert feed["candidate"]["safe_to_upload"] is False
@@ -63,11 +66,11 @@ def test_audit_and_run_artifacts_are_strict_json_and_stay_fail_closed():
     cache_audit = records[4]
     assert run_card["verdict"] == "negative"
     assert run_card["submission"]["candidate_surface_preflighted"] is True
-    assert run_card["submission"]["candidate_tif_generated"] is False
+    assert run_card["submission"]["candidate_tif_generated"] is True  # run 2 generated the review copy
     assert run_card["submission"]["safe_to_upload"] is False
-    assert run_card["submission"]["existing_repository_artifact"]["holdout_validation"] == "NOT ESTABLISHED"
+    assert run_card["submission"]["existing_repository_artifact"]["holdout_validation"].startswith("HOLDOUT-DTI")
     assert run_card["submission"]["existing_repository_artifact"]["format_validation"].startswith("FAIL")
-    assert run_card["holdout_dti"]["withheld_positive_count"] is None
+    assert run_card["holdout_dti"]["withheld_positive_count"] == 60988
     assert cache_audit["result"].startswith("HASHES_MATCH_OWNER_PINS")
     assert "not an organizer-authenticated" in cache_audit["source"]["role"]
     assert cache_audit["shared_tool_review"]["matches_required_whole_segment_hide_recover"] is False
@@ -77,7 +80,7 @@ def test_feed_link_is_outside_element_replaced_by_audit_javascript():
     page = (ROOT / "docs/index.html").read_text(encoding="utf-8")
     status_line = next(line for line in page.splitlines() if 'id="local-audit-status"' in line)
     assert "<a " not in status_line
-    assert '<a href="data/feed.json">Open this review\'s local status feed →</a>' in page
+    assert '<a href="data/feed.json">data/feed.json</a>' in page  # landing-page feed link (2026-10-09 wording)
 
 
 def test_mag_ridge_builder_refuses_negative_variants():

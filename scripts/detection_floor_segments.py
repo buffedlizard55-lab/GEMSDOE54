@@ -15,7 +15,9 @@ Three floors are reported, all for two-sided alpha = 0.05 and 80 % power:
 
 Pixel-IID floors are NOT reported: pixels are spatially dependent, so a pixel count is not an
 experimental unit. The question "is the 0.0028 gap inside the floor?" is answered for each paired
-holdout comparison and for the board gap, which is not a paired comparison at all.
+holdout comparison and for the board gap. The two board scores are computed on the same public test
+set, so they are paired in principle, but the board publishes neither its unit count nor per-unit
+contributions, so no floor can be computed from the board itself.
 """
 
 from __future__ import annotations
@@ -83,15 +85,17 @@ def main() -> int:
         "source": "evidence/holdout_segment_cv_v1.json",
         "alpha": 0.05, "power": 0.80, "two_sided": True,
         "board_gap_user_reported": {"value": BOARD_GAP, "pair": "0.2778 minus 0.2750",
-                                    "label": "BOARD-UNVERIFIED; not a paired comparison on one truth set"},
+                                    "label": "BOARD-UNVERIFIED (ORGANIZER-PUBLIC leaderboard value); same public test set, but no unit count or per-unit contributions are published"},
         "standardised_floors": floors,
         "raw_floors_paired_holdout": raw,
         "rho_sensitivity": sens,
         "answer": (
-            "The 0.0028 board gap is smaller than the raw floor of every paired holdout comparison in this "
-            "receipt, so the holdout cannot resolve it. The board values are also not paired on one truth set."
-            if all(v["gap_0_0028_inside_floor"] for v in raw.values())
-            else "At least one paired holdout comparison has a raw floor below 0.0028; see raw_floors_paired_holdout."),
+            "At the correlations estimated in the receipt (rho-hat -0.016 for C2-C0, 0.020 for C3-C0) the 0.0028 gap is "
+            "inside the raw floors (0.0045 and 0.0049). It becomes detectable only if the two candidates' paired estimates are "
+            "strongly correlated: for C2-C0 at rho of about 0.8 or more, for C3-C0 at about 0.93 or more; C1-C0 stays inside "
+            "the floor over the whole rho range tested. The board pair shares the public test set, but the board publishes no "
+            "unit count or per-unit contributions, so no floor can be computed from it."
+        ),
         "caveat": ("Unit counts are raster fragments (IR-54-039); the floors are indicative. "
                    "Pixel-IID floors are invalid and are not reported."),
     }

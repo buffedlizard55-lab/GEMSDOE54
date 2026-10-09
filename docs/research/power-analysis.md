@@ -1,3 +1,7 @@
+> **Correction (branch arena/a2c15068-gemsdoe54, 2026-10-09; IR-54-093, IR-54-094).** The 0.001395 floor quoted from the CGRC receipt is for a same-method paired contrast. Cross-family paired contrasts have raw 80% floors of 0.0045 to 0.0095 ([`evidence/detection_floor_segments.json`](../../evidence/detection_floor_segments.json)), so the 0.0028 gap lies inside them. Same-family near-identical pairs have floors of 0.0015 to 0.0022 ([`evidence/detection_floor.json`](../../evidence/detection_floor.json); not reproducible in this checkout, IR-54-091). The board pair cannot be computed without its unit count, so NOT CLASSIFIABLE stands.
+
+> **2026-10-09 update.** Answer to the 0.0028 question (2026-10-09). Holdout raw-scale MDE for the paired CGRC contrast is 0.001395 (bootstrap SE 0.000498; 3,118 whole-segment units; Cohen framework, alpha 0.05, power 0.80, z_sum 2.801585). The 0.0028 gap is about twice that floor, so it would be detectable on the holdout. It is NOT CLASSIFIABLE on the board: no paired board data and no published test-set size. Sections below using the earlier 1500 m or v1 numbers are superseded. Source: evidence/cgrc_holdout_receipt.json (power block).
+
 # Holdout power: required before ranking any method
 
 ## Decision

@@ -67,7 +67,7 @@ SAMPLE_SEED = 20261008
 # candidate that sits on SGMC cells therefore "overlaps" the SGMC source raster
 # at 100 % by construction, which says nothing about lane drift.  Rows whose
 # bytes match one of these pins are classified ``input_layer`` and excluded from
-# the lane verdict (reported separately, IR-54-050).
+# the lane verdict (reported separately, IR-54-051).
 KNOWN_INPUT_SHA256 = {
     "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093": "labels mirror",
     "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc": "sample-submission mirror (label mask)",
@@ -103,7 +103,7 @@ def classify_raster(rel_path: str, sha: str, decoded: str, n_bands: int,
 
     Input layers (organizer/USGS/GDR mirrors, feature stacks, label/template
     mirrors) are every team's raw material, not another lane's submission;
-    they are excluded from the lane verdict and reported separately (IR-54-050).
+    they are excluded from the lane verdict and reported separately (IR-54-051).
     """
     if sha in KNOWN_INPUT_SHA256:
         return f"input_layer:{KNOWN_INPUT_SHA256[sha]}"
@@ -272,20 +272,33 @@ def main() -> int:
             print(f"progress: files={counts['files_seen']} grid={counts['grid_rasters']} "
                   f"submission_like={counts['submission_like']}", flush=True)
 
-    sub = [r for r in rows if r["submission_like"]]
+    # Self-twins: siblings whose decoded array is identical to the candidate (e.g. the same dots
+    # re-saved with NaN outside the footprint). They are the candidate itself, not an independent
+    # sibling, so they are listed separately and kept out of every sibling statistic. (2026-10-09 fix:
+    # the NaN twin previously entered the non-degenerate overlap maximum as 1.0.)
+    twins = [f"{r['repo']}/{r['path']}" for r in rows if r["exact_decoded_match"]]
+    sub = [r for r in rows if r["submission_like"] and not r["exact_decoded_match"]]
     rho_vals = [r["spearman_rho"] for r in sub if np.isfinite(r.get("spearman_rho", np.nan))]
     ov_vals = [r["overlap_cand_in_sib"] for r in sub if "overlap_cand_in_sib" in r]
     ov_vals_nd = [r["overlap_cand_in_sib"] for r in sub
                   if "overlap_cand_in_sib" in r and not r["overlap_degenerate"]]
     degenerate_rows = [f"{r['repo']}/{r['path']}" for r in sub if r.get("overlap_degenerate")]
-    max_rho_row = max(sub, key=lambda r: r.get("spearman_rho", -9)) if sub else None
+    max_rho_row = max(sub, key=lambda r: abs(r["spearman_rho"]) if np.isfinite(r.get("spearman_rho", np.nan))
+                      else -1.0) if sub else None
     max_ov_row = max(sub, key=lambda r: r.get("overlap_cand_in_sib", -1)) if sub else None
     exact_file = [f"{r['repo']}/{r['path']}" for r in rows if r["exact_file_match"]]
     exact_dec = [f"{r['repo']}/{r['path']}" for r in rows if r["exact_decoded_match"]]
-    max_rho = float(max(rho_vals)) if rho_vals else float("nan")
-    max_ov = float(max(ov_vals)) if ov_vals else float("nan")
+    # |rho| as in validate_submission.check_lane_arrays (absolute Spearman, the stricter reading)
+    max_rho = float(max(abs(v) for v in rho_vals)) if rho_vals else float("nan")
     max_ov_nd = float(max(ov_vals_nd)) if ov_vals_nd else float("nan")
-    lane_pass = (not exact_file) and (max_rho <= RHO_LIMIT) and (max_ov_nd <= OVERLAP_LIMIT)
+    max_ov = float(max(ov_vals)) if ov_vals else float("nan")
+    # Protocol verdict is LITERAL: the 70 % overlap limit applies to EVERY sibling raster with dots.
+    # Blanket rasters (coverage >= DEGENERATE_COVERAGE) are reported but do not get an exemption here.
+    lane_pass = (not exact_file) and (max_rho <= RHO_LIMIT) and (max_ov <= OVERLAP_LIMIT)
+    # Diagnostic only (the earlier repository convention): excludes blanket rasters from the overlap test.
+    lane_pass_nondegenerate = (not exact_file) and (max_rho <= RHO_LIMIT) and (max_ov_nd <= OVERLAP_LIMIT)
+    overlap_fail_rows = [f"{r['repo']}/{r['path']}" for r in sub
+                         if r.get("overlap_cand_in_sib", 0.0) > OVERLAP_LIMIT]
     top_rho = sorted(sub, key=lambda r: -r.get("spearman_rho", -9))[:10]
     top_ov = sorted(sub, key=lambda r: -r.get("overlap_cand_in_sib", -1))[:10]
 
@@ -304,13 +317,16 @@ def main() -> int:
         "result": {
             "exact_file_matches": exact_file,
             "exact_decoded_matches": exact_dec,
-            "max_spearman_rho": round(max_rho, 6) if np.isfinite(max_rho) else None,
+            "self_twins_excluded_from_sibling_stats": twins,
+            "max_abs_spearman_rho": round(max_rho, 6) if np.isfinite(max_rho) else None,
             "max_spearman_rho_source": f"{max_rho_row['repo']}/{max_rho_row['path']}" if max_rho_row else None,
             "max_overlap_cand_in_sib_all": round(max_ov, 6) if np.isfinite(max_ov) else None,
             "max_overlap_cand_in_sib_nondegenerate": round(max_ov_nd, 6) if np.isfinite(max_ov_nd) else None,
+            "overlap_fail_rows_literal": overlap_fail_rows,
+            "lane_check_nondegenerate_diagnostic": "PASS" if lane_pass_nondegenerate else "FAIL",
             "max_overlap_source": f"{max_ov_row['repo']}/{max_ov_row['path']}" if max_ov_row else None,
             "overlap_degenerate_siblings": degenerate_rows,
-            "siblings_with_rho_above_limit": sum(1 for v in rho_vals if v > RHO_LIMIT),
+            "siblings_with_abs_rho_above_limit": sum(1 for v in rho_vals if abs(v) > RHO_LIMIT),
             "siblings_with_overlap_above_limit": sum(1 for v in ov_vals if v > OVERLAP_LIMIT),
             "lane_check": "PASS" if lane_pass else "FAIL",
         },
@@ -325,7 +341,7 @@ def main() -> int:
             "Lane verdict is computed over prediction-like rasters only (kind == 'prediction'). "
             "Shared input layers (USGS/SGMC, GeoDAWN stacks, GDR manifestation masks, label and "
             "template mirrors) are excluded: overlapping an input every team may use is not lane "
-            "drift. Their overlaps are still computed per row for audit (IR-54-050)."
+            "drift. Their overlaps are still computed per row for audit (IR-54-051)."
         ),
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "method_note": ("Spearman over a seeded 200k-cell subsample of the study area; "

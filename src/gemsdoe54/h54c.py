@@ -190,7 +190,7 @@ def build_candidate(name: str, visible_catalogue: np.ndarray, footprint: np.ndar
         raise ValueError(f"unknown candidate {name!r}")
     surface = np.where(admissible, surface, 0.0).astype(np.float32)
     if name == "C2b_manifest_radedge_ungated":
-        # Documented E3 deviation (IR-54-052): the alteration-corridor hypothesis
+        # Documented E3 deviation (IR-54-108): the alteration-corridor hypothesis
         # does not require fault-trace linearity.  Dots fill the full thresholded
         # support at the same 2 px spacing.  Rationale (no truth consulted): the
         # gated variant's metric ceiling at its mass cannot reach the owner-reported

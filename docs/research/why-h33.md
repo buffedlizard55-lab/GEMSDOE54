@@ -1,3 +1,5 @@
+> **2026-10-09 update.** Superseded in part by docs/top-artefact.html (2026-10-09). The 0.2778 value is not the board top (0.3774 is rank 1; 0.3195 rank 7; 0.2778 rank 13). The deletion count is 2,545 (40,199 to 37,654), not 6,436. The GEMSDOE32 link is unverified.
+
 # Forensic note: H33 `b2` artifact and its reported value
 
 ## 2026-10-09 session answer (PhD-level synthesis)

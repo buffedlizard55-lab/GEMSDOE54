@@ -1,7 +1,7 @@
 {
   "schema": "gemsdoe54.run-card.v2",
   "run_id": "GEMSDOE54-H54C-20261009",
-  "generated_utc": "2026-10-09T03:22:11+00:00",
+  "generated_utc": "2026-10-09T03:33:16+00:00",
   "experiments": {
     "E1_holdout": {
       "receipt": "evidence/holdout_h54c_v2.json",
@@ -101,7 +101,7 @@
     },
     "E3_deliverable": {
       "candidate": "C2b_manifest_radedge_ungated",
-      "deviation": "IR-54-052: emission without the trace-linearity gate (registered after E2's lane stop; no truth consulted: chosen on mass algebra and lane-uniqueness only). Holdout re-measured to match the artefact."
+      "deviation": "IR-54-108: emission without the trace-linearity gate (registered after E2's lane stop; no truth consulted: chosen on mass algebra and lane-uniqueness only). Holdout re-measured to match the artefact."
     }
   },
   "hypothesis": "Permeable structures hosting faults that the USGS/INGENIOUS catalogue misses leave two coupled signatures where the hydrothermal system is active: radiometric alteration edges (K-depletion core / K-enrichment halo around the conduit) and surface manifestations (Quaternary vents and flows, paleo sinter/tufa springs, 2 m thermal-probe anomalies).",
@@ -291,7 +291,7 @@
         "GEMSDOE54/registry/registry_rasters/r13_lattice_s5_00904.tif",
         "GEMSDOE54/registry/registry_rasters/r14_union_tips10_lat6.tif"
       ],
-      "note": "Input layers (USGS/SGMC, GeoDAWN stacks, GDR masks, label/template mirrors) are excluded from the lane registry (IR-54-050) and reported separately; overlapping shared input data is not lane drift."
+      "note": "Input layers (USGS/SGMC, GeoDAWN stacks, GDR masks, label/template mirrors) are excluded from the lane registry (IR-54-051) and reported separately; overlapping shared input data is not lane drift."
     }
   },
   "raster": {
@@ -383,7 +383,7 @@
     "note": "H54-C2b alteration-edge+Q-manifest corridor, >300m off-cat; HOLDOUT-DTI 0.0186 beats chance p<0.001; unique lane; 18880 dots",
     "note_chars": 124,
     "download": "docs/downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif",
-    "convention": "all-finite zeros outside footprint (organizer-form-safe, IR-54-051)"
+    "convention": "all-finite zeros outside footprint (organizer-form-safe, IR-54-109)"
   },
   "verdict": {
     "hypothesis_validation": "positive: HOLDOUT-DTI beats the matched chance control by +0.0123 [+0.0094, +0.0154], 2.8x the 80%-power detection floor",

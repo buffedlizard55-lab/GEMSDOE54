@@ -76,7 +76,7 @@ def test_rejects_bad_spacing() -> None:
 
 
 def test_submission_writer_default_is_all_finite_zeros_outside(tmp_path) -> None:
-    # IR-54-051: the deliverable convention is all-finite zeros outside the
+    # IR-54-109: the deliverable convention is all-finite zeros outside the
     # footprint ("-zeros"), matching the organizer form check
     # "Predicted values must be in range [0, 1]" over the whole raster.
     labels = ROOT / "data/grid/labels.tif"

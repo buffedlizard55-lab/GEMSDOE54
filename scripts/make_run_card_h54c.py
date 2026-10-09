@@ -76,7 +76,7 @@ def main() -> int:
             },
             "E3_deliverable": {
                 "candidate": cand,
-                "deviation": "IR-54-052: emission without the trace-linearity gate (registered "
+                "deviation": "IR-54-108: emission without the trace-linearity gate (registered "
                              "after E2's lane stop; no truth consulted: chosen on mass algebra and "
                              "lane-uniqueness only). Holdout re-measured to match the artefact.",
             },
@@ -128,7 +128,7 @@ def main() -> int:
                 "max_overlap_nondegenerate": uni_res.get("max_overlap_cand_in_sib_nondegenerate"),
                 "degenerate_exempted": uni_res.get("overlap_degenerate_siblings"),
                 "note": "Input layers (USGS/SGMC, GeoDAWN stacks, GDR masks, label/template "
-                        "mirrors) are excluded from the lane registry (IR-54-050) and reported "
+                        "mirrors) are excluded from the lane registry (IR-54-051) and reported "
                         "separately; overlapping shared input data is not lane drift.",
             },
         },
@@ -143,7 +143,7 @@ def main() -> int:
             "note": build["submission_form"]["note"],
             "note_chars": build["submission_form"]["note_chars"],
             "download": build["file"]["path"],
-            "convention": "all-finite zeros outside footprint (organizer-form-safe, IR-54-051)",
+            "convention": "all-finite zeros outside footprint (organizer-form-safe, IR-54-109)",
         },
         "verdict": {
             "hypothesis_validation": "positive: HOLDOUT-DTI beats the matched chance control by "

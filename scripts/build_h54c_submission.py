@@ -13,7 +13,7 @@ History encoded here (full receipts in evidence/ and registry/):
       7GEMSDOE gems7-halo15-gbt.  Protocol rule 1: logged as duplicate, stopped
       (evidence/uniqueness_gems54-h54c-tipcont.json).  The file is retained for
       audit only and is NOT a submission candidate.
-  E3  C2b_manifest_radedge_ungated (documented deviation IR-54-052: emission
+  E3  C2b_manifest_radedge_ungated (documented deviation IR-54-108: emission
       without the trace-linearity gate, because alteration corridors are not
       traces; raises mass 2,583 -> ~18,880 and lowers max non-degenerate
       sibling overlap 0.586 -> 0.540).  This is the deliverable.
@@ -21,11 +21,11 @@ History encoded here (full receipts in evidence/ and registry/):
 Gates run here:
   1. pre-placement lane screen on the thresholded score surface (support cells)
      against every registry raster (fixed gate: degenerate rasters exempt from
-     the overlap verdict, IR-54-050);
+     the overlap verdict, IR-54-051);
   2. emission with the candidate's registered policy;
   3. submission write: single-band float32, EPSG:32611, 3730 x 3292, all-finite
      values in {0.0, 1.0}, zeros outside the footprint (organizer-form-safe,
-     IR-54-051), then read back and assert byte-level facts;
+     IR-54-109), then read back and assert byte-level facts;
   4. final-dot lane screen on the written raster.
 
 Run:  python scripts/build_h54c_submission.py --candidate C2b_manifest_radedge_ungated
@@ -201,7 +201,7 @@ def main() -> int:
         "build": {
             "rule": "thresholded C2 surface (top-decile GeoDAWN gradient magnitude, 2 km "
                     "manifestation halo, exp(-d/1 km)), >300 m off catalogue, one dot per 200 m "
-                    "on the full support (no linearity gate; IR-54-052)",
+                    "on the full support (no linearity gate; IR-54-108)",
             "dots": n_dots,
             "support_cells": int(cand["support"].sum()),
             "catalogue_flank_exclusion_m": 300,

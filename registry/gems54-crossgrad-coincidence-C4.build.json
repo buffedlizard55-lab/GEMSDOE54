@@ -1,0 +1,59 @@
+{
+  "slug": "cross_gradient",
+  "generated_utc": "2026-10-09T00:02:21+00:00",
+  "builder": "scripts/build_v2_candidate.py",
+  "evaluator_helpers": {
+    "name": "gemsdoe54-segment-cv",
+    "version": "v2"
+  },
+  "source_layer": {
+    "surface": "rank-geometric-mean of |tmi_hg| and |iso_grav_anom_hg| (C4)",
+    "bands": [
+      "tmi_hg",
+      "iso_grav_anom_hg"
+    ],
+    "features_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "provenance": "owner bridge copy of the GeoDAWN feature stack; SHA-256 matches the owner manifest; NOT organizer-authenticated"
+  },
+  "rule": "ridge of surface >= quantile threshold, gated, 2 px spacing, >= 300 m from the full catalogue",
+  "parameters": {
+    "quantile": 0.1,
+    "threshold": 0.14573700418818922,
+    "target_dots": 15907,
+    "achieved_dots": 16007,
+    "spacing_px": 2.0,
+    "gate": {
+      "min_px": 3,
+      "min_px_extent": 5,
+      "min_elongation": 6.0
+    },
+    "buffer_px": 3.0
+  },
+  "output": {
+    "path": "/tmp/v2/cross_gradient.tif",
+    "sha256": "13993a7023c85ad725c4b6a16182776eeaacc4c4992df8d94164889778cfb988",
+    "bytes": 120940,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "nodata": "NaN outside footprint",
+    "positive_cells": 16007,
+    "footprint_cells": 5167373
+  },
+  "checks": {
+    "dtype_float32": true,
+    "crs_epsg_32611": true,
+    "shape_3730x3292": true,
+    "transform_100m": true,
+    "finite_inside_footprint": true,
+    "in_0_1_inside_footprint": true,
+    "nan_outside_footprint": true,
+    "positive_count_matches_gate": true,
+    "no_dot_on_or_within_300m_of_catalogue": true,
+    "footprint_cells": true
+  },
+  "label": "MODEL (no score). Holdout and uniqueness are reported separately as HOLDOUT-DTI / lane receipts."
+}

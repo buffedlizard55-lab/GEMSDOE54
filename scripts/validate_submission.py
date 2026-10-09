@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Validate a candidate submission against the local format and lane gates.
 
-Format gate (2026-10-09 revision, IR-54-050/IR-54-051):
+Format gate (2026-10-09 revision, IR-54-051/IR-54-109):
   * values inside the footprint must be finite and inside [0, 1];
   * the whole raster must satisfy the organizer's observed form check
     ``Predicted values must be in range [0, 1]`` -- every finite value, inside
@@ -14,7 +14,7 @@ Format gate (2026-10-09 revision, IR-54-050/IR-54-051):
     report therefore records which convention a file uses and flags ``-nan`` as
     a warning, not a pass-through.
 
-Lane gate (2026-10-09 revision, IR-54-050):
+Lane gate (2026-10-09 revision, IR-54-051):
   * absolute Spearman rank correlation <= 0.90 against every registry raster;
   * no more than 70% of candidate positive cells within 3 px of ONE registry
     raster's positive cells.
@@ -176,7 +176,7 @@ def check_lane_arrays(
     >= 50% of the footprint (``overlap_test_admissible`` is False): such rasters
     cannot discriminate overlap.  Their literal statistics are still reported
     (``overlap_flag_literal``), and the rank-correlation gate applies to every
-    registry raster.  See the module docstring (IR-54-050).
+    registry raster.  See the module docstring (IR-54-051).
     """
     values = np.asarray(mine)
     foot = np.asarray(footprint, dtype=bool)
@@ -243,7 +243,7 @@ def check_lane_arrays(
         # Literal statistic: the raw threshold against every registry raster.
         overlap_flag_literal = fraction is not None and fraction > max_overlap
         # Binding statistic: a >=50%-covering raster cannot discriminate overlap
-        # (see module docstring; IR-54-050).  Rank correlation still applies to it.
+        # (see module docstring; IR-54-051).  Rank correlation still applies to it.
         overlap_degenerate = bool(coverage > 0.50)
         overlap_flag = bool(overlap_flag_literal and not overlap_degenerate)
         rows.append({

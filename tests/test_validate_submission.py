@@ -23,7 +23,7 @@ def test_cached_label_mirror_passes_local_null_outside_format_check():
 
 
 def test_archived_h54a_passes_all_finite_outside_format_gate():
-    # IR-54-051: the organizer form check is "Predicted values must be in range
+    # IR-54-109: the organizer form check is "Predicted values must be in range
     # [0, 1]" over the whole raster; finite zeros outside the footprint are the
     # organizer-form-safe convention (the 0.2778 artefact is a -zeros file).
     report = check_format(
@@ -65,7 +65,7 @@ def test_lane_gate_uses_absolute_rank_correlation():
 
 
 def test_near_covering_registry_overlap_is_reported_but_exempt_from_verdict():
-    # IR-54-050: a blanket/near-covering registry raster cannot discriminate
+    # IR-54-051: a blanket/near-covering registry raster cannot discriminate
     # overlap (r13_lattice covers 99.87% of the footprint; the literal gate is
     # otherwise unsatisfiable).  The literal statistic is still reported, the
     # verdict exempts it, and rank correlation still applies to it.

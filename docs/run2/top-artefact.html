@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Why 0.2778 scored well, and whether we can beat it | GEMSDOE54</title>
+<meta name="description" content="Verified mechanism of the GEMSDOE32 H33-2-B2 entry (0.2778 published): exact catalogue-proximity prune of its parent dot set. Board value unverified.">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">GEMS<span>DOE54</span></div>
+    <nav>
+      <a href="../index.html">Download</a>
+      <a href="../executive-summary.html">How to submit</a>
+      <a href="../holdout.html">Holdout</a>
+      <a href="../hypotheses.html">Hypotheses</a>
+      <a href="../top-artefact.html">0.2778 explained</a>
+      <a href="../irregularities.html">Audit ledger</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+<h1>Why the 0.2778 entry scored well, and whether we can beat it</h1>
+<p class="muted">Labels: the mechanism is <strong>VERIFIED</strong> on the registry rasters. The 0.2778 and 0.2708 values are <strong>BOARD-UNVERIFIED</strong>. No organizer receipt exists.</p>
+
+<div class="panel hero">
+  <h2 style="margin-top:0">Short answer</h2>
+  <p>0.2778 is not the top of the board. It is rank 13 on the displayed board, and the top value is 0.3774. It is the <strong>highest published score among the 15 GEMSDOE registry artefacts</strong>. Its raster is its parent (0.2708) with exactly the 2,545 dots that lie within 200 m of a USGS catalogue fault removed. Under the organizer metric, those dots can only earn credit from a new fault within 300 m, so removing them lowers the false-positive penalty. We could not show a way to beat 0.2778 with a unique file.</p>
+</div>
+
+<div class="panel">
+  <h2 style="margin-top:0">1. What the registry rasters show (verified)</h2>
+  <table>
+    <thead><tr><th>Raster</th><th>Published (unverified)</th><th>Dots</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td><code>dotted_d2_8_02708.tif</code> (parent)</td><td>0.2708</td><td>40,199</td><td>dense dots on non-catalogue structure</td></tr>
+      <tr><td><code>dotted_b2_prune_02778.tif</code> (child)</td><td>0.2778</td><td>37,654</td><td>child ⊂ parent: True; removed 2,545; added 0</td></tr>
+    </tbody>
+  </table>
+  <ul>
+    <li><strong>The removed set is exactly the parent dots within 2 px (200 m) of the catalogue:</strong> 2,545 of 2,545. None of them survives in the child.</li>
+    <li>Kept child dots: median distance to the catalogue 1,965 m; 5.8 % within 300 m. Parent: 11.7 % within 300 m.</li>
+    <li>The 2,171 child dots at 200–300 m from the catalogue were kept. The owner's cut is therefore 200 m, not the builder's 300 m exclusion.</li>
+  </ul>
+  <p class="small muted">Reproduce: <code>python scripts/top_artefact_check.py</code> → <a href="../../evidence/top_artefact_check.json">evidence/top_artefact_check.json</a>. Earlier analysis: <a href="../../evidence/top_artefact_analysis.json">top_artefact_analysis.json</a>.</p>
+</div>
+
+<div class="panel">
+  <h2 style="margin-top:0">2. Why removing those dots raises the score</h2>
+  <p>The organizer metric is DTI = TP<sub>w</sub> / (TP<sub>w</sub> + 0.2·FP<sub>w</sub> + 0.8·FN<sub>w</sub>). A false positive costs its weight (1 − max kernel), and a dot whose kernel credit is zero costs 0.2 in the denominator. Deleting such a dot leaves TP and FN unchanged, so DTI rises.</p>
+  <p>Under the round-1 scoring text, the truth is the expert set of <em>new</em> faults outside the USGS database (<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">official problem page</a>). A dot within 200 m of a catalogue fault therefore earns credit only if a new fault lies within 300 m of it. Otherwise it is a false positive. That is the mechanism to test first.</p>
+  <p><strong>MODEL (inference, depends on unverified board values):</strong> if the removed dots earned no credit, the two board values imply a public denominator of about 20,200. That is 2,545 × 0.2 = 509 divided by (0.2778 − 0.2708) / 0.2778. It is not a score.</p>
+  <p class="small muted">Caveat: the owner's audit fields are internally inconsistent (<a href="../irregularities.html">IR-54-034</a>), and the owner manifest labels this entry UNSCORED (<a href="../irregularities.html">IR-54-035</a>).</p>
+</div>
+
+<div class="panel">
+  <h2 style="margin-top:0">3. Can we beat 0.2778?</h2>
+  <ul>
+    <li><strong>Not demonstrated.</strong> No file here has a board score. Our holdout measures recovery of catalogue faults, not new faults, so it cannot rank a file against 0.2778.</li>
+    <li>The only holdout-tied candidate (<a href="../index.html">the own-model file</a>) does not beat the holdout best, and it fails the literal lane gate. It is not a submission candidate.</li>
+    <li>A stricter prune (for example 300 m instead of 200 m) is the obvious next test. It would need a new holdout experiment, and this session's three-experiment budget is spent. The result would be a HOLDOUT-DTI measurement only.</li>
+    <li>The board's top (0.3774) is unexplained, because no receipt or method is public.</li>
+  </ul>
+</div>
+
+<div class="panel tight">
+  <h2 style="margin-top:0">Where this stands in the brief</h2>
+  <p>The brief said 0.3195 is the highest value. That is wrong. The displayed board shows 0.3774 at rank 1 and 0.3195 at rank 7. The 0.2778 and 0.2750 gap is inside the detection floor (see <a href="../research/power-analysis.md">the power analysis</a>).</p>
+</div>
+</div>
+<footer><div class="wrap"><p class="small muted">Labels: VERIFIED = checked on rasters in this repository; BOARD-UNVERIFIED = displayed or user-supplied values; MODEL = inference.</p></div></footer>
+</body>
+</html>

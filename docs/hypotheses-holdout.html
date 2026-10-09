@@ -1,79 +1,32 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Five ranked geological hypotheses for faults missing from the GEMS catalogue, with holdout status and data obtainability.">
-  <title>Ranked hypotheses and validation status | GEMSDOE54</title>
-  <link rel="stylesheet" href="assets/audit-site.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hypotheses and holdout status (superseded) | GEMSDOE54</title>
+<meta name="description" content="Superseded page. See the current hypotheses and holdout pages.">
+<link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
-<header class="site-header"><div class="header-inner">
-  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
-  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="submit-verdict.html">Submit guide</a><a href="rules-gate.html">Rules gate</a><a href="holdout.html">Holdout</a><a href="top-artefact.html">Top artefact</a><a aria-current="page" href="hypotheses-holdout.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
-</div></header>
-<main>
-  <section class="page-title">
-    <div class="eyebrow">Hypotheses · ranked by validated signal and lane eligibility</div>
-    <h1>Five hypotheses for faults missing from the catalogue</h1>
-    <p class="lead">Each hypothesis names its layer, its physical signature, the non-fault process that could mimic it, and its holdout status. Validation uses the whole-segment holdout. Where a source needs new data, the free official source is named and its reachability checked.</p>
-  </section>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">GEMS<span>DOE54</span></div>
+    <nav>
+      <a href="index.html">Download</a>
+      <a href="executive-summary.html">How to submit</a>
+      <a href="holdout.html">Holdout</a>
+      <a href="hypotheses.html">Hypotheses</a>
+      <a href="top-artefact.html">0.2778 explained</a>
+      <a href="irregularities.html">Audit ledger</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
 
-  <section class="section">
-    <div class="table-wrap"><table>
-      <thead><tr><th>Rank</th><th>Hypothesis and layer</th><th>Physical signature</th><th>Mimic process</th><th>Holdout status</th><th>Lane and data</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>1</td>
-          <td><strong>Magnetic horizontal-gradient ridges</strong> (official <code>tmi_hg</code>, GeoDAWN magnetics)</td>
-          <td>A fault that juxtaposes magnetic units leaves a gradient maximum along its trace, even where no scarp is visible.</td>
-          <td>Dikes, intrusive contacts, basalt-flow margins, and sedimentary basin edges.</td>
-          <td><strong>HOLDOUT-DTI 0.0148 [0.0118, 0.0180]</strong>, paired +0.0044 [+0.0012, +0.0082] over the chance control. Canary clear (AUC 0.544). Below C1.</td>
-          <td>Basis of H54-B: byte-unique, lane FAIL (81.6 % overlap with GEMSDOE40, 75.7 % with GEMSDOE46). Data: official training features.</td>
-        </tr>
-        <tr>
-          <td>2</td>
-          <td><strong>SGMC state-map complement</strong> (USGS SGMC, free; this repository's H54-A rule)</td>
-          <td>State-map linework more than 300 m from every catalogue cell is a candidate for an unmapped fault.</td>
-          <td>Pre-Quaternary faults with no scarp, dikes and veins digitised as lines, lithologic contacts, and neatlines.</td>
-          <td><strong>HOLDOUT-DTI 0.0483 [0.0424, 0.0541]</strong>, paired +0.0379 [+0.0317, +0.0437] over the control. Strongest signal here. Canary clear (AUC 0.526).</td>
-          <td><strong>Not eligible to upload:</strong> dot overlap 100 % with a sibling submission (GEMSDOE3 sgmc-gap), so it fails the lane rule. Source reachable: <a href="https://mrdata.usgs.gov/geology/state/">USGS state geologic map downloads</a>.</td>
-        </tr>
-        <tr>
-          <td>3</td>
-          <td><strong>Geodetic shear-rate ridges</strong> (official <code>geod_shearrate</code>, GPS/InSAR-derived)</td>
-          <td>Active shear concentrates on young faults, which appear as shear-rate maxima.</td>
-          <td>Interpolation artefacts of sparse GPS networks, smooth regional strain, and anthropogenic deformation such as groundwater withdrawal.</td>
-          <td><strong>HOLDOUT-DTI 0.0098 [0.0072, 0.0128]</strong>, paired −0.0006 [−0.0037, +0.0027] over the control. <strong>No signal over chance.</strong></td>
-          <td>Unique-lane candidate. Data: official features. Not used for any file.</td>
-        </tr>
-        <tr>
-          <td>4</td>
-          <td><strong>InSAR deformation time series</strong> (Sentinel-1 via ASF or Copernicus; new processing)</td>
-          <td>Creep and coseismic offsets on faults show up as line-aligned phase discontinuities.</td>
-          <td>Atmospheric phase screens, groundwater-driven subsidence, and unwrapping errors.</td>
-          <td><strong>Not validated.</strong> Requires new processing; no holdout run.</td>
-          <td>Free source reachable: <a href="https://search.asf.alaska.edu/">ASF data search</a> loads, but downloads need a free NASA Earthdata login, which this session did not use. Obtainable, not obtained.</td>
-        </tr>
-        <tr>
-          <td>5</td>
-          <td><strong>Landsat thermal persistence</strong> (USGS Landsat Collection 2)</td>
-          <td>Fault zones with warm springs or fracture-enhanced permeability show persistent thermal anomalies.</td>
-          <td>Land cover, irrigation, and albedo changes.</td>
-          <td><strong>Not validated.</strong> No holdout run.</td>
-          <td>Free USGS source; reachability not checked this session.</td>
-        </tr>
-      </tbody>
-    </table></div>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><h2>Which hypothesis is validated before any slot?</h2></div>
-    <div class="panel">
-      <p>Rule: validate the top candidate on a spatially blocked holdout before any slot. The holdout here blocks by whole fault segment with a 300 m buffer, which is stricter than a spatial block. Two candidates beat the chance control (C1 and C3). C1 is the strongest, but it fails the lane rule. C3 is byte-unique but also fails the lane rule, and it does not beat C1. Under the protocol, neither earns a slot.</p>
-      <p>No hypothesis on this page is a verified improvement on the board. The holdout is catalogue recovery, and the hidden set is not the catalogue.</p>
-    </div>
-  </section>
-</main>
-<footer class="footer"><div class="footer-inner"><span>Holdout values are HOLDOUT-DTI with evaluator gemsdoe54-segment-cv v1. Hypotheses are not scores. Not legal advice.</span></div></footer>
+<h1>Hypotheses and holdout status</h1>
+<p>This page is superseded. The current ranked hypotheses, with the holdout result for each, are in <a href="hypotheses.html">hypotheses.html</a>. The full holdout receipt is in <a href="holdout.html">holdout.html</a>.</p>
+<p class="small muted">The earlier statement that the holdout was "not established" is out of date. Evaluator <code>gemsdoe54-segment-cv</code> v2 now runs end to end (IR-54-058).</p>
+</div>
+<footer><div class="wrap"><p class="small muted">Audited 2026-10-08. Labels: HOLDOUT-DTI, ORGANIZER-CONFIRMED (none), BOARD-UNVERIFIED, MODEL.</p></div></footer>
 </body>
 </html>

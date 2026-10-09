@@ -22,7 +22,7 @@ def _write_raster(path: Path, values: np.ndarray, *, nodata=None) -> None:
 
 
 def test_near_covering_registry_is_exempt_from_overlap_verdict(tmp_path):
-    # IR-54-050: near-covering registry rasters (>= 50% of footprint within
+    # IR-54-051: near-covering registry rasters (>= 50% of footprint within
     # 3 px) cannot discriminate overlap; literal statistics are reported but the
     # overlap verdict exempts them.  Rank correlation still binds.
     registry = np.zeros((40, 40), dtype=np.float32)

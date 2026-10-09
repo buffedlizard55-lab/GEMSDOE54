@@ -1,0 +1,21 @@
+{
+  "schema": "gemsdoe54.build-h1.v1",
+  "generated_utc": "2026-10-09T00:22:25+00:00",
+  "hypothesis": "H1 cross-gradient coincidence ridge",
+  "score_definition": "min(pct_rank(tmi_hg), pct_rank(|iso_grav_anom_hg|)) over footprint",
+  "quantile": 0.95,
+  "threshold": 0.7350356639955137,
+  "positive_cells": 21371,
+  "exclusion_buffer_px": 3.0,
+  "footprint_cells": 5167373,
+  "footprint_expected": 5167373,
+  "features_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+  "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+  "output_path": "docs/downloads/gems54-h1-crossgradient-q095.tif",
+  "output_bytes": 92984,
+  "output_sha256": "006e912b85b73e764ad151cb7228de61aa02485ffca769439022d2b124e26f05",
+  "dtype": "float32",
+  "nodata": null,
+  "values": "exactly 0.0 or 1.0; zeros outside footprint; no NaN",
+  "label": "MODEL (inference). Not a score. See holdout receipt for HOLDOUT-DTI."
+}

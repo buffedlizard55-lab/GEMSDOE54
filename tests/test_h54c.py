@@ -71,7 +71,7 @@ def test_emit_from_surface_spacing_and_priority():
 
 
 def test_ungated_emission_has_at_least_gated_mass():
-    """C2b (IR-54-052) fills the full thresholded support at the same spacing;
+    """C2b (IR-54-108) fills the full thresholded support at the same spacing;
     on any surface with line-like and blob-like support it must place at least
     as many dots as the linearity-gated variant."""
     from gemsdoe54.emission import emit_spaced_dots

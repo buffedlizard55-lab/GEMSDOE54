@@ -1,0 +1,147 @@
+{
+  "label": "LANE STATISTICS (sibling corpus). Not a DTI score. Not ORGANIZER-CONFIRMED.",
+  "generated_utc": "2026-10-09T01:22:47+00:00",
+  "source_table": "/tmp/sib/uniq_cgrc_v1_table.json",
+  "source_scan": "evidence/uniqueness_gems54-cgrc-relay-v1.json",
+  "rule": {
+    "overlap_limit": 0.7,
+    "rho_limit": 0.9,
+    "degenerate_coverage": 0.5,
+    "reading": "literal: the overlap limit applies to every sibling raster with dots; same-design twins of the candidate are excluded and listed separately"
+  },
+  "same_design_excluded": [
+    {
+      "file": "GEMSDOE54/docs/downloads/gems54-cgrc-relay-v1-nan.tif",
+      "decoded_match": true,
+      "rho": 1.0,
+      "overlap": 1.0
+    }
+  ],
+  "siblings_compared": 1198,
+  "exact_file_copies": [],
+  "decoded_copies_of_other_repos": [],
+  "max_abs_spearman_rho": {
+    "value": 0.10124,
+    "source": "7GEMSDOE/downloads/gems7-strike30x3-v2-2b06d45c5b57.zip!gems7-strike30x3-v2-2b06d45c5b57.tif"
+  },
+  "literal_overlap_fail_count": 124,
+  "literal_overlap_fail_nondegenerate_count": 8,
+  "literal_overlap_fail_blanket_count": 116,
+  "nondegenerate_overlap_failures": [
+    {
+      "file": "7GEMSDOE/downloads/gems7-halo15-gbt-v1-90fb7dc0fc1f.tif",
+      "coverage_3px_of_footprint": 0.408843,
+      "overlap_cand_in_sib": 0.935092,
+      "n_dots": 1828699
+    },
+    {
+      "file": "7GEMSDOE/downloads/gems7-halo15-gbt-v1-90fb7dc0fc1f.zip!gems7-halo15-gbt-v1-90fb7dc0fc1f.tif",
+      "coverage_3px_of_footprint": 0.408843,
+      "overlap_cand_in_sib": 0.935092,
+      "n_dots": 1828699
+    },
+    {
+      "file": "7GEMSDOE/downloads/submission.tif",
+      "coverage_3px_of_footprint": 0.408843,
+      "overlap_cand_in_sib": 0.935092,
+      "n_dots": 1828699
+    },
+    {
+      "file": "7GEMSDOE/downloads/gems7-strike30x3-v2-2b06d45c5b57.tif",
+      "coverage_3px_of_footprint": 0.205993,
+      "overlap_cand_in_sib": 0.768729,
+      "n_dots": 575055
+    },
+    {
+      "file": "7GEMSDOE/downloads/gems7-strike30x3-v2-2b06d45c5b57.zip!gems7-strike30x3-v2-2b06d45c5b57.tif",
+      "coverage_3px_of_footprint": 0.205993,
+      "overlap_cand_in_sib": 0.768729,
+      "n_dots": 575055
+    },
+    {
+      "file": "GEMSDOE10/docs/downloads/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+      "coverage_3px_of_footprint": 0.26311,
+      "overlap_cand_in_sib": 0.732522,
+      "n_dots": 174232
+    },
+    {
+      "file": "GEMSDOE10/docs/downloads/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.zip!gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+      "coverage_3px_of_footprint": 0.26311,
+      "overlap_cand_in_sib": 0.732522,
+      "n_dots": 174232
+    },
+    {
+      "file": "GEMSDOE24/inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+      "coverage_3px_of_footprint": 0.26311,
+      "overlap_cand_in_sib": 0.732522,
+      "n_dots": 174232
+    }
+  ],
+  "blanket_overlap_failures_sample": [
+    {
+      "file": "17GEMSDOE/docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "17GEMSDOE/docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.zip!17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "5GEMSDOE/docs/downloads/gems-density-probe-20260925T184215Z-9cdae9b4.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE2/data/evidence/runs/turbo-simple-20260925T041759Z/submission.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE2/data/evidence/runs/turbo-simple-20260925T041907Z/submission.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE2/data/evidence/runs/turbo-simple-20260925T042003Z/submission.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE2/data/evidence/runs/turbo-simple-20260925T042118Z/submission.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE2/data/evidence/runs/turbo-simple-20260925T042118Z/submission.zip!submission.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE2/data/evidence/runs/turbo-simple-20260925T043629Z/submission.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE2/docs/gemsdoe2_turbo_submission.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE2/docs/gemsdoe2_turbo_submission.zip!submission.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    },
+    {
+      "file": "GEMSDOE4/data/evidence/newfault/proxy_only46/prob_raw.tif",
+      "coverage_3px_of_footprint": 1.0,
+      "overlap_cand_in_sib": 1.0
+    }
+  ],
+  "blanket_overlap_failures_total": 116,
+  "scan_summary_reported_fail_count": 125,
+  "verdict_literal": "FAIL",
+  "verdict_rho": "PASS",
+  "verdict_copy": "PASS"
+}

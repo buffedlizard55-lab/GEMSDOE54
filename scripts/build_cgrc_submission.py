@@ -161,12 +161,12 @@ def main() -> int:
     labels = ROOT / "data/grid/labels.tif"
     fmt_primary = check_format(primary, labels)
     fmt_twin = check_format(twin, labels)
-    # the primary is intentionally the portal-accepted pattern (all-finite, no
-    # nodata tag — the exact byte class of the 0.2778-scoring file).  The only
-    # expected failure is the organizer-page-literal NaN-outside rule, which the
-    # twin satisfies.  Any OTHER failure is a real gate failure.
-    primary_failures = [f for f in fmt_primary["failures"]
-                        if not f.startswith("outside_footprint_null_or_nan")]
+    # Two encodings are written and both are reported (decision D2, IR-54-097). The primary is all-finite
+    # (zeros outside the footprint): it cannot trigger a strict [0,1] range test, but it fails the reading of
+    # "data outside the bounds is null or nan" that is anchored to the study footprint. The twin is NaN outside
+    # the footprint: it satisfies that reading, but NaN is not a value in [0,1]. The gate is the literal result
+    # of BOTH checks; neither failure is excused here.
+    primary_failures = fmt_primary["failures"]
     twin_failures = fmt_twin["failures"]
     format_gate = (not primary_failures) and (not twin_failures)
     fmt = fmt_primary  # kept for the receipt under its own name
@@ -175,10 +175,9 @@ def main() -> int:
     lane = check_lane(primary, reg, labels)
     proof = infeasibility_proof(ROOT / "registry/registry_rasters", foot)
 
-    method_flagged = [r for r in lane["flagged_registry"]
-                      if not any(b in r for b in ("r11_", "r13_", "r14_"))]
-    verdict_lane = ("distinct lane vs every non-vacuous registry raster"
-                    if not method_flagged else f"DUPLICATE - STOP: {method_flagged}")
+    # Literal protocol: every registry raster is tested; no name-based exemption (IR-54-087).
+    verdict_lane = ("distinct lane vs every registry raster"
+                    if not lane["flagged_registry"] else f"DUPLICATE - STOP: {lane['flagged_registry']}")
 
     receipt = {
         "schema": "gemsdoe54.submission-receipt.v1",

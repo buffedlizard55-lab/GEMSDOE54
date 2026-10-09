@@ -195,7 +195,7 @@ detect lane drift. `scripts/sibling_uniqueness.py` already exempts such
 non-discriminating rasters from the overlap verdict (while keeping the
 rank-correlation verdict). This session reconciles the two tools to that rule
 and reports both the literal and the verdict statistics. Irregularity ledger:
-IR-54-050.
+IR-54-051.
 
 ---
 
@@ -214,7 +214,7 @@ the artefact is not submittable.
 edges inside a 2 km manifestation halo) with a lineage gate; the lineage gate (trace-like
 geometry) was the wrong filter for a corridor hypothesis and left only 2,583 dots — whose metric
 ceiling (even at perfect precision) is below the owner-reported 0.2778. Documented deviation
-IR-54-052: emission without the lineage gate (**no truth consulted** — chosen on mass algebra and
+IR-54-108: emission without the lineage gate (**no truth consulted** — chosen on mass algebra and
 lane uniqueness only; the ungated set is also *more* unique: max non-degenerate sibling overlap
 0.586 → 0.540). Re-measured on the holdout as **C2b: HOLDOUT-DTI 0.0186** [0.0157, 0.0215],
 beats chance by +0.0123 [+0.0094, +0.0154] = 2.8× the floor (p<0.001); below the
