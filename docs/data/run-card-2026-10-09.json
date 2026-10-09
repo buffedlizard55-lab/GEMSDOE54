@@ -35,7 +35,7 @@
       "cut": 0.9,
       "flag": false
     },
-    "promotion_comparator": "Not cited. The 'corpus holdout best 0.1793' in earlier run cards has no receipt (IR-54-055)."
+    "promotion_comparator": "Not cited. The 'corpus holdout best 0.1793' in earlier run cards has no receipt (IR-54-088)."
   },
   "overlap_vs_registry": {
     "local_registry_11_rasters": "literal 70% rule: r13 0.9980 (coverage 0.9987), r11 0.8328 (coverage 0.7397), r14 0.8571 (coverage 0.7620) FAIL; all others <= 0.5613 (hedge_v2)",
@@ -88,7 +88,7 @@
     "name": "GEMS54-CGRC-relay-v1",
     "note": "Catalogue-tip relay dots, SGMC-weighted. NOT OK to submit: lane DUPLICATE (r11/r13/r14; 3 sparse siblings). Audit copy only.",
     "note_length": 124,
-    "decision_download": "AUDIT COPY ONLY (for review)",
+    "decision_download": "NOT OK to download for submission (audit copy kept for review only)",
     "decision_submit": "NOT OK",
     "upload_state": "not uploaded; no slot chosen"
   },
@@ -108,7 +108,7 @@
     ],
     "evidence": [
       "evidence/detection_floor_segments.json",
-      "evidence/detection_floor.json (not reproducible here, IR-54-058)"
+      "evidence/detection_floor.json (not reproducible here, IR-54-091)"
     ]
   },
   "board_0278_mechanism": {
@@ -118,7 +118,7 @@
       "02778": 0.006709
     },
     "marginal_rule": "deleting a dot raises DTI iff t < 0.2*DTI*(1+t-k); verified on 80 sampled dots (80/80; closed-form error 8.6e-15)",
-    "link_to_extradr19": "UNVERIFIED (IR-54-063)"
+    "link_to_extradr19": "UNVERIFIED (IR-54-096)"
   },
   "hypotheses": {
     "ranked": [
@@ -133,12 +133,12 @@
   "verdict": "negative",
   "verdict_detail": "Negative for promotion and submission. The verdict rests on the lane gate (DUPLICATE under the literal and non-degenerate readings), not on the holdout.",
   "decisions_required": [
-    "D1 lane-rule scope (IR-54-051, IR-54-069, IR-54-070, IR-54-072)",
-    "D2 outside-bounds encoding (IR-54-064, IR-54-065)",
-    "D3 promotion comparator (IR-54-055)"
+    "D1 lane-rule scope (IR-54-084, IR-54-102, IR-54-103, IR-54-105)",
+    "D2 outside-bounds encoding (IR-54-097, IR-54-098)",
+    "D3 promotion comparator (IR-54-088)"
   ],
   "irregularities": [
-    "IR-54-050 to IR-54-073"
+    "IR-54-083 to IR-54-106"
   ],
   "sources": "docs/data/source-register.json",
   "budget": {

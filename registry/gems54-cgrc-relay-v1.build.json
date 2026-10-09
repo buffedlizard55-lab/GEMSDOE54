@@ -409,6 +409,5 @@
   ],
   "lane_verdict": "distinct lane vs every non-vacuous registry raster",
   "timing_s": 40.7,
-  "superseded_by": "docs/data/run-card-2026-10-09.json",
-  "superseded_reason": "2026-10-09: lane verdicts in this file use the pre-fix logic (name-based exclusions or non-literal overlap). See IR-54-052, IR-54-054, IR-54-071."
+  "superseded_note_2026_10_09": "SUPERSEDED 2026-10-09: the lane verdict here ('distinct' via a 'vacuous' exclusion of r11/r13/r14) is withdrawn; the literal rule FAILS (validator: DUPLICATE - STOP). Current verdict: NOT CLEARED. See docs/data/run-card-cgrc.json (v3) and IR-54-066 to IR-54-082 in docs/irregularities.html."
 }

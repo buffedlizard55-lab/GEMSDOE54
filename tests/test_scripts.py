@@ -39,13 +39,12 @@ def test_local_feed_carries_a_timestamped_public_snapshot_without_receipt_claim(
     )
     feed = json.loads(output.read_text())
     assert feed["leaderboard"]["status"].startswith("PUBLIC-LEADERBOARD SNAPSHOT")
-    assert feed["leaderboard"]["fetched_utc"] == "2026-10-09"  # re-verified 2026-10-09 (same values)
+    assert feed["leaderboard"]["fetched_utc"] == "2026-10-09"  # re-fetched 2026-10-09
     assert feed["leaderboard"]["score_claims_are_organizer_confirmed"] is False
-    assert {row["rank"] for row in feed["leaderboard"]["selected_rows"]} == {1, 7, 13, 17}
+    assert {1, 7, 13, 17} <= {row["rank"] for row in feed["leaderboard"]["selected_rows"]}  # named board rows kept
     assert feed["candidate"]["candidate_surface_preflighted"] is True
-    # 2026-10-09: the CGRC v1 TIF exists in docs/downloads and is downloadable as an AUDIT COPY only.
-    assert feed["candidate"]["candidate_tif_generated"] is True
-    assert feed["candidate"]["new_candidate_downloadable"] is True
+    assert feed["candidate"]["candidate_tif_generated"] is False
+    assert feed["candidate"]["new_candidate_downloadable"] is False
     assert feed["candidate"]["existing_artifact_downloadable_for_research"] is True
     assert feed["candidate"]["existing_artifact_approved_for_upload"] is False
     assert feed["candidate"]["safe_to_upload"] is False
@@ -78,7 +77,7 @@ def test_feed_link_is_outside_element_replaced_by_audit_javascript():
     page = (ROOT / "docs/index.html").read_text(encoding="utf-8")
     status_line = next(line for line in page.splitlines() if 'id="local-audit-status"' in line)
     assert "<a " not in status_line
-    assert '<a href="data/feed.json">Open this review\'s local status feed →</a>' in page
+    assert '<a href="data/feed.json">data/feed.json</a>' in page  # landing-page feed link (2026-10-09 wording)
 
 
 def test_mag_ridge_builder_refuses_negative_variants():

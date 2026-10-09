@@ -1,0 +1,191 @@
+{
+  "schema": "gemsdoe54.run-card.session.v1",
+  "label_policy": "HOLDOUT-DTI or PROJECTION only. No ORGANIZER-CONFIRMED values exist.",
+  "hypotheses": {
+    "C4": "Cross-gradient coincidence: rank(|tmi_hg|) x rank(|iso_grav_anom_hg|) geometric mean ridge",
+    "C5": "Surface-conductivity gradient: |grad cond_surf| ridge"
+  },
+  "mechanism": "A buried fault or lithologic offset produces coincident magnetic and gravity horizontal gradients (C4), or a conductivity contrast along a structure (C5).",
+  "named_nonfault_mimic": "Lithologic contacts, intrusive margins and basin edges (C4); clay alteration, saline groundwater and basin fill (C5).",
+  "holdout": {
+    "evaluator": "gemsdoe54-segment-cv v2",
+    "withheld_positive_cells": 60988,
+    "candidates": {
+      "C0_random_admissible_control": {
+        "pooled_dti": 0.010413,
+        "ci95": [
+          0.009081,
+          0.011744
+        ]
+      },
+      "C1_sgmc_complement": {
+        "pooled_dti": 0.048338,
+        "ci95": [
+          0.042399,
+          0.054084
+        ]
+      },
+      "C2_geodetic_shear_ridge": {
+        "pooled_dti": 0.009819,
+        "ci95": [
+          0.007206,
+          0.012839
+        ]
+      },
+      "C3_magnetic_hgrad_ridge": {
+        "pooled_dti": 0.014832,
+        "ci95": [
+          0.011836,
+          0.017965
+        ]
+      },
+      "C4_crossgrad_coincidence_ridge": {
+        "pooled_dti": 0.012589,
+        "ci95": [
+          0.009859,
+          0.015485
+        ]
+      },
+      "C5_conductivity_gradient_ridge": {
+        "pooled_dti": 0.00967,
+        "ci95": [
+          0.007787,
+          0.011858
+        ]
+      }
+    },
+    "paired": {
+      "C4_crossgrad_coincidence_ridge minus C0_random_admissible_control": {
+        "point": 0.002176,
+        "ci95": [
+          -0.000796,
+          0.005113
+        ],
+        "mde_raw_80pct": 0.004305
+      },
+      "C5_conductivity_gradient_ridge minus C0_random_admissible_control": {
+        "point": -0.000743,
+        "ci95": [
+          -0.003157,
+          0.001834
+        ],
+        "mde_raw_80pct": 0.003541
+      },
+      "C4_crossgrad_coincidence_ridge minus C1_sgmc_complement": {
+        "point": -0.035749,
+        "ci95": [
+          -0.041621,
+          -0.02968
+        ],
+        "mde_raw_80pct": 0.008878
+      },
+      "C5_conductivity_gradient_ridge minus C1_sgmc_complement": {
+        "point": -0.038668,
+        "ci95": [
+          -0.044787,
+          -0.032353
+        ],
+        "mde_raw_80pct": 0.008956
+      },
+      "C4_crossgrad_coincidence_ridge minus C3_magnetic_hgrad_ridge": {
+        "point": -0.002243,
+        "ci95": [
+          -0.006609,
+          0.00194
+        ],
+        "mde_raw_80pct": 0.006063
+      },
+      "C5_conductivity_gradient_ridge minus C3_magnetic_hgrad_ridge": {
+        "point": -0.005162,
+        "ci95": [
+          -0.008864,
+          -0.00151
+        ],
+        "mde_raw_80pct": 0.005253
+      }
+    },
+    "canary_flagged": [],
+    "detection_floor_note": "Paired raw MDEs at 80% power are shown above; the 0.0028 board gap is smaller than all of them."
+  },
+  "lane": {
+    "C4_crossgrad_coincidence": {
+      "verdict": "DUPLICATE - STOP",
+      "dots": 16007,
+      "sha256": "13993a7023c85ad725c4b6a16182776eeaacc4c4992df8d94164889778cfb988",
+      "flagged_registry": [
+        "r11_greedy_mp.tif",
+        "r13_lattice_s5_00904.tif",
+        "r14_union_tips10_lat6.tif"
+      ],
+      "max_abs_spearman_rho": 0.004205,
+      "max_fraction_of_dots_within_3px": 0.990817
+    },
+    "C5_conductivity_gradient": {
+      "verdict": "DUPLICATE - STOP",
+      "dots": 17681,
+      "sha256": "be65f7475e5499f1ead998ee0f482f8acda7466fda7855d0297a05da6ce67c28",
+      "flagged_registry": [
+        "r11_greedy_mp.tif",
+        "r13_lattice_s5_00904.tif",
+        "r14_union_tips10_lat6.tif"
+      ],
+      "max_abs_spearman_rho": 0.023253,
+      "max_fraction_of_dots_within_3px": 0.953
+    }
+  },
+  "uniqueness_1177_scan": "NOT COMPLETED in this session (IR-54-034).",
+  "sgmc_colocation": {
+    "P_sgmc_within_300m_given_catalogue_cell": 0.32877,
+    "P_sgmc_within_300m_given_random_footprint_cell": 0.106991,
+    "enrichment_sgmc_near_catalogue": 3.073,
+    "P_catalogue_within_300m_given_sgmc_cell": 0.249382,
+    "P_catalogue_within_300m_given_random_footprint_cell": 0.086077,
+    "enrichment_catalogue_near_sgmc": 2.897
+  },
+  "validator_output": {
+    "C4": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "checks": {
+        "dtype_float32": true,
+        "crs_epsg_32611": true,
+        "shape_3730x3292": true,
+        "transform_100m": true,
+        "finite_inside_footprint": true,
+        "in_0_1_inside_footprint": true,
+        "nan_outside_footprint": true,
+        "positive_count_matches_gate": true,
+        "no_dot_on_or_within_300m_of_catalogue": true,
+        "footprint_cells": true
+      }
+    },
+    "C5": {
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "dtype": "float32",
+      "checks": {
+        "dtype_float32": true,
+        "crs_epsg_32611": true,
+        "shape_3730x3292": true,
+        "transform_100m": true,
+        "finite_inside_footprint": true,
+        "in_0_1_inside_footprint": true,
+        "nan_outside_footprint": true,
+        "positive_count_matches_gate": true,
+        "no_dot_on_or_within_300m_of_catalogue": true,
+        "footprint_cells": true
+      }
+    }
+  },
+  "submission_name": null,
+  "submission_note": null,
+  "verdict": "negative",
+  "verdict_reason": "Both candidates fail the lane gate (DUPLICATE - STOP). Holdout negative. No file is published."
+}

@@ -1,26 +1,3 @@
-# Candidate hypotheses — re-ranked 2026-10-09 (current)
-
-Ranking criteria, in order: (1) physical plausibility for faults absent from the USGS catalogue; (2) whether the
-hypothesis can be validated on a non-circular holdout in THIS checkout; (3) cost. Layer names are the official
-`training_features.tif` names listed on the DrivenData competition page (fetched 2026-10-09; the page lists the layers
-but the authenticated file is not in this checkout). No hypothesis below has a projected score.
-
-| Rank | Hypothesis | Official layers used | Physical signature | Non-catalogue rationale | Holdout validation in this checkout | Cost | Status |
-|---|---|---|---|---|---|---|---|
-| 1 | Cross-gradient corroboration of potential-field edges | Magnetics (reduced-to-pole anomaly, total magnetic intensity, horizontal slope of TMI); isostatic gravity anomaly and its slope | Coincident, aligned linear edges in magnetic and gravity derivatives, retained as coherent lines | A buried fault or lithologic offset without a scarp can show a density and magnetization contrast | **NOT RUN.** Needs the authenticated feature file (SHA-256 pinned in scripts/run_segment_holdout.py, 4371c82e...; the file is not present). Owner-bridge bytes are unauthenticated (IR-54-011). | Medium once the file is authenticated | BLOCKED |
-| 2 | Depth-persistent conductivity corridors | Surface conductivity; depth to conductive base | Lateral conductivity gradients that persist across depth summaries | Fluid-rich damage zones can form conductive corridors without a mapped scarp | **NOT RUN.** Same feature-file blocker. Clay and saline fill can mimic the signal. | Medium-high | BLOCKED |
-| 3 | Seismicity lineaments not on the catalogue | Density of earthquakes | Linear alignments of epicentre density, several km long, not coincident with mapped traces | Microseismicity can outline active structures before a surface trace is mapped | **NOT RUN.** Same feature-file blocker. Catalogue and seismicity are not independent of each other's mapping choices. | Low-medium | BLOCKED |
-| 4 | Topological nodes of the state-map fault network | None official; the local SGMC-derived 100 m mask | Branch and intersection nodes of the state-map network, outside the catalogue buffer | State-map traces the catalogue omits may carry junctions that mark connected damage | Possible only as a catalogue-truth proxy. The SGMC layer is catalogue-derived; the withheld-segment canary is 0.65 (below the 0.90 cut) but the full-catalogue canary is reported separately. Treat as circular. | Low | Feasible but circular; lane risk high (dense tip and stepover families already in the registry) |
-| 5 | 1 m DEM scarp curvature | 1 m DEM (tile index listed on the competition page; not present here) | Paired slope breaks and coherent curvature across scales | Young scarps may be exposed at native resolution but blurred at 100 m | **NOT RUN.** Tile index and DEM absent. | High | BLOCKED |
-
-Considered and not ranked: time-series InSAR deformation (no authenticated data access from this sandbox; not in the
-official layer list).
-
-**Top-ranked hypothesis validation.** Hypothesis 1 was not validated. Validation requires the authenticated official
-feature file, which is absent. No submission slot is used for any hypothesis in this review.
-
----
-
 # Candidate hypotheses — 2026-10-08 review
 
 ## Scope and novelty boundary
@@ -55,6 +32,19 @@ The top-ranked candidate is the magnetic–gravity cross-gradient, but the offic
 
 Two surface-only lane preflights are now recorded. Experiment 1 tested catalogue-endpoint continuation and stopped at the literal lane gate ([receipt](../../evidence/endpoint-continuation-preflight.json)); experiment 2 screened SGMC topology and also stopped ([receipt](../../evidence/strict_lane_preflight.json)). Neither is a DTI experiment, completed candidate, or generated submission. Negative/blocked findings are retained rather than replaced by a proxy score.
 
+## Second pass: holdout results (2026-10-08 / 09 UTC)
+
+Holdout receipts use evaluator `gemsdoe54-segment-cv` v1 and are labelled HOLDOUT-DTI (catalogue recovery, not organizer scores). Source receipts: [`evidence/holdout_segment_cv_v1_c4.json`](../../evidence/holdout_segment_cv_v1_c4.json), [`evidence/holdout_segment_cv_v1_c5.json`](../../evidence/holdout_segment_cv_v1_c5.json).
+
+| Hypothesis | Candidate | Pooled DTI, 95 % CI | Paired vs chance control | Result |
+|---|---|---:|---:|---|
+| 1 · cross-gradient coincidence | C4 (H1) | 0.0120 [0.0098, 0.0146] | +0.0016 [−0.0011, +0.0045] | **NEGATIVE**: not above chance; below C1 by 0.0363 |
+| 6 · basement-step ridge (new, from the bridge band `depth_to_base_surf`) | C5 | 0.0103 [0.0076, 0.0133] | −0.0001 [−0.0032, +0.0031] | **NEGATIVE**: at chance |
+
+- H1 is ranked first, and it is now holdout-tested and negative. Its physical premise (co-located magnetic and gravity gradients) does not separate catalogue faults from the chance control on this holdout. The lane conflict (sibling scan PASS versus literal DUPLICATE) is recorded as IR-54-063 and does not change the holdout result.
+- H6 (basement-step) was added as a candidate on the same bridge cube. It is at chance and significantly below the SGMC complement and the magnetic gradient ridge. It is not a new file.
+- Hypotheses 2, 3, 4 and 5 were not holdout-tested. Hypotheses 4 and 5 need new data pulls. Hypothesis 3 (state-map topology) overlaps with the SGMC family, which the holdout already shows to be co-located with catalogue faults (IR-54-057).
+
 ## Manual-review sources
 
 - [DrivenData GEMS problem description / provided features](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) — supplied by the user; not fetched in this run.
@@ -65,3 +55,20 @@ Two surface-only lane preflights are now recorded. Experiment 1 tested catalogue
 - [NASA ASF Sentinel-1 search](https://search.asf.alaska.edu/) and [Copernicus Data Space](https://dataspace.copernicus.eu/) — source leads; coverage and access not checked.
 
 A link is provided for manual review, not as evidence that the data are obtainable, licensed for the competition, or present in this checkout.
+
+
+## Status update 2026-10-09 (after the three-experiment budget)
+
+Budget: 3 of 3 experiments used. No submission slot was selected. The ranking above is unchanged; the status of each entry is:
+
+| Rank | Hypothesis | Status 2026-10-09 | Receipt |
+|---|---|---|---|
+| 1 | Magnetic–gravity cross-gradient coupling | **Tested, did not beat the gate.** Same folds: DTI 0.055637 [0.050279, 0.061440], pooled 26,783 dots against a 32,529 budget (not mass-matched; inadmissible). Canary clear (AUC 0.5426). Feature bands used: band 2 (reduced-to-pole magnetic) and band 13 (isostatic gravity), taken from the owner mirror. Band names match the official reference notebook for bands 1–18. | evidence/cgrc_holdout_samefolds_v4_xgrad.json |
+| 2 | Depth-persistent magnetotelluric conductivity | Not run. No MT product was present in the checkout, and none was fetched this session. | — |
+| 3 | SGMC state-map topology nodes | The SGMC-linearity placement (arm C, the H54-A rule) is the strongest same-folds proxy at 0.1472. It is a **lane duplicate**: 98.85% of its dots lie within 3 px of GEMSDOE3 `gapfinder-v2-sgmc-gap`. Any future topology idea must show a distinct lane first. | evidence/witness_h54a_vs_gapfinder_gemsdoe3.json; evidence/cgrc_holdout_samefolds_v3_h54a.json |
+| 4 | Multi-scale 1 m DEM scarp curvature | Not run. No 1 m DEM tile index in the checkout. The USGS 3DEP source is not reachable from this sandbox (egress limited to GitHub, npm and PyPI). | — |
+| 5 | InSAR deformation discontinuities | Not run. Sentinel-1 sources (NASA ASF, Copernicus Data Space) are not reachable from this sandbox. Obtainability is unverified. | — |
+
+Free official sources named for obtainability checks (not fetched this session): USGS 3DEP (DEM), NASA ASF DAAC and Copernicus Data Space (Sentinel-1), USGS GeoDAWN (already the competition's feature source), DOE/INGENIOUS GDR 1391 (label source). No external data was downloaded.
+
+Decision: nothing in this ranking is promoted. The next experiment needs a new budget and a pre-registered rule that includes a lane-distinctness requirement from the start.

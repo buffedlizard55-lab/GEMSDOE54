@@ -207,7 +207,12 @@ def main() -> int:
             print(f"progress: files={counts['files_seen']} grid={counts['grid_rasters']} "
                   f"submission_like={counts['submission_like']}", flush=True)
 
-    sub = [r for r in rows if r["submission_like"]]
+    # Self-twins: siblings whose decoded array is identical to the candidate (e.g. the same dots
+    # re-saved with NaN outside the footprint). They are the candidate itself, not an independent
+    # sibling, so they are listed separately and kept out of every sibling statistic. (2026-10-09 fix:
+    # the NaN twin previously entered the non-degenerate overlap maximum as 1.0.)
+    twins = [f"{r['repo']}/{r['path']}" for r in rows if r["exact_decoded_match"]]
+    sub = [r for r in rows if r["submission_like"] and not r["exact_decoded_match"]]
     rho_vals = [r["spearman_rho"] for r in sub if np.isfinite(r.get("spearman_rho", np.nan))]
     ov_vals = [r["overlap_cand_in_sib"] for r in sub if "overlap_cand_in_sib" in r]
     ov_vals_nd = [r["overlap_cand_in_sib"] for r in sub
@@ -247,6 +252,7 @@ def main() -> int:
         "result": {
             "exact_file_matches": exact_file,
             "exact_decoded_matches": exact_dec,
+            "self_twins_excluded_from_sibling_stats": twins,
             "max_abs_spearman_rho": round(max_rho, 6) if np.isfinite(max_rho) else None,
             "max_spearman_rho_source": f"{max_rho_row['repo']}/{max_rho_row['path']}" if max_rho_row else None,
             "max_overlap_cand_in_sib_all": round(max_ov, 6) if np.isfinite(max_ov) else None,
