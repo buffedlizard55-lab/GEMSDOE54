@@ -1,0 +1,12 @@
+{
+  "schema": "gemsdoe54.random-control.v1",
+  "n_dots": 32529,
+  "dti_by_seed": {
+    "0": 0.0622,
+    "1": 0.059891,
+    "2": 0.060951
+  },
+  "dti_mean": 0.061014,
+  "withheld_positive_count": 60834,
+  "note": "mass-matched uniform random dots over the footprint; control only, not a holdout"
+}

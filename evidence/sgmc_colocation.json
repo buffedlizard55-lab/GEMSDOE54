@@ -1,0 +1,19 @@
+{
+  "schema": "gemsdoe54.sgmc-colocation.v1",
+  "generated_utc": "2026-10-09T00:40:55+00:00",
+  "inputs": {
+    "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "sgmc_sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c"
+  },
+  "footprint_cells": 5167373,
+  "catalogue_cells": 60988,
+  "sgmc_cells": 82151,
+  "exact_overlap_cells": 3718,
+  "P_sgmc_within_300m_given_catalogue_cell": 0.32877,
+  "P_sgmc_within_300m_given_random_footprint_cell": 0.106991,
+  "enrichment_sgmc_near_catalogue": 3.073,
+  "P_catalogue_within_300m_given_sgmc_cell": 0.249382,
+  "P_catalogue_within_300m_given_random_footprint_cell": 0.086077,
+  "enrichment_catalogue_near_sgmc": 2.897,
+  "reading": "SGMC is a related but not identical map. Its layer carries catalogue-correlated information, so it is not a visible-only feature in the whole-segment holdout."
+}

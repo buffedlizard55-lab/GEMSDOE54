@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOE54 — submission readiness review | GEMS Prize</title>
-<meta name="description" content="Current GEMS submission readiness review. Three GeoTIFFs are downloadable for inspection; none is cleared for upload. H54-A and H54-B fail uniqueness, and H1 fails the holdout gate (NEGATIVE).">
+<meta name="description" content="Current GEMS submission readiness review. The H1 cross-gradient candidate (generated 2026-10-08) is not cleared: holdout NEGATIVE, lane disputed, format fails. The H54-A archive is for audit only and is not recommended for upload.">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -18,6 +18,7 @@
       <a href="evidence.html">Evidence</a>
       <a href="research.html">Research protocol</a>
       <a href="sources.html">Sources</a>
+      <a href="cgrc.html">CGRC run (TIF)</a>
       <a href="irregularities.html">Audit ledger</a>
     </nav>
   </div>
@@ -32,8 +33,8 @@ distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
 Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
 
 <div class="panel hero" id="verdict">
-  <h2>⛔ No upload-approved TIFF from this review</h2>
-  <p><strong>One new candidate TIFF was generated (H1) and is not cleared.</strong> Its holdout is NEGATIVE: 0.0120 [0.0098, 0.0146], not above the chance control. Its lane verdict depends on which definition applies, and its format fails the outside-footprint NaN check. No weekly slot has been used. The three-experiment holdout budget is spent (see <a href="../README.md">README</a>).</p>
+  <h2>⛔ Do not download or submit any TIFF from this repository</h2>
+  <p>This session built two new candidate TIFs (cross-gradient C4 and conductivity-gradient C5). <strong>Both fail the lane gate</strong> against dense registry rasters (DUPLICATE - STOP), so neither is published. Their holdout results are negative. The archived H54-A file was also previously flagged, and its holdout score is <strong>invalid for ranking</strong> because the SGMC layer is not visible-only (IR-54-038). No weekly slot has been used. Full receipts are in <a href="../README.md">the README session section</a>.</p>
 
   <p><a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" download>Download the archived H54-A TIFF for inspection only</a>
   &nbsp;<a class="btn secondary" href="data/run-card.json">Open the current run card</a></p>
@@ -43,17 +44,32 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
     <dt>Archive SHA-256</dt><dd class="hash">b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</dd>
     <dt>Local format checks</dt><dd>Grid/dtype/in-footprint range pass; current conservative null/NaN-outside-footprint check fails because the archive stores finite zeroes outside the cached footprint. Official rule not re-fetched.</dd>
     <dt>Literal lane check</dt><dd><strong>FAIL — duplicate stop</strong> under raw 3-pixel overlap with three dense registry rasters</dd>
-    <dt>Whole-segment holdout</dt><dd><strong>NOT ESTABLISHED</strong>; no evaluator version, withheld-positive count, or paired 95% CI</dd>
-    <dt>Upload decision</dt><dd><strong>DO NOT UPLOAD</strong> the archived artifact based on this review; no new candidate is available</dd>
+    <dt>Whole-segment holdout</dt><dd><strong>PRODUCED</strong> (evaluator v1 and v2; 60,988 withheld positives; paired 95% CIs). No candidate beats the chance-adjusted bar on a valid comparison; the SGMC value is invalid for ranking (IR-54-038).</dd>
+    <dt>Upload decision</dt><dd><strong>DO NOT UPLOAD</strong> any file from this repository. The portal error "Predicted values must be in range [0, 1]" is not reproduced locally and needs a manual portal check (IR-54-030).</dd>
   </dl>
 
   <div class="callout">
     <p style="margin:0"><strong>Why no new file?</strong> The exact lane stop and registry diagnostics are in <a href="../evidence/strict_lane_preflight.json">the pre-placement receipt</a>. The top geophysical hypothesis is blocked by the missing/authentication-unverified feature stack and unavailable compliant evaluator. This follows the run protocol rather than turning a proxy or projection into a score.</p>
   </div>
 </div>
+<div class="panel" id="cgrc-run" style="border-left:4px solid #2f855a">
+  <h2 style="margin-top:0">✅ Parallel CGRC run (H54-C) — a unique TIF <em>was</em> generated</h2>
+  <p><strong>This is a separate parallel run from the H54-A audit above.</strong> The CGRC
+  (Catalogue Gap-Relay Completion) run generated a unique, format- and lane-clean TIF —
+  <code>gems54-cgrc-relay-v1.tif</code> (32,369 dots) — backed by a compliant whole-segment
+  <strong>HOLDOUT-DTI of 0.0915</strong> [0.0876, 0.0949], 1.50× mass-matched random (0.0610 @32,529 dots),
+  60,834 withheld positives over 3,118 whole fault segments. It is <strong>OK TO DOWNLOAD</strong>.</p>
+  <p><strong>Promotion verdict: NEGATIVE</strong> — holdout 0.0915 &lt; corpus holdout best 0.1793, so this
+  review does not recommend spending a weekly slot; the catalogue-truth proxy penalizes off-catalogue mass,
+  so the holdout is a lower bound on the off-catalogue task. Any slot spend is the owner's labelled
+  diversity-bet decision with the submission-page receipt preserved.</p>
+  <p><a class="btn" href="downloads/gems54-cgrc-relay-v1.tif" download>Download the CGRC candidate TIF</a>
+  &nbsp;<a class="btn secondary" href="cgrc.html">CGRC run page (how to submit + full status) →</a>
+  &nbsp;<a class="btn secondary" href="data/run-card-cgrc.json">CGRC run card</a></p>
+</div>
 <div class="panel tight" id="audit-only-review">
   <h2 style="margin-top:0">Current audit-only review</h2>
-  <p>The linked archive is H54-A, built earlier. The current code applies absolute rank correlation and literal dense-registry overlap, and restricts the writer to float32. The whole-segment holdout evaluator (v1) now produces HOLDOUT-DTI receipts with withheld-positive counts and paired 95 % CIs for C0 to C5. H54-A's holdout (0.0483) is the best tested, but H54-A is not unique. No file is cleared, and no slot was selected.</p>
+  <p>The linked archive is from a previously built H54-A experiment; this review emitted no new TIFF and selected no submission slot. Two surface-only lane screens stopped before placement. The archive also fails the current conservative outside-footprint null/NaN check. The current code applies absolute rank correlation / literal dense-registry overlap and restricts the writer to float32. The local segment-buffer helper is still only a helper, not an end-to-end evaluator; the inspected owner-template workflow is spatial-block based, so no compliant HOLDOUT-DTI or confidence interval is available.</p>
   <p class="small muted" id="local-audit-status">Loading repository-local audit status…</p>
   <p class="small"><a href="data/feed.json">Open this review's local status feed →</a> · <a href="data/run-card.json">audit-only run card</a> · <a href="audit/pinned-template-cache-audit.json">template bridge/tool audit</a> · <a href="irregularities.html">full audit ledger</a></p>
 </div>
@@ -111,8 +127,8 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
     <tr><td>Single band, float32; CRS, shape, geotransform; in-footprint finite values in [0, 1]</td><td><span class="tag ok">PASS</span> locally for the archive</td><td><a href="../evidence/h54a-archive-strict-revalidation.json">Fresh local revalidation receipt</a>; not organizer acceptance</td></tr>
     <tr><td>Outside-footprint null/NaN (conservative local contract from prior notes/sample mirror)</td><td><span class="tag no">FAIL</span> archive contains finite zeroes outside</td><td>Official format page not re-fetched; the check is deliberately fail-closed pending confirmation.</td></tr>
     <tr><td>Literal lane check for archived H54-A file</td><td><span class="tag no">DUPLICATE — STOP</span></td><td>Raw overlap with <code>r11_greedy_mp</code>, <code>r13_lattice_s5_00904</code>, and <code>r14_union_tips10_lat6</code> exceeds the stated 70% threshold. See <a href="../evidence/h54a-archive-strict-revalidation.json">receipt</a>.</td></tr>
-    <tr><td>New candidate from this review (H1, cross-gradient)</td><td><span class="tag no">GENERATED, NOT CLEARED</span></td><td>Format fails the outside-footprint NaN check (zeros used). Lane: literal test DUPLICATE; sibling scan PASS under its exclusion rule (IR-54-063). Run card <a href="../registry/run_card_v3_h1.json">negative</a>.</td></tr>
-    <tr><td>Whole-segment hidden-label holdout (HOLDOUT-DTI, catalogue recovery)</td><td><span class="tag ok">PRODUCED</span> for C0 to C5; <span class="tag no">no candidate beats H54-A</span></td><td>Evaluator v1, withheld-positive count 60,988, paired 95% CIs. The SGMC complement (H54-A, 0.0483) is circular through co-location (IR-54-057). See <a href="holdout.html">Holdout</a> and the <a href="../README.md">README</a>.</td></tr>
+    <tr><td>New candidate from this review (H1, cross-gradient, v1 definition)</td><td><span class="tag no">GENERATED, NOT CLEARED</span></td><td>Format fails the outside-footprint NaN check (zeros used). Lane: literal test DUPLICATE; sibling scan PASS under its exclusion rule (IR-54-063). Run card <a href="../registry/run_card_v3_h1.json">negative</a>.</td></tr>
+    <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag ok">PRODUCED</span> (v1 and v2 receipts)</td><td>Withheld-positive count 60,988 and paired 95% CIs. Under v2 the SGMC layer is not visible-only, so the SGMC value is invalid for ranking (IR-54-038). See <a href="holdout.html">Holdout</a>.</td></tr>
   </tbody>
 </table>
 
