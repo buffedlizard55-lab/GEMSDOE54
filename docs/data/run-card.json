@@ -1,140 +1,212 @@
 {
-  "schema": "gemsdoe54.run-card.v2",
-  "run_id": "GEMSDOE54-E2-SGMC-topology-surface-20261008",
-  "run_scope": "Repository review and two pre-placement surface screens on arena/0c810456-gemsdoe54. Both stopped at the literal overlap gate; no competition slot was used. Also included: magnetic-ridge holdout experiments E1-E3 (see magnetic_ridge_holdout); both are negative under the frozen rule; no slot recommended and no new TIFF built.",
-  "hypothesis": "High-angular-transition nodes in the owner-mirrored SGMC fault raster, outside a 300 m buffer of the local catalogue, may mark connected fault-damage zones that are absent from the catalogue. This is an untested hypothesis, not a geothermal-vent finding.",
-  "mechanism": "A multi-arm intersection among independently compiled fault traces could localize fracture connectivity and fluid permeability; the input raster does not establish fault age, permeability, or geothermal activity.",
-  "named_non_fault_mimic": "Rasterization, line snapping, and cartographic map-composition artifacts can create high-neighbour transition nodes; lithologic and compilation boundaries can also resemble structural junctions.",
-  "holdout_dti": {
-    "label": "HOLDOUT-DTI",
-    "status": "NOT RUN \u2014 the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
-    "evaluator_version": null,
-    "withheld_positive_count": null,
-    "ci95": null
-  },
-  "power": {
-    "status": "NOT COMPUTABLE for this run: there is no compliant withheld-positive count, independent segment count, or paired pooled-DTI bootstrap distribution.",
-    "cohen_d_minimum_detectable": null,
-    "raw_dti_detection_floor": null,
-    "user_reported_gap_under_review": {
-      "difference": 0.0028,
-      "label": "USER-REPORTED difference between unreceipted leaderboard observations; not HOLDOUT-DTI or ORGANIZER-CONFIRMED",
-      "classification": "NOT CLASSIFIABLE as signal or noise from this checkout"
-    },
-    "warning": "The owner-mirror label raster's total positive count is not a withheld-positive count or an independent-unit count. The prior proxy-only sensitivity values are not valid hidden-label power estimates."
-  },
-  "preplacement_surface": {
-    "status": "screening diagnostic only; not a candidate raster and not a score",
-    "transform": "8-neighbour angular-transition count >= 4, restricted to local SGMC cells >300 m from the local catalogue; surface score = 100 * transition count + 5x5 SGMC density",
-    "positive_support_cells": 57758,
-    "registry_raster_count": 11,
-    "max_absolute_spearman_rho": 0.010694,
-    "rho_limit": 0.9,
-    "raw_overlap_fraction_of_surface_support": {
-      "r11_greedy_mp.tif": 0.901537,
-      "r13_lattice_s5_00904.tif": 0.99974,
-      "r14_union_tips10_lat6.tif": 0.765833
-    },
-    "overlap_limit": 0.7,
-    "strict_lane_verdict": "DUPLICATE - STOP before point placement",
-    "interpretation": "The rank-correlation screen is low, but the literal raw overlap rule is exceeded against three dense registry rasters. Their high footprint coverage makes this overlap measure non-discriminating; the written protocol nevertheless requires stopping.",
-    "experiment_id": "GEMSDOE54-E2"
-  },
-  "registry_similarity": {
-    "status": "PREFLIGHT_ONLY \u2014 strict lane failure; no final dot set exists",
-    "max_absolute_spearman_rho": 0.010694,
-    "max_raw_surface_overlap_fraction": 0.99974,
-    "flagged_registry": [
-      "r11_greedy_mp.tif",
-      "r13_lattice_s5_00904.tif",
-      "r14_union_tips10_lat6.tif"
-    ],
-    "final_dot_overlap": null
-  },
-  "raster_sha256": null,
-  "validator": {
-    "status": "NOT APPLICABLE \u2014 no new raster was emitted",
-    "no_nan_inside_footprint": null,
-    "values_in_0_1": null,
-    "crs_shape_transform_match": null,
-    "validator_output": null
+  "schema": "gemsdoe54.run-card.run2",
+  "run_card": "gems54-parallel-run",
+  "run_id": "2026-10-08-run2",
+  "version": 3,
+  "date": "2026-10-08",
+  "generated_utc": "2026-10-09T01:42:09+00:00",
+  "verdict": "negative",
+  "verdict_text": "NEGATIVE \u2014 do not spend a weekly slot",
+  "submission_block_note": "submission.* describes the run-2 file. Download is for review only; submission is not cleared.",
+  "answers": {
+    "ok_to_download": "YES, for review. The file is this repository's own model output and passes the format checks.",
+    "ok_to_submit": "NO. Not cleared: the literal lane gate reports DUPLICATE - STOP against three dense registry rasters, and the holdout does not beat the current holdout best (C1 SGMC complement)."
   },
   "submission": {
-    "candidate_this_run": false,
-    "name": null,
-    "note": null,
+    "candidate_this_run": true,
+    "candidate_surface_preflighted": true,
+    "candidate_tif_generated": true,
+    "downloadable_new_tif": true,
+    "ok_to_download_for_review": true,
+    "ok_to_download_for_submission": false,
+    "ok_to_submit": false,
+    "safe_to_upload": false,
     "note_character_limit": 140,
-    "downloadable_tif_from_this_run": false,
-    "safe_to_upload_from_this_run": false,
+    "note_chars": 123,
     "existing_repository_artifact": {
-      "name": "gems54-undercomplement-q200",
-      "path": "docs/downloads/gems54-undercomplement-q200.tif",
-      "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
-      "provenance": "pre-existing H54-A artifact; not generated in this run",
-      "format_status_in_this_run": "FAIL under the current local format contract: archived raster stores finite zeroes outside the label footprint; expected null/NaN per prior source notes and sample mirror. Not organizer acceptance.",
-      "strict_lane_status_in_this_run": "DUPLICATE - STOP due raw 3-pixel overlap with three dense registry rasters",
-      "holdout_validation": "NOT ESTABLISHED",
-      "selection_by_this_run": false,
-      "upload_recommendation": "DO NOT UPLOAD based on this review",
-      "format_validation": "FAIL \u2014 outside_footprint_null_or_nan check; archive has finite zeroes outside. The official rule was not re-fetched in this review.",
-      "downloadable_for_research": true,
+      "file": "docs/downloads/gems54-undercomplement-q200.tif",
+      "holdout_validation": "HOLDOUT-DTI C1 0.0483 (run-1 receipt v1; the file itself was not re-scored)",
+      "format_validation": "FAIL (run-1 conservative outside-footprint null/NaN check)",
+      "lane": "FAIL (run 1; 100 % of dots within 3 px of GEMSDOE3 gapfinder-v2-sgmc-gap)",
       "approved_for_upload": false
     },
-    "candidate_surface_preflighted": true,
-    "candidate_tif_generated": false,
-    "downloadable_new_tif": false,
-    "safe_to_upload": false,
-    "ok_to_submit": false,
-    "ok_to_download_for_submission": false,
-    "download_for_inspection_only": true
+    "name": "gems54-own-visible-hgb-q97",
+    "note": "Own model, not a copy: visible-only boosted fault probability, 19 bands + gradients, top 3% cells, 200 m dots. NOT CLEARED.",
+    "file": "docs/downloads/gems54-own-visible-hgb-q97.tif",
+    "sha256": "04c201817c3ca39d1ea09e776d8d1e248f98fe578e0ddd2826835fe4bbe7883a",
+    "bytes": 131248,
+    "dots": 16183,
+    "quantile": 0.97,
+    "crs": "EPSG:32611",
+    "resolution_m": 100,
+    "dtype": "float32",
+    "nodata": "NaN outside footprint"
   },
-  "budget_used": {
-    "experiments": 2,
-    "experiment_description": "Two in-memory pre-placement surface screens (endpoint continuation and SGMC topology); both stopped at the literal registry-overlap gate before emission.",
-    "holdout_runs": 0,
-    "weekly_submission_slots": 0,
-    "experiment_ids": [
-      "GEMSDOE54-E1",
-      "GEMSDOE54-E2"
-    ]
+  "hypothesis": {
+    "tested": [
+      {
+        "id": "H3",
+        "name": "visible-only learned probability (histogram gradient boosting)",
+        "layers": "19 bands + gradient magnitudes of rtp, tmi_hg, iso_grav_anom, depth_to_base_surf, cond_surf",
+        "physical_signature": "multi-family geophysical signature learned from visible faults (magnetic, gravity, strain, conductivity, basin structure)",
+        "why_it_may_find_missing_faults": "a learned combination can pick up fault signatures that no single layer shows",
+        "difference_from_repo": "not an SGMC rule and not a single-layer ridge; trained per fold on visible catalogue only",
+        "known_mimics": "lithologic contacts, basin margins, survey seams, cultural magnetic noise",
+        "cost": "about 2 min per fold on 2 CPUs",
+        "status": "tested; holdout tie with C1; not promoted"
+      },
+      {
+        "id": "H1",
+        "name": "cross-gradient corroboration (tmi_hg x iso_grav_anom_hg)",
+        "status": "tested; below C1 and near chance"
+      },
+      {
+        "id": "H2",
+        "name": "basement-step gradient (depth_to_base_surf)",
+        "status": "tested; chance level"
+      }
+    ],
+    "experiments_used": 3,
+    "experiment_budget": "3 experiments or 2 hours (time used: about 65 minutes at generation)"
   },
-  "verdict": "negative",
-  "verdict_rationale": "No unique candidate TIFF was generated because the candidate surface tripped the explicit pre-placement duplicate gate. The feature stack and compliant whole-segment evaluator are unavailable/authentication-blocked, so no HOLDOUT-DTI, 95% CI, or valid hidden-label power floor can be claimed. The older artifact is not recommended for upload.",
-  "leakage_canary": {
-    "status": "NOT RUN \u2014 no compliant whole-segment holdout was created",
-    "auc_cut": 0.9,
-    "features_tested": [],
-    "flags": null
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "status": "RUN \u2014 evaluator gemsdoe54-segment-cv v2 end to end; file C4 does not beat C1",
+    "evaluator_version": "gemsdoe54-segment-cv v2",
+    "withheld_positive_count": 60988,
+    "ci95": [
+      0.039967,
+      0.05313
+    ],
+    "independent_units": 3199
   },
-  "preplacement_surface_history": [
-    {
-      "experiment_id": "GEMSDOE54-E1",
-      "hypothesis": "Extend sufficiently elongated local catalogue traces along endpoint tangents up to 1.5 km, outside a 300 m visible-catalogue buffer.",
-      "receipt": "evidence/endpoint-continuation-preflight.json",
-      "surface_positive_cells": 32491,
-      "max_absolute_spearman_rho": 0.0585,
-      "max_raw_overlap_fraction": 0.9992,
-      "flagged_registry": [
-        "r11_greedy_mp.tif",
-        "r13_lattice_s5_00904.tif",
-        "r14_union_tips10_lat6.tif"
+  "holdout": {
+    "label": "HOLDOUT-DTI",
+    "evaluator": "gemsdoe54-segment-cv v2",
+    "withheld_positive_cells": 60988,
+    "independent_units_segments": 3199,
+    "target": "USGS-catalogue faults (recovery proxy), not the hidden new-fault set",
+    "candidate_C4": {
+      "pooled_dti": 0.046522,
+      "ci95": [
+        0.039967,
+        0.05313
       ],
-      "verdict": "DUPLICATE - STOP before placement; no holdout or TIFF"
+      "dots_total": 75562
     },
-    {
-      "experiment_id": "GEMSDOE54-E2",
-      "hypothesis": "High-angular-transition nodes in owner-mirrored SGMC linework outside the local catalogue buffer.",
-      "receipt": "evidence/strict_lane_preflight.json",
-      "surface_positive_cells": 57758,
-      "max_absolute_spearman_rho": 0.010694,
-      "max_raw_overlap_fraction": 0.99974,
-      "flagged_registry": [
+    "holdout_best_C1": {
+      "pooled_dti": 0.048338,
+      "ci95": [
+        0.042399,
+        0.054084
+      ]
+    },
+    "C4_minus_C1": {
+      "point": -0.001816,
+      "ci95": [
+        -0.010315,
+        0.006334
+      ],
+      "paired_se": 0.004331
+    },
+    "C4_minus_C0_chance": {
+      "point": 0.036109,
+      "ci95": [
+        0.029518,
+        0.042522
+      ]
+    },
+    "beats_holdout_best": false,
+    "shift_null_C1_p95": 0.005128
+  },
+  "leakage_canary": {
+    "auc_cut": 0.9,
+    "model_visible_probability_C4_max_auc_over_folds": 0.822136,
+    "single_feature_max_auc": 0.822136,
+    "distance_to_visible_catalogue_auc_withholding_artefact": 0.756236,
+    "flagged": [],
+    "result": "clear"
+  },
+  "detection_floor": {
+    "label": "computed from receipt; not a score",
+    "cohen_d_pixel_iid_INVALID_for_this_design": 0.01134,
+    "cohen_d_independent_units": 0.04953,
+    "paired_mde_C4_minus_C1": 0.012134,
+    "board_gap_0.0028_inside_floor": "yes for every architecture pair measured; board classification needs the public unit count (not published)"
+  },
+  "lane_gate": {
+    "literal_rule": "rank correlation <= 0.90 and <= 70 % of dots within 3 px of any registry raster",
+    "registry_11": {
+      "verdict": "DUPLICATE - STOP",
+      "flagged": [
         "r11_greedy_mp.tif",
         "r13_lattice_s5_00904.tif",
         "r14_union_tips10_lat6.tif"
       ],
-      "verdict": "DUPLICATE - STOP before placement; no holdout or TIFF"
+      "max_abs_spearman": 0.009817,
+      "max_overlap_non_degenerate": 0.502564
+    },
+    "full_sibling_scan": {
+      "lane_check": "FAIL",
+      "scan": {
+        "files_seen": 1217,
+        "grid_rasters": 1194,
+        "off_grid_skipped": 23,
+        "unreadable": 0,
+        "submission_like": 1149,
+        "self_excluded": 0,
+        "sibling_repos": 54
+      },
+      "max_abs_spearman": 0.106351,
+      "siblings_with_rho_above_0_90": 0,
+      "siblings_with_overlap_above_0_70": 225,
+      "degenerate_siblings_coverage_ge_0_50": 119,
+      "max_overlap_non_degenerate": 0.973985,
+      "receipt": "evidence/uniqueness_gems54-own-visible-hgb-q97.json"
+    },
+    "degeneracy_note": "three dense registry rasters cover 74 %, 99.9 % and 76 % of the footprint, so the 70 % test cannot discriminate there (IR-54-013, IR-54-037)"
+  },
+  "format_validation": {
+    "passed": true,
+    "failures": [],
+    "self_check": {
+      "dtype": "float32",
+      "nodata": "nan",
+      "finite_inside_footprint": 5167373,
+      "footprint_cells": 5167373,
+      "min_inside": 0.0,
+      "max_inside": 1.0,
+      "nonfinite_outside_footprint": 0,
+      "positive_cells": 16183
     }
+  },
+  "board_values": {
+    "label": "BOARD-UNVERIFIED",
+    "rank13_0.2778": true,
+    "rank17_0.2750": true,
+    "rank1_0.3774": true
+  },
+  "limitations": [
+    "The holdout target is catalogue recovery, not the hidden new-fault set (IR-54-050).",
+    "Feature rasters come from an owner bridge; origin is not organizer-authenticated (IR-54-011, IR-54-043).",
+    "The feature band list does not match the official description (IR-54-052).",
+    "Portal error text 'Predicted values must be in range [0, 1]' could not be reproduced; the writer enforces float32, [0,1] inside, NaN outside (IR-54-054).",
+    "The count-matched quantile is unstable across folds (0.97 in four folds, 0.50 in fold 2)."
+  ],
+  "inputs": {
+    "features_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "sgmc_sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+    "holdout_receipt": "evidence/holdout_segment_cv_run2_variant.json",
+    "power_receipt": "evidence/power_floor_segment_cv_v2.json",
+    "build_receipt": "registry/gems54-own-visible-hgb-q97.build.json",
+    "validator_receipt": "evidence/validator_output_own_visible.json",
+    "uniqueness_receipt": "evidence/uniqueness_gems54-own-visible-hgb-q97.json"
+  },
+  "not_done": [
+    "No DrivenData submission or receipt (login-gated; no organizer score).",
+    "No weekly slot selected; slot selection is a separate selector step.",
+    "No Phase-2 expanded label evaluation."
   ],
   "magnetic_ridge_holdout": {
     "label": "HOLDOUT-DTI (local catalogued-fault hide-and-recover; NOT a leaderboard score)",

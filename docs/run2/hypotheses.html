@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ranked geological hypotheses and holdout status | GEMSDOE54</title>
+<meta name="description" content="Five ranked hypotheses for missing GEMS faults: layers, physical signature, cost, difference from the repository, and holdout status.">
+<link rel="stylesheet" href="../assets/site.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">GEMS<span>DOE54</span></div>
+    <nav>
+      <a href="../index.html">Download</a>
+      <a href="../executive-summary.html">How to submit</a>
+      <a href="../holdout.html">Holdout</a>
+      <a href="../hypotheses.html">Hypotheses</a>
+      <a href="../top-artefact.html">0.2778 explained</a>
+      <a href="../irregularities.html">Audit ledger</a>
+    </nav>
+  </div>
+</header>
+<div class="wrap">
+<h1>Ranked hypotheses for catalogue-missing faults</h1>
+<p class="muted">Each hypothesis is tested only as a holdout candidate (HOLDOUT-DTI, evaluator v2). Projections are not scores. Full write-up: <a href="../research/hypotheses-20261008.md">research/hypotheses-20261008.md</a>.</p>
+
+<div class="panel">
+<table>
+  <thead>
+    <tr><th>#</th><th>Hypothesis and layers</th><th>Physical signature</th><th>Why it could catch a missing fault</th><th>Difference from repo code</th><th>Cost</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td><strong>Cross-gradient corroboration</strong>: <code>tmi_hg</code> × <code>iso_grav_anom_hg</code> (geometric mean of percentiles).</td>
+      <td>An edge in both magnetic and gravity gradients at the same place: a density and magnetisation contrast.</td>
+      <td>A buried fault-bounded lithology step can show in both fields with no scarp.</td>
+      <td>Repo H54-B uses magnetic gradient alone (C3). This adds a second, independent family.</td>
+      <td>Low (minutes)</td>
+      <td><strong>Tested, negative.</strong> C5 0.0128 [0.0103, 0.0157]; paired vs C1 −0.0356; vs chance +0.0024 [−0.0004, +0.0054].</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td><strong>Visible-only learned probability</strong> (histogram gradient boosting): 19 bands + gradient magnitudes of five geophysical bands.</td>
+      <td>A learned combination of magnetic, gravity, strain, conductivity and basin-depth signatures.</td>
+      <td>It can combine weak signals that no single layer shows.</td>
+      <td>Not an SGMC rule and not a single-layer ridge. Trained per fold on visible faults only.</td>
+      <td>Medium (about 2 min per fold on 2 CPUs)</td>
+      <td><strong>Tested, tie with holdout best but not better.</strong> C4 0.0465 [0.0400, 0.0531]; paired vs C1 −0.0018 [−0.0103, +0.0063]; vs chance +0.0361. Canary clear (AUC 0.822).</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td><strong>Basement-step gradient</strong>: <code>depth_to_base_surf</code> gradient magnitude (1 px smoothing).</td>
+      <td>A sharp step in basement depth, which a basin-bounding normal fault can produce.</td>
+      <td>Fault-controlled basin margins are often offset in basement depth.</td>
+      <td>New layer. The repo has no basement-depth ridge.</td>
+      <td>Low</td>
+      <td><strong>Tested, chance level.</strong> C6 0.0097 [0.0072, 0.0125]; vs chance −0.0007 [−0.0035, +0.0025].</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td><strong>Multi-scale 1 m DEM scarp curvature</strong>: USGS 3DEP 1 m DEM (the competition's <code>1m_DEM_links.csv</code> is not in this sandbox).</td>
+      <td>Paired slope breaks and along-strike coherent curvature at several scales.</td>
+      <td>Young scarps can be visible at native resolution and blurred at 100 m.</td>
+      <td>Native-resolution terrain; the repo uses only 100 m layers.</td>
+      <td>High (large tile download, processing)</td>
+      <td><strong>Not tested.</strong> Data not in the sandbox. Free official source: USGS 3DEP (not reachable from this sandbox; not checked).</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td><strong>Time-series InSAR deformation discontinuities</strong>: Sentinel-1 stacks.</td>
+      <td>Persistent line-of-sight displacement gradients across acquisitions.</td>
+      <td>Active slip or fluid change on a blind structure can deform the surface without a scarp.</td>
+      <td>No radar time series in the repo.</td>
+      <td>Very high (SAR processing, coverage check)</td>
+      <td><strong>Not tested.</strong> Free official sources: NASA ASF DAAC and Copernicus Data Space (not reachable from this sandbox; not checked).</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<div class="panel tight">
+<h2 style="margin-top:0">Validation rule</h2>
+<p>The top-ranked hypothesis (1) was validated on the holdout before any slot use. It is negative. The strongest geophysical candidate (2) was then tested. It ties the holdout best but does not beat it. No hypothesis has been used for a slot. Slot selection is a separate step.</p>
+<p class="small muted">Blocked earlier by a missing feature stack: hypotheses 1–3 are now testable because the owner bridge (hash-matched) was obtained. Its provenance is not organizer-authenticated (<a href="../irregularities.html">IR-54-011</a>, <a href="../irregularities.html">IR-54-086</a>).</p>
+</div>
+</div>
+<footer><div class="wrap"><p class="small muted">Excluded: the SGMC topology family (H54-A and nodes) is already occupied by sibling artefacts, so it fails the uniqueness rule.</p></div></footer>
+</body>
+</html>

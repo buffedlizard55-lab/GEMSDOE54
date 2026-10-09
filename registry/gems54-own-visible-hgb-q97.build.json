@@ -1,0 +1,84 @@
+{
+  "name": "gems54-own-visible-hgb-q97",
+  "note": "Own model, not a copy: visible-only boosted fault probability, 19 bands + gradients, top 3% cells, 200 m dots. NOT CLEARED.",
+  "note_chars": 123,
+  "family": "learned",
+  "quantile": 0.97,
+  "threshold": 0.7230556607246399,
+  "admissible_cells": 4722579,
+  "field_cells_used": 4722579,
+  "dots": 16183,
+  "gate": "linearity gate (min_px 3, min_px_extent 5, min_elongation 6.0) + 200 m spacing (builder rules)",
+  "exclusion": "cells within 300 m of a catalogue fault are excluded",
+  "output": {
+    "path": "docs/downloads/gems54-own-visible-hgb-q97.tif",
+    "sha256": "04c201817c3ca39d1ea09e776d8d1e248f98fe578e0ddd2826835fe4bbe7883a",
+    "bytes": 131248
+  },
+  "format_self_check": {
+    "dtype": "float32",
+    "nodata": "nan",
+    "finite_inside_footprint": 5167373,
+    "footprint_cells": 5167373,
+    "min_inside": 0.0,
+    "max_inside": 1.0,
+    "nonfinite_outside_footprint": 0,
+    "positive_cells": 16183
+  },
+  "features": {
+    "path": "/tmp/gemsbridge/training_features.tif",
+    "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "provenance": "owner bridge; not organizer-authenticated"
+  },
+  "labels": {
+    "path": "/home/user/GEMSDOE54/data/grid/labels.tif",
+    "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+  },
+  "method_extra": {
+    "model": {
+      "n_train_pos": 40000,
+      "n_train_neg": 160000,
+      "n_features": 24,
+      "n_predict": 4722579,
+      "model": "HistGradientBoostingClassifier",
+      "params": {
+        "max_iter": 200,
+        "learning_rate": 0.1,
+        "max_leaf_nodes": 31,
+        "min_samples_leaf": 100,
+        "l2_regularization": 1.0,
+        "class_weight": "balanced"
+      },
+      "seed": 20270008
+    },
+    "features": [
+      "mag_anom",
+      "rtp",
+      "tmi_hg",
+      "geod_2ndinv",
+      "iso_grav_anom_slope",
+      "tc",
+      "geod_shearrate",
+      "geod_dilaterate",
+      "tmi_vg",
+      "deq_n100a15",
+      "iso_grav_anom_vg",
+      "det_elev",
+      "iso_grav_anom",
+      "tmi",
+      "depth_to_base_surf",
+      "ieq_n100a15",
+      "cond_surf",
+      "iso_grav_anom_hg",
+      "det_elev_slope",
+      "grad_rtp",
+      "grad_tmi_hg",
+      "grad_iso_grav_anom",
+      "grad_depth_to_base_surf",
+      "grad_cond_surf"
+    ],
+    "training": "all catalogue cells positive; footprint cells outside the catalogue negative (PU)"
+  },
+  "generated_utc": "2026-10-09T00:38:37+00:00",
+  "script_sha256": "089718bed095d9cfe88c29b03ff701a0bad1bbcdef0dc221f30f7fe6eaebe9fc"
+}

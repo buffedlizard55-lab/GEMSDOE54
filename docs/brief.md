@@ -1,3 +1,5 @@
+> **Run 2 update (2026-10-08).** This document is the run-1 record. Current state: [download and verdict](../index.html) (own-model TIF for review only, not cleared to submit), [holdout v2](../holdout.html), [0.2778 mechanism](../top-artefact.html), and the README status block. Where this file conflicts with those, they win.
+
 # Standing project brief
 
 Read this document and the current run card before every session. It is the maintained working form of the full user request; append corrections rather than silently replacing prior requirements.

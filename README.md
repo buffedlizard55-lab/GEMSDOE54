@@ -5,6 +5,16 @@
 
 ---
 
+## ▶ Branch `arena/b479b5ba-gemsdoe54` (run 2, 2026-10-08): own-model GeoTIFF, review copy only
+
+**OK to download: YES, for review.** [`docs/downloads/gems54-own-visible-hgb-q97.tif`](docs/downloads/gems54-own-visible-hgb-q97.tif) (own model, 16,183 dots, float32, NaN outside, SHA-256 `04c20181…be7883a`). Name `gems54-own-visible-hgb-q97`; note (123 characters): *Own model, not a copy: visible-only boosted fault probability, 19 bands + gradients, top 3% cells, 200 m dots. NOT CLEARED.*
+
+**OK to submit: NO.** The holdout does not beat the best (learned C4 0.0465 vs C1 0.0483, paired −0.0018 [−0.0103, +0.0063]). The literal lane gate fails against three dense registry rasters and against 225 siblings across the full scan (IR-54-097). Run card: [`docs/data/run-card.json`](docs/data/run-card.json). Details, holdout v2 receipt, detection floor (0.0028 is inside the floor), the verified 0.2778 mechanism, and hypotheses: **[`RUN2-SUMMARY.md`](RUN2-SUMMARY.md)**. Site: [`docs/index.html`](docs/index.html).
+
+> Two sessions wrote to this repository on 2026-10-08/09. Each has its own evaluator label (`gemsdoe54-segment-cv` v2) with a different C4 and C5. Main keeps the shared evaluator. The run-2 variant is `scripts/holdout_segment_cv_run2_variant.py` with receipt `evidence/holdout_segment_cv_run2_variant.json`. The conflict is logged as IR-54-096 for the owner to reconcile.
+
+---
+
 ## ⬇️ SUBMISSION STATUS — read this before anything else (updated 2026-10-09)
 
 **Verdict: no file in this repository is cleared for upload. Do not submit any file from this repository.** Download: NOT CLEARED; the TIFFs are kept as audit copies only (the other session on main records the download question as unresolved, so treat every TIF here as not cleared for download or submission).

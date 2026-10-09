@@ -6,6 +6,9 @@
 /cache/
 *.tif
 *.tiff
+# Explicit exceptions: candidate downloads and the registry rasters are tracked on purpose (see note below).
+!docs/downloads/*.tif
+!registry/registry_rasters/*.tif
 *.npz
 *.npy
 *.pt
