@@ -1,0 +1,25 @@
+{
+  "schema": "gemsdoe54.sample-submission-form.v1",
+  "competition": "DrivenData — DOE GEMS Prize (competition 306)",
+  "form_fields": {
+    "File to submit": "gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif",
+    "File SHA-256": "73454bc5ed668806d3629544c03934cfb5679c54052eb7fa320d2dd093be4f84",
+    "Unique name": "GEMSDOE54-H54C-MANIFEST-EDGE",
+    "Short comment (<=140 chars)": "H54-C2b alteration-edge+Q-manifest corridor, >300m off-cat; HOLDOUT-DTI 0.0186 beats chance p<0.001; unique lane; 18880 dots"
+  },
+  "form_field_labels_verbatim_from_user": {
+    "unique name": "field label as shown on the submission form",
+    "short comment": "A short comment to help you or your team tell submissions apart later (e.g. clustering with k=25)"
+  },
+  "format_contract": {
+    "band_count": 1,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "width": 3730,
+    "height": 3292,
+    "values": "every pixel finite and in {0.0, 1.0}; zeros outside the study-area footprint (fixes 'Predicted values must be in range [0, 1]')",
+    "single_band_geotiff_or_zip_of_one": true
+  },
+  "verdict": "OK TO DOWNLOAD AND SUBMIT",
+  "note_chars": 124
+}

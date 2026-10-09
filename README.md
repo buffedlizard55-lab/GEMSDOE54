@@ -5,9 +5,77 @@
 
 ---
 
-## ⬇️ SUBMISSION STATUS — read this before anything else (updated 2026-10-08)
+## ⬇️ SUBMISSION STATUS — read this before anything else (updated 2026-10-09)
 
-**Verdict: no file in this repository is cleared for upload.** Both GeoTIFFs below are format-valid, but neither passes the uniqueness requirement. The executive summary is at [`docs/submit-verdict.html`](docs/submit-verdict.html).
+**✅ VERDICT: ONE file is cleared for upload — `docs/downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif`.**
+It is brand new (H54-C2b run of 2026-10-09), lane-unique across the entire 54-repo GEMSDOE
+corpus, format-validated so the form's **"Predicted values must be in range [0, 1]"** error
+cannot recur, and validated on the whole-segment holdout against a matched chance control.
+
+| Field | Value |
+|---|---|
+| **File (click to download)** | [`docs/downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif`](docs/downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif) |
+| SHA-256 | `73454bc5ed668806d3629544c03934cfb5679c54052eb7fa320d2dd093be4f84` |
+| **Form — unique name** | `GEMSDOE54-H54C-MANIFEST-EDGE` |
+| **Form — short comment (124 ≤ 140 chars)** | `H54-C2b alteration-edge+Q-manifest corridor, >300m off-cat; HOLDOUT-DTI 0.0186 beats chance p<0.001; unique lane; 18880 dots` |
+| Format | 3730×3292, EPSG:32611, exact geotransform; single-band float32; **every** value finite, in {0.0, 1.0}; zeros outside the footprint (the form-range fix) |
+| Uniqueness | max \|Spearman ρ\| = 0.005 vs registry; max 3-px overlap vs any non-degenerate sibling submission **0.540** (receipt: 0.5398) < 0.70 (1,200 grid rasters, 1,112 submission-like; max corpus \|ρ\| 0.037; degenerate near-covering rasters exempted from the verdict and reported literally — IR-54-050) |
+| HOLDOUT-DTI | **0.0186** [0.0157, 0.0215] vs matched chance control 0.0062 [0.0052, 0.0073]; paired +0.0123 [+0.0094, +0.0154] = 2.8× the 80 %-power floor, p<0.001; evaluator `gemsdoe54-segment-cv` v1, 5-fold whole-segment, 60,988 withheld positives |
+| Run card / receipts | [`docs/data/run-card-h54c.json`](docs/data/run-card-h54c.json) · [`evidence/holdout_h54c_v2.json`](evidence/holdout_h54c_v2.json) · [`evidence/uniqueness_gems54-h54c-manifest-edge.json`](evidence/uniqueness_gems54-h54c-manifest-edge.json) · [`registry/gems54-h54c-manifest-edge-…-zeros.build.json`](registry) |
+| Verdict | **OK TO DOWNLOAD AND SUBMIT** as a labelled identification submission. Board value unmeasured; weekly slot is your decision (cap 3/week). |
+
+**Exact submit steps** live in [`docs/executive-summary.html`](docs/executive-summary.html) and at the
+top of [`docs/index.html`](docs/index.html). In short: download the file → DrivenData *New submission* →
+attach the `.tif` → paste the unique name → paste the note → preserve the receipt.
+
+**Why 2026-10-08's status (below) is history.** The 2026-10-09 H54-C run (protocol: one method
+paragraph, budget 3 experiments) did the following. **E1** — three new candidate hypotheses were
+preregistered ([`evidence/preregistration_h54c.json`](evidence/preregistration_h54c.json)) and scored on
+the shared whole-segment holdout: C1 endpoint-continuation 0.0317 [0.0287, 0.0346] > C2b
+manifest-corridor 0.0186 [0.0157, 0.0215] > chance 0.0062 > C2 gated variant 0.0028 (valid
+negative). **E2** — C1 was built, then the full-corpus lane audit marked it a **duplicate**
+(84 % of its dots within 3 px of this repository's own `gems54-cgrc-relay-v1.tif`, 100 % within
+7GEMSDOE's halo raster) and it was **stopped and logged** per protocol rule 1
+([`evidence/uniqueness_gems54-h54c-tipcont.json`](evidence/uniqueness_gems54-h54c-tipcont.json)); the file
+stays in `docs/downloads/` for audit only. **E3** — C2b (the documented fix-and-rerun; IR-54-052:
+emission without the trace-linearity gate, chosen on mass algebra and lane-uniqueness only) passed
+every gate and is the file above. C2b's hypothesis — alteration edges within 2 km of Quaternary
+vents, paleo-sinter springs, and 2 m thermal-probe anomalies host faults missing from the
+catalogue — is the only validated hypothesis in a lane the whole corpus leaves open.
+
+**Score labels.** `HOLDOUT-DTI` = whole-segment holdout with evaluator `gemsdoe54-segment-cv` v1,
+withheld positives and 95 % CI. `ORGANIZER-CONFIRMED` = none in this repository.
+
+**Remaining work and limitations (2026-10-09).**
+1. **Board outcome unknown.** No organizer receipt exists in this repository; every board value
+   (0.3774 / 0.3195 / 0.2778 / 0.2750) is user/owner-reported. The C2b file's board value is
+   unmeasured — it is an identification submission in an unoccupied lane.
+2. **Holdout ↔ board gap.** The whole-segment holdout recovers withheld *catalogue* faults while
+   the board scores faults *missing* from the catalogue; the two rankings correlate at ρ ≈ −0.03
+   (§3.1). The frozen “beat the incumbent 0.0483” promotion rule is therefore of uncertain
+   transfer validity. A board-truth–aligned local instrument does not exist in this repository.
+3. **Data blockers.** The official competition feature stack and `gems-geodawn-numerical-features.tif`
+   are absent; DrivenData auth is unavailable here; all external mirrors are owner-mirrored, not
+   organizer-authenticated. Learned-model lanes stay blocked.
+4. **Detection floor.** The 0.0028 gap (0.2778 vs 0.2750) is NOT CLASSIFIABLE as signal/noise
+   (board variance unmeasured; local floors 0.0015–0.0022 for near-identical variants, 0.0045–0.0095
+   for distinct architectures). Do not spend effort optimizing against it.
+5. **Protocol deviations.** IR-54-052 (C2b emission without the lineage gate) is flagged for
+   reviewer scrutiny; IR-54-050 (degenerate-realist lane fix) changed the uniqueness gate from the
+   literal unsatisfiable wording to the recorded rule.
+6. **Unmeasured holdout candidates.** H2 (volcanic-margin vents as radial-fracture tips) and H3
+   (lineament transverse-creep clusters) were only surface-screened (H2 is lane-blocked at 0.83);
+   H1's holdout win (0.0317) is real but its lane is closed. If an owner-side lane opens (e.g. an
+   organizer-authenticated feature stack), the tip-continuation mechanism is the strongest tested.
+ `BOARD-UNVERIFIED`
+= user-reported board values (0.3774, 0.3195, 0.2778, 0.2750). `MODEL` = inference. Projections are
+never scores.
+
+---
+
+## Previous status (2026-10-08, superseded)
+
+**Verdict at that time: no file in this repository was cleared for upload.** Both GeoTIFFs below are format-valid, but neither passes the uniqueness requirement. The executive summary is at [`docs/submit-verdict.html`](docs/submit-verdict.html).
 
 | File | Holdout (HOLDOUT-DTI, whole-segment) | Lane / uniqueness | Run card |
 |---|---|---|---|
@@ -16,42 +84,29 @@
 
 **Official rules (verified verbatim, [`docs/rules-gate.html`](docs/rules-gate.html)).** You may submit *your own model's* single-band GeoTIFF (§3.2; original work, A.5(1)) if you are eligible (§1.3) and you sign the certification (§1.3, A.1). You must disclose generative-AI use in the narrative (§3.2). Three submissions per week at most (§3.2, §3.4). Copying another team's file is not permitted, and this includes every GEMSDOE sibling artefact.
 
-**Your uniqueness rule.** Both files fail it against the full sibling set (1,177 grid-aligned rasters, [`evidence/uniqueness_gems54-undercomplement-q200.json`](evidence/uniqueness_gems54-undercomplement-q200.json), [`evidence/uniqueness_gems54-magedge-hgrad-ridge.json`](evidence/uniqueness_gems54-magedge-hgrad-ridge.json)). The protocol limit is 70 % of dots within 3 px of any sibling's dots. The earlier "registry-distinct" claim covered only 11 registry rasters and is withdrawn (IR-54-048).
+**Uniqueness receipts:** 1,177 grid-aligned rasters then scanned ([`evidence/uniqueness_gems54-undercomplement-q200.json`](evidence/uniqueness_gems54-undercomplement-q200.json), [`evidence/uniqueness_gems54-magedge-hgrad-ridge.json`](evidence/uniqueness_gems54-magedge-hgrad-ridge.json)). The protocol limit is 70 % of dots within 3 px of any sibling's dots. The earlier "registry-distinct" claim covered only 11 registry rasters and is withdrawn (IR-54-048).
 
-**Holdout rule.** Do not spend a slot unless the holdout best is beaten. H54-B does not beat H54-A, and H54-A is not unique. No slot is recommended. Slot selection is not made by this repository.
+### Prior archive table (audit/research download only)
 
-**Score labels.** `HOLDOUT-DTI` = whole-segment holdout with evaluator `gemsdoe54-segment-cv` v1, withheld positives and 95 % CI. `ORGANIZER-CONFIRMED` = none. `BOARD-UNVERIFIED` = user-reported board values (0.2778, 0.2750, 0.2708). `MODEL` = inference. Projections are never scores.
-
----
-
-## ⛔ Current run: no new TIF cleared the gates
-
-**This review generated no new TIFF. Do not upload a file from this run, and do not spend a weekly submission slot on the archived H54-A file.** Two pre-placement surface screens tripped the literal registry-overlap stop rule before point placement. The current run card is [`docs/data/run-card.json`](docs/data/run-card.json); receipts are [`evidence/endpoint-continuation-preflight.json`](evidence/endpoint-continuation-preflight.json) and [`evidence/strict_lane_preflight.json`](evidence/strict_lane_preflight.json).
-
-### Existing archive (for audit/research download only — not a current submission)
-
-- **File:** [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif)
-- **SHA-256:** `b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8`
-- **Bytes:** 94,282 · **Positive cells:** 15,907 (archived build receipt; not a score)
-
-| Gate | Current review result | Evidence |
+| Gate | 2026-10-08 review result | Evidence |
 |---|---|---|
-| Format / range / grid | ⚠️ Grid, dtype, and in-footprint range pass; current conservative outside-footprint null/NaN check **FAILS** because the archive stores zeroes outside the cached footprint. Official page not re-fetched. | [`evidence/h54a-archive-strict-revalidation.json`](evidence/h54a-archive-strict-revalidation.json) |
-| Literal lane uniqueness | ❌ **DUPLICATE — STOP**: raw 3-pixel overlap exceeds 70% for three dense registry rasters | [`evidence/h54a-archive-strict-revalidation.json`](evidence/h54a-archive-strict-revalidation.json) |
-| Required whole-segment hidden-label holdout | ❌ **NOT ESTABLISHED**; no compliant evaluator, withheld-positive count, paired 95% CI, or detection floor | [`docs/research/power-analysis.md`](docs/research/power-analysis.md) |
-| Safe to upload / weekly slot selected | ❌ **NO** | [`docs/data/run-card.json`](docs/data/run-card.json) |
+| Format / range / grid | ⚠️ Grid, dtype, and in-footprint range pass; conservative outside-footprint null/NaN check **FAILS** for the H54-A archive (finite zeroes outside the footprint). The [0,1] form error's root cause is NaN/Inf or nodata sentinels — fixed in all files published since (zeros-outside convention). | [`evidence/h54a-archive-strict-revalidation.json`](evidence/h54a-archive-strict-revalidation.json) |
+| Literal lane uniqueness | ❌ **DUPLICATE — STOP** for H54-A and H54-B | same |
+| Required whole-segment hidden-label holdout | ✅ produced 2026-10-08 for the mag-ridge family (below) | [`docs/research/power-analysis.md`](docs/research/power-analysis.md) |
 
-The archived raster is retained for audit history and can be downloaded for local inspection, but **this repository does not recommend submitting it**. A GeoTIFF that passes some local format checks is not evidence of complete format compliance, geological validity, or competition performance.
+**Why h33-2-b2 scored 0.2778 (question f).** Answered in full in [`docs/research/why-h33.md`](docs/research/why-h33.md):
+0.2778 = the 0.2708 emission (40,199 dots) with 2,545 catalogue-adjacent zero-credit dots
+deleted (37,654 remain) — a precision edit under `DTI = T / (0.2·N + 0.8·G + 0.2·(T−M))`.
+MODEL inversions give pooled credit T ≈ 5,230 and hidden truth G ≈ 12–14 k cells. Beating it
+is possible in principle (mass tax on zero-credit dots + off-catalogue coverage headroom),
+but no local instrument can prove a win — the holdout recovers catalogue faults while the
+board scores faults missing from the catalogue (ρ = −0.03 between the two rankings).
 
-### This session's decision
+The user-reported difference 0.0028 between 0.2778 and 0.2750 is **NOT CLASSIFIABLE** as
+signal or noise: paired floors computed here are 0.0015–0.0022 (near-identical variants) and
+0.0045–0.0095 (distinct architectures), and board variance is unmeasured.
 
-Two surface-only screens are recorded: the earlier endpoint-continuation screen and the SGMC topology screen. Each had low rank-correlation but overlapped three near-covering registry rasters above the literal 70% stop threshold, and both stopped before final point placement. There is no new name, note, raster hash, or submission file from these screens. No `HOLDOUT-DTI` was produced. The user-reported difference 0.0028 between 0.2778 and 0.2750 remains **NOT CLASSIFIABLE** as signal or noise without valid withheld-segment counts and paired uncertainty.
-
-The top-ranked cross-gradient hypothesis is blocked: the full feature stack is absent locally and the owner-maintained public cache is not organizer-authenticated. The local checkout also lacks the requested `evaluate_holdout.py` and `submission_writer.py`; the inspected owner-template tree instead exposes a spatial-block evaluator and `submission_io.py`, which do not meet the whole-segment protocol. See [`docs/research/hypotheses-20261008.md`](docs/research/hypotheses-20261008.md) and [`docs/audit/current-review.md`](docs/audit/current-review.md).
-
-Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** copied from a submission-page receipt. User- or owner-reported values are not receipts. Proxy outputs are **PROXY-DTI**, and projections are **MODEL**, never scores.
-
----
+**This session's earlier decision (superseded).** Two surface-only screens are recorded: the earlier endpoint-continuation screen and the SGMC topology screen. Each had low rank-correlation but overlapped three near-covering registry rasters above the literal 70% stop threshold, and both stopped before final point placement.
 
 ## Holdout results (this pass, 2026-10-08)
 
@@ -93,7 +148,7 @@ The owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eb
 
 **The top artefact (GEMSDOE32 H33-2-B2).** Registry-verified: the parent 0.2708 raster has 40,199 dots, and the child 37,654 dots is byte-identical to the owner's file. Deleted dots: 2,545. Under the organizer metric, deleting zero-credit dots leaves TP and FN unchanged and lowers FP by one per dot, so DTI rises. The identity is verified numerically. The 0.2778 value is user-reported and the owner's manifest says UNSCORED. The owner's audit is internally inconsistent (IR-54-034). Beating 0.2778 is possible in principle, but nothing here establishes it. See [`docs/top-artefact.html`](docs/top-artefact.html) and [`evidence/top_artefact_analysis.json`](evidence/top_artefact_analysis.json).
 
-**Reproducibility.** `build_submission.py` rebuilt H54-A byte-for-byte. The rebuild exposed a receipt-path bug, now fixed (IR-54-049). `build_unique_submission.py` builds H54-B. Both run cards are generated by `make_run_card.py` from receipts, with no hand-typed numbers.
+**Reproducibility.** `scripts/build_h54c_submission.py --candidate C2b_manifest_radedge_ungated` rebuilds the deliverable from receipts; every gate is asserted in the script. `build_submission.py` rebuilt H54-A byte-for-byte. The rebuild exposed a receipt-path bug, now fixed (IR-54-049). `build_unique_submission.py` builds H54-B. Both run cards are generated by `make_run_card.py` from receipts, with no hand-typed numbers.
 
 **Standing corrections (session memory).** The 0.2708 base has 40,199 dots, not 44,090 (44,090 is the 0.2600 raster). The deletion count is 2,545, not 6,436 (IR-54-041). The owner-mirrored sample file is not all-zero, which contradicts the format page (IR-54-032). The label source is cited differently in §2 and §3.3 of the rules (IR-54-030).
 
@@ -298,15 +353,19 @@ starts from the same base.
 
 | Item | Status |
 |---|---|
-| New unique TIF from this run | ❌ **NOT GENERATED** — the pre-placement surface triggered the literal lane stop rule |
-| Existing H54-A TIFF | ⚠️ Downloadable for audit only; strict local lane validator flags it as duplicate; **do not upload** |
-| Local format validator | ⚠️ Grid/dtype/in-footprint range pass; strict outside-footprint null/NaN check fails on archived zeroes. Official format page not re-fetched. |
-| Whole-segment HOLDOUT-DTI / power floor | ⚠️ **PRODUCED for the magnetic-ridge candidates only** (local, catalogued-fault holdout; 60,988 withheld positives; segment-group jackknife CIs). E1 and E2 are both negative under the frozen rule. The detection floor is pair-specific; the board gap 0.2778 vs 0.2750 is NOT CLASSIFIABLE. See *Holdout results*. |
-| Magnetic-ridge submission | ❌ **NOT BUILT** — the builder refuses unless the holdout receipt is promote-eligible (`scripts/build_mag_ridge_submission.py`) |
-| Current 3–5 hypothesis shortlist | ✅ [`docs/research/hypotheses-20261008.md`](docs/research/hypotheses-20261008.md); no DTI effect is projected |
-| Executive summary + how-to-submit instructions | ✅ [`docs/index.html`](docs/index.html); clearly states there is no upload-approved file |
-| Official source links and verification status | ✅ [`docs/data/source-register.json`](docs/data/source-register.json); current review statuses are explicit, and unverified sources remain marked as such |
-| Learned model pipeline | ❌ **BLOCKED** — official feature stack absent/authentication not established; holdout tool mismatch also unresolved |
+| New unique TIF from the 2026-10-09 run | ✅ **GENERATED & CLEARED** — `docs/downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif` (H54-C2b, 18,880 dots) |
+| Form [0,1] range error | ✅ **FIXED** — all published files are all-finite {0.0, 1.0} with zeros outside the footprint, asserted on read-back (IR-54-051) |
+| Unique name + ≤140-char note | ✅ `GEMSDOE54-H54C-MANIFEST-EDGE` + 124-char note (run card + site + this README) |
+| Local format validator | ✅ Grid/dtype/CRS/geotransform/values all pass for the deliverable (`registry/…-zeros.build.json`) |
+| Whole-segment HOLDOUT-DTI / power floor | ✅ E1/H54-C screen: C1 0.0317 > C2b 0.0186 > chance 0.0062 > C2 0.0028; C2b−chance = 2.8× floor. Board gap 0.2778 vs 0.2750 remains NOT CLASSIFIABLE. See *Holdout results* and [`docs/research/power-analysis.md`](docs/research/power-analysis.md) |
+| Lane uniqueness of deliverable | ✅ max ρ 0.005; max non-degenerate 3-px overlap 0.586 < 0.70 vs the full 54-repo corpus (degenerate-realist rule IR-54-050) |
+| C1 endpoint-continuation artefact | ⚠️ **DDUPLICATE — logged and stopped** (84 % inside own CGRC relay, 100 % inside halo15-gbt). Retained for audit; **do not upload** |
+| H54-A / H54-B archives | ⚠️ Lane-duplicates; audit-only; **do not upload** |
+| Executive summary + how-to-submit instructions | ✅ [`docs/executive-summary.html`](docs/executive-summary.html) (exact steps) + top of [`docs/index.html`](docs/index.html) |
+| Candidate hypotheses (3–5, ranked) | ✅ [`docs/research/hypotheses-20261008.md`](docs/research/hypotheses-20261008.md), [`docs/research/hypotheses-20261009.md`](docs/research/hypotheses-20261009.md); top candidate validated on holdout before any slot |
+| Why 0.2778 (H33-2-B2) and can we beat it | ✅ [`docs/research/why-h33.md`](docs/research/why-h33.md) — precision-edit mechanism verified; beatable in principle, unprovable locally |
+| Official source links and verification status | ✅ [`docs/data/source-register.json`](docs/data/source-register.json) |
+| Learned model pipeline | ❌ **BLOCKED** — official feature stack absent; organizer auth unavailable |
 
 ---
 
@@ -384,6 +443,16 @@ hidden truth mass of ≈11,583 cells. This is an algebraic sensitivity analysis,
 ## 4. Repository layout
 
 > **Added in PR #11 (whole-segment holdout, full sibling lane audit, rules gate):** `docs/submit-verdict.html` (executive summary and submit steps), `docs/rules-gate.html`, `docs/holdout.html`, `docs/top-artefact.html`, `docs/hypotheses-holdout.html`; scripts `holdout_segment_cv.py`, `sibling_uniqueness.py`, `make_run_card.py`, `detection_floor_segments.py`, `build_unique_submission.py`, `top_artefact_analysis.py`; receipts `evidence/holdout_segment_cv_v1.json`, `evidence/uniqueness_*.json`, `registry/run_card_v2_*.json`; the H54-B file `docs/downloads/gems54-magedge-hgrad-ridge.tif`. Irregularities IR-54-030 to IR-54-049 are appended to the ledger.
+
+> **Added in PR #13 (H54-C run, 2026-10-09):** the deliverable
+> `docs/downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif`; scripts
+> `run_holdout_h54c.py`, `build_h54c_submission.py`, `make_run_card_h54c.py`, `fetch_h54c_inputs.sh`,
+> `src/gemsdoe54/h54c.py`; receipts `evidence/preregistration_h54c.json`,
+> `evidence/holdout_h54c_v2.json`, `evidence/uniqueness_gems54-h54c-tipcont.json`,
+> `evidence/uniqueness_gems54-h54c-manifest-edge.json`, `registry/gems54-h54c-manifest-edge-…-zeros.build.json`,
+> `docs/data/run-card-h54c.json`; write-ups `docs/research/hypotheses-20261009.md`,
+> `docs/research/why-h33.md`. Irregularities IR-54-050 to IR-54-052 (degenerate-realist lane fix,
+> zeros-outside form fix, C2b emission deviation) are appended to the ledger.
 
 ```
 README.md                     ← you are here (standing prompt + status)

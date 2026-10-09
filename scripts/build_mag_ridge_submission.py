@@ -108,7 +108,7 @@ def main(argv: list[str] | None = None) -> int:
 
     out_tif = ROOT / "docs/downloads" / f"{args.name}.tif"
     out_tif.parent.mkdir(parents=True, exist_ok=True)
-    write_submission(out_tif, values, footprint=foot)  # outside-footprint cells become NaN (official null/NaN rule)
+    write_submission(out_tif, values, footprint=foot, outside="zeros")  # all-finite zeros outside (IR-54-051)
     digest = sha256(out_tif)
 
     build = {

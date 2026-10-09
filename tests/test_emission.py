@@ -75,7 +75,10 @@ def test_rejects_bad_spacing() -> None:
     raise AssertionError("spacing_px=0 was not rejected")
 
 
-def test_submission_writer_encodes_nan_only_outside_footprint(tmp_path) -> None:
+def test_submission_writer_default_is_all_finite_zeros_outside(tmp_path) -> None:
+    # IR-54-051: the deliverable convention is all-finite zeros outside the
+    # footprint ("-zeros"), matching the organizer form check
+    # "Predicted values must be in range [0, 1]" over the whole raster.
     labels = ROOT / "data/grid/labels.tif"
     if not labels.exists():
         print("  SKIP data/grid/labels.tif not present")
@@ -85,6 +88,27 @@ def test_submission_writer_encodes_nan_only_outside_footprint(tmp_path) -> None:
     values[foot] = 0.25
     out = tmp_path / "submission.tif"
     write_submission(out, values, footprint=foot)
+    import rasterio
+    with rasterio.open(out) as src:
+        saved = src.read(1)
+        assert src.dtypes[0] == "float32"
+        assert src.nodata is None
+    assert np.isfinite(saved).all()
+    assert np.all(saved[foot] == np.float32(0.25))
+    assert np.all(saved[~foot] == np.float32(0.0))
+    assert float(saved.min()) >= 0.0 and float(saved.max()) <= 1.0
+
+
+def test_submission_writer_legacy_nan_outside_still_available(tmp_path) -> None:
+    labels = ROOT / "data/grid/labels.tif"
+    if not labels.exists():
+        print("  SKIP data/grid/labels.tif not present")
+        return
+    foot = footprint(labels)
+    values = np.zeros(EXPECTED_SHAPE, dtype=np.float32)
+    values[foot] = 0.25
+    out = tmp_path / "submission.tif"
+    write_submission(out, values, footprint=foot, outside="nan")
     import rasterio
     with rasterio.open(out) as src:
         saved = src.read(1)

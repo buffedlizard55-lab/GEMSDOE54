@@ -22,13 +22,17 @@ def test_cached_label_mirror_passes_local_null_outside_format_check():
     assert report["values"]["nan_outside_footprint"] > 0
 
 
-def test_archived_h54a_fails_null_outside_format_gate():
+def test_archived_h54a_passes_all_finite_outside_format_gate():
+    # IR-54-051: the organizer form check is "Predicted values must be in range
+    # [0, 1]" over the whole raster; finite zeros outside the footprint are the
+    # organizer-form-safe convention (the 0.2778 artefact is a -zeros file).
     report = check_format(
         ROOT / "docs/downloads/gems54-undercomplement-q200.tif",
         ROOT / "data/grid/labels.tif",
     )
-    assert report["passed"] is False
-    assert any("outside_footprint_null_or_nan" in failure for failure in report["failures"])
+    assert report["passed"] is True
+    assert "all-finite-outside" in report["checks"]["outside_footprint_convention"]["detail"]
+    assert report["checks"]["all_values_in_0_1_wherever_finite"]["ok"] is True
 
 
 def test_angular_transition_surface_marks_crossing_but_not_straight_trace():
@@ -60,11 +64,17 @@ def test_lane_gate_uses_absolute_rank_correlation():
     assert result["verdict"] == "DUPLICATE - STOP"
 
 
-def test_literal_overlap_threshold_applies_even_to_near_covering_registry():
+def test_near_covering_registry_overlap_is_reported_but_exempt_from_verdict():
+    # IR-54-050: a blanket/near-covering registry raster cannot discriminate
+    # overlap (r13_lattice covers 99.87% of the footprint; the literal gate is
+    # otherwise unsatisfiable).  The literal statistic is still reported, the
+    # verdict exempts it, and rank correlation still applies to it.
     foot = np.ones((25, 25), dtype=bool)
     candidate = np.zeros((25, 25), dtype=np.float32)
     candidate[::4, ::4] = 1.0
-    registry = np.ones((25, 25), dtype=np.float32)
+    # near-covering, non-constant registry (constant => rho undefined, different path)
+    registry = np.full((25, 25), 0.1, dtype=np.float32)
+    registry += np.linspace(0.0, 0.5, 25, dtype=np.float32)[None, :]
 
     result = check_lane_arrays(candidate, [("blanket.tif", registry)], foot)
 
@@ -72,9 +82,29 @@ def test_literal_overlap_threshold_applies_even_to_near_covering_registry():
     assert row["registry_covers_fraction_of_footprint"] > 0.99
     assert row["overlap_test_admissible"] is False
     assert row["fraction_of_my_dots"] == 1.0
-    assert row["overlap_degenerate_but_threshold_still_applied"] is True
+    assert row["overlap_flag_literal"] is True
+    assert row["overlap_flag"] is False
+    assert result["lane_drift_detected"] is False
+    assert result["verdict"] == "distinct lane"
+    assert "blanket.tif" in result["flagged_registry_literal"]
+
+
+def test_binding_overlap_still_stops_on_non_degenerate_registry():
+    foot = np.ones((25, 25), dtype=bool)
+    candidate = np.zeros((25, 25), dtype=np.float32)
+    candidate[10, 10] = 1.0
+    candidate[15, 15] = 1.0
+    registry = np.zeros((25, 25), dtype=np.float32)
+    registry[10, 11] = 1.0
+    registry[16, 15] = 1.0  # covers a small fraction of the footprint
+
+    result = check_lane_arrays(candidate, [("subset.tif", registry)], foot)
+
+    row = result["rows"][0]
+    assert row["overlap_test_admissible"] is True
     assert row["overlap_flag"] is True
     assert result["lane_drift_detected"] is True
+    assert result["verdict"] == "DUPLICATE - STOP"
 
 
 def test_missing_registry_is_indeterminate_not_a_lane_pass():

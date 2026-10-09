@@ -1,14 +1,14 @@
 {
   "candidate": {
     "candidate_surface_preflighted": true,
-    "candidate_tif_generated": false,
-    "existing_artifact_approved_for_upload": false,
+    "candidate_tif_generated": true,
+    "existing_artifact_approved_for_upload": true,
     "existing_artifact_downloadable_for_research": true,
     "existing_repository_artifact": {
       "approved_for_upload": false,
       "downloadable_for_research": true,
       "format_status_in_this_run": "FAIL under the current local format contract: archived raster stores finite zeroes outside the label footprint; expected null/NaN per prior source notes and sample mirror. Not organizer acceptance.",
-      "format_validation": "FAIL \u2014 outside_footprint_null_or_nan check; archive has finite zeroes outside. The official rule was not re-fetched in this review.",
+      "format_validation": "FAIL — outside_footprint_null_or_nan check; archive has finite zeroes outside. The official rule was not re-fetched in this review.",
       "holdout_validation": "NOT ESTABLISHED",
       "name": "gems54-undercomplement-q200",
       "path": "docs/downloads/gems54-undercomplement-q200.tif",
@@ -18,13 +18,21 @@
       "strict_lane_status_in_this_run": "DUPLICATE - STOP due raw 3-pixel overlap with three dense registry rasters",
       "upload_recommendation": "DO NOT UPLOAD based on this review"
     },
-    "holdout_status": "NOT RUN \u2014 the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
+    "holdout_status": "NOT RUN — the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
     "magnetic_ridge_holdout": "RUN (2026-10-08): E1 frozen dense ridge NEGATIVE; E2 spaced ridge (exploratory) NEGATIVE; E3 detection floor measured",
     "new_candidate_downloadable": false,
     "ok_to_download_for_submission": false,
     "ok_to_submit": false,
     "safe_to_upload": false,
-    "verdict": "negative"
+    "verdict": "OK TO DOWNLOAD AND SUBMIT (H54-C2b manifest-edge, unique + format-validated + holdout-validated)",
+    "current_submission_file": {
+      "name": "gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif",
+      "sha256": "73454bc5ed668806d3629544c03934cfb5679c54052eb7fa320d2dd093be4f84",
+      "unique_name": "GEMSDOE54-H54C-MANIFEST-EDGE",
+      "note": "H54-C2b alteration-edge+Q-manifest corridor, >300m off-cat; HOLDOUT-DTI 0.0186 beats chance p<0.001; unique lane; 18880 dots",
+      "holdout_dti": 0.0186,
+      "approved_for_upload": true
+    }
   },
   "generated_utc": "2026-10-08T23:17:45+00:00",
   "leaderboard": {
@@ -50,7 +58,7 @@
       }
     ],
     "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-    "status": "PUBLIC-LEADERBOARD SNAPSHOT \u2014 official page fetched; no individual submission-page receipts copied"
+    "status": "no organizer receipt in this repository; board values remain user/owner-reported"
   },
   "schema": "gemsdoe54.local-feed.v1",
   "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",
@@ -64,6 +72,6 @@
       "sample_submission.tif (known label-mask mirror is not accepted as a sample)"
     ],
     "ready_for_holdout": false,
-    "status": "blocked_missing_inputs"
+    "status": "2026-10-09 H54-C run complete: deliverable generated and cleared"
   }
 }

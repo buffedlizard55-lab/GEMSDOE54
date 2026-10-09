@@ -110,18 +110,29 @@ def binary_mask(path: str | Path, *, positive_only: bool = True) -> np.ndarray:
 
 
 def write_submission(path: str | Path, values: np.ndarray, *,
-                     footprint: np.ndarray | None = None, dtype: str = "float32") -> None:
+                     footprint: np.ndarray | None = None, dtype: str = "float32",
+                     outside: str = "zeros") -> None:
     """Write a single-band float32 GeoTIFF on the competition grid.
 
-    Prior repository notes and the cached sample mirror indicate probabilities
-    in [0,1] on the scored area and null/NaN outside. The official page was not
-    fetched in this review. When ``footprint`` is provided, values are validated
-    only inside it and outside cells are written as NaN with a NaN nodata tag.
-    Omitting ``footprint`` retains legacy all-finite behavior only for non-submission
-    diagnostics; competition builders must pass the true footprint.
+    Two outside-footprint conventions exist in board-observed sibling artefacts:
+
+    * ``outside="zeros"`` (default; the ``-zeros`` convention): every cell finite,
+      values in [0, 1] across the whole raster.  This is the convention of the
+      highest owner-reported artefact and the only variant that satisfies the
+      submission form's observed check ``Predicted values must be in range [0, 1]``
+      (a 2026-10 upload of a NaN-outside file was rejected with that message).
+    * ``outside="nan"`` (legacy): NaN outside the scored area, NaN nodata tag.
+      Board-observed ``-nan`` siblings have been scored, so the pipeline tolerates
+      it, but the upload form rejects it; do not use for a deliverable.
+
+    When ``footprint`` is provided, values are validated inside it and outside
+    cells are written per the ``outside`` convention.  Omitting ``footprint``
+    retains all-finite behavior for non-submission diagnostics only.
     """
     if dtype != "float32":
         raise ValueError("competition submission dtype must be float32")
+    if outside not in ("zeros", "nan"):
+        raise ValueError("outside must be 'zeros' or 'nan'")
     values = np.asarray(values, dtype=np.float64)
     if values.shape != EXPECTED_SHAPE:
         raise ValueError(f"shape {values.shape} != {EXPECTED_SHAPE}")
@@ -137,8 +148,12 @@ def write_submission(path: str | Path, values: np.ndarray, *,
         if inside.min() < 0.0 or inside.max() > 1.0:
             raise ValueError(f"in-footprint values must be in [0,1]; got [{inside.min()}, {inside.max()}]")
         values = values.copy()
-        values[~footprint] = np.nan
-        nodata = np.nan
+        if outside == "nan":
+            values[~footprint] = np.nan
+            nodata = np.nan
+        else:
+            values[~footprint] = 0.0
+            nodata = None
     else:
         if not np.isfinite(values).all():
             raise ValueError("refusing non-finite values without an explicit footprint")

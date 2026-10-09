@@ -1,0 +1,577 @@
+{
+  "schema": "gemsdoe54.h54c-build.v1",
+  "generated_utc": "2026-10-09T02:57:32+00:00",
+  "candidate": "C2b_manifest_radedge_ungated",
+  "hypothesis": "Permeable structures hosting faults that the USGS/INGENIOUS catalogue misses leave two coupled signatures where the hydrothermal system is active: radiometric alteration edges (K-depletion core / K-enrichment halo around the conduit) and surface manifestations (Quaternary vents and flows, paleo sinter/tufa springs, 2 m thermal-probe anomalies).",
+  "mechanism": "Top-decile gradient magnitude of the eight GeoDAWN channels (K, Th, U, TC, Th/K, U/K, U/Th, TMI_up150), restricted to a 2 km halo of the union of the three GDR/INGENIOUS manifestation layers with exp(-d/1 km) score decay; >300 m from the catalogue (full kernel width); one dot per 200 m over the full thresholded support (no trace-linearity gate: alteration corridors are not traces).",
+  "named_non_fault_mimic": "Lava-flow inflation fronts and erosion edges produce radiometric/thermal edges without tectonic structure; alluvial valleys carry K lows; sinter can be reworked downstream; probe surveys cluster along roads.",
+  "holdout_dti": {
+    "label": "HOLDOUT-DTI",
+    "evaluator": {
+      "name": "gemsdoe54-segment-cv",
+      "version": "v1",
+      "metric": "organizer DTI alpha=0.2 beta=0.8 kernel=300 m triangular",
+      "seed": 20261008,
+      "bootstrap_replicates": 1000,
+      "shift_nulls": 20,
+      "script_sha256": "2226b259231766def51592b7b65ef76491a2f2ac28463b96b1726ecb28852757",
+      "preregistration": "evidence/preregistration_h54c.json"
+    },
+    "value": 0.018596,
+    "ci95": [
+      0.01571,
+      0.021525
+    ],
+    "withheld_positive_count": 60988,
+    "beats_chance_control": {
+      "point": 0.01235,
+      "bootstrap_se": 0.001567,
+      "ci95_percentile": [
+        0.009431,
+        0.015379
+      ],
+      "mde_raw_80pct_two_sided": 0.00439,
+      "bootstrap_sign_p": 0.0
+    },
+    "vs_incumbent_holdout_best_0.0483": "BELOW (C1-SGMC complement 0.0483 [0.0424, 0.0541], 2026-10-08 receipt; catalogue-recovery cross-run comparison). Note: the holdout measures recovery of withheld CATALOGUE faults; the board scores faults missing from the catalogue. README s3.1 records that this holdout does not rank board values.",
+    "receipt": "evidence/holdout_h54c_v2.json"
+  },
+  "build": {
+    "rule": "thresholded C2 surface (top-decile GeoDAWN gradient magnitude, 2 km manifestation halo, exp(-d/1 km)), >300 m off catalogue, one dot per 200 m on the full support (no linearity gate; IR-54-052)",
+    "dots": 18880,
+    "support_cells": 49922,
+    "catalogue_flank_exclusion_m": 300,
+    "values": "unit-valued {0.0, 1.0} dot set",
+    "outside_footprint": "zeros (all-finite; organizer-form-safe)"
+  },
+  "file": {
+    "path": "docs/downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif",
+    "sha256": "73454bc5ed668806d3629544c03934cfb5679c54052eb7fa320d2dd093be4f84",
+    "bytes": 94349,
+    "grid_facts": {
+      "count": 1,
+      "dtype": "float32",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null
+    }
+  },
+  "lane_preplacement": {
+    "my_positive_cells": 49922,
+    "my_dots": 49922,
+    "max_absolute_rho_allowed": 0.9,
+    "max_rho_allowed": 0.9,
+    "max_overlap_allowed": 0.7,
+    "max_overlap_all_literal": 0.99359,
+    "max_overlap_nondegenerate": 0.384079,
+    "rows": [
+      {
+        "registry": "dotted_b2_prune_02778.tif",
+        "registry_dots": 37654,
+        "registry_covers_fraction_of_footprint": 0.150853,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.001428,
+        "absolute_spearman_rho": 0.001428,
+        "abs_spearman_rho": 0.001428,
+        "dots_within_3px": 8580,
+        "fraction_of_my_dots": 0.171868,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.082408,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "dotted_d2_8_02600.tif",
+        "registry_dots": 44090,
+        "registry_covers_fraction_of_footprint": 0.171911,
+        "overlap_test_admissible": true,
+        "spearman_rho": -1.7e-05,
+        "absolute_spearman_rho": 1.7e-05,
+        "abs_spearman_rho": 1.7e-05,
+        "dots_within_3px": 8751,
+        "fraction_of_my_dots": 0.175293,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.075754,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "dotted_d2_8_02708.tif",
+        "registry_dots": 40199,
+        "registry_covers_fraction_of_footprint": 0.160064,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.000828,
+        "absolute_spearman_rho": 0.000828,
+        "abs_spearman_rho": 0.000828,
+        "dots_within_3px": 8677,
+        "fraction_of_my_dots": 0.173811,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.080599,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h52_coincidence8_80k.tif",
+        "registry_dots": 80000,
+        "registry_covers_fraction_of_footprint": 0.238571,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.011731,
+        "absolute_spearman_rho": 0.011731,
+        "abs_spearman_rho": 0.011731,
+        "dots_within_3px": 19174,
+        "fraction_of_my_dots": 0.384079,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.093313,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h60_officialstack_50k.tif",
+        "registry_dots": 50000,
+        "registry_covers_fraction_of_footprint": 0.192107,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0022,
+        "absolute_spearman_rho": 0.0022,
+        "abs_spearman_rho": 0.0022,
+        "dots_within_3px": 8597,
+        "fraction_of_my_dots": 0.172209,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.0552,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h60_union_d2_75308.tif",
+        "registry_dots": 75308,
+        "registry_covers_fraction_of_footprint": 0.31934,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.004193,
+        "absolute_spearman_rho": 0.004193,
+        "abs_spearman_rho": 0.004193,
+        "dots_within_3px": 10414,
+        "fraction_of_my_dots": 0.208605,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.048454,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "hedge_v2_01563.tif",
+        "registry_dots": 227507,
+        "registry_covers_fraction_of_footprint": 0.283564,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.005162,
+        "absolute_spearman_rho": 0.005162,
+        "abs_spearman_rho": 0.005162,
+        "dots_within_3px": 12140,
+        "fraction_of_my_dots": 0.243179,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.055779,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "r11_greedy_mp.tif",
+        "registry_dots": 272853,
+        "registry_covers_fraction_of_footprint": 0.739731,
+        "overlap_test_admissible": false,
+        "spearman_rho": -0.006529,
+        "absolute_spearman_rho": 0.006529,
+        "abs_spearman_rho": 0.006529,
+        "dots_within_3px": 34536,
+        "fraction_of_my_dots": 0.691799,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.054465,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "r13_lattice_s5_00904.tif",
+        "registry_dots": 206895,
+        "registry_covers_fraction_of_footprint": 0.998713,
+        "overlap_test_admissible": false,
+        "spearman_rho": -9.1e-05,
+        "absolute_spearman_rho": 9.1e-05,
+        "abs_spearman_rho": 9.1e-05,
+        "dots_within_3px": 49602,
+        "fraction_of_my_dots": 0.99359,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.077585,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": true,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "r14_union_tips10_lat6.tif",
+        "registry_dots": 192231,
+        "registry_covers_fraction_of_footprint": 0.761973,
+        "overlap_test_admissible": false,
+        "spearman_rho": -0.000962,
+        "absolute_spearman_rho": 0.000962,
+        "abs_spearman_rho": 0.000962,
+        "dots_within_3px": 37864,
+        "fraction_of_my_dots": 0.758463,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.079977,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": true,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "tip_stepover_r30_02632.tif",
+        "registry_dots": 41865,
+        "registry_covers_fraction_of_footprint": 0.166186,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.000656,
+        "absolute_spearman_rho": 0.000656,
+        "abs_spearman_rho": 0.000656,
+        "dots_within_3px": 8796,
+        "fraction_of_my_dots": 0.176195,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.07904,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "gems54-undercomplement-q200.tif",
+        "registry_dots": 15907,
+        "registry_covers_fraction_of_footprint": 0.048804,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.000869,
+        "absolute_spearman_rho": 0.000869,
+        "abs_spearman_rho": 0.000869,
+        "dots_within_3px": 2672,
+        "fraction_of_my_dots": 0.053523,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.067832,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      }
+    ],
+    "lane_drift_detected": false,
+    "flagged_registry": [],
+    "flagged_registry_literal": [
+      "r13_lattice_s5_00904.tif",
+      "r14_union_tips10_lat6.tif"
+    ],
+    "correlation_indeterminate_for": [],
+    "overlap_test_degenerate_for": [
+      "r11_greedy_mp.tif",
+      "r13_lattice_s5_00904.tif",
+      "r14_union_tips10_lat6.tif"
+    ],
+    "degenerate_note": "Registry rasters whose 3 px neighbourhoods cover >= 50% of the footprint cannot discriminate overlap; the literal overlap statistic is reported per row (overlap_flag_literal) but only non-degenerate rows bind the verdict. Rank correlation is checked against every registry raster regardless. Without this exemption the gate is unsatisfiable (r13_lattice_s5_00904.tif covers 99.87% of footprint cells within 3 px, so every possible raster is its 'duplicate').",
+    "verdict": "distinct lane"
+  },
+  "lane_final_dots": {
+    "my_positive_cells": 18880,
+    "my_dots": 18880,
+    "max_absolute_rho_allowed": 0.9,
+    "max_rho_allowed": 0.9,
+    "max_overlap_allowed": 0.7,
+    "max_overlap_all_literal": 0.99428,
+    "max_overlap_nondegenerate": 0.325106,
+    "rows": [
+      {
+        "registry": "dotted_b2_prune_02778.tif",
+        "registry_dots": 37654,
+        "registry_covers_fraction_of_footprint": 0.150853,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.000431,
+        "absolute_spearman_rho": 0.000431,
+        "abs_spearman_rho": 0.000431,
+        "dots_within_3px": 3040,
+        "fraction_of_my_dots": 0.161017,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.073511,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "dotted_d2_8_02600.tif",
+        "registry_dots": 44090,
+        "registry_covers_fraction_of_footprint": 0.171911,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.000422,
+        "absolute_spearman_rho": 0.000422,
+        "abs_spearman_rho": 0.000422,
+        "dots_within_3px": 3129,
+        "fraction_of_my_dots": 0.165731,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.066614,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "dotted_d2_8_02708.tif",
+        "registry_dots": 40199,
+        "registry_covers_fraction_of_footprint": 0.160064,
+        "overlap_test_admissible": true,
+        "spearman_rho": 7.8e-05,
+        "absolute_spearman_rho": 7.8e-05,
+        "abs_spearman_rho": 7.8e-05,
+        "dots_within_3px": 3083,
+        "fraction_of_my_dots": 0.163294,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.07142,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h52_coincidence8_80k.tif",
+        "registry_dots": 80000,
+        "registry_covers_fraction_of_footprint": 0.238571,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.004565,
+        "absolute_spearman_rho": 0.004565,
+        "abs_spearman_rho": 0.004565,
+        "dots_within_3px": 6138,
+        "fraction_of_my_dots": 0.325106,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.084937,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h60_officialstack_50k.tif",
+        "registry_dots": 50000,
+        "registry_covers_fraction_of_footprint": 0.192107,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.00155,
+        "absolute_spearman_rho": 0.00155,
+        "abs_spearman_rho": 0.00155,
+        "dots_within_3px": 2908,
+        "fraction_of_my_dots": 0.154025,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.04956,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h60_union_d2_75308.tif",
+        "registry_dots": 75308,
+        "registry_covers_fraction_of_footprint": 0.31934,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.002413,
+        "absolute_spearman_rho": 0.002413,
+        "abs_spearman_rho": 0.002413,
+        "dots_within_3px": 3901,
+        "fraction_of_my_dots": 0.206621,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.042545,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "hedge_v2_01563.tif",
+        "registry_dots": 227507,
+        "registry_covers_fraction_of_footprint": 0.283564,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.003647,
+        "absolute_spearman_rho": 0.003647,
+        "abs_spearman_rho": 0.003647,
+        "dots_within_3px": 4382,
+        "fraction_of_my_dots": 0.232097,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.049005,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "r11_greedy_mp.tif",
+        "registry_dots": 272853,
+        "registry_covers_fraction_of_footprint": 0.739731,
+        "overlap_test_admissible": false,
+        "spearman_rho": -0.004474,
+        "absolute_spearman_rho": 0.004474,
+        "abs_spearman_rho": 0.004474,
+        "dots_within_3px": 12869,
+        "fraction_of_my_dots": 0.681621,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.048161,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "r13_lattice_s5_00904.tif",
+        "registry_dots": 206895,
+        "registry_covers_fraction_of_footprint": 0.998713,
+        "overlap_test_admissible": false,
+        "spearman_rho": 0.000656,
+        "absolute_spearman_rho": 0.000656,
+        "abs_spearman_rho": 0.000656,
+        "dots_within_3px": 18772,
+        "fraction_of_my_dots": 0.99428,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.068755,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": true,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "r14_union_tips10_lat6.tif",
+        "registry_dots": 192231,
+        "registry_covers_fraction_of_footprint": 0.761973,
+        "overlap_test_admissible": false,
+        "spearman_rho": 0.002079,
+        "absolute_spearman_rho": 0.002079,
+        "abs_spearman_rho": 0.002079,
+        "dots_within_3px": 15102,
+        "fraction_of_my_dots": 0.799894,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.070863,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": true,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "tip_stepover_r30_02632.tif",
+        "registry_dots": 41865,
+        "registry_covers_fraction_of_footprint": 0.166186,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.000106,
+        "absolute_spearman_rho": 0.000106,
+        "abs_spearman_rho": 0.000106,
+        "dots_within_3px": 3136,
+        "fraction_of_my_dots": 0.166102,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.069724,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "gems54-undercomplement-q200.tif",
+        "registry_dots": 15907,
+        "registry_covers_fraction_of_footprint": 0.048804,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.000239,
+        "absolute_spearman_rho": 0.000239,
+        "abs_spearman_rho": 0.000239,
+        "dots_within_3px": 887,
+        "fraction_of_my_dots": 0.046981,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.060162,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_flag_literal": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      }
+    ],
+    "lane_drift_detected": false,
+    "flagged_registry": [],
+    "flagged_registry_literal": [
+      "r13_lattice_s5_00904.tif",
+      "r14_union_tips10_lat6.tif"
+    ],
+    "correlation_indeterminate_for": [],
+    "overlap_test_degenerate_for": [
+      "r11_greedy_mp.tif",
+      "r13_lattice_s5_00904.tif",
+      "r14_union_tips10_lat6.tif"
+    ],
+    "degenerate_note": "Registry rasters whose 3 px neighbourhoods cover >= 50% of the footprint cannot discriminate overlap; the literal overlap statistic is reported per row (overlap_flag_literal) but only non-degenerate rows bind the verdict. Rank correlation is checked against every registry raster regardless. Without this exemption the gate is unsatisfiable (r13_lattice_s5_00904.tif covers 99.87% of footprint cells within 3 px, so every possible raster is its 'duplicate').",
+    "verdict": "distinct lane"
+  },
+  "format_validator": {
+    "path": "/home/user/GEMSDOE54/docs/downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif",
+    "checks": {
+      "single_band": {
+        "ok": true,
+        "detail": "count=1"
+      },
+      "dtype_float32": {
+        "ok": true,
+        "detail": "dtype=float32"
+      },
+      "crs": {
+        "ok": true,
+        "detail": "crs=EPSG:32611"
+      },
+      "shape": {
+        "ok": true,
+        "detail": "shape=(3730,3292)"
+      },
+      "transform_100m_same_bounds": {
+        "ok": true,
+        "detail": "transform=(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
+      },
+      "labels_shape": {
+        "ok": true,
+        "detail": "labels_shape=(3730, 3292); submission_shape=(3730, 3292)"
+      },
+      "label_nodata_defined": {
+        "ok": true,
+        "detail": "nodata=-1.0"
+      },
+      "footprint_cells": {
+        "ok": true,
+        "detail": "cells=5167373"
+      },
+      "no_nan_inside_footprint": {
+        "ok": true,
+        "detail": "non_finite_inside=0"
+      },
+      "in_footprint_in_range": {
+        "ok": true,
+        "detail": "finite range=[0.0, 1.0]"
+      },
+      "outside_footprint_convention": {
+        "ok": true,
+        "detail": "all-finite-outside (organizer-form-safe; recommended)"
+      },
+      "all_values_in_0_1_wherever_finite": {
+        "ok": true,
+        "detail": "finite range=[0.0, 1.0]; nonfinite_total=0; convention=all-finite-outside (organizer-form-safe; recommended)"
+      }
+    },
+    "failures": [],
+    "values": {
+      "in_footprint_min": 0.0,
+      "in_footprint_max": 1.0,
+      "positive_cells": 18880,
+      "distinct_positive_values": 1,
+      "nan_inside_footprint": 0,
+      "nan_outside_footprint": 0
+    },
+    "passed": true
+  },
+  "submission_form": {
+    "unique_name": "GEMSDOE54-H54C-MANIFEST-EDGE",
+    "note": "H54-C2b alteration-edge+Q-manifest corridor, >300m off-cat; HOLDOUT-DTI 0.0186 beats chance p<0.001; unique lane; 18880 dots",
+    "note_chars": 124
+  },
+  "slot_policy": {
+    "rule": "preregistered: slot recommended only if HOLDOUT-DTI beats incumbent 0.0483 with paired CI excluding 0",
+    "met": false,
+    "interpretation": "Catalogue-recovery holdout does not rank board values (README s3.1: rho=-0.029, p=0.957 on 6 receiptless artefacts). This file is a format-valid, lane-unique identification candidate in the geothermal-manifestation lane; its board value is unmeasured. Slot promotion is a separate selector decision within the weekly cap of 3."
+  }
+}

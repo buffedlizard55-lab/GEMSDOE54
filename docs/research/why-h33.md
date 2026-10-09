@@ -1,5 +1,50 @@
 # Forensic note: H33 `b2` artifact and its reported value
 
+## 2026-10-09 session answer (PhD-level synthesis)
+
+**Why `h33-h33-2-b2-…-e5eb6e7e-zeros` reportedly scored 0.2778 — the exact
+mechanism, now verified against the registry bytes.** The artefact is the
+group's 0.2708 emission (40,199 dots, `registry/registry_rasters/dotted_d2_8_02708.tif`)
+with every dot within 200 m of the published catalogue deleted (2,545 dots
+removed; 37,654 remain, byte-identical to the owner's file). For unit-valued
+dots the organizer metric collapses to
+
+```text
+DTI = T / ( 0.2·N + 0.8·G + 0.2·(T − M) )
+```
+
+so deleting a dot that earns **no** kernel credit lowers `N` (and `M`) while
+leaving `T` unchanged: DTI rises mechanically. Deleting a dot that supplied
+*unique* credit would lower `T` too and hurt. The b2 prune is therefore a
+**precision edit**, not a discovery of new faults: it removes catalogue-adjacent
+mass that the hidden truth (faults absent from the catalogue) cannot credit.
+Inverting the two owner-reported rows of the same family (0.2600 at 44,090 dots
+vs 0.2778 at 37,654 dots, prune leaves T and M unchanged) gives a MODEL pooled
+credit T ≈ 5,230 and a MODEL hidden-truth mass G ≈ 12–14 k cells — i.e. the
+leader still misses roughly 60 % of the hidden truth and pays the α = 0.2 mass
+tax on tens of thousands of zero-credit dots. That is the headroom.
+
+**Can we generate something that scores higher?** In principle yes — two
+levers: (a) prune harder/smarter (the b2 rule is a coarse 200 m flank; the
+metric's own break-even bar is `k > 0.2·DTI ≈ 0.06`, i.e. any dot averaging
+more than ~282 m from hidden truth is losing money), and (b) move the remaining
+dots toward high-credit positions (off-catalogue structures the expert set
+covers). In practice **no local instrument can prove it**: the holdout recovers
+withheld *catalogue* faults while the board scores faults *missing* from the
+catalogue, and this repository measured the resulting anti-correlation
+(Section 3.1: a widely-used proxy ranks owner-reported board values at
+ρ = −0.03, p = 0.96). What this session can and does deliver is a
+**format-valid, lane-unique** candidate in a lane no sibling occupies
+(hydrothermal-manifestation corridors), validated against a matched chance
+control on the whole-segment holdout (HOLDOUT-DTI 0.0186 vs 0.0062, paired CI
+excluding zero, 2.8× the 80 %-power floor), with every number labelled.
+
+**The 0.0028 gap (0.2778 vs 0.2750).** NOT CLASSIFIABLE. The smallest paired
+MDE this repository can compute is 0.0015–0.0022 for near-identical ridge
+variants and 0.0045–0.0095 for distinct architectures; the board's variance is
+unmeasured and its truth set is different. Reading 0.0028 as a ranking is noise
+being read as signal.
+
 ## Evidence boundary
 
 The brief supplied for this session reports `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` at 0.2778 and compares it with an earlier family member reported at 0.2750. The repository's collected bytes include a `dotted_b2_prune` raster and a prior local build/run record. The cited values are **USER/OWNER-REPORTED observations**, not `ORGANIZER-CONFIRMED`: this review did not obtain a submission-page receipt tying an exact uploaded hash to either value. The prompt also gives inconsistent “current highest” values (including 0.3774 and 0.3195). None is treated as a current verified leaderboard fact.
