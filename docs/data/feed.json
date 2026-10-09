@@ -1,69 +1,142 @@
 {
+  "schema": "gemsdoe54.local-feed.v2",
+  "generated_from": [
+    "docs/data/run-card-cgrc.json",
+    "evidence/lane_summary_cgrc_v1.json",
+    "docs/data/leaderboard-snapshot.json"
+  ],
+  "scope": "Repository-local status only. Not a DrivenData feed.",
   "candidate": {
-    "candidate_surface_preflighted": true,
-    "candidate_tif_generated": false,
-    "existing_artifact_approved_for_upload": false,
-    "existing_artifact_downloadable_for_research": true,
-    "existing_repository_artifact": {
-      "approved_for_upload": false,
-      "downloadable_for_research": true,
-      "format_status_in_this_run": "FAIL under the current local format contract: archived raster stores finite zeroes outside the label footprint; expected null/NaN per prior source notes and sample mirror. Not organizer acceptance.",
-      "format_validation": "FAIL \u2014 outside_footprint_null_or_nan check; archive has finite zeroes outside. The official rule was not re-fetched in this review.",
-      "holdout_validation": "NOT ESTABLISHED",
-      "name": "gems54-undercomplement-q200",
-      "path": "docs/downloads/gems54-undercomplement-q200.tif",
-      "provenance": "pre-existing H54-A artifact; not generated in this run",
-      "selection_by_this_run": false,
-      "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
-      "strict_lane_status_in_this_run": "DUPLICATE - STOP due raw 3-pixel overlap with three dense registry rasters",
-      "upload_recommendation": "DO NOT UPLOAD based on this review"
-    },
-    "holdout_status": "NOT RUN \u2014 the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
-    "magnetic_ridge_holdout": "RUN (2026-10-08): E1 frozen dense ridge NEGATIVE; E2 spaced ridge (exploratory) NEGATIVE; E3 detection floor measured",
-    "new_candidate_downloadable": false,
-    "ok_to_download_for_submission": false,
+    "name": "gems54-cgrc-relay-v1",
+    "primary_path": "docs/downloads/gems54-cgrc-relay-v1.tif",
+    "primary_sha256": "e6f82d42c751e77f93f79d0c62c6ac0574daf9e35c827b1566753fe26b0984ef",
+    "twin_path": "docs/downloads/gems54-cgrc-relay-v1-nan.tif",
+    "twin_sha256": "9b4cf4450bbc6c13b307e5ec89f0dd2d2f0a54245b1757287541079098fba0de",
+    "verdict": "NOT CLEARED",
     "ok_to_submit": false,
-    "safe_to_upload": false,
-    "verdict": "negative"
+    "download_for_inspection_only": true,
+    "lane": "FAIL (literal rule): DUPLICATE - STOP",
+    "lane_literal_rule": "FAIL (duplicate)",
+    "format": "primary FAILS the outside-footprint null/NaN contract; twin PASSES",
+    "holdout_gate": "NOT MET: candidate B = 0.091536 < 0.147192 (arm C)"
   },
-  "generated_utc": "2026-10-08T23:17:45+00:00",
+  "experiments": {
+    "used": 3,
+    "limit": 3,
+    "submissions": 0,
+    "slots_selected_by_agent": 0
+  },
   "leaderboard": {
-    "fetched_utc": "2026-10-08",
-    "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",
+    "fetched_utc": "2026-10-09",
+    "status": "PUBLIC-LEADERBOARD SNAPSHOT (displayed values, not organizer receipts)",
+    "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
     "score_claims_are_organizer_confirmed": false,
+    "top_displayed": {
+      "rank_1": 0.3774,
+      "rank_7": 0.3195,
+      "rank_13": 0.2778,
+      "rank_17": 0.275
+    },
     "selected_rows": [
       {
-        "displayed_value": 0.3774,
-        "rank": 1
+        "rank": 1,
+        "team": "xiaofanhu",
+        "displayed_value": 0.3774
       },
       {
-        "displayed_value": 0.3195,
-        "rank": 7
+        "rank": 2,
+        "team": "alexoktaba",
+        "displayed_value": 0.3345
       },
       {
-        "displayed_value": 0.2778,
-        "rank": 13
+        "rank": 3,
+        "team": "nchuzhoy",
+        "displayed_value": 0.3262
       },
       {
-        "displayed_value": 0.275,
-        "rank": 17
+        "rank": 4,
+        "team": "joeyfezster",
+        "displayed_value": 0.326
+      },
+      {
+        "rank": 5,
+        "team": "kinghorton42",
+        "displayed_value": 0.3222
+      },
+      {
+        "rank": 6,
+        "team": "Batik Shirt Brothers",
+        "displayed_value": 0.3221
+      },
+      {
+        "rank": 7,
+        "team": "DARD",
+        "displayed_value": 0.3195
+      },
+      {
+        "rank": 8,
+        "team": "mzoorob",
+        "displayed_value": 0.2902
+      },
+      {
+        "rank": 9,
+        "team": "ndavis7",
+        "displayed_value": 0.2888
+      },
+      {
+        "rank": 10,
+        "team": "GrigorSargsyan",
+        "displayed_value": 0.2876
+      },
+      {
+        "rank": 12,
+        "team": "op01",
+        "displayed_value": 0.2797
+      },
+      {
+        "rank": 13,
+        "team": "extradr19",
+        "displayed_value": 0.2778
+      },
+      {
+        "rank": 14,
+        "team": "arnofault",
+        "displayed_value": 0.2764
+      },
+      {
+        "rank": 15,
+        "team": "No Fault of Our Own",
+        "displayed_value": 0.2761
+      },
+      {
+        "rank": 16,
+        "team": "notmyfault",
+        "displayed_value": 0.2758
+      },
+      {
+        "rank": 17,
+        "team": "wbg1",
+        "displayed_value": 0.275
+      },
+      {
+        "rank": 18,
+        "team": "raboush2",
+        "displayed_value": 0.2747
+      },
+      {
+        "rank": 21,
+        "team": "smrtdoog5",
+        "displayed_value": 0.2708
+      },
+      {
+        "rank": 22,
+        "team": "bot_account",
+        "displayed_value": 0.2707
       }
-    ],
-    "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-    "status": "PUBLIC-LEADERBOARD SNAPSHOT \u2014 official page fetched; no individual submission-page receipts copied"
-  },
-  "schema": "gemsdoe54.local-feed.v1",
-  "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",
-  "sources": {
-    "official_data_download_authenticated": false,
-    "registered": 19
+    ]
   },
   "workspace": {
-    "missing_inputs": [
-      "training_features.tif or numeric_features.tif",
-      "sample_submission.tif (known label-mask mirror is not accepted as a sample)"
-    ],
-    "ready_for_holdout": false,
-    "status": "blocked_missing_inputs"
+    "status": "same-fold holdout and lane audit complete; no file cleared",
+    "ready_for_submission": false
   }
 }

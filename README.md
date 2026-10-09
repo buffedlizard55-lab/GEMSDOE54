@@ -5,7 +5,37 @@
 
 ---
 
-## ⬇️ SUBMISSION STATUS — read this before anything else (consolidated 2026-10-09 UTC)
+## ⬇️ SUBMISSION STATUS — read this before anything else (updated 2026-10-09)
+
+**Verdict: no file in this repository is cleared for upload. Do not submit any file from this repository.** Download: NOT CLEARED; the TIFFs are kept as audit copies only (the other session on main records the download question as unresolved, so treat every TIF here as not cleared for download or submission).
+
+- Executive summary (top of the site): [`docs/index.html`](docs/index.html). Submit guide and range-error fix: [`docs/executive-summary.html`](docs/executive-summary.html). Verdicts: [`docs/submit-verdict.html`](docs/submit-verdict.html). CGRC run card v3: [`docs/data/run-card-cgrc.json`](docs/data/run-card-cgrc.json).
+- Budget: **3 of 3 experiments used.** Submissions: 0. The agent selected no weekly slot.
+- **Parallel work on main (integrated).** Two open questions bear on the verdict. (A) The literal 70% lane test is degenerate against dense registries (r13 covers 99.87%); main records this as blocking (IR-54-051) and notes two lane tests in use (IR-54-063). The verdict applies the rule as written; CGRC also fails if rasters with ≥50% coverage are exempted (three non-degenerate siblings above 0.70). (B) The H54-A gate arm (0.1472) may be inflated by SGMC co-location with withheld faults (main IR-54-038, IR-54-057), so the holdout gate is weak evidence on its own; the lane failure alone is sufficient. H1 (C4) and C5 are negative on main's v1 evaluator (C4 0.0120, C5 0.0103, control 0.0104).
+
+| File | Holdout (HOLDOUT-DTI, evaluator v2, same folds) | Lane (literal rule, final dots) | Format | Verdict |
+|---|---|---|---|---|
+| [`docs/downloads/gems54-cgrc-relay-v1.tif`](docs/downloads/gems54-cgrc-relay-v1.tif) (CGRC primary, zeros outside; SHA-256 `e6f82d42…984ef`; 32,369 dots) | B 0.091536 [0.087617, 0.094855]; gate arm C (H54-A rule, same folds) 0.147192: **NOT MET** | **FAIL**: r11 0.833, r13 0.998, r14 0.857; three siblings 0.935, 0.769, 0.733 | **FAIL** (outside null/NaN) | **NOT CLEARED** |
+| [`docs/downloads/gems54-cgrc-relay-v1-nan.tif`](docs/downloads/gems54-cgrc-relay-v1-nan.tif) (same dots, NaN outside; SHA-256 `9b4cf445…a0de`) | identical dots | **FAIL** (identical dots) | PASS | **NOT CLEARED** |
+| [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif) (H54-A archive; SHA-256 `b430615a…efd8`; 15,907 dots) | the H54-A rule itself is gate arm C: 0.147192 (proxy, not a candidate score) | **FAIL**: 98.85% of dots within 3 px of GEMSDOE3 `gapfinder-v2-sgmc-gap` | FAIL (all-finite) | **NOT CLEARED** |
+| [`docs/downloads/gems54-magedge-hgrad-ridge.tif`](docs/downloads/gems54-magedge-hgrad-ridge.tif) (H54-B archive; SHA-256 `6d086c09…8d9e`) | 0.0148 (v1 evaluator; not comparable) | FAIL (2026-10-08 scan) | not re-run | **NOT CLEARED** |
+
+**Answers to the brief (short; each is traced in the linked page).**
+1. *Why did 0.2778 score highest?* It did not. The live public page (2026-10-09) shows **0.3774 at rank 1**, 0.3195 at rank 7, 0.2778 at rank 13 (extradr19) and 0.2750 at rank 17. The GEMSDOE32 link to 0.2778 is unverified. See [`docs/top-artefact.html`](docs/top-artefact.html) (IR-54-080).
+2. *Can we beat 0.2778 / 0.3195 / 0.3774?* Not shown. No candidate is cleared, and the one proxy winner (H54-A rule, 0.1472) is a lane duplicate.
+3. *Is the 0.0028 gap inside the holdout detection floor?* The holdout's raw-scale MDE is **0.001395** (paired, 3,118 whole-segment units). The gap is about twice that, so it is detectable on the holdout. On the board it is **NOT CLASSIFIABLE** (no paired board data).
+4. *Hypotheses.* The top-ranked magnetic–gravity cross-gradient was tested on the same folds: 0.0556 (not mass-matched, inadmissible) and it does not beat the gate. The others are not run. See [`docs/research/hypotheses-20261008.md`](docs/research/hypotheses-20261008.md).
+
+**Official rules (verified verbatim, [`docs/rules-gate.html`](docs/rules-gate.html)).** You may submit your own model's single-band GeoTIFF (§3.2). You must indicate in the narrative the extent of any generative-AI use (§3.2). Three submissions per week at most (§3.2, §3.4). One final submission (§3.5). Public-leaderboard scores may differ from the private final scores (§3.2).
+
+**Uniqueness (2026-10-09, full corpus).** 1,198 sibling rasters compared (self-twin excluded; 1,153 overlap-checked and 45 second-passed). Maximum |rho| 0.101 (PASS). Literal dot-overlap rule FAILS for CGRC (validator and lane summary: [`evidence/lane_summary_cgrc_v1.json`](evidence/lane_summary_cgrc_v1.json)). The earlier "vacuous" exclusion of r11, r13 and r14 is withdrawn (IR-54-066).
+
+**Score labels.** `HOLDOUT-DTI` = local whole-segment proxy with evaluator version, withheld positives and 95% CI (v2: `gemsdoe54.cgrc-holdout.v2`, 60,834 withheld positives, 3,118 units). `ORGANIZER-CONFIRMED` = none in this repository. `BOARD-UNVERIFIED` = displayed public-page values (0.3774, 0.3195, 0.2778, 0.2750). Projections are never scores.
+
+**Corrections to the 2026-10-08 text** are listed in the audit ledger (IR-54-066 to IR-54-082): [`docs/irregularities.html`](docs/irregularities.html). Notably, the "0.1793 corpus holdout best" has no receipt and is withdrawn (IR-54-068), and the claim that CGRC beats the H54-A rule is withdrawn (IR-54-067).
+
+## Archived status (2026-10-08, superseded by the block above)
+
 
 **Upload: NO file in this repository is cleared for upload.** No weekly slot was selected. Slot choice is a separate selector step and is not made here.
 
@@ -60,7 +90,7 @@ Until the owner resolves this, treat every TIF here as **not cleared for downloa
 
 ---
 
-## ⛔ Current run: no new TIF cleared the gates
+## Archived run (2026-10-08): no new TIF cleared the gates
 
 **This review generated no new TIFF. Do not upload a file from this run, and do not spend a weekly submission slot on the archived H54-A file.** Two pre-placement surface screens tripped the literal registry-overlap stop rule before point placement. The current run card is [`docs/data/run-card.json`](docs/data/run-card.json); receipts are [`evidence/endpoint-continuation-preflight.json`](evidence/endpoint-continuation-preflight.json) and [`evidence/strict_lane_preflight.json`](evidence/strict_lane_preflight.json).
 
@@ -384,14 +414,16 @@ holdout. The prior repository records six artefacts with downloadable bytes and
 leaderboard values, but this audit pass has no submission-page receipts; those values
 are **owner-recorded leaderboard observations**, not `ORGANIZER-CONFIRMED` scores.
 
-| artefact | PROXY-DTI (circular screening) | owner-recorded board value (not receipt) |
-|---|---:|---:|
-| `r13-lattice-s5` | **0.2478** | 0.0904 |
-| `h60-officialstack-50k` | 0.1854 | *(none published)* |
-| `tip_stepover_r30` | 0.0942 | 0.2632 |
-| `dotted_b2_prune` | 0.0940 | **0.2778** |
-| `dotted_d2_8` | 0.0927 | 0.2600 |
-| `Hedge-v2` | 0.0884 | 0.1563 |
+| artefact (registry) | dots | PROXY-DTI (circular screening) | owner-recorded board value (not receipt) |
+|---|---:|---:|---:|
+| `dotted_b2_prune_02778` | 37,654 | 0.093946 | **0.2778** |
+| `dotted_d2_8_02600` | 44,090 | 0.092727 | 0.2600 |
+| `dotted_d2_8_02708` | 40,199 | 0.093836 | 0.2708 |
+| `hedge_v2_01563` | 227,507 | 0.088371 | 0.1563 |
+| `r13_lattice_s5_00904` | 206,895 | 0.247784 | 0.0904 |
+| `tip_stepover_r30_02632` | 41,865 | 0.094213 | 0.2632 |
+
+Source: [`evidence/proxy_audit.json`](evidence/proxy_audit.json). The 2026-10-08 table here included `h60_officialstack_50k`, which has no board value, and omitted `dotted_d2_8_02708`; that table is withdrawn (IR-54-078).
 
 **PROXY-ANALYSIS:** Spearman ρ(proxy, owner-recorded board values) = −0.029, p = 0.957, n = 6. The artefact ranked highest by this proxy is ranked lowest among those recorded board values. This is a caution about the proxy, not a verified competition ranking or a holdout result.
 
