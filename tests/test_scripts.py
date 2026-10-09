@@ -39,12 +39,13 @@ def test_local_feed_carries_a_timestamped_public_snapshot_without_receipt_claim(
     )
     feed = json.loads(output.read_text())
     assert feed["leaderboard"]["status"].startswith("PUBLIC-LEADERBOARD SNAPSHOT")
-    assert feed["leaderboard"]["fetched_utc"] == "2026-10-08"
+    assert feed["leaderboard"]["fetched_utc"] == "2026-10-09"  # re-verified 2026-10-09 (same values)
     assert feed["leaderboard"]["score_claims_are_organizer_confirmed"] is False
     assert {row["rank"] for row in feed["leaderboard"]["selected_rows"]} == {1, 7, 13, 17}
     assert feed["candidate"]["candidate_surface_preflighted"] is True
-    assert feed["candidate"]["candidate_tif_generated"] is False
-    assert feed["candidate"]["new_candidate_downloadable"] is False
+    # 2026-10-09: the CGRC v1 TIF exists in docs/downloads and is downloadable as an AUDIT COPY only.
+    assert feed["candidate"]["candidate_tif_generated"] is True
+    assert feed["candidate"]["new_candidate_downloadable"] is True
     assert feed["candidate"]["existing_artifact_downloadable_for_research"] is True
     assert feed["candidate"]["existing_artifact_approved_for_upload"] is False
     assert feed["candidate"]["safe_to_upload"] is False

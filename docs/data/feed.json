@@ -1,32 +1,24 @@
 {
   "candidate": {
     "candidate_surface_preflighted": true,
-    "candidate_tif_generated": false,
+    "candidate_tif_generated": true,
     "existing_artifact_approved_for_upload": false,
     "existing_artifact_downloadable_for_research": true,
     "existing_repository_artifact": {
-      "approved_for_upload": false,
-      "downloadable_for_research": true,
-      "format_status_in_this_run": "FAIL under the current local format contract: archived raster stores finite zeroes outside the label footprint; expected null/NaN per prior source notes and sample mirror. Not organizer acceptance.",
-      "format_validation": "FAIL \u2014 outside_footprint_null_or_nan check; archive has finite zeroes outside. The official rule was not re-fetched in this review.",
-      "holdout_validation": "NOT ESTABLISHED",
-      "name": "gems54-undercomplement-q200",
-      "path": "docs/downloads/gems54-undercomplement-q200.tif",
-      "provenance": "pre-existing H54-A artifact; not generated in this run",
-      "selection_by_this_run": false,
-      "sha256": "b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8",
-      "strict_lane_status_in_this_run": "DUPLICATE - STOP due raw 3-pixel overlap with three dense registry rasters",
-      "upload_recommendation": "DO NOT UPLOAD based on this review"
+      "decision_download": "AUDIT COPY ONLY (for review)",
+      "decision_submit": "NOT OK",
+      "name": "GEMS54-CGRC-relay-v1"
     },
-    "holdout_status": "NOT RUN \u2014 the literal pre-placement lane gate stopped the surface, and no compliant whole-segment evaluator receipt is available.",
-    "magnetic_ridge_holdout": "RUN (2026-10-08): E1 frozen dense ridge NEGATIVE; E2 spaced ridge (exploratory) NEGATIVE; E3 detection floor measured",
-    "new_candidate_downloadable": false,
+    "holdout_status": "HOLDOUT-DTI (catalogue-truth proxy; cannot reward genuinely new faults): arm B 0.091536 CI [0.087617, 0.094855] (gemsdoe54.cgrc-holdout.v2)",
+    "lane_gate": "DUPLICATE - STOP (r11_greedy_mp, r13_lattice_s5_00904, r14_union_tips10_lat6)",
+    "magnetic_ridge_holdout": "receipt-only in this checkout (IR-54-058)",
+    "new_candidate_downloadable": true,
     "ok_to_download_for_submission": false,
     "ok_to_submit": false,
     "safe_to_upload": false,
     "verdict": "negative"
   },
-  "generated_utc": "2026-10-08T23:17:45+00:00",
+  "generated_utc": "2026-10-09T01:27:58+00:00",
   "leaderboard": {
     "fetched_utc": "2026-10-08",
     "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",
@@ -56,7 +48,7 @@
   "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",
   "sources": {
     "official_data_download_authenticated": false,
-    "registered": 19
+    "registered": 21
   },
   "workspace": {
     "missing_inputs": [

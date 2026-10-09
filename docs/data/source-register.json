@@ -1,21 +1,21 @@
 {
   "schema": "gemsdoe54.source-register.v1",
-  "status_note": "This register distinguishes records inherited from the prior 2026-10-08 source review from checks repeated in the current review. The current review did not fetch external official pages; page observations in inherited records are not individual submission receipts, and external coverage/downloads remain unverified.",
+  "status_note": "Updated 2026-10-09. Records marked 'Verified in the 2026-10-09 review' were fetched or re-read in this session (DrivenData overview, leaderboard, NLR rules PDF, HeroX landing). Other records are inherited from the 2026-10-08 review and are not re-verified unless stated. Owner-maintained pages are not organizer evidence.",
   "sources": [
     {
       "id": "drivendata_overview",
       "title": "DOE Geothermal Energy from Mechanisms of Subsurface Systems (GEMS) challenge overview",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
       "source_class": "competition organizer",
-      "session_status": "Prior source record says the page was fetched/read on 2026-10-08 and transcribes target/metric/format details, including null/NaN outside bounds. This review did not re-fetch it.",
-      "use": "Prior source-record transcription only; verify the live official page before submission. It does not authenticate local mirror bytes or leaderboard values."
+      "session_status": "Verified in the 2026-10-09 review: fetched 2026-10-09 (chunks 0 and 1 of 2). Verbatim: 'Your submission has the same bounds as the training data, and data outside the bounds is null or nan.'; 'a single layer with datatype of 32-bit float (float32) with values between 0 and 1'; EPSG 32611; 100 m. Metric: distance-weighted Tversky, alpha 0.2, beta 0.8, triangular kernel R = 300 m; worked example TP 3.00, FP 1.89, FN 2.00 gives 0.60. Two rounds: initial prize on a private test set; final prize rescored on expanded labels.",
+      "use": "Official competition page. Primary source for the metric and format wording used in this review (IR-54-064)."
     },
     {
       "id": "drivendata_about",
       "title": "Competition about page",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/",
       "source_class": "competition organizer",
-      "session_status": "user-supplied; not fetched in this environment",
+      "session_status": "Not fetched in this review.",
       "use": "Background and label provenance review."
     },
     {
@@ -39,8 +39,8 @@
       "title": "Competition leaderboard",
       "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
       "source_class": "competition organizer",
-      "session_status": "Prior repository snapshot dated 2026-10-08 records public-page observations at ranks 1/7/13/17. This review did not re-fetch the page; no individual submission-page receipts were copied and no owner-site raster is attributed to a row.",
-      "use": "Use only as unverified public-page context; do not mark scores ORGANIZER-CONFIRMED or use for promotion."
+      "session_status": "Verified in the 2026-10-09 review: fetched 2026-10-09 (chunk 0 of 3). Ranks: #1 xiaofanhu 0.3774; #7 DARD 0.3195; #13 extradr19 0.2778; #17 wbg1 0.2750; #21 smrtdoog5 0.2708; #22 bot_account 0.2707. 'Best public DW-Tversky' is a public test-set score, not the prize metric.",
+      "use": "ORGANIZER-PUBLIC leaderboard values. Not submission-page receipts (no ORGANIZER-CONFIRMED label)."
     },
     {
       "id": "gdr_ingenious",
@@ -63,7 +63,7 @@
       "title": "GEMS prize challenge submission/data PDF",
       "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
       "source_class": "NREL/DOE (user-supplied link)",
-      "session_status": "Prior source record reports the DOE/NLR rules PDF was fetched/read on 2026-10-08; this review did not re-fetch the PDF.",
+      "session_status": "Verified in the 2026-10-09 review: official rules PDF read in full in this review (chunks 0 to 6 of 7). Chunk 6 holds A.14 to A.17 (NEPA, definitions, return of funds, platform). Section 2 and section 3.3 disagree on label provenance (IR-54-028). A.5(1) requires an original work (basis for the no-copying rule).",
       "use": "Prior rules transcription only; confirm the live rules before any submission. It does not establish candidate validity or score."
     },
     {
@@ -153,6 +153,22 @@
       "source_class": "USGS data service",
       "session_status": "Official USGS water-data/API information found via search on 2026-10-08; exact study-area station coverage and time series not queried",
       "use": "Potential groundwater time series; no data downloaded."
+    },
+    {
+      "id": "herox_rules_landing",
+      "title": "GEMS Prize Official Rules (HeroX resource page)",
+      "url": "https://www.herox.com/GEMSPrize/resource/2274",
+      "source_class": "competition landing page",
+      "session_status": "Verified in the 2026-10-09 review: fetched 2026-10-09. Links to https://www.nlr.gov/docs/fy26osti/96647.pdf (same document as docs.nlr.gov).",
+      "use": "Mirror link to the rules document."
+    },
+    {
+      "id": "sibling_corpus_scan",
+      "title": "Public GEMS repositories scanned for raster duplicates (this review)",
+      "url": "https://github.com/buffedlizard55-lab",
+      "source_class": "owner-maintained public repositories (not organizer)",
+      "session_status": "Verified in the 2026-10-09 review: 63 GEMS-named repositories inventoried (1,232 raster-like files); partial clones read-only on 2026-10-09; 1,223 files seen, 1,200 on the competition grid, 1,154 submission-like. Scratch clones are outside the repository; the scan reproduces from scripts/inventory_siblings.py and scripts/fetch_sibling_rasters.sh.",
+      "use": "Lane and copy evidence only. Owner sources are not organizer evidence."
     }
   ]
 }

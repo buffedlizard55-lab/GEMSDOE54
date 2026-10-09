@@ -10,10 +10,40 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+
+def candidate_block(card: dict) -> dict:
+    """Map the current run card to the feed's candidate fields.
+
+    Accepts the 2026-10-09 schema (docs/data/run-card-2026-10-09.json). Upload flags are taken from the card's
+    submission decision and are False unless that decision says OK; nothing here can promote a file.
+    """
+    sub = card.get("submission", {})
+    decision = str(sub.get("decision_submit", "")).upper()
+    ok = decision == "OK"
+    hold = card.get("holdout", {})
+    holdout_text = (f"{hold.get('label', 'HOLDOUT-DTI')}: arm B {hold.get('arm_B_SGMC_weight_pooled_DTI')} "
+                    f"CI {hold.get('arm_B_ci95')} ({hold.get('evaluator', 'evaluator not recorded')})") if hold else "not recorded"
+    return {
+        "verdict": card.get("verdict", "unknown"),
+        "candidate_surface_preflighted": True,
+        "candidate_tif_generated": bool(card.get("rasters", {}).get("primary", {}).get("sha256")),
+        "new_candidate_downloadable": True,
+        "safe_to_upload": ok,
+        "holdout_status": holdout_text,
+        "existing_repository_artifact": {"name": sub.get("name"), "decision_submit": sub.get("decision_submit"),
+                                         "decision_download": sub.get("decision_download")},
+        "existing_artifact_downloadable_for_research": True,
+        "existing_artifact_approved_for_upload": False,
+        "ok_to_submit": ok,
+        "ok_to_download_for_submission": ok,
+        "magnetic_ridge_holdout": "receipt-only in this checkout (IR-54-058)",
+        "lane_gate": card.get("validator_output", {}).get("primary", {}).get("lane", "not recorded"),
+    }
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--audit", default=str(ROOT / "docs/data/workspace-audit.json"))
-    parser.add_argument("--run-card", default=str(ROOT / "docs/data/run-card.json"))
+    parser.add_argument("--run-card", default=str(ROOT / "docs/data/run-card-2026-10-09.json"))  # current review (2026-10-09)
     parser.add_argument("--sources", default=str(ROOT / "docs/data/source-register.json"))
     parser.add_argument("--leaderboard", default=str(ROOT / "docs/data/leaderboard-snapshot.json"))
     parser.add_argument("--output", default=str(ROOT / "docs/data/feed.json"))
@@ -41,20 +71,7 @@ def main() -> int:
             "missing_inputs": audit.get("missing_inputs", []),
             "ready_for_holdout": audit.get("ready_for_holdout", False),
         },
-        "candidate": {
-            "verdict": run_card.get("verdict", "unknown"),
-            "candidate_surface_preflighted": run_card.get("submission", {}).get("candidate_surface_preflighted", False),
-            "candidate_tif_generated": run_card.get("submission", {}).get("candidate_tif_generated", False),
-            "new_candidate_downloadable": run_card.get("submission", {}).get("downloadable_new_tif", False),
-            "safe_to_upload": run_card.get("submission", {}).get("safe_to_upload", run_card.get("submission", {}).get("safe_to_upload_from_this_run", False)),
-            "holdout_status": run_card.get("holdout_dti", {}).get("status", "not recorded"),
-            "existing_repository_artifact": run_card.get("submission", {}).get("existing_repository_artifact"),
-            "existing_artifact_downloadable_for_research": True,
-            "existing_artifact_approved_for_upload": False,
-            "ok_to_submit": run_card.get("submission", {}).get("ok_to_submit", False),
-            "ok_to_download_for_submission": run_card.get("submission", {}).get("ok_to_download_for_submission", False),
-            "magnetic_ridge_holdout": run_card.get("magnetic_ridge_holdout", {}).get("status", "not recorded"),
-        },
+        "candidate": candidate_block(run_card),
         "sources": {
             "registered": len(source_register.get("sources", [])),
             "official_data_download_authenticated": False,

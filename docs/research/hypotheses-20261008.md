@@ -1,3 +1,26 @@
+# Candidate hypotheses — re-ranked 2026-10-09 (current)
+
+Ranking criteria, in order: (1) physical plausibility for faults absent from the USGS catalogue; (2) whether the
+hypothesis can be validated on a non-circular holdout in THIS checkout; (3) cost. Layer names are the official
+`training_features.tif` names listed on the DrivenData competition page (fetched 2026-10-09; the page lists the layers
+but the authenticated file is not in this checkout). No hypothesis below has a projected score.
+
+| Rank | Hypothesis | Official layers used | Physical signature | Non-catalogue rationale | Holdout validation in this checkout | Cost | Status |
+|---|---|---|---|---|---|---|---|
+| 1 | Cross-gradient corroboration of potential-field edges | Magnetics (reduced-to-pole anomaly, total magnetic intensity, horizontal slope of TMI); isostatic gravity anomaly and its slope | Coincident, aligned linear edges in magnetic and gravity derivatives, retained as coherent lines | A buried fault or lithologic offset without a scarp can show a density and magnetization contrast | **NOT RUN.** Needs the authenticated feature file (SHA-256 pinned in scripts/run_segment_holdout.py, 4371c82e...; the file is not present). Owner-bridge bytes are unauthenticated (IR-54-011). | Medium once the file is authenticated | BLOCKED |
+| 2 | Depth-persistent conductivity corridors | Surface conductivity; depth to conductive base | Lateral conductivity gradients that persist across depth summaries | Fluid-rich damage zones can form conductive corridors without a mapped scarp | **NOT RUN.** Same feature-file blocker. Clay and saline fill can mimic the signal. | Medium-high | BLOCKED |
+| 3 | Seismicity lineaments not on the catalogue | Density of earthquakes | Linear alignments of epicentre density, several km long, not coincident with mapped traces | Microseismicity can outline active structures before a surface trace is mapped | **NOT RUN.** Same feature-file blocker. Catalogue and seismicity are not independent of each other's mapping choices. | Low-medium | BLOCKED |
+| 4 | Topological nodes of the state-map fault network | None official; the local SGMC-derived 100 m mask | Branch and intersection nodes of the state-map network, outside the catalogue buffer | State-map traces the catalogue omits may carry junctions that mark connected damage | Possible only as a catalogue-truth proxy. The SGMC layer is catalogue-derived; the withheld-segment canary is 0.65 (below the 0.90 cut) but the full-catalogue canary is reported separately. Treat as circular. | Low | Feasible but circular; lane risk high (dense tip and stepover families already in the registry) |
+| 5 | 1 m DEM scarp curvature | 1 m DEM (tile index listed on the competition page; not present here) | Paired slope breaks and coherent curvature across scales | Young scarps may be exposed at native resolution but blurred at 100 m | **NOT RUN.** Tile index and DEM absent. | High | BLOCKED |
+
+Considered and not ranked: time-series InSAR deformation (no authenticated data access from this sandbox; not in the
+official layer list).
+
+**Top-ranked hypothesis validation.** Hypothesis 1 was not validated. Validation requires the authenticated official
+feature file, which is absent. No submission slot is used for any hypothesis in this review.
+
+---
+
 # Candidate hypotheses — 2026-10-08 review
 
 ## Scope and novelty boundary

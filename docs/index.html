@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>GEMSDOE54 — submission readiness review | GEMS Prize</title>
-<meta name="description" content="Current GEMS submission readiness review. No new TIFF cleared the lane gate; the prior artifact is for audit only and is not recommended for upload.">
+<title>GEMSDOE54 — GEMS Prize submission review (2026-10-09)</title>
+<meta name="description" content="Current status: no file is cleared for upload. The candidate is a lane duplicate. Five answers and next steps.">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -12,153 +12,64 @@
   <div class="wrap">
     <div class="brand">GEMS<span>DOE54</span></div>
     <nav>
-      <a href="index.html">Executive summary</a>
-      <a href="#submit">How to submit</a>
+      <a href="index.html">Start here</a>
+      <a href="executive-summary.html">Executive summary</a>
+      <a href="submit-verdict.html">Submit verdict</a>
       <a href="hypotheses.html">Hypotheses</a>
       <a href="evidence.html">Evidence</a>
-      <a href="research.html">Research protocol</a>
       <a href="sources.html">Sources</a>
-      <a href="cgrc.html">CGRC run (TIF)</a>
+      <a href="cgrc.html">CGRC file</a>
       <a href="irregularities.html">Audit ledger</a>
     </nav>
   </div>
 </header>
 
 <div class="wrap">
-
-<!-- ============================ EXECUTIVE SUMMARY ============================ -->
-<h1>Executive summary</h1>
-<p class="muted">DOE / NLR <strong>Geologic Enhanced Mapping System (GEMS) Prize</strong> —
-distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
-Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
-
-<div class="panel hero" id="verdict">
-  <h2>⛔ No upload-approved TIFF from this review</h2>
-  <p><strong>No new TIFF was generated.</strong> Two pre-placement surface screens exceeded the literal registry-overlap stop threshold and stopped before point placement. There is no current-session file to submit, no compliant HOLDOUT-DTI, and no weekly slot has been used.</p>
-
-  <p><a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" download>Download the archived H54-A TIFF for inspection only</a>
-  &nbsp;<a class="btn secondary" href="data/run-card.json">Open the current run card</a></p>
-
-  <dl class="kv">
-    <dt>Archive filename</dt><dd><code>gems54-undercomplement-q200.tif</code> (pre-existing; not generated in this review)</dd>
-    <dt>Archive SHA-256</dt><dd class="hash">b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</dd>
-    <dt>Local format checks</dt><dd>Grid/dtype/in-footprint range pass; current conservative null/NaN-outside-footprint check fails because the archive stores finite zeroes outside the cached footprint. Official rule not re-fetched.</dd>
-    <dt>Literal lane check</dt><dd><strong>FAIL — duplicate stop</strong> under raw 3-pixel overlap with three dense registry rasters</dd>
-    <dt>Whole-segment holdout</dt><dd><strong>NOT ESTABLISHED</strong>; no evaluator version, withheld-positive count, or paired 95% CI</dd>
-    <dt>Upload decision</dt><dd><strong>DO NOT UPLOAD</strong> the archived artifact based on this review; no new candidate is available</dd>
-  </dl>
-
-  <div class="callout">
-    <p style="margin:0"><strong>Why no new file?</strong> The exact lane stop and registry diagnostics are in <a href="../evidence/strict_lane_preflight.json">the pre-placement receipt</a>. The top geophysical hypothesis is blocked by the missing/authentication-unverified feature stack and unavailable compliant evaluator. This follows the run protocol rather than turning a proxy or projection into a score.</p>
-  </div>
+<div class="verdict" style="border:3px solid #b00020;background:#fff1f2;padding:14px 18px;border-radius:8px;margin:12px 0 18px">
+<div style="font-size:1.25rem;font-weight:700">DOWNLOAD: audit copy only &nbsp;·&nbsp; SUBMIT: <span style="color:#b00020">NOT OK</span></div>
+<div style="margin-top:6px">No file in this repository is cleared for upload. The lane gate fails (duplicate). The holdout is not the reason.</div>
 </div>
-<div class="panel" id="cgrc-run" style="border-left:4px solid #2f855a">
-  <h2 style="margin-top:0">✅ Parallel CGRC run (H54-C) — a unique TIF <em>was</em> generated</h2>
-  <p><strong>This is a separate parallel run from the H54-A audit above.</strong> The CGRC
-  (Catalogue Gap-Relay Completion) run generated a unique, format- and lane-clean TIF —
-  <code>gems54-cgrc-relay-v1.tif</code> (32,369 dots) — backed by a compliant whole-segment
-  <strong>HOLDOUT-DTI of 0.0915</strong> [0.0876, 0.0949], 1.50× mass-matched random (0.0610 @32,529 dots),
-  60,834 withheld positives over 3,118 whole fault segments. It is <strong>OK TO DOWNLOAD</strong>.</p>
-  <p><strong>Promotion verdict: NEGATIVE</strong> — holdout 0.0915 &lt; corpus holdout best 0.1793, so this
-  review does not recommend spending a weekly slot; the catalogue-truth proxy penalizes off-catalogue mass,
-  so the holdout is a lower bound on the off-catalogue task. Any slot spend is the owner's labelled
-  diversity-bet decision with the submission-page receipt preserved.</p>
-  <p><a class="btn" href="downloads/gems54-cgrc-relay-v1.tif" download>Download the CGRC candidate TIF</a>
-  &nbsp;<a class="btn secondary" href="cgrc.html">CGRC run page (how to submit + full status) →</a>
-  &nbsp;<a class="btn secondary" href="data/run-card-cgrc.json">CGRC run card</a></p>
-</div>
+
+<h1>GEMSDOE54 — GEMS Prize submission review</h1>
+<p class="lead">Status on 2026-10-09. The candidate file <code>gems54-cgrc-relay-v1</code> is not a copy of any sibling file, but it is a <b>lane duplicate</b> under the protocol. Do not submit it. The one-page verdict and steps are in <a href="submit-verdict.html">Submit verdict</a>; the full summary is in <a href="executive-summary.html">Executive summary</a>.</p>
+
+<h2>Five answers</h2>
+<ol>
+<li><b>Is the TIF unique?</b> Not a copy: no exact or decoded match to any sibling raster (1,198 compared, own twin excluded). Rank correlation passes (max |ρ| 0.101). <b>Lane: FAIL</b>: duplicate of r11, r13, r14 in this repository and of three sparse public rasters (overlap 0.73 to 0.94). <i>(lane statistics; not a DTI score)</i></li>
+<li><b>Why did 0.2778 score well?</b> <i>ORGANIZER-PUBLIC rank 13.</i> An owner raster named 02778 is the 0.2708 raster minus exactly the 2,545 dots within 200 m of the USGS catalogue. That is <b>verified</b>. Whether that owner raster is the 0.2778 board submission is <b>unverified</b>, and so is whether extradr19 used this method. Why a test of new faults would reward the exclusion is a hypothesis.</li>
+<li><b>Can we beat it?</b> Not shown. No candidate here has an organizer score, and our catalogue-truth holdout ranks this exclusion design in the opposite order (<i>HOLDOUT-DTI proxy: 0.0491 before exclusion, 0.0067 after</i>).</li>
+<li><b>Can the holdout resolve 0.2778 vs 0.2750?</b> <b>NOT CLASSIFIABLE.</b> Our cross-family paired floor is 0.0045 to 0.0095, so a 0.0028 gap is inside it. Same-family near-identical pairs have a floor of 0.0015 to 0.0022. The board publishes no unit count, so no floor can be computed for it.</li>
+<li><b>Hypotheses.</b> Five re-ranked, with layers, signature, rationale, cost. All five are blocked or circular here, so none is validated and no slot is used. See <a href="hypotheses.html">Hypotheses</a>.</li>
+</ol>
+
 <div class="panel tight" id="audit-only-review">
   <h2 style="margin-top:0">Current audit-only review</h2>
-  <p>The linked archive is from a previously built H54-A experiment; this review emitted no new TIFF and selected no submission slot. Two surface-only lane screens stopped before placement. The archive also fails the current conservative outside-footprint null/NaN check. The current code applies absolute rank correlation / literal dense-registry overlap and restricts the writer to float32. The local segment-buffer helper is still only a helper, not an end-to-end evaluator; the inspected owner-template workflow is spatial-block based, so no compliant HOLDOUT-DTI or confidence interval is available.</p>
   <p class="small muted" id="local-audit-status">Loading repository-local audit status…</p>
-  <p class="small"><a href="data/feed.json">Open this review's local status feed →</a> · <a href="data/run-card.json">audit-only run card</a> · <a href="audit/pinned-template-cache-audit.json">template bridge/tool audit</a> · <a href="irregularities.html">full audit ledger</a></p>
+  <p class="small"><a href="data/feed.json">Open this review's local status feed →</a> · <a href="data/run-card-2026-10-09.json">run card (2026-10-09)</a> · <a href="irregularities.html">audit ledger</a></p>
 </div>
 <script>
   fetch('data/feed.json', { cache: 'no-store' }).then(r => r.ok ? r.json() : Promise.reject())
     .then(feed => {
       const status = document.getElementById('local-audit-status');
-      status.textContent = 'Audit-only run: ' + feed.workspace.status + '; candidate verdict: ' + feed.candidate.verdict + '. Leaderboard: ' + feed.leaderboard.status + '.';
+      status.textContent = 'Audit-only run: ' + feed.workspace.status + '; candidate verdict: ' + feed.candidate.verdict +
+        '; upload: ' + (feed.candidate.safe_to_upload ? 'OK' : 'NOT OK') + '; lane gate: ' + feed.candidate.lane_gate +
+        '. Leaderboard: ' + feed.leaderboard.status + '.';
     })
     .catch(() => { document.getElementById('local-audit-status').textContent = 'Audit feed unavailable; this review remains negative.'; });
 </script>
+<h2>Where to go next</h2>
+<ul>
+<li>Decisions the owner must make (lane scope, outside-bounds encoding, promotion comparator): <a href="submit-verdict.html#decisions">Submit verdict</a></li>
+<li>Full irregularity list (IR-54-050 to IR-54-073): <a href="irregularities.html">Audit ledger</a></li>
+<li>Machine-readable run card: <a href="data/run-card-2026-10-09.json">run-card-2026-10-09.json</a></li>
+</ul>
 
-<div class="panel tight" id="why">
-  <h2 style="margin-top:0">Why it is not OK to submit: the holdout results</h2>
-  <p>Local holdout = catalogued faults hidden in whole buffered segments (300 m buffer, 913 independent units, 4 folds, 60,988 withheld positives). Every number is <span class="tag warn">HOLDOUT-DTI</span> with evaluator <code>gemsdoe54-segment-holdout-v1</code>; none is an organizer score.</p>
-  <table>
-    <thead><tr><th>Experiment</th><th>Candidate DTI</th><th>cand − matched random null (95 % CI)</th><th>cand − placebo (95 % CI)</th><th>Verdict</th></tr></thead>
-    <tbody>
-      <tr><td>E1 · dense magnetic ridge (frozen)</td><td>0.0163</td><td>−0.0185 [−0.0234, −0.0135]</td><td>+0.0136 [+0.0089, +0.0183]</td><td><span class="tag no">NEGATIVE</span>: below the null</td></tr>
-      <tr><td>E2 · spaced ridge, 3 px (exploratory)</td><td>0.0124</td><td>+0.0026 [−0.0011, +0.0062]</td><td>+0.0106 [+0.0070, +0.0142]</td><td><span class="tag no">NEGATIVE</span>: CI includes 0</td></tr>
-    </tbody>
-  </table>
-  <p class="small">Random placement with the same count beats the dense ridge, because dense 1-px lines add redundant dots that the pooled TP term does not credit. The spaced variant only ties the null. Neither clears the rule, so neither gets a slot. The placebo (a shifted ridge) scores lower, so the ridge does carry some location signal; it is not enough to beat matched random placement.</p>
-  <p class="small"><strong>Leakage canary:</strong> PASS (no feature above AUC 0.90) in E1 and E2. Source files: <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_holdout.json">mag_ridge_holdout.json</a>, <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/mag_ridge_spaced_holdout.json">mag_ridge_spaced_holdout.json</a>, full card <a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/run_card_mag_ridge.json">run_card_mag_ridge.json</a>.</p>
-
-  <h3>Can the holdout detect the 0.2778 vs 0.2750 gap?</h3>
-  <p class="small">E3 (<a href="https://github.com/buffedlizard55-lab/GEMSDOE54/blob/main/evidence/detection_floor.json">detection_floor.json</a>) measured the jackknife standard error of paired differences. Pair A−B (two near-identical quantile thresholds) has an 80 %-power floor of 0.0022; pair A−C (dense vs spaced) has 0.0015. So a 0.0028 gap <em>could</em> be detected on this holdout for near-identical variants. <strong>This does not settle the board question:</strong> the board values use a hidden truth set and a different scorer, and the variance of those comparisons is unknown. The board gap is <span class="tag warn">NOT CLASSIFIABLE</span>.</p>
 </div>
-
-<h2>The problem, in four sentences</h2>
-<div class="panel tight">
-<p>The user-supplied competition description frames the task as a fault-prediction GeoTIFF over the GeoDAWN study area in western Nevada, scored with a distance-weighted Tversky index (reported parameters α&nbsp;=&nbsp;0.2, β&nbsp;=&nbsp;0.8, triangular 300&nbsp;m kernel). Those details are linked for manual review but were not re-fetched during this audit. Under that reported metric, extra predictions can incur false-positive cost while missed target faults incur false-negative cost; this does not establish which geological strategy will win. The prompt includes 0.3774, 0.2778 and other historical score claims, but no submission-page receipts were available here, so none is <span class="tag warn">ORGANIZER-CONFIRMED</span> or used for selection.</p>
-</div>
-
-<!-- ================================ SUBMIT ================================= -->
-<h2 id="submit">How to submit — only after a candidate clears the gates</h2>
-<p class="small muted">This is a general portal checklist, not an approval to submit the archived file. The submission format/rules links below were supplied by the user and should be checked on the live competition pages before an upload.</p>
-
-<ol class="steps">
-  <li><strong>Use only a selected, validated candidate.</strong> This review has none. Do not upload the archived H54-A file linked above. A future candidate must have a compliant whole-segment HOLDOUT-DTI, paired 95% CI, leakage-canary results, literal lane pass, and a format-validation receipt.</li>
-  <li><strong>Download that candidate's exact GeoTIFF</strong> from its run card. Verify the SHA-256 against the receipt; do not re-encode it or substitute an archive.</li>
-  <li><strong>Sign in to DrivenData</strong> and open the GEMS challenge's submissions page. The competition data tab and submissions flow may require an account; this repository cannot authenticate or submit on the user's behalf.</li>
-  <li><strong>Choose New submission.</strong> The user-supplied form text says the accepted file is a single-band GeoTIFF (.tif), or a .zip containing one GeoTIFF, matching the submission CRS, shape, and geotransform. Confirm the current instructions on the live page.</li>
-  <li><strong>Enter the unique experiment name and short note</strong> from the validated run card (maximum 140 characters under this project's requested limit). There is no new candidate-specific note from this review.</li>
-  <li><strong>Check the current weekly cap before submitting.</strong> Click Submit only after the separate selector has approved a real slot. Copy the portal receipt and exact score into <code>registry/submissions.json</code>; do not infer a score from a local projection or sibling-site record.</li>
-</ol>
-<div class="callout">
-  <p style="margin:0"><strong>Interpreting the earlier range error.</strong> The portal message says some value it parsed was outside [0, 1]. Without the exact original upload bytes and its receipt, the cause cannot be determined. Typical issues to check include finite-value handling, nodata sentinels, and values outside the allowed range. The local validator re-reads a candidate and checks those properties, but a local pass is not proof of portal acceptance.</p>
-</div>
-
-<h2>Archived H54-A checks and current lane result</h2>
-<table>
-  <thead><tr><th>Gate</th><th>Result</th><th>Evidence</th></tr></thead>
-  <tbody>
-    <tr><td>Single band, float32; CRS, shape, geotransform; in-footprint finite values in [0, 1]</td><td><span class="tag ok">PASS</span> locally for the archive</td><td><a href="../evidence/h54a-archive-strict-revalidation.json">Fresh local revalidation receipt</a>; not organizer acceptance</td></tr>
-    <tr><td>Outside-footprint null/NaN (conservative local contract from prior notes/sample mirror)</td><td><span class="tag no">FAIL</span> archive contains finite zeroes outside</td><td>Official format page not re-fetched; the check is deliberately fail-closed pending confirmation.</td></tr>
-    <tr><td>Literal lane check for archived H54-A file</td><td><span class="tag no">DUPLICATE — STOP</span></td><td>Raw overlap with <code>r11_greedy_mp</code>, <code>r13_lattice_s5_00904</code>, and <code>r14_union_tips10_lat6</code> exceeds the stated 70% threshold. See <a href="../evidence/h54a-archive-strict-revalidation.json">receipt</a>.</td></tr>
-    <tr><td>New candidate from this review</td><td><span class="tag no">NOT GENERATED</span></td><td>Both surface screens stopped at the literal overlap gate; see <a href="../evidence/endpoint-continuation-preflight.json">endpoint-continuation</a> and <a href="../evidence/strict_lane_preflight.json">SGMC-topology</a> receipts.</td></tr>
-    <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>No compliant evaluator, withheld-positive count, paired 95% CI, or detection floor. The existing SGMC proxy is circular; see <a href="evidence.html">Evidence</a>.</td></tr>
-  </tbody>
-</table>
-
-<h2>Where you are in the repository</h2>
-<div class="grid2">
-  <div class="panel tight">
-    <h3 style="margin-top:0">I want to…</h3>
-    <ul class="small">
-      <li><a href="downloads/gems54-undercomplement-q200.tif" download>inspect the archived H54-A TIFF (do not upload)</a></li>
-      <li>see the <a href="research/hypotheses-20261008.md">current 5-hypothesis shortlist</a></li>
-      <li>read the <a href="evidence.html">proxy audit and power limitation</a></li>
-      <li>check the <a href="sources.html">source register and verification status</a></li>
-    </ul>
-  </div>
-  <div class="panel tight">
-    <h3 style="margin-top:0">What the archive is — and is not</h3>
-    <p class="small">The older H54-A file is a unit-valued dot set derived from an owner-mirrored SGMC raster and the local catalogue mask. Its proxy is circular for its evidence layer, its strict lane check now says duplicate, and it has no compliant hidden-label holdout. It is preserved for audit history, not endorsed as a submission.</p>
-  </div>
-</div>
-
-<section class="pr11-links" style="max-width:960px;margin:24px auto;padding:0 18px"><h2>New in PR #11</h2><p><a href="submit-verdict.html">Submit verdict and steps</a> · <a href="rules-gate.html">Rules gate (verbatim)</a> · <a href="holdout.html">Whole-segment holdout</a> · <a href="top-artefact.html">Top artefact study</a> · <a href="hypotheses-holdout.html">Ranked hypotheses (holdout status)</a></p></section>
 <footer>
-  <p>Audited in an autonomous agent session on 2026-10-08. See <a href="sources.html">Sources</a> for
-  the source register and its provenance limits. Owner-recorded leaderboard observations without submission
-  receipts are not marked ORGANIZER-CONFIRMED; proxy values and model projections are not scores.</p>
-  <p class="muted small">This work used an AI agent. Prior repository notes say the DOE/NLR rules §3.2 require
-  generative-AI disclosure in the prize narrative, but the rules PDF was not re-fetched in this review. Check the
-  <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">official rules PDF</a>
-  before submission; the draft disclosure is in <code>docs/AI_DISCLOSURE.md</code>.</p>
+  <p>Last updated 2026-10-09. Labels: <b>HOLDOUT-DTI</b> = local catalogue-truth proxy (not an organizer score); <b>ORGANIZER-PUBLIC</b> = public leaderboard page, not a submission-page receipt; <b>ORGANIZER-CONFIRMED</b> is used only for numbers copied from a DrivenData submission-page receipt, and none exists yet. Projections are never written as scores.</p>
+  <p class="muted small">Official sources: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/" target="_blank" rel="noopener">competition page</a> · <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/" target="_blank" rel="noopener">leaderboard</a> · <a href="https://docs.nlr.gov/docs/fy26osti/96647.pdf" target="_blank" rel="noopener">official rules PDF</a> · <a href="https://www.herox.com/GEMSPrize/resource/2274" target="_blank" rel="noopener">HeroX rules page</a> · <a href="https://github.com/drivendataorg/gems-prize-reference-solution" target="_blank" rel="noopener">reference solution</a>. Full list: <a href="sources.html">sources.html</a>.</p>
+  <p class="muted small">This work was produced by an AI agent. The rules (section 3.2 of the PDF) require generative-AI use to be disclosed in the narrative. Check the rules text before any submission.</p>
 </footer>
-</div>
+
 </body>
 </html>

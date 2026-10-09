@@ -15,12 +15,18 @@
     "evaluator_version": "gemsdoe54.cgrc-holdout.v2",
     "withheld_positive_count": 60834,
     "independent_unit_count_whole_segments": 3118,
-    "ci95": [0.087617, 0.094855],
+    "ci95": [
+      0.087617,
+      0.094855
+    ],
     "n_dots": 32529,
     "arm_a_pure_catalogue": 0.090341,
     "arm_b_with_sgmc_weight": 0.091536,
     "arm_a_minus_b": -0.001182,
-    "arm_a_minus_b_ci95": [-0.002163, -0.000204],
+    "arm_a_minus_b_ci95": [
+      -0.002163,
+      -0.000204
+    ],
     "sgmc_contrast_significant": true,
     "random_control_mass_matched": 0.061014,
     "mechanism_lift_vs_random": 1.5002,
@@ -112,5 +118,7 @@
     "note": "The 4th holdout run and 3rd TIF write are the IR-54-021 pass-2 re-verification of the same configurations (not a new experiment); IR-54-022 fixed the receipt schema compliance."
   },
   "verdict": "negative",
-  "verdict_rationale": "A unique, format-valid, lane-clean TIF was generated; its surface beats mass-matched random on a self-checked whole-segment holdout (1.50x) and the SGMC-corroborated arm is significantly better than pure catalogue. But the promotion gate 'no slot for an idea that has not beaten the current holdout best' is not met (0.0915 < 0.1793). The catalogue-truth proxy penalizes the off-catalogue mass this method emits, so the holdout is a lower bound, not a fair score of the off-catalogue task. Promotion to a real slot is a separate selector step; the artefact is downloadable and documented either way. Negative results are deliverables."
+  "verdict_rationale": "A unique, format-valid, lane-clean TIF was generated; its surface beats mass-matched random on a self-checked whole-segment holdout (1.50x) and the SGMC-corroborated arm is significantly better than pure catalogue. But the promotion gate 'no slot for an idea that has not beaten the current holdout best' is not met (0.0915 < 0.1793). The catalogue-truth proxy penalizes the off-catalogue mass this method emits, so the holdout is a lower bound, not a fair score of the off-catalogue task. Promotion to a real slot is a separate selector step; the artefact is downloadable and documented either way. Negative results are deliverables.",
+  "superseded_by": "docs/data/run-card-2026-10-09.json",
+  "superseded_reason": "Its 'distinct lane' and 'safe_to_upload' statements are superseded by docs/data/run-card-2026-10-09.json (IR-54-053, IR-54-054, IR-54-071)."
 }

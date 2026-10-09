@@ -6,7 +6,7 @@
   "note_length": 123,
   "generated_utc": "2026-10-08T23:21:22+00:00",
   "method": "H54-C CGRC: catalogue gap relay completion (src/gemsdoe54/cgrc.py)",
-  "arm": "B (SGMC corroboration in placement priority) \u2014 the significantly better holdout arm after the IR-54-021 continuation-direction re-verification: B=0.091536 > A=0.090341, paired 95% CI [-0.002163, -0.000204] excludes 0",
+  "arm": "B (SGMC corroboration in placement priority) — the significantly better holdout arm after the IR-54-021 continuation-direction re-verification: B=0.091536 > A=0.090341, paired 95% CI [-0.002163, -0.000204] excludes 0",
   "configuration": "200 m catalogue exclusion (mechanism operating band, verified by the 300 m holdout collapse); 2.5 km relay/continuation extent; two-sided outward tip continuations (IR-54-021 fix)",
   "geometry": {
     "n_segments": 3118,
@@ -408,5 +408,7 @@
     }
   ],
   "lane_verdict": "distinct lane vs every non-vacuous registry raster",
-  "timing_s": 40.7
+  "timing_s": 40.7,
+  "superseded_by": "docs/data/run-card-2026-10-09.json",
+  "superseded_reason": "2026-10-09: lane verdicts in this file use the pre-fix logic (name-based exclusions or non-literal overlap). See IR-54-052, IR-54-054, IR-54-071."
 }

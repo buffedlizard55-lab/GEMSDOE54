@@ -1,3 +1,5 @@
+> **SUPERSEDED (2026-10-09).** The statements below that no valid power estimate or HOLDOUT-DTI exists were written before the whole-segment holdout was produced. They are no longer current. The current floors are in [`evidence/detection_floor_segments.json`](../../evidence/detection_floor_segments.json) (cross-family paired comparisons: raw MDE 0.0045 to 0.0095, so 0.0028 is inside the floor) and [`evidence/detection_floor.json`](../../evidence/detection_floor.json) (same-family near-identical pairs: MDE 0.0015 to 0.0022, so 0.0028 is above the floor). Neither transfers to the board, whose truth set, unit count and per-unit contributions are unpublished. The board gap remains NOT CLASSIFIABLE. Irregularity IR-54-060.
+
 # Holdout power: required before ranking any method
 
 ## Decision
