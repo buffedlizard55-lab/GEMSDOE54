@@ -33,8 +33,8 @@ distance-weighted Tversky index, EPSG:32611, 100&nbsp;m, float32 GeoTIFF.
 Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
 
 <div class="panel hero" id="verdict">
-  <h2>⛔ No upload-approved TIFF from this review</h2>
-  <p><strong>No new TIFF was generated.</strong> Two pre-placement surface screens exceeded the literal registry-overlap stop threshold and stopped before point placement. There is no current-session file to submit, no compliant HOLDOUT-DTI, and no weekly slot has been used.</p>
+  <h2>⛔ Do not download or submit any TIFF from this repository</h2>
+  <p>This session built two new candidate TIFs (cross-gradient C4 and conductivity-gradient C5). <strong>Both fail the lane gate</strong> against dense registry rasters (DUPLICATE - STOP), so neither is published. Their holdout results are negative. The archived H54-A file was also previously flagged, and its holdout score is <strong>invalid for ranking</strong> because the SGMC layer is not visible-only (IR-54-038). No weekly slot has been used. Full receipts are in <a href="../README.md">the README session section</a>.</p>
 
   <p><a class="btn secondary" href="downloads/gems54-undercomplement-q200.tif" download>Download the archived H54-A TIFF for inspection only</a>
   &nbsp;<a class="btn secondary" href="data/run-card.json">Open the current run card</a></p>
@@ -45,7 +45,7 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
     <dt>Local format checks</dt><dd>Grid/dtype/in-footprint range pass; current conservative null/NaN-outside-footprint check fails because the archive stores finite zeroes outside the cached footprint. Official rule not re-fetched.</dd>
     <dt>Literal lane check</dt><dd><strong>FAIL — duplicate stop</strong> under raw 3-pixel overlap with three dense registry rasters</dd>
     <dt>Whole-segment holdout</dt><dd><strong>NOT ESTABLISHED</strong>; no evaluator version, withheld-positive count, or paired 95% CI</dd>
-    <dt>Upload decision</dt><dd><strong>DO NOT UPLOAD</strong> the archived artifact based on this review; no new candidate is available</dd>
+    <dt>Upload decision</dt><dd><strong>DO NOT UPLOAD</strong> any file from this repository. The portal error "Predicted values must be in range [0, 1]" is not reproduced locally and needs a manual portal check (IR-54-030).</dd>
   </dl>
 
   <div class="callout">
