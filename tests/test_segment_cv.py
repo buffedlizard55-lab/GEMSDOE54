@@ -55,12 +55,7 @@ def test_segment_distance_matrix_equals_grid_distance_to_truth():
     sc = scorer.score(dots, with_D=True)
     ys, xs = np.nonzero(dots)
     grid_d = distance_transform_edt(~truth)[ys, xs]
-    dmin = sc["D"].min(axis=1)
-    # v2 contract: exact strictly inside the 300 m kernel radius; +inf at or beyond it.
-    # The kernel is k(d) = max(1 - d/R, 0), so k(R) = 0 and the capped value gives identical credit.
-    inside = grid_d < ev.KERNEL_PX
-    assert np.allclose(dmin[inside], grid_d[inside], atol=1e-5)
-    assert np.all(np.isinf(dmin[~inside]))
+    assert np.allclose(sc["D"].min(axis=1), grid_d, atol=1e-5)
 
 
 def test_segment_sums_reproduce_total_tp():

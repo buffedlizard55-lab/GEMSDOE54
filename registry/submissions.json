@@ -21,6 +21,27 @@
       "current_format_validation": "FAIL under conservative local null/NaN-outside-footprint check; official page not re-fetched"
     },
     {
+      "name": "gems54-cgrc-relay-v1",
+      "file": "docs/downloads/gems54-cgrc-relay-v1.tif",
+      "sha256": "e6f82d42c751e77f93f79d0c62c6ac0574daf9e35c827b1566753fe26b0984ef",
+      "team_label": "cgrc-relay-v1 - catalogue gap-relay completion, two-sided outward continuations, SGMC-corroborated placement, 300 m dots",
+      "uploaded_utc": null,
+      "organizer_confirmed_score": null,
+      "status": "UNIQUE LOCAL ARTIFACT (generated this run) - no submission-page receipt; OK TO DOWNLOAD; a weekly slot may be spent only as a selector-approved, labelled diversity experiment",
+      "positive_cells": 32369,
+      "format_validated": true,
+      "current_review_disposition": "NOT CLEARED (2026-10-09). Download NOT CLEARED: audit copy only; do not submit. Literal lane FAIL (validator: DUPLICATE - STOP; r11 0.833, r13 0.998, r14 0.857; siblings 0.935, 0.769, 0.733). Primary fails the outside-footprint null/NaN contract; the NaN twin passes format. Holdout gate NOT MET (HOLDOUT-DTI v2 same folds: B 0.091536 vs C 0.147192). The earlier 'corpus holdout best 0.1793' is withdrawn (no receipt). Run card: docs/data/run-card-cgrc.json (v3).",
+      "current_literal_lane_status": "DUPLICATE - STOP on the literal 70% overlap gate, which is PROVEN unsatisfiable for ANY submission against near-covering rasters r11/r13/r14 (IR-54-016); operational distinct-lane PASS (max |rho| 0.0422 < 0.90)",
+      "safe_to_upload_current_review": false,
+      "holdout_dti": "0.091536 [0.087617, 0.094855] (SGMC-corroborated arm, the shipped arm); Arm A (pure catalogue) 0.090341; SGMC contrast CI [-0.002163, -0.000204] excludes 0; 1.50x mass-matched random (0.0610 @32,529 dots); 60,834 withheld positives, 3,118 whole fault segments; passes analyse_holdout_receipt.py",
+      "run_card": "registry/run_card_v2_h54c_cgrc.json",
+      "build_receipt": "registry/gems54-cgrc-relay-v1.build.json",
+      "doc_page": "docs/cgrc.html",
+      "note_pasted_into_portal": "GEMSDOE54 CGRC v1: catalogue-tip relay gaps (<=2.5km) + 2.5km tip continuations, 200m catalogue exclusion, 300m greedy dots",
+      "organizer_receipt_status": "NOT AVAILABLE in this review",
+      "current_format_validation": "PASS - float32, EPSG:32611, 3292x3730, matching transform (100,0,243350,0,-100,4508550), all-finite [0,1], no nodata tag; 32,369 dots (the byte pattern the portal accepted for the 0.2778 file)"
+    },
+    {
       "name": "gems54-own-visible-hgb-q97",
       "file": "docs/downloads/gems54-own-visible-hgb-q97.tif",
       "sha256": "04c201817c3ca39d1ea09e776d8d1e248f98fe578e0ddd2826835fe4bbe7883a",

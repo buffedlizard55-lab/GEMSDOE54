@@ -1,0 +1,413 @@
+{
+  "schema": "gemsdoe54.submission-receipt.v1",
+  "slug": "gems54-cgrc-relay-v1",
+  "submission_name": "gems54-cgrc-relay-v1",
+  "submission_note": "GEMSDOE54 CGRC v1: catalogue-tip relay gaps (<=2.5km) + 2.5km tip continuations, 200m catalogue exclusion, 300m greedy dots",
+  "note_length": 123,
+  "generated_utc": "2026-10-08T23:21:22+00:00",
+  "method": "H54-C CGRC: catalogue gap relay completion (src/gemsdoe54/cgrc.py)",
+  "arm": "B (SGMC corroboration in placement priority) — the significantly better holdout arm after the IR-54-021 continuation-direction re-verification: B=0.091536 > A=0.090341, paired 95% CI [-0.002163, -0.000204] excludes 0",
+  "configuration": "200 m catalogue exclusion (mechanism operating band, verified by the 300 m holdout collapse); 2.5 km relay/continuation extent; two-sided outward tip continuations (IR-54-021 fix)",
+  "geometry": {
+    "n_segments": 3118,
+    "n_relays": 1194,
+    "n_continuations": 6236,
+    "candidate_cells": 297208,
+    "emitted_dots": 32369,
+    "spacing_px": 3.0,
+    "catalogue_exclusion_m": 200.0,
+    "max_gap_m": 2500.0,
+    "max_ext_m": 2500.0
+  },
+  "inputs": {
+    "labels": {
+      "path": "data/grid/labels.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+    },
+    "sgmc": {
+      "path": "data/external/derived_sgmc_faults_100m_u8.tif",
+      "sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c"
+    }
+  },
+  "outputs": {
+    "primary": {
+      "path": "docs/downloads/gems54-cgrc-relay-v1.tif",
+      "sha256": "e6f82d42c751e77f93f79d0c62c6ac0574daf9e35c827b1566753fe26b0984ef",
+      "bytes": 135170,
+      "format": "all-finite, no nodata tag (0.2778-file pattern; portal-accepted)"
+    },
+    "nan_twin": {
+      "path": "docs/downloads/gems54-cgrc-relay-v1-nan.tif",
+      "sha256": "9b4cf4450bbc6c13b307e5ec89f0dd2d2f0a54245b1757287541079098fba0de",
+      "bytes": 179360,
+      "format": "NaN outside footprint (organizer-page literal)"
+    }
+  },
+  "format_gate": {
+    "passed": true,
+    "primary_failures_expected": [
+      "outside_footprint_null_or_nan (all-finite portal pattern)"
+    ],
+    "primary_unexpected_failures": [],
+    "twin_failures": [],
+    "note": "Primary = portal-accepted pattern (all-finite, no nodata tag, the exact byte class of the 0.2778-scoring file). Twin = organizer-page literal (NaN outside footprint). Both carry identical in-footprint values."
+  },
+  "format_check_primary": {
+    "path": "/home/user/GEMSDOE54/docs/downloads/gems54-cgrc-relay-v1.tif",
+    "checks": {
+      "single_band": {
+        "ok": true,
+        "detail": "count=1"
+      },
+      "dtype_float32": {
+        "ok": true,
+        "detail": "dtype=float32"
+      },
+      "crs": {
+        "ok": true,
+        "detail": "crs=EPSG:32611"
+      },
+      "shape": {
+        "ok": true,
+        "detail": "shape=(3730,3292)"
+      },
+      "transform_100m_same_bounds": {
+        "ok": true,
+        "detail": "transform=(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
+      },
+      "footprint_cells": {
+        "ok": true,
+        "detail": "cells=5167373"
+      },
+      "no_nan_inside_footprint": {
+        "ok": true,
+        "detail": "non_finite_inside=0"
+      },
+      "in_footprint_in_range": {
+        "ok": true,
+        "detail": "in-footprint finite range=[0.0, 1.0]"
+      },
+      "outside_footprint_null_or_nan": {
+        "ok": false,
+        "detail": "non_nan_outside=7111787"
+      }
+    },
+    "failures": [
+      "outside_footprint_null_or_nan: non_nan_outside=7111787"
+    ],
+    "values": {
+      "in_footprint_min": 0.0,
+      "in_footprint_max": 1.0,
+      "positive_cells": 32369,
+      "distinct_positive_values": 1,
+      "nan_inside_footprint": 0,
+      "nan_outside_footprint": 0
+    },
+    "passed": false
+  },
+  "format_check_twin": {
+    "path": "/home/user/GEMSDOE54/docs/downloads/gems54-cgrc-relay-v1-nan.tif",
+    "checks": {
+      "single_band": {
+        "ok": true,
+        "detail": "count=1"
+      },
+      "dtype_float32": {
+        "ok": true,
+        "detail": "dtype=float32"
+      },
+      "crs": {
+        "ok": true,
+        "detail": "crs=EPSG:32611"
+      },
+      "shape": {
+        "ok": true,
+        "detail": "shape=(3730,3292)"
+      },
+      "transform_100m_same_bounds": {
+        "ok": true,
+        "detail": "transform=(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
+      },
+      "footprint_cells": {
+        "ok": true,
+        "detail": "cells=5167373"
+      },
+      "no_nan_inside_footprint": {
+        "ok": true,
+        "detail": "non_finite_inside=0"
+      },
+      "in_footprint_in_range": {
+        "ok": true,
+        "detail": "in-footprint finite range=[0.0, 1.0]"
+      },
+      "outside_footprint_null_or_nan": {
+        "ok": true,
+        "detail": "non_nan_outside=0"
+      }
+    },
+    "failures": [],
+    "values": {
+      "in_footprint_min": 0.0,
+      "in_footprint_max": 1.0,
+      "positive_cells": 32369,
+      "distinct_positive_values": 1,
+      "nan_inside_footprint": 0,
+      "nan_outside_footprint": 7111787
+    },
+    "passed": true
+  },
+  "lane_check_final_dots": {
+    "my_dots": 32369,
+    "max_rho_allowed": 0.9,
+    "max_overlap_allowed": 0.7,
+    "rows": [
+      {
+        "registry": "dotted_b2_prune_02778.tif",
+        "registry_dots": 37654,
+        "registry_covers_fraction_of_footprint": 0.1509,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0027,
+        "abs_spearman_rho": 0.0027,
+        "dots_within_3px": 6702,
+        "fraction_of_my_dots": 0.207,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.1663,
+        "rho_flag": false,
+        "overlap_flag": false
+      },
+      {
+        "registry": "dotted_d2_8_02600.tif",
+        "registry_dots": 44090,
+        "registry_covers_fraction_of_footprint": 0.1719,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0046,
+        "abs_spearman_rho": 0.0046,
+        "dots_within_3px": 8645,
+        "fraction_of_my_dots": 0.2671,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.2059,
+        "rho_flag": false,
+        "overlap_flag": false
+      },
+      {
+        "registry": "dotted_d2_8_02708.tif",
+        "registry_dots": 40199,
+        "registry_covers_fraction_of_footprint": 0.1601,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0055,
+        "abs_spearman_rho": 0.0055,
+        "dots_within_3px": 7593,
+        "fraction_of_my_dots": 0.2346,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.1849,
+        "rho_flag": false,
+        "overlap_flag": false
+      },
+      {
+        "registry": "h52_coincidence8_80k.tif",
+        "registry_dots": 80000,
+        "registry_covers_fraction_of_footprint": 0.2386,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0072,
+        "abs_spearman_rho": 0.0072,
+        "dots_within_3px": 8533,
+        "fraction_of_my_dots": 0.2636,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.1341,
+        "rho_flag": false,
+        "overlap_flag": false
+      },
+      {
+        "registry": "h60_officialstack_50k.tif",
+        "registry_dots": 50000,
+        "registry_covers_fraction_of_footprint": 0.1921,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.0038,
+        "abs_spearman_rho": 0.0038,
+        "dots_within_3px": 4351,
+        "fraction_of_my_dots": 0.1344,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.0804,
+        "rho_flag": false,
+        "overlap_flag": false
+      },
+      {
+        "registry": "h60_union_d2_75308.tif",
+        "registry_dots": 75308,
+        "registry_covers_fraction_of_footprint": 0.3193,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.0063,
+        "abs_spearman_rho": 0.0063,
+        "dots_within_3px": 4048,
+        "fraction_of_my_dots": 0.1251,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.0463,
+        "rho_flag": false,
+        "overlap_flag": false
+      },
+      {
+        "registry": "hedge_v2_01563.tif",
+        "registry_dots": 227507,
+        "registry_covers_fraction_of_footprint": 0.2836,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0049,
+        "abs_spearman_rho": 0.0049,
+        "dots_within_3px": 18170,
+        "fraction_of_my_dots": 0.5613,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.2639,
+        "rho_flag": false,
+        "overlap_flag": false
+      },
+      {
+        "registry": "r11_greedy_mp.tif",
+        "registry_dots": 272853,
+        "registry_covers_fraction_of_footprint": 0.7397,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.0035,
+        "abs_spearman_rho": 0.0035,
+        "dots_within_3px": 26957,
+        "fraction_of_my_dots": 0.8328,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.1914,
+        "rho_flag": false,
+        "overlap_flag": true
+      },
+      {
+        "registry": "r13_lattice_s5_00904.tif",
+        "registry_dots": 206895,
+        "registry_covers_fraction_of_footprint": 0.9987,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0005,
+        "abs_spearman_rho": 0.0005,
+        "dots_within_3px": 32305,
+        "fraction_of_my_dots": 0.998,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.1267,
+        "rho_flag": false,
+        "overlap_flag": true
+      },
+      {
+        "registry": "r14_union_tips10_lat6.tif",
+        "registry_dots": 192231,
+        "registry_covers_fraction_of_footprint": 0.762,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0422,
+        "abs_spearman_rho": 0.0422,
+        "dots_within_3px": 27742,
+        "fraction_of_my_dots": 0.8571,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.3099,
+        "rho_flag": false,
+        "overlap_flag": true
+      },
+      {
+        "registry": "tip_stepover_r30_02632.tif",
+        "registry_dots": 41865,
+        "registry_covers_fraction_of_footprint": 0.1662,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0056,
+        "abs_spearman_rho": 0.0056,
+        "dots_within_3px": 8221,
+        "fraction_of_my_dots": 0.254,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.198,
+        "rho_flag": false,
+        "overlap_flag": false
+      },
+      {
+        "registry": "gems54-undercomplement-q200.tif",
+        "registry_dots": 15907,
+        "registry_covers_fraction_of_footprint": 0.0488,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.0118,
+        "abs_spearman_rho": 0.0118,
+        "dots_within_3px": 2029,
+        "fraction_of_my_dots": 0.0627,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.1513,
+        "rho_flag": false,
+        "overlap_flag": false
+      }
+    ],
+    "lane_drift_detected": true,
+    "flagged_registry": [
+      "r11_greedy_mp.tif",
+      "r13_lattice_s5_00904.tif",
+      "r14_union_tips10_lat6.tif"
+    ],
+    "overlap_test_degenerate_for": [],
+    "degenerate_note": "None: protocol overlap threshold was applied to every registry raster, including near-covering rasters.",
+    "verdict": "DUPLICATE - STOP"
+  },
+  "lane_infeasibility_proof": [
+    {
+      "registry": "dotted_b2_prune_02778.tif",
+      "registry_dots": 37654,
+      "footprint_cells_within_3px": 0.150853,
+      "max_dots_placeable_outside": 0.849147,
+      "rule_70pct_satisfiable_non_degenerately": true
+    },
+    {
+      "registry": "dotted_d2_8_02600.tif",
+      "registry_dots": 44090,
+      "footprint_cells_within_3px": 0.171911,
+      "max_dots_placeable_outside": 0.828089,
+      "rule_70pct_satisfiable_non_degenerately": true
+    },
+    {
+      "registry": "dotted_d2_8_02708.tif",
+      "registry_dots": 40199,
+      "footprint_cells_within_3px": 0.160064,
+      "max_dots_placeable_outside": 0.839936,
+      "rule_70pct_satisfiable_non_degenerately": true
+    },
+    {
+      "registry": "h52_coincidence8_80k.tif",
+      "registry_dots": 80000,
+      "footprint_cells_within_3px": 0.238571,
+      "max_dots_placeable_outside": 0.761429,
+      "rule_70pct_satisfiable_non_degenerately": true
+    },
+    {
+      "registry": "h60_officialstack_50k.tif",
+      "registry_dots": 50000,
+      "footprint_cells_within_3px": 0.192107,
+      "max_dots_placeable_outside": 0.807893,
+      "rule_70pct_satisfiable_non_degenerately": true
+    },
+    {
+      "registry": "h60_union_d2_75308.tif",
+      "registry_dots": 75308,
+      "footprint_cells_within_3px": 0.31934,
+      "max_dots_placeable_outside": 0.68066,
+      "rule_70pct_satisfiable_non_degenerately": true
+    },
+    {
+      "registry": "hedge_v2_01563.tif",
+      "registry_dots": 227507,
+      "footprint_cells_within_3px": 0.283564,
+      "max_dots_placeable_outside": 0.716436,
+      "rule_70pct_satisfiable_non_degenerately": true
+    },
+    {
+      "registry": "r11_greedy_mp.tif",
+      "registry_dots": 272853,
+      "footprint_cells_within_3px": 0.739731,
+      "max_dots_placeable_outside": 0.260269,
+      "rule_70pct_satisfiable_non_degenerately": false
+    },
+    {
+      "registry": "r13_lattice_s5_00904.tif",
+      "registry_dots": 206895,
+      "footprint_cells_within_3px": 0.998713,
+      "max_dots_placeable_outside": 0.001287,
+      "rule_70pct_satisfiable_non_degenerately": false
+    },
+    {
+      "registry": "r14_union_tips10_lat6.tif",
+      "registry_dots": 192231,
+      "footprint_cells_within_3px": 0.761973,
+      "max_dots_placeable_outside": 0.238027,
+      "rule_70pct_satisfiable_non_degenerately": false
+    },
+    {
+      "registry": "tip_stepover_r30_02632.tif",
+      "registry_dots": 41865,
+      "footprint_cells_within_3px": 0.166186,
+      "max_dots_placeable_outside": 0.833814,
+      "rule_70pct_satisfiable_non_degenerately": true
+    }
+  ],
+  "lane_verdict": "distinct lane vs every non-vacuous registry raster",
+  "timing_s": 40.7,
+  "superseded_note_2026_10_09": "SUPERSEDED 2026-10-09: the lane verdict here ('distinct' via a 'vacuous' exclusion of r11/r13/r14) is withdrawn; the literal rule FAILS (validator: DUPLICATE - STOP). Current verdict: NOT CLEARED. See docs/data/run-card-cgrc.json (v3) and IR-54-066 to IR-54-082 in docs/irregularities.html."
+}

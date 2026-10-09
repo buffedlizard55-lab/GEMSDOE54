@@ -2,7 +2,7 @@
 """Assemble the single JSON run card for the 2026-10-08 parallel run from receipts (no hand-typed numbers).
 
 Inputs (all produced by the scripts in this repository):
-  evidence/holdout_segment_cv_v2.json            HOLDOUT-DTI receipt (evaluator gemsdoe54-segment-cv v2)
+  evidence/holdout_segment_cv_run2_variant.json            HOLDOUT-DTI receipt (evaluator gemsdoe54-segment-cv v2)
   evidence/power_floor_segment_cv_v2.json        detection floors from the same receipt
   registry/gems54-own-visible-hgb-q97.build.json build receipt for the final file
   evidence/validator_output_own_visible.json     format and literal lane gate (11 registry rasters)
@@ -44,7 +44,7 @@ def sha256(p: Path) -> str:
 
 
 def main() -> int:
-    hold = load("evidence/holdout_segment_cv_v2.json")
+    hold = load("evidence/holdout_segment_cv_run2_variant.json")
     power = load("evidence/power_floor_segment_cv_v2.json")
     build = load("registry/gems54-own-visible-hgb-q97.build.json")
     val = load("evidence/validator_output_own_visible.json")
@@ -203,7 +203,7 @@ def main() -> int:
             "features_sha256": hold["inputs"]["features"]["sha256"],
             "labels_sha256": hold["inputs"]["labels"]["sha256"],
             "sgmc_sha256": hold["inputs"]["sgmc"]["sha256"],
-            "holdout_receipt": "evidence/holdout_segment_cv_v2.json",
+            "holdout_receipt": "evidence/holdout_segment_cv_run2_variant.json",
             "power_receipt": "evidence/power_floor_segment_cv_v2.json",
             "build_receipt": "registry/gems54-own-visible-hgb-q97.build.json",
             "validator_receipt": "evidence/validator_output_own_visible.json",

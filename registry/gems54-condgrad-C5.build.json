@@ -1,0 +1,58 @@
+{
+  "slug": "cond_gradient",
+  "generated_utc": "2026-10-09T00:02:51+00:00",
+  "builder": "scripts/build_v2_candidate.py",
+  "evaluator_helpers": {
+    "name": "gemsdoe54-segment-cv",
+    "version": "v2"
+  },
+  "source_layer": {
+    "surface": "|grad cond_surf| at 100 m (C5)",
+    "bands": [
+      "cond_surf"
+    ],
+    "features_sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "provenance": "owner bridge copy of the GeoDAWN feature stack; SHA-256 matches the owner manifest; NOT organizer-authenticated"
+  },
+  "rule": "ridge of surface >= quantile threshold, gated, 2 px spacing, >= 300 m from the full catalogue",
+  "parameters": {
+    "quantile": 0.97,
+    "threshold": 0.0006618732214191389,
+    "target_dots": 15907,
+    "achieved_dots": 17681,
+    "spacing_px": 2.0,
+    "gate": {
+      "min_px": 3,
+      "min_px_extent": 5,
+      "min_elongation": 6.0
+    },
+    "buffer_px": 3.0
+  },
+  "output": {
+    "path": "/tmp/v2/cond_gradient.tif",
+    "sha256": "be65f7475e5499f1ead998ee0f482f8acda7466fda7855d0297a05da6ce67c28",
+    "bytes": 120420,
+    "dtype": "float32",
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "nodata": "NaN outside footprint",
+    "positive_cells": 17681,
+    "footprint_cells": 5167373
+  },
+  "checks": {
+    "dtype_float32": true,
+    "crs_epsg_32611": true,
+    "shape_3730x3292": true,
+    "transform_100m": true,
+    "finite_inside_footprint": true,
+    "in_0_1_inside_footprint": true,
+    "nan_outside_footprint": true,
+    "positive_count_matches_gate": true,
+    "no_dot_on_or_within_300m_of_catalogue": true,
+    "footprint_cells": true
+  },
+  "label": "MODEL (no score). Holdout and uniqueness are reported separately as HOLDOUT-DTI / lane receipts."
+}

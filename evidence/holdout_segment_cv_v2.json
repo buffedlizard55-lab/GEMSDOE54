@@ -3,28 +3,15 @@
     "name": "gemsdoe54-segment-cv",
     "version": "v2",
     "metric": "organizer DTI alpha=0.2 beta=0.8 kernel=300 m triangular",
-    "script_sha256": "bcfefee507c7cd585ece3668e7d9b2f5a2ab3f31d139c1a08a454dcaab40950f",
+    "script_sha256": "509069876abbf2b4284036d619e8d4f09ad2fd92de443d72f41e142ef9f7ab9f",
     "seed": 20261008,
     "bootstrap_replicates": 1000,
     "shift_nulls": 30
   },
   "label": "HOLDOUT-DTI (evaluator gemsdoe54-segment-cv v2; catalogue-recovery truth, not hidden-test labels)",
-  "hypotheses": {
-    "H1": "tmi_hg x iso_grav_anom_hg cross-gradient ridge (C5)",
-    "H2": "depth_to_base_surf gradient ridge (C6)",
-    "H3": "visible-only HistGradientBoosting probability ridge (C4)",
-    "model_params": {
-      "max_iter": 200,
-      "learning_rate": 0.1,
-      "max_leaf_nodes": 31,
-      "min_samples_leaf": 100,
-      "l2_regularization": 1.0,
-      "class_weight": "balanced"
-    }
-  },
   "inputs": {
     "features": {
-      "path": "/tmp/gemsbridge/training_features.tif",
+      "path": "/tmp/training_features.tif",
       "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
       "bands": 19,
       "provenance": "owner bridge; hash-consistent with manifest; not organizer-authenticated"
@@ -119,42 +106,29 @@
       ],
       "label": "HOLDOUT-DTI"
     },
-    "C4_visible_only_learned_probability": {
-      "pooled_dti_point": 0.046522,
-      "pooled_tp_w": 2989.665,
-      "pooled_fp_w": 74379.0,
-      "pooled_fn_w": 57998.335,
-      "dots_total": 75562,
-      "bootstrap_sd": 0.003343,
+    "C4_crossgrad_coincidence_ridge": {
+      "pooled_dti_point": 0.012589,
+      "pooled_tp_w": 867.4407,
+      "pooled_fp_w": 99711.0,
+      "pooled_fn_w": 60120.5593,
+      "dots_total": 100056,
+      "bootstrap_sd": 0.001465,
       "ci95_percentile": [
-        0.039967,
-        0.05313
+        0.009859,
+        0.015485
       ],
       "label": "HOLDOUT-DTI"
     },
-    "C5_cross_gradient_ridge": {
-      "pooled_dti_point": 0.012777,
-      "pooled_tp_w": 828.5439,
-      "pooled_fp_w": 79452.0,
-      "pooled_fn_w": 60159.4561,
-      "dots_total": 79799,
-      "bootstrap_sd": 0.00143,
+    "C5_conductivity_gradient_ridge": {
+      "pooled_dti_point": 0.00967,
+      "pooled_tp_w": 634.3085,
+      "pooled_fp_w": 83406.0,
+      "pooled_fn_w": 60353.6915,
+      "dots_total": 83665,
+      "bootstrap_sd": 0.001009,
       "ci95_percentile": [
-        0.0103,
-        0.015667
-      ],
-      "label": "HOLDOUT-DTI"
-    },
-    "C6_basement_step_ridge": {
-      "pooled_dti_point": 0.009689,
-      "pooled_tp_w": 645.9892,
-      "pooled_fp_w": 88772.0,
-      "pooled_fn_w": 60342.0108,
-      "dots_total": 89031,
-      "bootstrap_sd": 0.001343,
-      "ci95_percentile": [
-        0.00716,
-        0.012545
+        0.007787,
+        0.011858
       ],
       "label": "HOLDOUT-DTI"
     }
@@ -164,18 +138,16 @@
     "C1_sgmc_complement": "CLEAR",
     "C2_geodetic_shear_ridge": "CLEAR",
     "C3_magnetic_hgrad_ridge": "CLEAR",
-    "C4_visible_only_learned_probability": "CLEAR",
-    "C5_cross_gradient_ridge": "CLEAR",
-    "C6_basement_step_ridge": "CLEAR"
+    "C4_crossgrad_coincidence_ridge": "CLEAR",
+    "C5_conductivity_gradient_ridge": "CLEAR"
   },
   "candidate_source": {
     "C0_random_admissible_control": "none (chance control)",
     "C1_sgmc_complement": "data/external/derived_sgmc_faults_100m_u8.tif (SGMC, catalogue-derived)",
     "C2_geodetic_shear_ridge": "geod_shearrate",
     "C3_magnetic_hgrad_ridge": "tmi_hg",
-    "C4_visible_only_learned_probability": "visible-only learned probability (19 bands + 5 gradient bands; trained per fold)",
-    "C5_cross_gradient_ridge": "tmi_hg x iso_grav_anom_hg, geometric mean of percentiles (H1)",
-    "C6_basement_step_ridge": "gradient magnitude of depth_to_base_surf (H2)"
+    "C4_crossgrad_coincidence_ridge": "tmi_hg x iso_grav_anom_hg (rank geometric mean)",
+    "C5_conductivity_gradient_ridge": "|grad cond_surf|"
   },
   "paired_differences": {
     "C1_sgmc_complement minus C0_random_admissible_control": {
@@ -228,65 +200,65 @@
       "mde_raw_80pct_two_sided": 0.009546,
       "bootstrap_sign_p": 0.0
     },
-    "C4_visible_only_learned_probability minus C0_random_admissible_control": {
-      "point": 0.036109,
-      "bootstrap_se": 0.003321,
+    "C4_crossgrad_coincidence_ridge minus C0_random_admissible_control": {
+      "point": 0.002176,
+      "bootstrap_se": 0.001537,
       "ci95_percentile": [
-        0.029518,
-        0.042522
+        -0.000796,
+        0.005113
       ],
-      "mde_raw_80pct_two_sided": 0.009304,
+      "mde_raw_80pct_two_sided": 0.004305,
+      "bootstrap_sign_p": 0.144
+    },
+    "C5_conductivity_gradient_ridge minus C0_random_admissible_control": {
+      "point": -0.000743,
+      "bootstrap_se": 0.001264,
+      "ci95_percentile": [
+        -0.003157,
+        0.001834
+      ],
+      "mde_raw_80pct_two_sided": 0.003541,
+      "bootstrap_sign_p": 0.576
+    },
+    "C4_crossgrad_coincidence_ridge minus C1_sgmc_complement": {
+      "point": -0.035749,
+      "bootstrap_se": 0.003169,
+      "ci95_percentile": [
+        -0.041621,
+        -0.02968
+      ],
+      "mde_raw_80pct_two_sided": 0.008878,
       "bootstrap_sign_p": 0.0
     },
-    "C5_cross_gradient_ridge minus C0_random_admissible_control": {
-      "point": 0.002364,
-      "bootstrap_se": 0.001544,
+    "C5_conductivity_gradient_ridge minus C1_sgmc_complement": {
+      "point": -0.038668,
+      "bootstrap_se": 0.003197,
       "ci95_percentile": [
-        -0.000385,
-        0.005421
+        -0.044787,
+        -0.032353
       ],
-      "mde_raw_80pct_two_sided": 0.004326,
-      "bootstrap_sign_p": 0.108
-    },
-    "C6_basement_step_ridge minus C0_random_admissible_control": {
-      "point": -0.000724,
-      "bootstrap_se": 0.001556,
-      "ci95_percentile": [
-        -0.003527,
-        0.002489
-      ],
-      "mde_raw_80pct_two_sided": 0.004359,
-      "bootstrap_sign_p": 0.64
-    },
-    "C4_visible_only_learned_probability minus C1_sgmc_complement": {
-      "point": -0.001816,
-      "bootstrap_se": 0.004331,
-      "ci95_percentile": [
-        -0.010315,
-        0.006334
-      ],
-      "mde_raw_80pct_two_sided": 0.012133,
-      "bootstrap_sign_p": 0.664
-    },
-    "C5_cross_gradient_ridge minus C1_sgmc_complement": {
-      "point": -0.035561,
-      "bootstrap_se": 0.003327,
-      "ci95_percentile": [
-        -0.042076,
-        -0.028689
-      ],
-      "mde_raw_80pct_two_sided": 0.009319,
+      "mde_raw_80pct_two_sided": 0.008956,
       "bootstrap_sign_p": 0.0
     },
-    "C6_basement_step_ridge minus C1_sgmc_complement": {
-      "point": -0.038649,
-      "bootstrap_se": 0.00338,
+    "C4_crossgrad_coincidence_ridge minus C3_magnetic_hgrad_ridge": {
+      "point": -0.002243,
+      "bootstrap_se": 0.002164,
       "ci95_percentile": [
-        -0.045226,
-        -0.031852
+        -0.006609,
+        0.00194
       ],
-      "mde_raw_80pct_two_sided": 0.009469,
-      "bootstrap_sign_p": 0.0
+      "mde_raw_80pct_two_sided": 0.006063,
+      "bootstrap_sign_p": 0.308
+    },
+    "C5_conductivity_gradient_ridge minus C3_magnetic_hgrad_ridge": {
+      "point": -0.005162,
+      "bootstrap_se": 0.001875,
+      "ci95_percentile": [
+        -0.008864,
+        -0.00151
+      ],
+      "mde_raw_80pct_two_sided": 0.005253,
+      "bootstrap_sign_p": 0.002
     }
   },
   "shift_null_C1": {
@@ -409,19 +381,14 @@
         "mean_auc": 0.523162,
         "flag": "clear"
       },
-      "model_visible_probability_C4": {
-        "max_auc_over_folds": 0.822136,
-        "mean_auc": 0.811002,
+      "cross_gradient_coincidence": {
+        "max_auc_over_folds": 0.541703,
+        "mean_auc": 0.536164,
         "flag": "clear"
       },
-      "cross_gradient_score_H1": {
-        "max_auc_over_folds": 0.529315,
-        "mean_auc": 0.517542,
-        "flag": "clear"
-      },
-      "basement_step_grad_H2": {
-        "max_auc_over_folds": 0.551833,
-        "mean_auc": 0.534031,
+      "cond_surf_gradient": {
+        "max_auc_over_folds": 0.512899,
+        "mean_auc": 0.504715,
         "flag": "clear"
       }
     },
@@ -443,41 +410,20 @@
         "quantile": 0.9,
         "threshold": 24.129867553710938
       },
-      "C4_learned_train": {
-        "n_train_pos": 40000,
-        "n_train_neg": 160000,
-        "n_features": 24,
-        "n_predict": 4807839,
-        "model": "HistGradientBoostingClassifier",
-        "params": {
-          "max_iter": 200,
-          "learning_rate": 0.1,
-          "max_leaf_nodes": 31,
-          "min_samples_leaf": 100,
-          "l2_regularization": 1.0,
-          "class_weight": "balanced"
-        },
-        "seed": 20263008
-      },
-      "C4_match": {
-        "dots": 14115,
-        "quantile": 0.97,
-        "threshold": 0.734569251537323
-      },
-      "C5_match": {
-        "dots": 17373,
-        "quantile": 0.95,
-        "threshold": 0.814354658126831
-      },
-      "C6_match": {
-        "dots": 18029,
-        "quantile": 0.95,
-        "threshold": 0.5192371606826782
-      },
       "C3_match": {
         "dots": 17650,
         "quantile": 0.3,
         "threshold": 6.7137298583984375
+      },
+      "C4_match": {
+        "dots": 20438,
+        "quantile": 0.95,
+        "threshold": 0.8044225726607209
+      },
+      "C5_match": {
+        "dots": 15315,
+        "quantile": 0.97,
+        "threshold": 0.0006620157472359305
       },
       "canary": {
         "mag_anom": 0.511977,
@@ -499,11 +445,10 @@
         "cond_surf": 0.515214,
         "iso_grav_anom_hg": 0.509581,
         "det_elev_slope": 0.549692,
+        "cross_gradient_coincidence": 0.536894,
+        "cond_surf_gradient": 0.50751,
         "dist_to_visible_catalogue_m": 0.743747,
-        "sgmc_state_map_fault": 0.518804,
-        "model_visible_probability_C4": 0.814303,
-        "cross_gradient_score_H1": 0.51423,
-        "basement_step_grad_H2": 0.536951
+        "sgmc_state_map_fault": 0.518804
       },
       "cross_check_fold0_C1": {
         "grid_dti": 0.011577897,
@@ -686,23 +631,17 @@
           "FP_w": 17143.0,
           "FN_w": 11479.977238950863
         },
-        "C4_visible_only_learned_probability": {
-          "dots_in_scored_area": 13049,
-          "TP_w": 532.7859855263611,
-          "FP_w": 12830.0,
-          "FN_w": 11132.214014473639
+        "C4_crossgrad_coincidence_ridge": {
+          "dots_in_scored_area": 19951,
+          "TP_w": 175.16041817252488,
+          "FP_w": 19878.0,
+          "FN_w": 11489.839581827475
         },
-        "C5_cross_gradient_ridge": {
-          "dots_in_scored_area": 16901,
-          "TP_w": 196.98925936133992,
-          "FP_w": 16820.0,
-          "FN_w": 11468.01074063866
-        },
-        "C6_basement_step_ridge": {
-          "dots_in_scored_area": 17733,
-          "TP_w": 118.35180926998541,
-          "FP_w": 17683.0,
-          "FN_w": 11546.648190730015
+        "C5_conductivity_gradient_ridge": {
+          "dots_in_scored_area": 15046,
+          "TP_w": 96.27490018270899,
+          "FP_w": 15007.0,
+          "FN_w": 11568.725099817291
         }
       }
     },
@@ -721,41 +660,20 @@
         "quantile": 0.9,
         "threshold": 24.100000381469727
       },
-      "C4_learned_train": {
-        "n_train_pos": 40000,
-        "n_train_neg": 160000,
-        "n_features": 24,
-        "n_predict": 4809605,
-        "model": "HistGradientBoostingClassifier",
-        "params": {
-          "max_iter": 200,
-          "learning_rate": 0.1,
-          "max_leaf_nodes": 31,
-          "min_samples_leaf": 100,
-          "l2_regularization": 1.0,
-          "class_weight": "balanced"
-        },
-        "seed": 20263009
-      },
-      "C4_match": {
-        "dots": 15271,
-        "quantile": 0.97,
-        "threshold": 0.7317882180213928
-      },
-      "C5_match": {
-        "dots": 15726,
-        "quantile": 0.95,
-        "threshold": 0.8141856789588928
-      },
-      "C6_match": {
-        "dots": 17476,
-        "quantile": 0.95,
-        "threshold": 0.5195038318634033
-      },
       "C3_match": {
         "dots": 18828,
         "quantile": 0.95,
         "threshold": 93.01016998291016
+      },
+      "C4_match": {
+        "dots": 19926,
+        "quantile": 0.95,
+        "threshold": 0.8043035811090693
+      },
+      "C5_match": {
+        "dots": 18567,
+        "quantile": 0.97,
+        "threshold": 0.0006629677943592004
       },
       "canary": {
         "mag_anom": 0.515744,
@@ -777,11 +695,10 @@
         "cond_surf": 0.521626,
         "iso_grav_anom_hg": 0.52247,
         "det_elev_slope": 0.559532,
+        "cross_gradient_coincidence": 0.5295,
+        "cond_surf_gradient": 0.512899,
         "dist_to_visible_catalogue_m": 0.756236,
-        "sgmc_state_map_fault": 0.52518,
-        "model_visible_probability_C4": 0.82033,
-        "cross_gradient_score_H1": 0.513937,
-        "basement_step_grad_H2": 0.543724
+        "sgmc_state_map_fault": 0.52518
       },
       "null_C1_shift_components": [
         [
@@ -960,23 +877,17 @@
           "FP_w": 18346.0,
           "FN_w": 11912.583795721117
         },
-        "C4_visible_only_learned_probability": {
-          "dots_in_scored_area": 13833,
-          "TP_w": 820.9317886123918,
-          "FP_w": 13519.0,
-          "FN_w": 11278.068211387608
+        "C4_crossgrad_coincidence_ridge": {
+          "dots_in_scored_area": 19593,
+          "TP_w": 148.29023650515444,
+          "FP_w": 19530.0,
+          "FN_w": 11950.709763494846
         },
-        "C5_cross_gradient_ridge": {
-          "dots_in_scored_area": 15465,
-          "TP_w": 108.05124958965878,
-          "FP_w": 15417.0,
-          "FN_w": 11990.948750410342
-        },
-        "C6_basement_step_ridge": {
-          "dots_in_scored_area": 17281,
-          "TP_w": 85.00063134086035,
-          "FP_w": 17245.0,
-          "FN_w": 12013.999368659139
+        "C5_conductivity_gradient_ridge": {
+          "dots_in_scored_area": 18187,
+          "TP_w": 156.4653630586837,
+          "FP_w": 18123.0,
+          "FN_w": 11942.534636941316
         }
       }
     },
@@ -995,41 +906,20 @@
         "quantile": 0.9,
         "threshold": 24.100000381469727
       },
-      "C4_learned_train": {
-        "n_train_pos": 40000,
-        "n_train_neg": 160000,
-        "n_features": 24,
-        "n_predict": 4806781,
-        "model": "HistGradientBoostingClassifier",
-        "params": {
-          "max_iter": 200,
-          "learning_rate": 0.1,
-          "max_leaf_nodes": 31,
-          "min_samples_leaf": 100,
-          "l2_regularization": 1.0,
-          "class_weight": "balanced"
-        },
-        "seed": 20263010
-      },
-      "C4_match": {
-        "dots": 19172,
-        "quantile": 0.5,
-        "threshold": 0.21579429507255554
-      },
-      "C5_match": {
-        "dots": 16041,
-        "quantile": 0.95,
-        "threshold": 0.8139622211456299
-      },
-      "C6_match": {
-        "dots": 19543,
-        "quantile": 0.95,
-        "threshold": 0.5201172232627869
-      },
       "C3_match": {
         "dots": 20390,
         "quantile": 0.95,
         "threshold": 93.15814208984375
+      },
+      "C4_match": {
+        "dots": 20458,
+        "quantile": 0.95,
+        "threshold": 0.803728575355502
+      },
+      "C5_match": {
+        "dots": 18113,
+        "quantile": 0.97,
+        "threshold": 0.0006618738174655866
       },
       "canary": {
         "mag_anom": 0.51059,
@@ -1051,11 +941,10 @@
         "cond_surf": 0.546611,
         "iso_grav_anom_hg": 0.521881,
         "det_elev_slope": 0.574192,
+        "cross_gradient_coincidence": 0.531979,
+        "cond_surf_gradient": 0.500556,
         "dist_to_visible_catalogue_m": 0.748113,
-        "sgmc_state_map_fault": 0.524817,
-        "model_visible_probability_C4": 0.806536,
-        "cross_gradient_score_H1": 0.514355,
-        "basement_step_grad_H2": 0.521274
+        "sgmc_state_map_fault": 0.524817
       },
       "null_C1_shift_components": [
         [
@@ -1234,23 +1123,17 @@
           "FP_w": 19701.0,
           "FN_w": 11478.29606408989
         },
-        "C4_visible_only_learned_probability": {
-          "dots_in_scored_area": 18699,
-          "TP_w": 180.79431458560398,
-          "FP_w": 18626.0,
-          "FN_w": 11538.205685414396
+        "C4_crossgrad_coincidence_ridge": {
+          "dots_in_scored_area": 20221,
+          "TP_w": 108.67345665307768,
+          "FP_w": 20181.0,
+          "FN_w": 11610.326543346922
         },
-        "C5_cross_gradient_ridge": {
-          "dots_in_scored_area": 15698,
-          "TP_w": 125.66072189848838,
-          "FP_w": 15647.0,
-          "FN_w": 11593.339278101512
-        },
-        "C6_basement_step_ridge": {
-          "dots_in_scored_area": 19157,
-          "TP_w": 164.92079651674973,
-          "FP_w": 19094.0,
-          "FN_w": 11554.07920348325
+        "C5_conductivity_gradient_ridge": {
+          "dots_in_scored_area": 17813,
+          "TP_w": 142.37654394553638,
+          "FP_w": 17755.0,
+          "FN_w": 11576.623456054464
         }
       }
     },
@@ -1269,41 +1152,20 @@
         "quantile": 0.95,
         "threshold": 28.600000381469727
       },
-      "C4_learned_train": {
-        "n_train_pos": 40000,
-        "n_train_neg": 160000,
-        "n_features": 24,
-        "n_predict": 4818820,
-        "model": "HistGradientBoostingClassifier",
-        "params": {
-          "max_iter": 200,
-          "learning_rate": 0.1,
-          "max_leaf_nodes": 31,
-          "min_samples_leaf": 100,
-          "l2_regularization": 1.0,
-          "class_weight": "balanced"
-        },
-        "seed": 20263011
-      },
-      "C4_match": {
-        "dots": 15233,
-        "quantile": 0.97,
-        "threshold": 0.7330675721168518
-      },
-      "C5_match": {
-        "dots": 16779,
-        "quantile": 0.95,
-        "threshold": 0.8143861293792725
-      },
-      "C6_match": {
-        "dots": 17320,
-        "quantile": 0.3,
-        "threshold": 0.043423257768154144
-      },
       "C3_match": {
         "dots": 16203,
         "quantile": 0.3,
         "threshold": 6.713668346405029
+      },
+      "C4_match": {
+        "dots": 20981,
+        "quantile": 0.95,
+        "threshold": 0.8043272245551556
+      },
+      "C5_match": {
+        "dots": 16443,
+        "quantile": 0.97,
+        "threshold": 0.0006618732214427566
       },
       "canary": {
         "mag_anom": 0.502236,
@@ -1325,11 +1187,10 @@
         "cond_surf": 0.502079,
         "iso_grav_anom_hg": 0.516952,
         "det_elev_slope": 0.548477,
+        "cross_gradient_coincidence": 0.540745,
+        "cond_surf_gradient": 0.502114,
         "dist_to_visible_catalogue_m": 0.729133,
-        "sgmc_state_map_fault": 0.52084,
-        "model_visible_probability_C4": 0.791706,
-        "cross_gradient_score_H1": 0.529315,
-        "basement_step_grad_H2": 0.516371
+        "sgmc_state_map_fault": 0.52084
       },
       "null_C1_shift_components": [
         [
@@ -1508,23 +1369,17 @@
           "FP_w": 15766.0,
           "FN_w": 12985.099970416457
         },
-        "C4_visible_only_learned_probability": {
-          "dots_in_scored_area": 14095,
-          "TP_w": 597.9443060901895,
-          "FP_w": 13854.0,
-          "FN_w": 12573.05569390981
+        "C4_crossgrad_coincidence_ridge": {
+          "dots_in_scored_area": 20364,
+          "TP_w": 242.2194826640096,
+          "FP_w": 20272.0,
+          "FN_w": 12928.78051733599
         },
-        "C5_cross_gradient_ridge": {
-          "dots_in_scored_area": 16208,
-          "TP_w": 272.87446338043526,
-          "FP_w": 16093.0,
-          "FN_w": 12898.125536619566
-        },
-        "C6_basement_step_ridge": {
-          "dots_in_scored_area": 17123,
-          "TP_w": 56.99374126110111,
-          "FP_w": 17100.0,
-          "FN_w": 13114.006258738898
+        "C5_conductivity_gradient_ridge": {
+          "dots_in_scored_area": 16142,
+          "TP_w": 128.31643404912256,
+          "FP_w": 16089.0,
+          "FN_w": 13042.683565950878
         }
       }
     },
@@ -1543,41 +1398,20 @@
         "quantile": 0.9,
         "threshold": 24.107524871826172
       },
-      "C4_learned_train": {
-        "n_train_pos": 40000,
-        "n_train_neg": 160000,
-        "n_features": 24,
-        "n_predict": 4810864,
-        "model": "HistGradientBoostingClassifier",
-        "params": {
-          "max_iter": 200,
-          "learning_rate": 0.1,
-          "max_leaf_nodes": 31,
-          "min_samples_leaf": 100,
-          "l2_regularization": 1.0,
-          "class_weight": "balanced"
-        },
-        "seed": 20263012
-      },
-      "C4_match": {
-        "dots": 17529,
-        "quantile": 0.97,
-        "threshold": 0.7332387566566467
-      },
-      "C5_match": {
-        "dots": 15853,
-        "quantile": 0.95,
-        "threshold": 0.8144552111625671
-      },
-      "C6_match": {
-        "dots": 18186,
-        "quantile": 0.95,
-        "threshold": 0.5200777053833008
-      },
       "C3_match": {
         "dots": 17127,
         "quantile": 0.3,
         "threshold": 6.707512855529785
+      },
+      "C4_match": {
+        "dots": 20337,
+        "quantile": 0.95,
+        "threshold": 0.8042553447042873
+      },
+      "C5_match": {
+        "dots": 16782,
+        "quantile": 0.97,
+        "threshold": 0.000661544901911895
       },
       "canary": {
         "mag_anom": 0.501449,
@@ -1599,11 +1433,10 @@
         "cond_surf": 0.53125,
         "iso_grav_anom_hg": 0.516377,
         "det_elev_slope": 0.556423,
+        "cross_gradient_coincidence": 0.541703,
+        "cond_surf_gradient": 0.500498,
         "dist_to_visible_catalogue_m": 0.744256,
-        "sgmc_state_map_fault": 0.526171,
-        "model_visible_probability_C4": 0.822136,
-        "cross_gradient_score_H1": 0.515873,
-        "basement_step_grad_H2": 0.551833
+        "sgmc_state_map_fault": 0.526171
       },
       "null_C1_shift_components": [
         [
@@ -1782,26 +1615,20 @@
           "FP_w": 16744.0,
           "FN_w": 12145.274465629125
         },
-        "C4_visible_only_learned_probability": {
-          "dots_in_scored_area": 15886,
-          "TP_w": 857.2085725264247,
-          "FP_w": 15550.0,
-          "FN_w": 11476.791427473576
+        "C4_crossgrad_coincidence_ridge": {
+          "dots_in_scored_area": 19927,
+          "TP_w": 193.09706856855627,
+          "FP_w": 19850.0,
+          "FN_w": 12140.902931431443
         },
-        "C5_cross_gradient_ridge": {
-          "dots_in_scored_area": 15527,
-          "TP_w": 124.96817505799339,
-          "FP_w": 15475.0,
-          "FN_w": 12209.031824942007
-        },
-        "C6_basement_step_ridge": {
-          "dots_in_scored_area": 17737,
-          "TP_w": 220.7221979693902,
-          "FP_w": 17650.0,
-          "FN_w": 12113.27780203061
+        "C5_conductivity_gradient_ridge": {
+          "dots_in_scored_area": 16477,
+          "TP_w": 110.87529150857284,
+          "FP_w": 16432.0,
+          "FN_w": 12223.124708491427
         }
       }
     }
   ],
-  "generated_utc": "2026-10-09T00:35:47+00:00"
+  "generated_utc": "2026-10-09T00:40:20+00:00"
 }

@@ -1,40 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Submit verdict (2026-10-08) | GEMSDOE54</title>
-<meta name="description" content="Current verdict for every file in the repository.">
-<link rel="stylesheet" href="assets/site.css">
-</head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Verdicts for every candidate in GEMSDOE54 under the pre-registered promotion rule, 2026-10-09.">
+<title>Verdicts — GEMSDOE54 (2026-10-09)</title>
+<link rel="stylesheet" href="assets/audit-site.css"></head>
 <body>
-<header class="top">
-  <div class="wrap">
-    <div class="brand">GEMS<span>DOE54</span></div>
-    <nav>
-      <a href="index.html">Download</a>
-      <a href="executive-summary.html">How to submit</a>
-      <a href="holdout.html">Holdout</a>
-      <a href="hypotheses.html">Hypotheses</a>
-      <a href="top-artefact.html">0.2778 explained</a>
-      <a href="irregularities.html">Audit ledger</a>
-    </nav>
-  </div>
-</header>
-<div class="wrap">
+<header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+<nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a aria-current="page" href="submit-verdict.html">Verdicts</a><a href="cgrc.html">CGRC run</a><a href="top-artefact.html">0.2778 question</a><a href="holdout.html">Holdout</a><a href="hypotheses.html">Hypotheses</a><a href="irregularities.html">Audit</a></nav></div></header>
+<main>
 
-<h1>Submit verdict (2026-10-08)</h1>
-<div class="panel hero">
-  <h2 style="margin-top:0">Download: yes (review copy). Submit: no.</h2>
-  <p>The current file is <a href="downloads/gems54-own-visible-hgb-q97.tif" download><code>gems54-own-visible-hgb-q97.tif</code></a>. It is this repository's own model output and passes the format checks. It is not cleared for submission, for two reasons:</p>
-  <ol>
-    <li>The holdout does not beat the current best (C4 0.0465 vs C1 0.0483; paired −0.0018, CI [−0.0103, +0.0063]).</li>
-    <li>The literal lane gate reports DUPLICATE - STOP against three dense registry rasters (r11, r13, r14).</li>
-  </ol>
-  <p>The archived files <code>gems54-undercomplement-q200.tif</code> (H54-A) and <code>gems54-magedge-hgrad-ridge.tif</code> (H54-B) are unchanged and remain not cleared.</p>
-</div>
-<p>Run card: <a href="data/run-card.json">data/run-card.json</a> (verdict NEGATIVE). Steps: <a href="executive-summary.html#submit">How to submit</a>. Evidence: <a href="holdout.html">holdout</a>, <a href="irregularities.html">audit ledger</a>.</p>
-</div>
-<footer><div class="wrap"><p class="small muted">Audited 2026-10-08. Labels: HOLDOUT-DTI, ORGANIZER-CONFIRMED (none), BOARD-UNVERIFIED, MODEL.</p></div></footer>
+<section class="page-title"><div class="eyebrow">Verdicts · 2026-10-09</div>
+<h1>Every candidate fails the pre-registered promotion rule. No file is cleared.</h1>
+<p class="lead">The rule is applied mechanically (scripts/make_run_card_cgrc_v3.py). PROMOTE needs all four conditions. None of the candidates meets all four.</p></section>
+
+<section class="section" aria-labelledby="rule"><div class="eyebrow">Promotion rule</div><h2 id="rule">All four must hold</h2>
+<ol class="list">
+<li><span class="bullet">1</span><span><strong>Format:</strong> validator passes (single band, float32, EPSG:32611, grid, [0,1] inside footprint, null/NaN outside).</span></li>
+<li><span class="bullet">2</span><span><strong>Lane (literal):</strong> |rho| ≤ 0.90 and ≤ 70% of dots within 3 px of every registry and sibling raster. Degenerate rasters are not exempt.</span></li>
+<li><span class="bullet">3</span><span><strong>Canary:</strong> every single-feature AUC ≤ 0.90 against withheld truth.</span></li>
+<li><span class="bullet">4</span><span><strong>Holdout:</strong> HOLDOUT-DTI beats the best same-evaluator, same-folds arm (currently C = 0.147192).</span></li>
+</ol></section>
+
+<section class="section" aria-labelledby="table"><div class="eyebrow">Verdict table</div><h2 id="table">Candidates</h2>
+<div class="table-wrap"><table><thead><tr><th>Candidate</th><th>1 Format</th><th>2 Lane</th><th>3 Canary</th><th>4 Holdout gate</th><th>Verdict</th></tr></thead><tbody>
+<tr><td><code>gems54-cgrc-relay-v1.tif</code> (primary, zeros outside)</td><td>FAIL</td><td>FAIL (DUPLICATE)</td><td>clear</td><td>NOT MET (0.0915 &lt; 0.1472)</td><td><strong>NOT CLEARED</strong></td></tr>
+<tr><td><code>gems54-cgrc-relay-v1-nan.tif</code> (twin, NaN outside)</td><td>PASS</td><td>FAIL (identical dots)</td><td>clear</td><td>NOT MET (identical dots)</td><td><strong>NOT CLEARED</strong></td></tr>
+<tr><td><code>gems54-undercomplement-q200.tif</code> (H54-A, archive)</td><td>FAIL (all-finite)</td><td>FAIL (98.85% vs GEMSDOE3 witness)</td><td>clear (SGMC alone AUC 0.523)</td><td>not re-run on the folds; its rule is the gate arm (0.1472)</td><td><strong>NOT CLEARED</strong></td></tr>
+<tr><td><code>gems54-magedge-hgrad-ridge.tif</code> (H54-B, archive)</td><td>not re-run</td><td>FAIL (2026-10-08 scan)</td><td>not re-run</td><td>below H54-A (2026-10-08 receipt, v1 evaluator)</td><td><strong>NOT CLEARED</strong></td></tr>
+<tr><td>Cross-gradient arm X (not a file)</td><td>n/a</td><td>n/a</td><td>clear (0.543)</td><td>NOT MET; mass-short (inadmissible)</td><td><strong>NOT CLEARED; no file</strong></td></tr>
+</tbody></table></div>
+<p class="small">The H54-B holdout (0.0148) was produced with the earlier evaluator (gemsdoe54-segment-cv v1). It is not on the same folds as the v2 comparison and is not compared here.</p></section>
+
+<section class="section" aria-labelledby="parallel"><div class="eyebrow">Parallel work on main (2026-10-09, integrated)</div><h2 id="parallel">Two open questions that bear on the verdict</h2>
+<ul class="list">
+<li><span class="bullet">A</span><span><strong>Lane definition is disputed.</strong> The literal 70% test is degenerate against dense registries: r13 covers 99.87% of the footprint within 3 px, so almost any candidate is flagged. Main records this as blocking (IR-54-051) and notes that two lane tests are in use (IR-54-063). Our verdict applies the rule as written. CGRC still FAILS if the rasters with 50% or more coverage are exempted, because three non-degenerate siblings exceed 0.70 (0.935, 0.769, 0.733). The verdict does not depend on the disputed exemption.</span></li>
+<li><span class="bullet">B</span><span><strong>The holdout benchmark may be inflated.</strong> Main reports that the H54-A rule (our arm C, 0.1472) may win through SGMC co-location with withheld faults (IR-54-038, IR-54-057): 33% of catalogue positives lie within 3 px of an SGMC cell. The holdout gate is therefore weak evidence on its own. The lane failure alone is sufficient for NOT CLEARED.</span></li>
+<li><span class="bullet">C</span><span><strong>H1 and C4/C5 on main are negative.</strong> On main's v1 evaluator (gemsdoe54-segment-cv v1): C4 cross-gradient ridge 0.0120 [0.0098, 0.0146]; C5 basement-step ridge 0.0103 [0.0076, 0.0133]; C1 SGMC complement 0.0483 [0.0424, 0.0541]; random control 0.0104. Neither C4 nor C5 is above chance. Our arm X is a different construction on a different evaluator (cgrc-holdout v2). Both fail the gate.</span></li>
+</ul></section>
+
+<section class="section" aria-labelledby="slots"><div class="eyebrow">Weekly slots</div><h2 id="slots">What this means for a slot</h2>
+<div class="card"><p>No slot is recommended. The agent does not select submissions. Slot selection is a separate, owner-level decision made with the run card and receipts in hand. A lane duplicate of a sibling submission also conflicts with this project's uniqueness requirement (do not copy previous submissions). The copy-prohibition wording of the rules was not re-verified in this session.</p></div></section>
+
+<section class="section" aria-labelledby="notes"><div class="eyebrow">Corrections to the 2026-10-08 verdicts</div><h2 id="notes">What changed</h2>
+<ul class="list">
+<li>CGRC “PASS / DOWNLOAD YES” (2026-10-08) is withdrawn. The lane is FAIL under the literal rule (IR-54-066, IR-54-077).</li>
+<li>The CGRC “beats the H54-A rule” claim is withdrawn. On the same folds, the H54-A rule scores 0.1472 against CGRC 0.0915 (IR-54-067).</li>
+<li>The holdout “best 0.1793” is withdrawn. It has no receipt (IR-54-068).</li>
+<li>Format: the all-finite primary fails the organizer-page null/NaN rule. The NaN twin passes (IR-54-072).</li>
+</ul></section>
+</main>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a> · <a href="data/run-card-cgrc.json">CGRC run card v3</a></p></div></footer>
 </body>
 </html>

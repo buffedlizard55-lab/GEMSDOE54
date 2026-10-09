@@ -1,0 +1,631 @@
+{
+  "schema": "gemsdoe54.run-card.v3",
+  "date_utc": "2026-10-09",
+  "supersedes": "docs/data/run-card-cgrc.json v2 (2026-10-08). v2 said lane DISTINCT (by excluding r11/r13/r14 as 'vacuous'), 'pre-placement surface' checked, 2 experiments, and 'corpus holdout best 0.1793' (no receipt). All four are corrected here; see IR-54-066 onward.",
+  "generated_by": "scripts/make_run_card_cgrc_v3.py (no hand-typed numbers)",
+  "candidate": {
+    "name": "gems54-cgrc-relay-v1",
+    "note": "GEMSDOE54 CGRC v1: catalogue tip-relay gaps and continuations, 200 m catalogue exclusion, 300 m dot spacing",
+    "note_length": 107,
+    "note_limit": 140,
+    "primary": {
+      "path": "docs/downloads/gems54-cgrc-relay-v1.tif",
+      "sha256": "e6f82d42c751e77f93f79d0c62c6ac0574daf9e35c827b1566753fe26b0984ef",
+      "bytes": 135170,
+      "dtype": "float32",
+      "nodata": null,
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "dots_positive": 32369,
+      "finite_unique_values": [
+        0.0,
+        1.0
+      ],
+      "finite_values_outside_footprint_or_nan": {
+        "nan_cells": 0,
+        "zero_cells": 12246791
+      },
+      "role": "submission candidate (all-finite; zeros outside footprint)"
+    },
+    "twin": {
+      "path": "docs/downloads/gems54-cgrc-relay-v1-nan.tif",
+      "sha256": "9b4cf4450bbc6c13b307e5ec89f0dd2d2f0a54245b1757287541079098fba0de",
+      "bytes": 179360,
+      "dtype": "float32",
+      "nodata": "NaN",
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "dots_positive": 32369,
+      "finite_unique_values": [
+        0.0,
+        1.0
+      ],
+      "finite_values_outside_footprint_or_nan": {
+        "nan_cells": 7111787,
+        "zero_cells": 5135004
+      },
+      "role": "same dots, NaN outside footprint (organizer-page convention)"
+    },
+    "unique_name_check": "grep of the 63 partial sibling clones (tracked file names, incl. git indexes): only this repository contains 'cgrc-relay'",
+    "hypothesis": "The competition catalogue is a fragmented digitisation (3,118 kept components, median 12 cells, 6,747 degree-1 tips on a 100 m grid). Gaps between facing tips of the same structure are unmapped fault continuations.",
+    "mechanism": "CGRC (Catalogue Gap Relay Completion): straight relay lines between tips of different catalogue components whose strikes agree within 25 deg and that face along the shared strike; 2.5 km tip continuations; 200 m exclusion around the catalogue; greedy 300 m-spaced dots; SGMC corroboration weight (arm B).",
+    "named_non_fault_mimic": "Digitisation artefacts and non-fault line work: strands terminating at map-sheet or lithologic contacts (phantom continuations), and en-echelon patterns with no linking structure."
+  },
+  "inputs": {
+    "labels_sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+    "sgmc_sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+    "feature_stack_sha256_owner_mirror": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5",
+    "provenance": "owner-mirrored, hash-pinned (GEMSDOE data/bridge manifest); organizer-origin authentication not established"
+  },
+  "validator": {
+    "script": "scripts/validate_submission.py",
+    "primary": {
+      "output": "evidence/lane_inputs/validator_cgrc_primary.json",
+      "format_passed": false,
+      "failed_checks": [
+        "outside_footprint_null_or_nan"
+      ],
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "crs": true,
+        "shape": true,
+        "transform_100m_same_bounds": true,
+        "labels_shape": true,
+        "label_nodata_defined": true,
+        "footprint_cells": true,
+        "no_nan_inside_footprint": true,
+        "in_footprint_in_range": true,
+        "outside_footprint_null_or_nan": false
+      },
+      "lane_verdict": "DUPLICATE - STOP",
+      "lane_drift_detected": true
+    },
+    "twin": {
+      "output": "evidence/lane_inputs/validator_cgrc_nan_twin.json",
+      "format_passed": true,
+      "failed_checks": [],
+      "checks": {
+        "single_band": true,
+        "dtype_float32": true,
+        "crs": true,
+        "shape": true,
+        "transform_100m_same_bounds": true,
+        "labels_shape": true,
+        "label_nodata_defined": true,
+        "footprint_cells": true,
+        "no_nan_inside_footprint": true,
+        "in_footprint_in_range": true,
+        "outside_footprint_null_or_nan": true
+      },
+      "lane_verdict": "DUPLICATE - STOP"
+    },
+    "note": "Format: primary FAILS the local organizer-page contract (outside-footprint cells must be null/NaN; primary has zeros). The twin passes. The owner's claim that an all-finite file was portal-accepted is unverified."
+  },
+  "lane": {
+    "stage": "FINAL DOTS only. The pre-placement priority surface was not persisted, so it was not checked.",
+    "literal_rule": "rho <= 0.90 and <= 70% of dots within 3 px of ANY registry raster or sibling raster; no coverage exemption",
+    "rank_correlation": {
+      "max_abs_rho_siblings": 0.10124,
+      "max_abs_rho_source": "7GEMSDOE/downloads/gems7-strike30x3-v2-2b06d45c5b57.tif",
+      "siblings_rho_above_limit": 0,
+      "verdict": "PASS"
+    },
+    "registry_flags_literal": [
+      "r11_greedy_mp.tif",
+      "r13_lattice_s5_00904.tif",
+      "r14_union_tips10_lat6.tif"
+    ],
+    "registry_overlap": [
+      {
+        "registry": "dotted_b2_prune_02778.tif",
+        "registry_dots": 37654,
+        "registry_covers_fraction_of_footprint": 0.150853,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.002715,
+        "absolute_spearman_rho": 0.002715,
+        "abs_spearman_rho": 0.002715,
+        "dots_within_3px": 6702,
+        "fraction_of_my_dots": 0.20705,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.166251,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "dotted_d2_8_02600.tif",
+        "registry_dots": 44090,
+        "registry_covers_fraction_of_footprint": 0.171911,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.004609,
+        "absolute_spearman_rho": 0.004609,
+        "abs_spearman_rho": 0.004609,
+        "dots_within_3px": 8645,
+        "fraction_of_my_dots": 0.267077,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.205897,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "dotted_d2_8_02708.tif",
+        "registry_dots": 40199,
+        "registry_covers_fraction_of_footprint": 0.160064,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.005505,
+        "absolute_spearman_rho": 0.005505,
+        "abs_spearman_rho": 0.005505,
+        "dots_within_3px": 7593,
+        "fraction_of_my_dots": 0.234576,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.18488,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h52_coincidence8_80k.tif",
+        "registry_dots": 80000,
+        "registry_covers_fraction_of_footprint": 0.238571,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.007209,
+        "absolute_spearman_rho": 0.007209,
+        "abs_spearman_rho": 0.007209,
+        "dots_within_3px": 8533,
+        "fraction_of_my_dots": 0.263616,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.134063,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h60_officialstack_50k.tif",
+        "registry_dots": 50000,
+        "registry_covers_fraction_of_footprint": 0.192107,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.003789,
+        "absolute_spearman_rho": 0.003789,
+        "abs_spearman_rho": 0.003789,
+        "dots_within_3px": 4351,
+        "fraction_of_my_dots": 0.134419,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.08038,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "h60_union_d2_75308.tif",
+        "registry_dots": 75308,
+        "registry_covers_fraction_of_footprint": 0.31934,
+        "overlap_test_admissible": true,
+        "spearman_rho": -0.00634,
+        "absolute_spearman_rho": 0.00634,
+        "abs_spearman_rho": 0.00634,
+        "dots_within_3px": 4048,
+        "fraction_of_my_dots": 0.125058,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.046343,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "hedge_v2_01563.tif",
+        "registry_dots": 227507,
+        "registry_covers_fraction_of_footprint": 0.283564,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.004924,
+        "absolute_spearman_rho": 0.004924,
+        "abs_spearman_rho": 0.004924,
+        "dots_within_3px": 18170,
+        "fraction_of_my_dots": 0.56134,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.263922,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      },
+      {
+        "registry": "r11_greedy_mp.tif",
+        "registry_dots": 272853,
+        "registry_covers_fraction_of_footprint": 0.739731,
+        "overlap_test_admissible": false,
+        "spearman_rho": -0.003545,
+        "absolute_spearman_rho": 0.003545,
+        "abs_spearman_rho": 0.003545,
+        "dots_within_3px": 26957,
+        "fraction_of_my_dots": 0.832803,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.191363,
+        "rho_flag": false,
+        "overlap_flag": true,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "r13_lattice_s5_00904.tif",
+        "registry_dots": 206895,
+        "registry_covers_fraction_of_footprint": 0.998713,
+        "overlap_test_admissible": false,
+        "spearman_rho": 0.000475,
+        "absolute_spearman_rho": 0.000475,
+        "abs_spearman_rho": 0.000475,
+        "dots_within_3px": 32305,
+        "fraction_of_my_dots": 0.998023,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.126702,
+        "rho_flag": false,
+        "overlap_flag": true,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "r14_union_tips10_lat6.tif",
+        "registry_dots": 192231,
+        "registry_covers_fraction_of_footprint": 0.761973,
+        "overlap_test_admissible": false,
+        "spearman_rho": 0.042249,
+        "absolute_spearman_rho": 0.042249,
+        "abs_spearman_rho": 0.042249,
+        "dots_within_3px": 27742,
+        "fraction_of_my_dots": 0.857055,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.309888,
+        "rho_flag": false,
+        "overlap_flag": true,
+        "overlap_degenerate_but_threshold_still_applied": true
+      },
+      {
+        "registry": "tip_stepover_r30_02632.tif",
+        "registry_dots": 41865,
+        "registry_covers_fraction_of_footprint": 0.166186,
+        "overlap_test_admissible": true,
+        "spearman_rho": 0.005575,
+        "absolute_spearman_rho": 0.005575,
+        "abs_spearman_rho": 0.005575,
+        "dots_within_3px": 8221,
+        "fraction_of_my_dots": 0.253978,
+        "fraction_of_registry_dots_within_3px_of_mine": 0.19797,
+        "rho_flag": false,
+        "overlap_flag": false,
+        "overlap_degenerate_but_threshold_still_applied": false
+      }
+    ],
+    "degenerate_registry_chance_corrected": [
+      {
+        "raster": "GEMSDOE54/registry/registry_rasters/r11_greedy_mp.tif",
+        "coverage_3px": 0.739731,
+        "overlap_candidate_dots_within_3px": 0.832803,
+        "chance_corrected_excess": 0.357599
+      },
+      {
+        "raster": "GEMSDOE54/registry/registry_rasters/r13_lattice_s5_00904.tif",
+        "coverage_3px": 0.998713,
+        "overlap_candidate_dots_within_3px": 0.998023,
+        "chance_corrected_excess": -0.536131
+      },
+      {
+        "raster": "GEMSDOE54/registry/registry_rasters/r14_union_tips10_lat6.tif",
+        "coverage_3px": 0.761973,
+        "overlap_candidate_dots_within_3px": 0.857055,
+        "chance_corrected_excess": 0.399459
+      }
+    ],
+    "full_corpus": {
+      "source": "evidence/lane_summary_cgrc_v1.json (rows: evidence/lane_inputs/uniq_cgrc_v1_rows.json)",
+      "counts": {
+        "grid_rasters_seen": 1199,
+        "self_twins_excluded": [
+          "GEMSDOE54/docs/downloads/gems54-cgrc-relay-v1-nan.tif"
+        ],
+        "sibling_rows": 1198,
+        "overlap_checked": 1153,
+        "overlap_checked_degenerate": 119,
+        "overlap_checked_nondegenerate": 1034,
+        "not_overlap_checked": 45,
+        "not_overlap_checked_reasons": {
+          "out_of_range_or_nonfinite_non_submission": 41,
+          "in_range_finite_not_submission_like": 4
+        }
+      },
+      "nondegenerate_above_0p70_unique": [
+        {
+          "sha256": "90fb7dc0fc1f6e7d3dbb20927417c6af7d110ca41167329d792c75c145f75b6a",
+          "copies": [
+            "7GEMSDOE/downloads/gems7-halo15-gbt-v1-90fb7dc0fc1f.tif",
+            "7GEMSDOE/downloads/gems7-halo15-gbt-v1-90fb7dc0fc1f.zip!gems7-halo15-gbt-v1-90fb7dc0fc1f.tif",
+            "7GEMSDOE/downloads/submission.tif"
+          ],
+          "spearman_rho": 0.097133,
+          "overlap_cand_in_sib": 0.935092,
+          "overlap_sib_in_cand": 0.316621,
+          "coverage_3px_of_footprint": 0.408843,
+          "n_dots": 1828699,
+          "excess_over_chance": 0.890202
+        },
+        {
+          "sha256": "2b06d45c5b5726be60ed7f953accda58919999a99b442bb87410377e0c4c034a",
+          "copies": [
+            "7GEMSDOE/downloads/gems7-strike30x3-v2-2b06d45c5b57.tif",
+            "7GEMSDOE/downloads/gems7-strike30x3-v2-2b06d45c5b57.zip!gems7-strike30x3-v2-2b06d45c5b57.tif"
+          ],
+          "spearman_rho": 0.10124,
+          "overlap_cand_in_sib": 0.768729,
+          "overlap_sib_in_cand": 0.526491,
+          "coverage_3px_of_footprint": 0.205993,
+          "n_dots": 575055,
+          "excess_over_chance": 0.708729
+        },
+        {
+          "sha256": "1381e784fb8b8340beffd0e735ac9eea89ad35d1a807f8a9bab5506e3fc8275e",
+          "copies": [
+            "GEMSDOE10/docs/downloads/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+            "GEMSDOE10/docs/downloads/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.zip!gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+            "GEMSDOE24/inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif"
+          ],
+          "spearman_rho": 0.037729,
+          "overlap_cand_in_sib": 0.732522,
+          "overlap_sib_in_cand": 0.3814,
+          "coverage_3px_of_footprint": 0.26311,
+          "n_dots": 174232,
+          "excess_over_chance": 0.637018
+        }
+      ],
+      "degenerate_above_0p70_unique_count": 74,
+      "skipped_second_pass": {
+        "n": 45,
+        "K_top_cells": 32369,
+        "max_overlap_cand_in_topK": 0.024931,
+        "max_abs_rho": 0.071658,
+        "method": "top-K cells by value inside the footprint as the dot set (K = CGRC dot count)",
+        "constant_rasters_no_dots": 4
+      }
+    },
+    "witness_checks": [
+      {
+        "file": "evidence/witness_h54a_vs_gapfinder_gemsdoe3.json",
+        "candidate": "docs/downloads/gems54-undercomplement-q200.tif",
+        "witness": "/tmp/sib/repos/GEMSDOE3/docs/downloads/gapfinder-v2-sgmc-gap-20260925T045014Z-7251c22bb4.tif",
+        "overlap_candidate_within_3px": 0.988496,
+        "witness_coverage": 0.011933,
+        "excess_over_chance": 0.988357,
+        "verdict": "FAIL (duplicate)"
+      },
+      {
+        "file": "evidence/witness_cgrc_vs_gapfinder_gemsdoe3.json",
+        "candidate": "docs/downloads/gems54-cgrc-relay-v1.tif",
+        "witness": "/tmp/sib/repos/GEMSDOE3/docs/downloads/gapfinder-v2-sgmc-gap-20260925T045014Z-7251c22bb4.tif",
+        "overlap_candidate_within_3px": 0.036269,
+        "witness_coverage": 0.011933,
+        "excess_over_chance": 0.02463,
+        "verdict": "pass"
+      }
+    ],
+    "verdict": {
+      "literal_rule": "FAIL (duplicate)",
+      "non_degenerate_only": "FAIL (duplicate)",
+      "note": "Literal protocol applied to every sibling and registry raster. The degenerate registry rasters r11/r13/r14 are not exempt: the protocol's 70% rule has no coverage exemption, and the chance-corrected excess is positive for r11 and r14."
+    },
+    "lane_check_result": "FAIL",
+    "lane_verdict_text": "DUPLICATE - STOP (literal rule). The v2 'DISTINCT' verdict is withdrawn."
+  },
+  "holdout": {
+    "label": "HOLDOUT-DTI (catalogue-truth proxy; not an organizer score)",
+    "evaluator_version": "gemsdoe54.cgrc-holdout.v2",
+    "withheld_positive_count": 60834,
+    "independent_units_whole_segments": 3118,
+    "folds": 4,
+    "bootstrap": {
+      "replicates": 2000,
+      "seed": 54,
+      "unit": "whole fault segment"
+    },
+    "receipt": "evidence/cgrc_holdout_receipt.json (reproduced: evidence/cgrc_holdout_default_reproduction.json)",
+    "arm_B_candidate_SGMC_weight": {
+      "dti": 0.091536,
+      "ci95": [
+        0.087617,
+        0.094855
+      ],
+      "dots": 32529
+    },
+    "arm_A_pure_catalogue": {
+      "dti": 0.090341,
+      "ci95": [
+        0.086457,
+        0.09367
+      ],
+      "dots": 32529
+    },
+    "same_folds_comparison": {
+      "receipt": "evidence/cgrc_holdout_samefolds_v4_xgrad.json",
+      "arm_C_H54A_rule": {
+        "dti": 0.147192,
+        "ci95": [
+          0.134419,
+          0.159062
+        ],
+        "dots": 32170
+      },
+      "arm_CN_H54A_native": {
+        "dti": 0.147192,
+        "ci95": [
+          0.134419,
+          0.159062
+        ],
+        "dots": 32170
+      },
+      "arm_X_crossgradient": {
+        "dti": 0.055637,
+        "ci95": [
+          0.050279,
+          0.06144
+        ],
+        "dots": 26783,
+        "mass_matched": false,
+        "shortfall_vs_budget": 5746,
+        "note": "pooled dots 26,783 vs budget 32,529 (-17.7%); per-fold X counts not written to the receipt; not re-run (budget)"
+      },
+      "pairs": {
+        "B_minus_C": {
+          "point": -0.055656,
+          "ci95": [
+            -0.068896,
+            -0.041997
+          ],
+          "ci_excludes_zero": true
+        },
+        "B_minus_CN": {
+          "point": -0.055656,
+          "ci95": [
+            -0.068896,
+            -0.041997
+          ],
+          "ci_excludes_zero": true
+        },
+        "A_minus_C": {
+          "point": -0.056851,
+          "ci95": [
+            -0.070242,
+            -0.043026
+          ],
+          "ci_excludes_zero": true
+        },
+        "X_minus_C": {
+          "point": -0.091555,
+          "ci95": [
+            -0.104537,
+            -0.077115
+          ],
+          "ci_excludes_zero": true
+        },
+        "X_minus_B": {
+          "point": -0.035899,
+          "ci95": [
+            -0.04193,
+            -0.029234
+          ],
+          "ci_excludes_zero": true
+        },
+        "X_minus_A": {
+          "point": -0.034704,
+          "ci95": [
+            -0.040642,
+            -0.027968
+          ],
+          "ci_excludes_zero": true
+        }
+      }
+    },
+    "best_same_evaluator_same_folds_arm": {
+      "arm": "C (H54-A rule)",
+      "dti": 0.147192
+    },
+    "gate_result": "NOT MET: candidate B = 0.091536 < 0.147192 (arm C)",
+    "removed_claim": "'corpus holdout best 0.1793' (v2 card, index, registry, submissions.json): no receipt exists in this repository; not reproducible; removed (IR-54-068).",
+    "v2_claim_withdrawn": "v2 said CGRC 'beats the H54-A rule' (0.0915 vs 0.0483). That compared different evaluators and folds; invalid (IR-54-067)."
+  },
+  "power": {
+    "framework": "Cohen (1988); two-sided alpha=0.05, power=0.80, z_sum=2.801585",
+    "independent_unit_count": 3118,
+    "bootstrap_se_of_paired_delta": 0.00049808,
+    "raw_scale_mde_dti": 0.001395,
+    "cohen_d_unit_level_mdd": 0.050188,
+    "pixel_iid_cohen_d_NOT_VALID": 0.011359,
+    "question_0p0028": {
+      "gap": 0.0028,
+      "gap_exceeds_holdout_raw_scale_mde": true,
+      "holdout_raw_scale_mde": 0.001395,
+      "board_transfer": "NOT CLASSIFIABLE: no paired board data for the two entries; the board's test set and noise are not published; the 0.2778 value belongs to user extradr19 (rank 13), its GEMSDOE32 link is unverified."
+    }
+  },
+  "leakage_canary": {
+    "auc_cut": 0.9,
+    "sgmc_alone_auc_vs_withheld_truth_v2": 0.522821,
+    "visible_catalogue_control_v2": 0.499985,
+    "xgrad_alone_auc_vs_withheld_truth": 0.542591,
+    "flags": [],
+    "invalid_v1_canary": "docs earlier cited AUC 0.997948 (evidence/leakage_canary.json, v1). Its construction does not match the holdout truth and is not comparable; not used (IR-54-069)."
+  },
+  "overlap": {
+    "see": "lane"
+  },
+  "budget": {
+    "experiments_used": 3,
+    "experiments_limit": 3,
+    "details": [
+      "E1: CGRC reproduction of the committed receipt. The 1500 m default did not reproduce; the 2500 m run did (exact match). Default-check after the edit also matched.",
+      "E2: same-fold comparison of arm B against the H54-A rule (arm C, pooled and per-fold).",
+      "E3: same folds, adds cross-gradient arm X (magnetic-gravity coupling). First launch was killed by the 4 GB memory limit at the bootstrap step (no results). The memory layout was changed without changing any numbers (A, B, C reproduce E2 exactly); second launch is the only result used."
+    ],
+    "tiff_writes": 0,
+    "submissions": 0,
+    "slot_selection_by_agent": false
+  },
+  "verdict": {
+    "promotion": "NOT CLEARED",
+    "lane": "FAIL (literal rule): DUPLICATE - STOP",
+    "holdout_gate": "NOT MET (B 0.091536 < C 0.147192 on the same folds)",
+    "format": "primary FAILS the outside-footprint null/NaN contract; twin PASSES",
+    "download_for_inspection": "NOT CLEARED. Audit copy only (the twin is format-valid; the lane FAILS). Do NOT submit either file.",
+    "submit_into_a_slot": "NO. Lane duplicate; holdout does not beat the best same-evaluator arm.",
+    "rationale": "Lane: literal rule fails against registry rasters r11 (0.833), r13 (0.998), r14 (0.857) and three non-degenerate siblings (0.935, 0.769, 0.733). Chance-corrected excess is positive for r11, r14 and all three siblings. Holdout: the candidate does not beat the H54-A rule on the same folds (0.0915 vs 0.1472). The arm-X result is inadmissible at matched mass.",
+    "negative_result": true
+  },
+  "organizer_confirmed": [
+    {
+      "claim": "DTI = TP_w / (TP_w + 0.2 FP_w + 0.8 FN_w + eps); triangular 300 m kernel",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "status": "ORGANIZER-CONFIRMED (problem page, fetched 2026-10-09)"
+    },
+    {
+      "claim": "EPSG 32611, 100 m, float32 single band, values in [0,1], outside bounds null/nan",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+      "status": "ORGANIZER-CONFIRMED"
+    },
+    {
+      "claim": "up to three submissions per week; one final submission",
+      "source": "https://docs.nlr.gov/docs/fy26osti/96647.pdf (sections 3.4, 3.5)",
+      "status": "ORGANIZER-CONFIRMED (rules PDF)"
+    },
+    {
+      "claim": "public leaderboard: 0.3774 rank 1; 0.3195 rank 7; 0.2778 rank 13 (extradr19); 0.2750 rank 17",
+      "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+      "status": "ORGANIZER-CONFIRMED (fetched 2026-10-09)"
+    }
+  ],
+  "irregularities": [
+    "IR-54-066",
+    "IR-54-067",
+    "IR-54-068",
+    "IR-54-069",
+    "IR-54-070",
+    "IR-54-071",
+    "IR-54-072",
+    "IR-54-073",
+    "IR-54-074",
+    "IR-54-075",
+    "IR-54-076",
+    "IR-54-077",
+    "IR-54-078",
+    "IR-54-079",
+    "IR-54-080",
+    "IR-54-081",
+    "IR-54-082"
+  ],
+  "irregularities_file": "docs/audit/irregularities.md"
+}

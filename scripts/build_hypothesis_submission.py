@@ -6,7 +6,7 @@ This is the *final-file* counterpart of the holdout candidates in ``holdout_segm
 the same method:
 
 * feature fields      -> ``gemsdoe54.hypotheses`` (H1 cross-gradient, H2 basement step, H3 learned)
-* dot emission        -> ``holdout_segment_cv.gated_dots`` (builder linearity gate + 200 m spacing)
+* dot emission        -> ``holdout_segment_cv_run2_variant.gated_dots`` (builder linearity gate + 200 m spacing)
 * writer / validator  -> ``gemsdoe54.grid.write_submission`` (float32, NaN outside, [0,1] inside)
 
 Scoring target reminder: the official round-1 truth is a private set of *new* faults outside the
@@ -46,7 +46,7 @@ from gemsdoe54.hypotheses import (  # noqa: E402
     gradient_magnitude,
     learned_visible_probability,
 )
-from holdout_segment_cv import FEATURE_PIN, KERNEL_PX, SEED, gated_dots, load_band, sha256_file  # noqa: E402
+from holdout_segment_cv_run2_variant import FEATURE_PIN, KERNEL_PX, SEED, gated_dots, load_band, sha256_file  # noqa: E402
 
 BUFFER_PX = 3.0
 FAMILIES = ("learned", "cross_gradient", "basement_step")

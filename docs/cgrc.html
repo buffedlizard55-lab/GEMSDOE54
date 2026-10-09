@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="CGRC run (gems54-cgrc-relay-v1), 2026-10-09: lane, holdout, canary, power and verdict, with receipts.">
+<title>CGRC run — gems54-cgrc-relay-v1 (NOT CLEARED) | GEMSDOE54</title>
+<link rel="stylesheet" href="assets/audit-site.css"></head>
+<body>
+<header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+<nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a href="submit-verdict.html">Verdicts</a><a aria-current="page" href="cgrc.html">CGRC run</a><a href="top-artefact.html">0.2778 question</a><a href="holdout.html">Holdout</a><a href="hypotheses.html">Hypotheses</a><a href="irregularities.html">Audit</a></nav></div></header>
+<main>
+
+<section class="page-title"><div class="eyebrow">CGRC run · run card v3 · 2026-10-09</div>
+<h1>gems54-cgrc-relay-v1: unique bytes, but a lane duplicate, and it does not beat the same-folds comparator. NOT CLEARED.</h1>
+<p class="lead">This page replaces the 2026-10-08 CGRC page. That page said “download YES / PASS” and cited a lane distinctness that depended on excluding three rasters, and a holdout comparison that mixed evaluators. Both are withdrawn (IR-54-066, IR-54-067). Every number below is traced to a receipt in the repository.</p></section>
+
+<section class="status-banner" aria-labelledby="cgrc-state"><div class="status-icon" aria-hidden="true">!</div><div>
+<h2 id="cgrc-state">Submit: NO · Download: NOT CLEARED (audit copy only)</h2>
+<p>Lane: <strong>FAIL</strong> under the literal rule (validator: DUPLICATE – STOP). Holdout: <strong>NOT MET</strong> (B 0.091536 vs C 0.147192, same folds). Format: primary FAIL on outside-footprint null/NaN, twin PASS. Canary: clear. Experiments 3 of 3. Submissions 0.</p></div></section>
+
+<section class="section two-col" aria-labelledby="files"><div><div class="eyebrow">The files</div><h2 id="files">Primary and twin</h2>
+<ul class="list">
+<li><span class="bullet">01</span><span><strong>Primary</strong> <code>docs/downloads/gems54-cgrc-relay-v1.tif</code>: SHA-256 <code>e6f82d42c751e77f93f79d0c62c6ac0574daf9e35c827b1566753fe26b0984ef</code>, 135,170 bytes, float32, no nodata tag, all finite, 32,369 dots, zeros outside (7,111,787 cells). Fails the organizer-page null/NaN-outside contract.</span></li>
+<li><span class="bullet">02</span><span><strong>Twin</strong> <code>docs/downloads/gems54-cgrc-relay-v1-nan.tif</code>: SHA-256 <code>9b4cf4450bbc6c13b307e5ec89f0dd2d2f0a54245b1757287541079098fba0de</code>, 179,360 bytes, same dots, NaN outside. Passes the format check. Lane identical to the primary.</span></li>
+<li><span class="bullet">03</span><span><strong>Grid</strong>: EPSG:32611, 3,730 × 3,292, transform (100, 0, 243350, 0, −100, 4508550). Labels footprint 5,167,373 cells.</span></li>
+<li><span class="bullet">04</span><span><strong>Name</strong> <code>gems54-cgrc-relay-v1</code>. <strong>Comment</strong> (107 characters): “GEMSDOE54 CGRC v1: catalogue tip-relay gaps and continuations, 200 m catalogue exclusion, 300 m dot spacing”.</span></li>
+</ul></div>
+<aside class="card"><span class="label">Audit copy</span><h3>gems54-cgrc-relay-v1 (twin, NaN outside)</h3><p class="detail">Format-valid. Not a copy of any sibling. Lane DUPLICATE. Do not submit.</p><a class="button" href="downloads/gems54-cgrc-relay-v1-nan.tif" download>Audit copy (not cleared)</a><p class="small" style="margin-top:14px"><a href="data/run-card-cgrc.json">Run card v3</a> · <a href="../evidence/lane_summary_cgrc_v1.json">Lane summary</a> · <a href="../evidence/cgrc_holdout_receipt.json">Holdout receipt</a> · <a href="../evidence/cgrc_holdout_samefolds_v4_xgrad.json">Same-folds receipt</a></p></aside></section>
+
+<section class="section" aria-labelledby="lane"><div class="eyebrow">Parallel-run lane (literal rule)</div><h2 id="lane">Overlap and rank correlation, final dots</h2>
+<div class="table-wrap"><table><thead><tr><th>Registry raster (validator)</th><th>Coverage of footprint within 3 px</th><th>Dots within 3 px of ours</th><th>Chance-corrected excess</th><th>Rule</th></tr></thead><tbody>
+<tr><td>r11_greedy_mp.tif</td><td>0.740</td><td>0.833</td><td>+0.358</td><td><strong>FAIL</strong> (&gt; 0.70)</td></tr>
+<tr><td>r13_lattice_s5_00904.tif</td><td>0.999</td><td>0.998</td><td>−0.536 (degenerate)</td><td><strong>FAIL</strong> (&gt; 0.70)</td></tr>
+<tr><td>r14_union_tips10_lat6.tif</td><td>0.762</td><td>0.857</td><td>+0.399</td><td><strong>FAIL</strong> (&gt; 0.70)</td></tr>
+<tr><td>Other 8 registry rasters</td><td>0.15–0.32</td><td>0.13–0.56</td><td>—</td><td>pass</td></tr>
+</tbody></table></div>
+<div class="table-wrap"><table><thead><tr><th>Full sibling corpus (lane_summary_cgrc_v1)</th><th>Result</th></tr></thead><tbody>
+<tr><td>Sibling rasters compared (self-twin excluded)</td><td>1,198 (1,153 overlap-checked; 45 second-passed)</td></tr>
+<tr><td>Maximum |Spearman rho|</td><td>0.101 (PASS, limit 0.90)</td></tr>
+<tr><td>Non-degenerate siblings above 0.70 (unique rasters)</td><td>3: gems7 halo15-gbt-v1 0.935 (excess +0.890); gems7 strike30x3-v2 0.769 (+0.709); GEMSDOE10 h25-ctx-ridge 0.733 (+0.637)</td></tr>
+<tr><td>Degenerate siblings above 0.70 (unique rasters)</td><td>74 (coverage makes the statistic non-discriminating for these)</td></tr>
+<tr><td>Second pass of 45 skipped rasters (top-K overlap)</td><td>maximum 0.025; maximum |rho| 0.072 (maps, masks and probes, not predictions)</td></tr>
+<tr><td>Targeted witness: GEMSDOE3 gapfinder-v2-sgmc-gap</td><td>CGRC 0.036 (pass)</td></tr>
+<tr><td>Verdict</td><td><strong>DUPLICATE – STOP</strong> (literal rule)</td></tr>
+</tbody></table></div>
+<p class="small">Not checked: the pre-placement priority surface (it was not persisted; IR-54-073). The lane verdict is on final dots only. Chance-corrected excess = (observed − coverage)/(1 − coverage). Excess &gt; 0 means placement overlap above chance.</p></section>
+
+<section class="section" aria-labelledby="holdout"><div class="eyebrow">HOLDOUT-DTI (catalogue-truth proxy, not an organizer score)</div><h2 id="holdout">Whole-segment hide-and-recover, same folds</h2>
+<p>Evaluator <code>gemsdoe54.cgrc-holdout.v2</code> (organizer equations, <code>scripts/gems_metric.py</code>). 60,834 withheld positives; 3,118 whole fault segments; 4 spatial quadrant folds with a 300 m buffer; features from the visible catalogue only; cluster bootstrap over segments, 2,000 replicates, seed 54.</p>
+<div class="table-wrap"><table><thead><tr><th>Arm</th><th>Description</th><th>DTI</th><th>95% CI</th><th>Dots</th></tr></thead><tbody>
+<tr><td>B (candidate)</td><td>CGRC with SGMC corroboration</td><td>0.091536</td><td>[0.087617, 0.094855]</td><td>32,529</td></tr>
+<tr><td>A</td><td>CGRC pure catalogue geometry</td><td>0.090341</td><td>[0.086457, 0.093670]</td><td>32,529</td></tr>
+<tr><td>Random control</td><td>mass-matched uniform, 3 seeds (control only)</td><td>0.061014</td><td>—</td><td>32,529</td></tr>
+<tr><td><strong>C (gate arm)</strong></td><td>H54-A rule per fold, same folds</td><td><strong>0.147192</strong></td><td>[0.134419, 0.159062]</td><td>32,170</td></tr>
+<tr><td>X (inadmissible)</td><td>magnetic–gravity cross-gradient, not mass-matched (−17.7%)</td><td>0.055637</td><td>[0.050279, 0.061440]</td><td>26,783</td></tr>
+</tbody></table></div>
+<p><strong>Paired contrasts (bootstrap, same segment draws):</strong> B − C = −0.055656 [−0.068896, −0.041997]; A − C = −0.056851 [−0.070242, −0.043026]; X − C = −0.091555 [−0.104537, −0.077115]; A − B = −0.001195 point, paired bootstrap CI [−0.002163, −0.000204] (excludes 0; the SGMC weight helps by about 0.0012 DTI, a small effect).</p>
+<p><strong>Gate:</strong> the candidate must beat the best same-evaluator, same-folds arm. That arm is C at 0.147192. B at 0.091536 does not. <strong>NOT MET.</strong></p>
+<p class="small">The receipt's “observed” delta of −0.001182 is the bootstrap mean; the point difference is −0.001195. The 2026-10-08 “CGRC beats H54-A” claim (0.0915 vs 0.0483) mixed evaluators and folds and is withdrawn (IR-54-067). The 0.1793 “corpus best” is unsourced and withdrawn (IR-54-068).</p></section>
+
+<section class="section" aria-labelledby="gate-caveat"><div class="eyebrow">Caveat on the gate</div><h2 id="gate-caveat">The 0.1472 benchmark may be inflated by SGMC co-location</h2><p>Main (IR-54-038, IR-54-057) reports that the H54-A rule may win through co-location with withheld catalogue faults. That makes the holdout gate weak evidence. The verdict rests on the lane failure, which does not depend on the holdout.</p></section>
+
+<section class="section two-col" aria-labelledby="canary"><div><div class="eyebrow">Leakage canary and power</div><h2 id="canary">Single-feature AUC (cutoff 0.90) and the 0.0028 question</h2>
+<ul class="list">
+<li><span class="bullet">AUC</span><span>SGMC alone vs withheld truth 0.5228; visible-catalogue control 0.4999; cross-gradient score alone 0.5426. No flags.</span></li>
+<li><span class="bullet">Power</span><span>Bootstrap SE of the paired delta 0.000498; raw-scale MDE 0.001395; unit-level Cohen d 0.050188 (3,118 units). Pixel-IID d 0.011359 is not valid (spatial correlation).</span></li>
+<li><span class="bullet">0.0028</span><span>Above the holdout's raw-scale MDE, so detectable on this holdout. NOT CLASSIFIABLE for the board (no paired board data).</span></li>
+</ul></div>
+<aside class="card"><span class="label">Budget</span><h3>3 of 3 experiments; 0 submissions</h3><p class="detail">E1 reproduction of the committed receipt (2500 m; the 1500 m default did not reproduce). E2 same-fold comparison with the H54-A rule. E3 same folds with the cross-gradient arm (first launch killed at bootstrap by the 4 GB memory limit, no result; the second launch is the only one used). No new TIF was written in this session.</p></aside></section>
+
+<section class="section" aria-labelledby="mechanism"><div class="eyebrow">Hypothesis, mechanism, named mimic</div><h2 id="mechanism">What the candidate claims</h2>
+<div class="card"><p><strong>Hypothesis.</strong> The competition catalogue is a fragmented digitisation (3,118 kept components, median 12 cells, 6,747 degree-1 tips on a 100 m grid). Gaps between facing tips of the same structure are unmapped fault continuations.</p>
+<p><strong>Mechanism.</strong> CGRC places straight relay lines between tips of different components whose strikes agree within 25° and that face along the shared strike; adds 2.5 km tip continuations; excludes 200 m around the catalogue; places one dot per 300 m, greedy by priority; arm B adds an SGMC corroboration weight.</p>
+<p><strong>Named non-fault mimic.</strong> Digitisation artefacts and non-fault line work: strands ending at map-sheet or lithologic contacts (phantom continuations), and en-echelon patterns with no linking structure.</p>
+<p class="small">The holdout is catalogue-truth. It cannot reward genuinely new faults, so it measures recovery of catalogued structure only.</p></div></section>
+
+<section class="section" aria-labelledby="error2"><div class="eyebrow">Error fix</div><h2 id="error2">Range error and the NaN convention</h2>
+<p>Read the full checklist on the <a href="executive-summary.html#error">submit guide</a>. Here, in brief: the primary file is all-finite with zeros outside the footprint. The organizer page asks for null/NaN outside. The twin has the same dots with NaN outside. Which convention the portal accepts is unverified (IR-54-072). Do not infer acceptance from the 0.2778 file.</p></section>
+
+</main>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a> · <a href="submit-verdict.html">Verdicts</a> · <a href="irregularities.html">Audit ledger</a></p></div></footer>
+</body>
+</html>

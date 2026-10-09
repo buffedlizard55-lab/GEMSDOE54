@@ -19,37 +19,116 @@
     "safe_to_upload": false,
     "verdict": "negative"
   },
-  "generated_utc": "2026-10-09T01:33:20+00:00",
+  "generated_utc": "2026-10-09T01:42:10+00:00",
   "leaderboard": {
-    "fetched_utc": "2026-10-08",
-    "receipt_policy": "These are observations from the live public leaderboard, not ORGANIZER-CONFIRMED submission-page receipt scores. Do not map an owner-site TIFF to a row without a receipt.",
+    "fetched_utc": "2026-10-09",
+    "receipt_policy": "Observations from the public page are not ORGANIZER-CONFIRMED scores. Do not map a repository file to a row without a receipt. The rules say public scores may differ from the private final scores (rules PDF section 3.2).",
     "score_claims_are_organizer_confirmed": false,
     "selected_rows": [
       {
         "displayed_value": 0.3774,
-        "rank": 1
+        "rank": 1,
+        "team": "xiaofanhu"
+      },
+      {
+        "displayed_value": 0.3345,
+        "rank": 2,
+        "team": "alexoktaba"
+      },
+      {
+        "displayed_value": 0.3262,
+        "rank": 3,
+        "team": "nchuzhoy"
+      },
+      {
+        "displayed_value": 0.326,
+        "rank": 4,
+        "team": "joeyfezster"
+      },
+      {
+        "displayed_value": 0.3222,
+        "rank": 5,
+        "team": "kinghorton42"
+      },
+      {
+        "displayed_value": 0.3221,
+        "rank": 6,
+        "team": "Batik Shirt Brothers"
       },
       {
         "displayed_value": 0.3195,
-        "rank": 7
+        "rank": 7,
+        "team": "DARD"
+      },
+      {
+        "displayed_value": 0.2902,
+        "rank": 8,
+        "team": "mzoorob"
+      },
+      {
+        "displayed_value": 0.2888,
+        "rank": 9,
+        "team": "ndavis7"
+      },
+      {
+        "displayed_value": 0.2876,
+        "rank": 10,
+        "team": "GrigorSargsyan"
+      },
+      {
+        "displayed_value": 0.2797,
+        "rank": 12,
+        "team": "op01"
       },
       {
         "displayed_value": 0.2778,
-        "rank": 13
+        "rank": 13,
+        "team": "extradr19"
+      },
+      {
+        "displayed_value": 0.2764,
+        "rank": 14,
+        "team": "arnofault"
+      },
+      {
+        "displayed_value": 0.2761,
+        "rank": 15,
+        "team": "No Fault of Our Own"
+      },
+      {
+        "displayed_value": 0.2758,
+        "rank": 16,
+        "team": "notmyfault"
       },
       {
         "displayed_value": 0.275,
-        "rank": 17
+        "rank": 17,
+        "team": "wbg1"
+      },
+      {
+        "displayed_value": 0.2747,
+        "rank": 18,
+        "team": "raboush2"
+      },
+      {
+        "displayed_value": 0.2708,
+        "rank": 21,
+        "team": "smrtdoog5"
+      },
+      {
+        "displayed_value": 0.2707,
+        "rank": 22,
+        "team": "bot_account"
       }
     ],
     "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-    "status": "PUBLIC-LEADERBOARD SNAPSHOT \u2014 official page fetched; no individual submission-page receipts copied"
+    "status": "PUBLIC-LEADERBOARD SNAPSHOT: displayed values only; no submission-page receipts copied"
   },
   "schema": "gemsdoe54.local-feed.v1",
   "scope": "This pass's repository-local audit records only; not a DrivenData leaderboard feed and not a replacement for registry/run_card.json.",
   "sources": {
     "official_data_download_authenticated": false,
-    "registered": 19
+    "registered": 21
   },
   "workspace": {
     "missing_inputs": [

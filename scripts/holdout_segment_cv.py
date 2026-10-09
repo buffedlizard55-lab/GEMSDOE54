@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Whole-segment 5-fold hide-and-recover holdout, evaluator ``gemsdoe54-segment-cv`` v1.
+"""Whole-segment 5-fold hide-and-recover holdout, evaluator ``gemsdoe54-segment-cv`` v2 (v2 adds C4 and C5; C0-C3 are unchanged from v1).
 
 This is the holdout the repository's protocol requires, implemented end to end:
 
@@ -32,6 +32,9 @@ submission builder):
   C1  SGMC state-map complement (the H54-A rule):  SGMC cells outside E_k.
   C2  Geodetic shear-rate ridge, count matched to C1 in every fold.
   C3  Horizontal magnetic-gradient ridge (tmi_hg), count matched to C1 in every fold.
+  C4  Cross-gradient coincidence ridge (v2): rank-normalised tmi_hg x rank-normalised
+      iso_grav_anom_hg, geometric mean, count matched to C1. Fold-independent (no labels used).
+  C5  Surface-conductivity gradient ridge (v2): |grad cond_surf|, count matched to C1.
 
 The feature bands come from the owner's bridge (SHA-256 pinned in data/bridge manifest). Their
 provenance is owner-claimed; nothing here is organizer-authenticated. The result is labelled
@@ -61,15 +64,8 @@ from gemsdoe54.grid import FOOTPRINT_CELLS, binary_mask, footprint, read_band  #
 from gemsdoe54.holdout import pooled_metric, single_feature_auc  # noqa: E402
 from gemsdoe54.power import minimum_detectable_cohen_d, normal_approx_mde_from_se  # noqa: E402
 from build_submission import linearity_gate  # noqa: E402
-from gemsdoe54.hypotheses import (  # noqa: E402
-    GRAD_BANDS, MODEL_PARAMS, basement_step_score, cross_gradient_score, gradient_magnitude,
-    learned_visible_probability,
-)
 
-EVALUATOR = {"name": "gemsdoe54-segment-cv", "version": "v1"}
-# v2 adds the --hypotheses candidates (C4-C6). The scoring, folds, bootstrap and canary are unchanged.
-EVALUATOR_V2 = {"name": "gemsdoe54-segment-cv", "version": "v2"}
-HYP_CANARY_KEYS = ["model_visible_probability_C4", "cross_gradient_score_H1", "basement_step_grad_H2"]
+EVALUATOR = {"name": "gemsdoe54-segment-cv", "version": "v2"}
 K_FOLDS = 5
 SEED = 20261008
 BUFFER_PX = 3.0          # 300 m at 100 m cells
@@ -132,19 +128,6 @@ def ridge_matched(feat: np.ndarray, admissible: np.ndarray, target: int, dist_m:
     return best
 
 
-def top_k_nearest_segments(D: np.ndarray, kk: int, chunk: int = 8192) -> np.ndarray:
-    """Column indices of the ``kk`` smallest entries of each row of ``D``, ascending by value."""
-    n = D.shape[0]
-    topk = np.empty((n, kk), dtype=np.int32)
-    for s0 in range(0, n, chunk):
-        block = D[s0:s0 + chunk]
-        part = np.argpartition(block, kk - 1, axis=1)[:, :kk]
-        dsel = np.take_along_axis(block, part, axis=1)
-        srt = np.argsort(dsel, axis=1, kind="stable")
-        topk[s0:s0 + chunk] = np.take_along_axis(part, srt, axis=1)
-    return topk
-
-
 class FoldScorer:
     """Exact per-fold decomposition of the organizer metric for unit-valued dots."""
 
@@ -178,9 +161,44 @@ class FoldScorer:
             P = np.column_stack([ys, xs]).astype(np.float64)
             D = np.empty((n, self.n_seg), dtype=np.float32)
             for s, tree in enumerate(self.trees):
-                # distances beyond the kernel radius contribute exactly 0 credit, so the KD-tree may cap them
-                D[:, s] = tree.query(P, distance_upper_bound=KERNEL_PX)[0]
+                D[:, s] = tree.query(P)[0]
         return {"TP": TP, "FP": FP, "FN": FN, "TP_seg": TP_seg, "D": D, "n": n}
+
+
+def _rank_unit(values: np.ndarray) -> np.ndarray:
+    """Average-rank transform of a 1-D array onto (0, 1]. Unsupervised: no labels involved."""
+    from scipy.stats import rankdata
+
+    return rankdata(values, method="average") / float(values.size)
+
+
+def cross_gradient_surface(tmihg: np.ndarray, gravh: np.ndarray, foot: np.ndarray):
+    """C4 surface: sqrt(rank(|tmi_hg|) * rank(|iso_grav_anom_hg|)) on cells valid in both bands.
+
+    A cell scores high only when BOTH the magnetic and the gravity horizontal-gradient
+    magnitudes are high, i.e. a coincident potential-field edge. Returns (surface, valid).
+    """
+    valid = foot & np.isfinite(tmihg) & np.isfinite(gravh)
+    surf = np.zeros(foot.shape, dtype=np.float64)
+    idx = np.flatnonzero(valid.ravel())
+    r1 = _rank_unit(np.abs(tmihg.ravel()[idx]).astype(np.float64))
+    r2 = _rank_unit(np.abs(gravh.ravel()[idx]).astype(np.float64))
+    surf.ravel()[idx] = np.sqrt(r1 * r2)
+    return surf, valid
+
+
+def conductivity_gradient_surface(cond: np.ndarray, foot: np.ndarray):
+    """C5 surface: magnitude of the 100 m gradient of surface conductivity.
+
+    NaN cells are filled with the footprint median only to take finite differences; the
+    result is masked back to valid cells, so filled values never reach the candidate.
+    """
+    valid = foot & np.isfinite(cond)
+    fill = float(np.median(cond[valid])) if valid.any() else 0.0
+    filled = np.where(valid, cond, fill).astype(np.float64)
+    gy, gx = np.gradient(filled, 100.0)
+    mag = np.hypot(gx, gy)
+    return np.where(valid, mag, 0.0), valid
 
 
 def dti_from(tp: float, fp: float, fn: float) -> float:
@@ -190,16 +208,13 @@ def dti_from(tp: float, fp: float, fn: float) -> float:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--features", default="/tmp/sib/gems-geodawn-numerical-features.tif")
+    ap.add_argument("--features", default="/tmp/training_features.tif")
     ap.add_argument("--labels", default=str(ROOT / "data/grid/labels.tif"))
     ap.add_argument("--sgmc", default=str(ROOT / "data/external/derived_sgmc_faults_100m_u8.tif"))
-    ap.add_argument("--out", default=str(ROOT / "evidence/holdout_segment_cv_v1.json"))
+    ap.add_argument("--out", default=str(ROOT / "evidence/holdout_segment_cv_v2.json"))
     ap.add_argument("--boot", type=int, default=1000)
     ap.add_argument("--shifts", type=int, default=30)
-    ap.add_argument("--hypotheses", action="store_true",
-                    help="add C4 (visible-only learned probability), C5 (cross-gradient), C6 (basement step)")
     args = ap.parse_args()
-    hyp = bool(args.hypotheses)
 
     feat_path = Path(args.features)
     feat_sha = sha256_file(feat_path)
@@ -224,31 +239,14 @@ def main() -> int:
     shear = load_band(feat_path, band_names.index("geod_shearrate") + 1)
     tmihg = load_band(feat_path, band_names.index("tmi_hg") + 1)
     feat_valid = foot & np.isfinite(shear) & np.isfinite(tmihg)
+    gravh = load_band(feat_path, band_names.index("iso_grav_anom_hg") + 1)
+    cond = load_band(feat_path, band_names.index("cond_surf") + 1)
+    cross, cross_valid = cross_gradient_surface(tmihg, gravh, foot)
+    gmag, gmag_valid = conductivity_gradient_surface(cond, foot)
+    del gravh, cond
 
-    names = ["C0_random_admissible_control", "C1_sgmc_complement", "C2_geodetic_shear_ridge", "C3_magnetic_hgrad_ridge"]
-    if hyp:
-        names += ["C4_visible_only_learned_probability", "C5_cross_gradient_ridge", "C6_basement_step_ridge"]
-        # footprint-row feature matrix for the learned model: 19 bands + gradient magnitudes
-        rows = np.flatnonzero(foot.ravel())
-        n_raw = len(band_names)
-        F = np.empty((rows.size, n_raw + len(GRAD_BANDS)), dtype=np.float32)
-        for bi in range(1, n_raw + 1):
-            arr = load_band(feat_path, bi)
-            F[:, bi - 1] = arr.ravel()[rows]
-            del arr
-        for j, bn in enumerate(GRAD_BANDS):
-            arr = load_band(feat_path, band_names.index(bn) + 1)
-            g = gradient_magnitude(arr, foot & np.isfinite(arr), sigma_px=1.0)
-            F[:, n_raw + j] = g.ravel()[rows]
-            del arr, g
-        # fold-independent hypothesis fields (no catalogue input)
-        tmihg_full = load_band(feat_path, band_names.index("tmi_hg") + 1)
-        grav_hg = load_band(feat_path, band_names.index("iso_grav_anom_hg") + 1)
-        cross_full = cross_gradient_score(tmihg_full, grav_hg, foot)
-        del tmihg_full, grav_hg
-        dtb = load_band(feat_path, band_names.index("depth_to_base_surf") + 1)
-        basement_full = basement_step_score(dtb, foot)
-        del dtb
+    names = ["C0_random_admissible_control", "C1_sgmc_complement", "C2_geodetic_shear_ridge", "C3_magnetic_hgrad_ridge",
+             "C4_crossgrad_coincidence_ridge", "C5_conductivity_gradient_ridge"]
     per_fold = []
     t0 = datetime.now(timezone.utc)
     for k in range(K_FOLDS):
@@ -273,6 +271,8 @@ def main() -> int:
         target = int(c1.sum())
         c2 = ridge_matched(shear, adm & feat_valid, target, dist_m)
         c3 = ridge_matched(tmihg, adm & feat_valid, target, dist_m)
+        c4 = ridge_matched(cross, adm & cross_valid, target, dist_m)
+        c5 = ridge_matched(gmag, adm & gmag_valid, target, dist_m)
         # C0: chance control. Uniformly random admissible cells, same count as C1, same exclusion
         # E_k. It isolates how much of any score comes from the buffer/exclusion geometry alone.
         rng_c0 = np.random.default_rng(SEED + 1000 + k)
@@ -280,32 +280,17 @@ def main() -> int:
         c0 = np.zeros(adm.size, dtype=bool)
         c0[rng_c0.choice(adm_idx, size=target, replace=False)] = True
         c0 = c0.reshape(adm.shape)
-        dots_by = {names[0]: c0, names[1]: c1, names[2]: c2["dots"], names[3]: c3["dots"]}
-        if hyp:
-            vis_rows = V.ravel()[rows]
-            coll_rows = collar.ravel()[rows]
-            pred_rows = np.flatnonzero(adm.ravel()[rows])
-            p_rows, learned_diag = learned_visible_probability(
-                F, vis_rows, coll_rows, pred_rows, seed=SEED + 2000 + k)
-            p_full = np.full(foot.size, np.nan, dtype=np.float32)
-            p_full[rows[pred_rows]] = p_rows
-            p_full = p_full.reshape(foot.shape)
-            c4 = ridge_matched(p_full, adm & np.isfinite(p_full), target, dist_m)
-            c5 = ridge_matched(cross_full, adm & np.isfinite(cross_full), target, dist_m)
-            c6 = ridge_matched(basement_full, adm & np.isfinite(basement_full), target, dist_m)
-            dots_by.update({names[4]: c4["dots"], names[5]: c5["dots"], names[6]: c6["dots"]})
-            del p_rows
+        dots_by = {names[0]: c0, names[1]: c1, names[2]: c2["dots"], names[3]: c3["dots"],
+                   names[4]: c4["dots"], names[5]: c5["dots"]}
         fold_rec = {
             "fold": k, "withheld_segments": int(segs_k.size), "withheld_positive_cells": int(W.sum()),
             "buffer_collar_cells": int(collar.sum()), "visible_catalogue_cells": int(V.sum()),
             "scored_cells": int(S.sum()), "exclusion_cells_E": int((E & foot).sum()),
             "target_dots_C1": target, "C0_dots": int(c0.sum()),
             "C2_match": {"dots": c2["n"], "quantile": c2["quantile"], "threshold": c2["threshold"]},
-            **({"C4_learned_train": learned_diag,
-                "C4_match": {"dots": c4["n"], "quantile": c4["quantile"], "threshold": c4["threshold"]},
-                "C5_match": {"dots": c5["n"], "quantile": c5["quantile"], "threshold": c5["threshold"]},
-                "C6_match": {"dots": c6["n"], "quantile": c6["quantile"], "threshold": c6["threshold"]}} if hyp else {}),
             "C3_match": {"dots": c3["n"], "quantile": c3["quantile"], "threshold": c3["threshold"]},
+            "C4_match": {"dots": c4["n"], "quantile": c4["quantile"], "threshold": c4["threshold"]},
+            "C5_match": {"dots": c5["n"], "quantile": c5["quantile"], "threshold": c5["threshold"]},
             "candidates": {}, "canary": {},
         }
 
@@ -329,24 +314,13 @@ def main() -> int:
                 D = np.zeros((0, segs_k.size), np.float32)
             G = scorer.G_seg
             TPs = sc["TP_seg"]
-            n_dots_k = D.shape[0]
-            kk = min(24, segs_k.size)
-            topk = top_k_nearest_segments(D, kk) if n_dots_k else None
             for b in range(args.boot):
                 mult = np.bincount(boot_idx[b], minlength=segs_k.size).astype(np.float64)
                 boot_tp[b] = mult @ TPs
                 boot_fn[b] = mult @ (G - TPs)
                 present = mult > 0
-                if n_dots_k:
-                    pres_k = present[topk]
-                    has = pres_k.any(axis=1)
-                    first = pres_k.argmax(axis=1)
-                    dmin = np.full(n_dots_k, np.inf, dtype=np.float64)
-                    ok = np.flatnonzero(has)
-                    dmin[ok] = D[ok, topk[ok, first[ok]]]
-                    rest = np.flatnonzero(~has)
-                    if rest.size:
-                        dmin[rest] = D[np.ix_(rest, np.flatnonzero(present))].min(axis=1)
+                if D.shape[0]:
+                    dmin = D[:, present].min(axis=1)
                     boot_fp[b] = float(np.sum(1.0 - np.clip(1.0 - dmin / KERNEL_PX, 0.0, 1.0)))
             fold_rec["candidates"][nm] = {
                 "dots_in_scored_area": sc["n"], "TP_w": sc["TP"], "FP_w": sc["FP"], "FN_w": sc["FN"],
@@ -370,22 +344,18 @@ def main() -> int:
             arr = load_band(feat_path, bi)
             fold_rec["canary"][bn] = round(single_feature_auc(arr, W, valid=S), 6)
             del arr
+        fold_rec["canary"]["cross_gradient_coincidence"] = round(
+            single_feature_auc(cross.astype(np.float32), W, valid=S & cross_valid), 6)
+        fold_rec["canary"]["cond_surf_gradient"] = round(
+            single_feature_auc(gmag.astype(np.float32), W, valid=S & gmag_valid), 6)
         fold_rec["canary"]["dist_to_visible_catalogue_m"] = round(
             single_feature_auc(dist_m.astype(np.float32), W, valid=S), 6)
         # the SGMC layer is itself a feature of C1; its alone-AUC is reported like any other
         fold_rec["canary"]["sgmc_state_map_fault"] = round(
             single_feature_auc(sgmc.astype(np.float32), W, valid=S), 6)
-        if hyp:
-            fold_rec["canary"]["model_visible_probability_C4"] = round(
-                single_feature_auc(p_full, W, valid=S & np.isfinite(p_full)), 6)
-            fold_rec["canary"]["cross_gradient_score_H1"] = round(
-                single_feature_auc(cross_full, W, valid=S & np.isfinite(cross_full)), 6)
-            fold_rec["canary"]["basement_step_grad_H2"] = round(
-                single_feature_auc(basement_full, W, valid=S & np.isfinite(basement_full)), 6)
-            del p_full
         per_fold.append(fold_rec)
         print(f"fold {k}: segments={segs_k.size} W={int(W.sum())} C1 dots={target} "
-              f"C2 dots={c2['n']} C3 dots={c3['n']} elapsed={(datetime.now(timezone.utc)-t0).seconds}s", flush=True)
+              f"C2 dots={c2['n']} C3 dots={c3['n']} C4 dots={c4['n']} C5 dots={c5['n']} elapsed={(datetime.now(timezone.utc)-t0).seconds}s", flush=True)
 
     # ---- pooled point estimates -------------------------------------------------------
     cand_out = {}
@@ -409,11 +379,10 @@ def main() -> int:
             "label": "HOLDOUT-DTI",
         }
     paired = {}
-    pairs = [(names[1], names[0]), (names[2], names[0]), (names[3], names[0]),
-             (names[1], names[2]), (names[1], names[3])]
-    if hyp:
-        pairs += [(names[j], names[0]) for j in (4, 5, 6)] + [(names[j], names[1]) for j in (4, 5, 6)]
-    for a, b in pairs:
+    for a, b in [(names[1], names[0]), (names[2], names[0]), (names[3], names[0]),
+                 (names[1], names[2]), (names[1], names[3]),
+                 (names[4], names[0]), (names[5], names[0]), (names[4], names[1]),
+                 (names[5], names[1]), (names[4], names[3]), (names[5], names[3])]:
         d = pooled_boot[a] - pooled_boot[b]
         point = cand_out[a]["pooled_dti_point"] - cand_out[b]["pooled_dti_point"]
         se = float(d.std(ddof=1))
@@ -434,24 +403,20 @@ def main() -> int:
 
     # canary summary (max over folds)
     canary = {}
-    canary_keys = band_names + ["dist_to_visible_catalogue_m", "sgmc_state_map_fault"] + (HYP_CANARY_KEYS if hyp else [])
-    for bn in canary_keys:
+    for bn in band_names + ["dist_to_visible_catalogue_m", "sgmc_state_map_fault",
+                            "cross_gradient_coincidence", "cond_surf_gradient"]:
         aucs = [f["canary"][bn] for f in per_fold]
         canary[bn] = {"max_auc_over_folds": round(max(aucs), 6), "mean_auc": round(float(np.mean(aucs)), 6),
                       "flag": "LEAKAGE" if max(aucs) > AUC_CUT else "clear"}
     flags = [k for k, v in canary.items() if v["flag"] == "LEAKAGE"]
     source_of = {names[0]: "none (chance control)",
                  names[1]: "data/external/derived_sgmc_faults_100m_u8.tif (SGMC, catalogue-derived)",
-                 names[2]: "geod_shearrate", names[3]: "tmi_hg"}
+                 names[2]: "geod_shearrate", names[3]: "tmi_hg",
+                 names[4]: "tmi_hg x iso_grav_anom_hg (rank geometric mean)",
+                 names[5]: "|grad cond_surf|"}
     feat_key = {names[0]: None, names[1]: "sgmc_state_map_fault",
-                names[2]: "geod_shearrate", names[3]: "tmi_hg"}
-    if hyp:
-        source_of.update({
-            names[4]: "visible-only learned probability (19 bands + 5 gradient bands; trained per fold)",
-            names[5]: "tmi_hg x iso_grav_anom_hg, geometric mean of percentiles (H1)",
-            names[6]: "gradient magnitude of depth_to_base_surf (H2)"})
-        feat_key.update({names[4]: "model_visible_probability_C4", names[5]: "cross_gradient_score_H1",
-                         names[6]: "basement_step_grad_H2"})
+                names[2]: "geod_shearrate", names[3]: "tmi_hg",
+                names[4]: "cross_gradient_coincidence", names[5]: "cond_surf_gradient"}
     status = {}
     for nm in names:
         if feat_key[nm] is None:
@@ -463,16 +428,10 @@ def main() -> int:
     d_units_total = minimum_detectable_cohen_d(n_seg_total)
     d_units_fold = minimum_detectable_cohen_d(min(seg_fold_counts))
     payload = {
-        "evaluator": (EVALUATOR_V2 if hyp else EVALUATOR) | {"metric": "organizer DTI alpha=0.2 beta=0.8 kernel=300 m triangular",
+        "evaluator": EVALUATOR | {"metric": "organizer DTI alpha=0.2 beta=0.8 kernel=300 m triangular",
                                   "script_sha256": sha256_file(Path(__file__)),
                                   "seed": SEED, "bootstrap_replicates": args.boot, "shift_nulls": args.shifts},
-        "label": ("HOLDOUT-DTI (evaluator gemsdoe54-segment-cv v2; catalogue-recovery truth, not hidden-test labels)"
-                  if hyp else "HOLDOUT-DTI (evaluator gemsdoe54-segment-cv v1; catalogue-recovery truth, not hidden-test labels)"),
-        "hypotheses": ({"H1": "tmi_hg x iso_grav_anom_hg cross-gradient ridge (C5)",
-                        "H2": "depth_to_base_surf gradient ridge (C6)",
-                        "H3": "visible-only HistGradientBoosting probability ridge (C4)",
-                        "model_params": MODEL_PARAMS}
-                       if hyp else None),
+        "label": "HOLDOUT-DTI (evaluator gemsdoe54-segment-cv v2; catalogue-recovery truth, not hidden-test labels)",
         "inputs": {
             "features": {"path": str(feat_path), "sha256": feat_sha, "bands": len(band_names),
                          "provenance": "owner bridge; hash-consistent with manifest; not organizer-authenticated"},

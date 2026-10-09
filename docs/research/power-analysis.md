@@ -1,50 +1,69 @@
-# Power analysis: is the 0.0028 board gap inside the detection floor?
+> **Correction (branch arena/a2c15068-gemsdoe54, 2026-10-09; IR-54-093, IR-54-094).** The 0.001395 floor quoted from the CGRC receipt is for a same-method paired contrast. Cross-family paired contrasts have raw 80% floors of 0.0045 to 0.0095 ([`evidence/detection_floor_segments.json`](../../evidence/detection_floor_segments.json)), so the 0.0028 gap lies inside them. Same-family near-identical pairs have floors of 0.0015 to 0.0022 ([`evidence/detection_floor.json`](../../evidence/detection_floor.json); not reproducible in this checkout, IR-54-091). The board pair cannot be computed without its unit count, so NOT CLASSIFIABLE stands.
 
-**Labels.** Holdout floors are computed from receipts, not scores. Board values are BOARD-UNVERIFIED.
-Generator: `scripts/power_floor_report.py` → `evidence/power_floor_segment_cv_v2.json` (and `_v1.json`).
-Evaluator: `gemsdoe54-segment-cv` v2 (receipt `evidence/holdout_segment_cv_v2.json`, 3,199 segment units, 60,988 withheld positive cells).
+> **2026-10-09 update.** Answer to the 0.0028 question (2026-10-09). Holdout raw-scale MDE for the paired CGRC contrast is 0.001395 (bootstrap SE 0.000498; 3,118 whole-segment units; Cohen framework, alpha 0.05, power 0.80, z_sum 2.801585). The 0.0028 gap is about twice that floor, so it would be detectable on the holdout. It is NOT CLASSIFIABLE on the board: no paired board data and no published test-set size. Sections below using the earlier 1500 m or v1 numbers are superseded. Source: evidence/cgrc_holdout_receipt.json (power block).
 
-## 1. Cohen (1988) floors, two-sided α = 0.05, power 0.80
+# Holdout power: required before ranking any method
 
-Let z = z₀.₉₇₅ + z₀.₈₀ = 1.96 + 0.8416 = 2.8016. The minimum detectable standardized effect is d_min = z / √n.
+## Decision
 
-| Unit of n | n | d_min | Status |
-|---|---:|---:|---|
-| Positive pixels (IID) | 60,988 | **0.0113** | **Invalid for this design.** Pixels inside one fault are strongly dependent, so the pixel count overstates information by about 4.4× in d (19× in n). |
-| Independent catalogue segments | 3,199 | **0.0495** | Valid unit for this design. |
-| Segments in the smallest fold | 639 | 0.1108 | Per-fold check. |
+**No valid power estimate or HOLDOUT-DTI result was produced in the earlier audit pass or in the 2026-10-08 review.** The checkout contains owner-mirrored labels and an SGMC layer plus a prior H54-A candidate, but not the full training feature stack or an authenticated DrivenData download. An earlier separate read-only audit reported that the owner-maintained `GEMSDOE` bridge shards and reconstructed TIFFs matched owner pins and contained nonconstant feature bands; this verifies integrity against owner-maintained pins, not organizer origin. The pinned template's workflow assigns spatial blocks, not whole fault segments. The local `segment_blocks` helper provides buffered groups but is not a full trainer/evaluator. The separate `GEMSDOE52` cache remains quarantined per its prior failed integrity audit. Consequently, no compliant withheld-positive count, paired variance, detection floor, or confidence interval for the cited leaderboard-gap example is available.
 
-The valid unit is the segment, because the bootstrap resamples whole segments. The pixel-IID figure is reported only to show why it must not be used.
+**DATA-AUDIT (not HOLDOUT-DTI):** the hash-matched owner-mirror label raster contains 60,988 positive pixels in total. This is not a withheld-positive count, not an independent sample size, and not a score. The value is recorded only as a property of the cached input in [`pinned-template-cache-audit.json`](../audit/pinned-template-cache-audit.json).
 
-## 2. Paired-difference floors in DTI units
+The score pair in the prompt is not a `HOLDOUT-DTI` receipt and is not an `ORGANIZER-CONFIRMED` submission-page receipt. It remains an unverified claim and is excluded from the ranking decision. A difference of two reported leaderboard values is not an estimate of holdout uncertainty.
 
-The receipt's own bootstrap gives the paired SE for each difference. MDE = 2.80 × SE. For a board gap Δ, the number of independent units needed for Δ to clear the same 2.80-SE margin is n_needed = 3,199 × (SE₃₁₉₉ / (Δ/2.80))².
+## Why positive-pixel count alone is insufficient
 
-| Paired comparison (holdout) | SE | MDE (DTI) | Units needed for Δ = 0.0028 |
-|---|---:|---:|---:|
-| C5 − C0 (cross-gradient vs chance) | 0.00154 | 0.0043 | 7,635 |
-| C6 − C0 (basement vs chance) | 0.00156 | 0.0044 | 7,754 |
-| C2 − C0 (shear ridge vs chance) | 0.00161 | 0.0045 | 8,291 |
-| C3 − C0 (magnetic ridge vs chance) | 0.00174 | 0.0049 | 9,696 |
-| C1 − C0 (SGMC complement vs chance) | 0.00294 | 0.0082 | 27,682 |
-| C4 − C0 (learned model vs chance) | 0.00332 | 0.0093 | 35,322 |
-| C1 − C2 | 0.00334 | 0.0094 | 35,749 |
-| C1 − C3 | 0.00341 | 0.0095 | 37,175 |
-| C4 − C1 (learned vs holdout best) | 0.00433 | 0.0121 | 60,073 |
+Cohen's framework distinguishes a standardized effect from its standard error. For a paired comparison, the classical effect is
 
-## 3. Decision on the 0.2778 vs 0.2750 gap
+\[
+ d_z = \frac{\mathbb{E}(D)}{\operatorname{SD}(D)},
+\]
 
-**Decision: inside the floor.** The gap is 0.0028. The smallest MDE measured in this design is 0.0043, and every pair needs between 7,635 and 60,073 independent units to clear a 0.0028 difference at 80 % power. The holdout has 3,199.
+where \(D\) is the paired difference. The exact two-sided minimum detectable standardized effect at target power is obtained by solving the noncentral-*t* power equation, which `gemsdoe54.power.minimum_detectable_cohen_d` implements.
 
-**Limits of this decision:**
-- The board's public split size is not published. If it contains far more independent units than 3,199, the floor is lower. The rules say only that the region is "chunked".
-- The floors are for different architectures. A near-identical pair (for example a prune that removes 6 % of dots) would have a smaller paired SE and could clear 0.0028. This holdout did not measure such a pair, and the 0.2750 raster is not in the registry, so the board pair cannot be classified.
-- The board values themselves are BOARD-UNVERIFIED.
+Raster positives are not independent experimental units. Pixels on one mapped fault segment are spatially correlated; nearby target pixels also share overlapping neighborhoods under the triangular kernel. Pooled DTI is a nonlinear ratio whose numerator and penalties are coupled. Treating every positive pixel as an independent replicate therefore produces an optimistic, generally invalid power floor. The number of withheld positive pixels must still be recorded, but the effective replication must be based on whole withheld fault segments defined before scoring; generic spatial blocks are not a substitute for this project's required holdout unit.
 
-**So:** no ranking claim between 0.2778 and 0.2750 is supported. Treat them as indistinguishable on the evidence available.
+Even an independent-unit count does not turn Cohen's standardized effect into a raw DTI increment. A raw-scale floor requires a variance estimate. For pooled DTI, the primary uncertainty estimate should come from paired cluster-bootstrap replicates that re-sample whole withheld fault segments and recompute the *pooled* metric for both candidate and baseline on every replicate.
 
-## 4. Reproduce
+## Required estimand and protocol
 
-```bash
-python scripts/power_floor_report.py --receipt evidence/holdout_segment_cv_v2.json --tag segment_cv_v2
-```
+The holdout receipt must identify:
+
+- evaluator version and a hash of the evaluator code;
+- whole fault segments withheld with a spatial buffer, with their positive-pixel count;
+- catalogue-derived features recomputed from visible faults only;
+- exact pixel-level masking of visible faults;
+- pooled DTI with alpha 0.2, beta 0.8, and a 300 m triangular kernel;
+- the same folds and masks for candidate and baseline;
+- a paired whole-segment cluster-bootstrap distribution of pooled DTI differences;
+- leakage-canary results for each feature by itself, with any AUC above 0.90 treated as leakage until explained.
+
+Do not tune the holdout or candidate after looking at the same fold results. Any adjustment requires a newly frozen registration and fresh folds.
+
+## What the analysis reports once a valid receipt exists
+
+`python scripts/analyse_holdout_receipt.py path/to/frozen-holdout-receipt.json` rejects receipts missing the evaluator version, scoring contract, withheld-positive count, independent-unit count, pixel-exact visible mask, visible-only catalogue features, or at least 1,000 finite cluster-bootstrap replicates. (The repository's existing `scripts/power_analysis.py` is a separate exploratory proxy-sensitivity report and is not a compliant holdout receipt.) It then reports:
+
+1. `HOLDOUT-DTI` — evaluator version, number of withheld positives, observed pooled difference, and the paired cluster-bootstrap 95% CI;
+2. Cohen's minimum detectable standardized effect for the independent whole-segment count;
+3. an approximate raw-scale detectable pooled-DTI difference based on the paired cluster-bootstrap standard error;
+4. a separate pixel-IID Cohen floor, explicitly marked **not valid for inference** and never used to promote a candidate.
+
+The 95% interval, not the power calculation alone, decides whether the measured local difference is distinguishable from zero. A holdout win is not an organizer score and is not proof that the hidden test set shares the same distribution.
+
+## Current machine-readable run state
+
+See [`../data/run-card.json`](../data/run-card.json) and [`../data/workspace-audit.json`](../data/workspace-audit.json). Both deliberately record the holdout and raster fields as unavailable; no score or projection is substituted.
+
+## 2026-10-08 run update
+
+The current run still has no compliant `HOLDOUT-DTI`: evaluator version, withheld-positive count, independent whole-segment count, paired bootstrap distribution, 95% CI, and raw-scale detection floor are all unavailable. Therefore the user-reported difference 0.0028 between 0.2778 and 0.2750 remains **NOT CLASSIFIABLE** as signal or noise. The earlier values in `evidence/power_analysis.json` remain **PROXY-SENSITIVITY / MODEL** diagnostics against the circular SGMC-derived target; they must not be substituted for the missing holdout power calculation.
+
+The two recorded experiments were registry-lane surface screens, not DTI evaluations. Their overlap figures are screening diagnostics only. The exact stop reason is in [`../data/run-card.json`](../data/run-card.json); no weekly slot or performance claim follows from them.
+
+## References
+
+- Cohen, J. (1988), *Statistical Power Analysis for the Behavioral Sciences*, 2nd edition. The request identifies this as the intended framework; the book itself was not available in the checkout.
+- The user-supplied competition metric page: <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/> (not fetched in this environment).
+- The accessible official reference-solution repository: <https://github.com/drivendataorg/gems-prize-reference-solution>.
