@@ -1,0 +1,30 @@
+{
+  "label": "VERIFIED (raster comparison); board values BOARD-UNVERIFIED",
+  "parent": {
+    "file": "registry/registry_rasters/dotted_d2_8_02708.tif",
+    "published_unverified": 0.2708,
+    "dots": 40199
+  },
+  "child": {
+    "file": "registry/registry_rasters/dotted_b2_prune_02778.tif",
+    "published_unverified": 0.2778,
+    "dots": 37654
+  },
+  "child_subset_of_parent": true,
+  "removed_dots": 2545,
+  "added_dots": 0,
+  "removed_within_1px_of_catalogue": 0,
+  "removed_within_2px_of_catalogue": 2545,
+  "removed_beyond_2px": 0,
+  "parent_dots_within_2px": 2545,
+  "parent_dots_within_3px": 4716,
+  "kept_child_dots_within_2px": 0,
+  "kept_child_dots_200_to_300m": 2171,
+  "median_distance_removed_m": 200.0,
+  "median_distance_kept_child_m": 1964.68827043885,
+  "share_kept_child_within_300m": 0.057656557072289796,
+  "share_parent_within_300m": 0.11731635115301375,
+  "rule_identified": "child = parent minus parent dots within 2 px (200 m) of the catalogue",
+  "implied_denominator_MODEL_if_removed_dots_earned_zero_credit": 20200.0,
+  "generated_utc": "2026-10-09T00:47:12+00:00"
+}

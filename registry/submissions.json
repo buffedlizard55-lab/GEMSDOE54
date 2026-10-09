@@ -19,6 +19,48 @@
       "organizer_receipt_status": "NOT AVAILABLE in this review",
       "prior_format_check": "Older local range/grid check passed; superseded for current review because it did not require null/NaN outside the footprint.",
       "current_format_validation": "FAIL under conservative local null/NaN-outside-footprint check; official page not re-fetched"
+    },
+    {
+      "name": "gems54-own-visible-hgb-q97",
+      "file": "docs/downloads/gems54-own-visible-hgb-q97.tif",
+      "sha256": "04c201817c3ca39d1ea09e776d8d1e248f98fe578e0ddd2826835fe4bbe7883a",
+      "team_label": "own model (visible-only boosted fault probability, 19 bands + gradients, top 3% cells, 200 m dots)",
+      "uploaded_utc": null,
+      "organizer_confirmed_score": null,
+      "holdout_dti": {
+        "label": "HOLDOUT-DTI",
+        "evaluator": "gemsdoe54-segment-cv v2",
+        "candidate": "C4",
+        "pooled_dti": 0.046521,
+        "ci95": [
+          0.039967,
+          0.05313
+        ],
+        "withheld_positive_cells": 60988,
+        "paired_vs_C1": {
+          "point": -0.001816,
+          "ci95": [
+            -0.010315,
+            0.006334
+          ]
+        }
+      },
+      "status": "BUILT — review copy only; NOT CLEARED. Holdout does not beat C1; literal lane gate DUPLICATE-STOP vs three dense registry rasters.",
+      "positive_cells": 16183,
+      "format_validated": true,
+      "current_review_disposition": "NOT CLEARED — download for review only; do not upload; no slot recommended",
+      "current_literal_lane_status": "DUPLICATE - STOP (r11 82.8 %, r13 97.1 %, r14 79.0 %; pre-placement same three)",
+      "safe_to_upload_current_review": false,
+      "note": "Own model, not a copy: visible-only boosted fault probability, 19 bands + gradients, top 3% cells, 200 m dots. NOT CLEARED.",
+      "note_chars": 123,
+      "organizer_receipt_status": "NOT AVAILABLE — no DrivenData submission made",
+      "receipts": [
+        "evidence/holdout_segment_cv_v2.json",
+        "evidence/validator_output_own_visible.json",
+        "evidence/preplacement_lane_own_visible.json",
+        "registry/gems54-own-visible-hgb-q97.build.json",
+        "docs/data/run-card.json"
+      ]
     }
   ]
 }

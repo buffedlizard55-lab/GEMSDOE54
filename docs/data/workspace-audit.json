@@ -14,7 +14,7 @@
   "decision": "No model, holdout, or submission build is authorized until this audit passes and provenance is reviewed.",
   "feature_aliases_found": [],
   "feature_path": null,
-  "generated_utc": "2026-10-08T23:17:45+00:00",
+  "generated_utc": "2026-10-09T01:33:20+00:00",
   "inputs": {},
   "missing_inputs": [
     "training_features.tif or numeric_features.tif",

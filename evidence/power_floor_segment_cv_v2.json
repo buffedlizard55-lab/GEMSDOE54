@@ -1,0 +1,122 @@
+{
+  "tag": "segment_cv_v2",
+  "source_receipt": "evidence/holdout_segment_cv_v2.json",
+  "evaluator": {
+    "name": "gemsdoe54-segment-cv",
+    "version": "v2",
+    "metric": "organizer DTI alpha=0.2 beta=0.8 kernel=300 m triangular",
+    "script_sha256": "bcfefee507c7cd585ece3668e7d9b2f5a2ab3f31d139c1a08a454dcaab40950f",
+    "seed": 20261008,
+    "bootstrap_replicates": 1000,
+    "shift_nulls": 30
+  },
+  "label": "HOLDOUT-DTI detection floor (computed from the receipt; not a score)",
+  "alpha_two_sided": 0.05,
+  "power": 0.8,
+  "z_sum": 2.80159,
+  "positive_pixels_withheld": 60988,
+  "segment_units_total": 3199,
+  "segment_units_per_fold": [
+    640,
+    640,
+    640,
+    640,
+    639
+  ],
+  "cohen_d_pixel_iid_INVALID_for_this_design": 0.01134,
+  "cohen_d_units_total": 0.04953,
+  "cohen_d_units_min_fold": 0.11083,
+  "pixel_to_unit_d_ratio": 4.37,
+  "board_gap_checked": 0.0028,
+  "paired_differences": {
+    "C1_sgmc_complement minus C0_random_admissible_control": {
+      "point": 0.037925,
+      "bootstrap_se": 0.00294,
+      "mde_dti_2p80_two_sided": 0.008237,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 27682.2,
+      "gap_inside_floor": true
+    },
+    "C2_geodetic_shear_ridge minus C0_random_admissible_control": {
+      "point": -0.000594,
+      "bootstrap_se": 0.001609,
+      "mde_dti_2p80_two_sided": 0.004508,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 8291.2,
+      "gap_inside_floor": true
+    },
+    "C3_magnetic_hgrad_ridge minus C0_random_admissible_control": {
+      "point": 0.004419,
+      "bootstrap_se": 0.00174,
+      "mde_dti_2p80_two_sided": 0.004875,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 9696.3,
+      "gap_inside_floor": true
+    },
+    "C1_sgmc_complement minus C2_geodetic_shear_ridge": {
+      "point": 0.038519,
+      "bootstrap_se": 0.003341,
+      "mde_dti_2p80_two_sided": 0.00936,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 35748.6,
+      "gap_inside_floor": true
+    },
+    "C1_sgmc_complement minus C3_magnetic_hgrad_ridge": {
+      "point": 0.033506,
+      "bootstrap_se": 0.003407,
+      "mde_dti_2p80_two_sided": 0.009545,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 37174.9,
+      "gap_inside_floor": true
+    },
+    "C4_visible_only_learned_probability minus C0_random_admissible_control": {
+      "point": 0.036109,
+      "bootstrap_se": 0.003321,
+      "mde_dti_2p80_two_sided": 0.009304,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 35321.9,
+      "gap_inside_floor": true
+    },
+    "C5_cross_gradient_ridge minus C0_random_admissible_control": {
+      "point": 0.002364,
+      "bootstrap_se": 0.001544,
+      "mde_dti_2p80_two_sided": 0.004326,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 7634.8,
+      "gap_inside_floor": true
+    },
+    "C6_basement_step_ridge minus C0_random_admissible_control": {
+      "point": -0.000724,
+      "bootstrap_se": 0.001556,
+      "mde_dti_2p80_two_sided": 0.004359,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 7754.0,
+      "gap_inside_floor": true
+    },
+    "C4_visible_only_learned_probability minus C1_sgmc_complement": {
+      "point": -0.001816,
+      "bootstrap_se": 0.004331,
+      "mde_dti_2p80_two_sided": 0.012134,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 60073.4,
+      "gap_inside_floor": true
+    },
+    "C5_cross_gradient_ridge minus C1_sgmc_complement": {
+      "point": -0.035561,
+      "bootstrap_se": 0.003327,
+      "mde_dti_2p80_two_sided": 0.009321,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 35449.6,
+      "gap_inside_floor": true
+    },
+    "C6_basement_step_ridge minus C1_sgmc_complement": {
+      "point": -0.038649,
+      "bootstrap_se": 0.00338,
+      "mde_dti_2p80_two_sided": 0.009469,
+      "d_implied_units": 0.04953,
+      "units_needed_for_gap": 36588.0,
+      "gap_inside_floor": true
+    }
+  },
+  "reading": "A DTI gap is detectable at 80 % power only if it exceeds the paired MDE. Board comparisons need the number of independent units in the public split, which DrivenData does not publish."
+}
