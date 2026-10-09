@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>GEMSDOE54 — submission readiness review | GEMS Prize</title>
-<meta name="description" content="Current GEMS submission readiness review. No new TIFF cleared the lane gate; the prior artifact is for audit only and is not recommended for upload.">
+<meta name="description" content="Current GEMS submission readiness review. The H1 cross-gradient candidate (generated 2026-10-08) is not cleared: holdout NEGATIVE, lane disputed, format fails. The H54-A archive is for audit only and is not recommended for upload.">
 <link rel="stylesheet" href="assets/site.css">
 </head>
 <body>
@@ -44,7 +44,7 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
     <dt>Archive SHA-256</dt><dd class="hash">b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</dd>
     <dt>Local format checks</dt><dd>Grid/dtype/in-footprint range pass; current conservative null/NaN-outside-footprint check fails because the archive stores finite zeroes outside the cached footprint. Official rule not re-fetched.</dd>
     <dt>Literal lane check</dt><dd><strong>FAIL — duplicate stop</strong> under raw 3-pixel overlap with three dense registry rasters</dd>
-    <dt>Whole-segment holdout</dt><dd><strong>NOT ESTABLISHED</strong>; no evaluator version, withheld-positive count, or paired 95% CI</dd>
+    <dt>Whole-segment holdout</dt><dd><strong>PRODUCED</strong> (evaluator v1 and v2; 60,988 withheld positives; paired 95% CIs). No candidate beats the chance-adjusted bar on a valid comparison; the SGMC value is invalid for ranking (IR-54-038).</dd>
     <dt>Upload decision</dt><dd><strong>DO NOT UPLOAD</strong> any file from this repository. The portal error "Predicted values must be in range [0, 1]" is not reproduced locally and needs a manual portal check (IR-54-030).</dd>
   </dl>
 
@@ -127,8 +127,8 @@ Last audited 2026-10-08; no organizer-confirmed score is recorded.</p>
     <tr><td>Single band, float32; CRS, shape, geotransform; in-footprint finite values in [0, 1]</td><td><span class="tag ok">PASS</span> locally for the archive</td><td><a href="../evidence/h54a-archive-strict-revalidation.json">Fresh local revalidation receipt</a>; not organizer acceptance</td></tr>
     <tr><td>Outside-footprint null/NaN (conservative local contract from prior notes/sample mirror)</td><td><span class="tag no">FAIL</span> archive contains finite zeroes outside</td><td>Official format page not re-fetched; the check is deliberately fail-closed pending confirmation.</td></tr>
     <tr><td>Literal lane check for archived H54-A file</td><td><span class="tag no">DUPLICATE — STOP</span></td><td>Raw overlap with <code>r11_greedy_mp</code>, <code>r13_lattice_s5_00904</code>, and <code>r14_union_tips10_lat6</code> exceeds the stated 70% threshold. See <a href="../evidence/h54a-archive-strict-revalidation.json">receipt</a>.</td></tr>
-    <tr><td>New candidate from this review</td><td><span class="tag no">NOT GENERATED</span></td><td>Both surface screens stopped at the literal overlap gate; see <a href="../evidence/endpoint-continuation-preflight.json">endpoint-continuation</a> and <a href="../evidence/strict_lane_preflight.json">SGMC-topology</a> receipts.</td></tr>
-    <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag no">NOT ESTABLISHED</span></td><td>No compliant evaluator, withheld-positive count, paired 95% CI, or detection floor. The existing SGMC proxy is circular; see <a href="evidence.html">Evidence</a>.</td></tr>
+    <tr><td>New candidate from this review (H1, cross-gradient, v1 definition)</td><td><span class="tag no">GENERATED, NOT CLEARED</span></td><td>Format fails the outside-footprint NaN check (zeros used). Lane: literal test DUPLICATE; sibling scan PASS under its exclusion rule (IR-54-063). Run card <a href="../registry/run_card_v3_h1.json">negative</a>.</td></tr>
+    <tr><td>Performance on required whole-segment hidden-label holdout</td><td><span class="tag ok">PRODUCED</span> (v1 and v2 receipts)</td><td>Withheld-positive count 60,988 and paired 95% CIs. Under v2 the SGMC layer is not visible-only, so the SGMC value is invalid for ranking (IR-54-038). See <a href="holdout.html">Holdout</a>.</td></tr>
   </tbody>
 </table>
 

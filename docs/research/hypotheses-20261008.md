@@ -32,6 +32,19 @@ The top-ranked candidate is the magnetic–gravity cross-gradient, but the offic
 
 Two surface-only lane preflights are now recorded. Experiment 1 tested catalogue-endpoint continuation and stopped at the literal lane gate ([receipt](../../evidence/endpoint-continuation-preflight.json)); experiment 2 screened SGMC topology and also stopped ([receipt](../../evidence/strict_lane_preflight.json)). Neither is a DTI experiment, completed candidate, or generated submission. Negative/blocked findings are retained rather than replaced by a proxy score.
 
+## Second pass: holdout results (2026-10-08 / 09 UTC)
+
+Holdout receipts use evaluator `gemsdoe54-segment-cv` v1 and are labelled HOLDOUT-DTI (catalogue recovery, not organizer scores). Source receipts: [`evidence/holdout_segment_cv_v1_c4.json`](../../evidence/holdout_segment_cv_v1_c4.json), [`evidence/holdout_segment_cv_v1_c5.json`](../../evidence/holdout_segment_cv_v1_c5.json).
+
+| Hypothesis | Candidate | Pooled DTI, 95 % CI | Paired vs chance control | Result |
+|---|---|---:|---:|---|
+| 1 · cross-gradient coincidence | C4 (H1) | 0.0120 [0.0098, 0.0146] | +0.0016 [−0.0011, +0.0045] | **NEGATIVE**: not above chance; below C1 by 0.0363 |
+| 6 · basement-step ridge (new, from the bridge band `depth_to_base_surf`) | C5 | 0.0103 [0.0076, 0.0133] | −0.0001 [−0.0032, +0.0031] | **NEGATIVE**: at chance |
+
+- H1 is ranked first, and it is now holdout-tested and negative. Its physical premise (co-located magnetic and gravity gradients) does not separate catalogue faults from the chance control on this holdout. The lane conflict (sibling scan PASS versus literal DUPLICATE) is recorded as IR-54-063 and does not change the holdout result.
+- H6 (basement-step) was added as a candidate on the same bridge cube. It is at chance and significantly below the SGMC complement and the magnetic gradient ridge. It is not a new file.
+- Hypotheses 2, 3, 4 and 5 were not holdout-tested. Hypotheses 4 and 5 need new data pulls. Hypothesis 3 (state-map topology) overlaps with the SGMC family, which the holdout already shows to be co-located with catalogue faults (IR-54-057).
+
 ## Manual-review sources
 
 - [DrivenData GEMS problem description / provided features](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) — supplied by the user; not fetched in this run.

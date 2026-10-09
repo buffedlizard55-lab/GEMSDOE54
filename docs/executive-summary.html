@@ -11,11 +11,11 @@
   <nav aria-label="Main navigation"><a href="index.html">Overview</a><a aria-current="page" href="executive-summary.html">Submit guide</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
 </div></header>
 <main>
-  <section class="page-title"><div class="eyebrow">Executive summary · portal guide</div><h1>No upload-approved TIFF.</h1><p class="lead">This page explains the portal workflow for a future validated candidate. The current review generated no TIFF; the prior H54-A archive is only downloadable for inspection and is not recommended for upload.</p></section>
+  <section class="page-title"><div class="eyebrow">Executive summary · portal guide</div><h1>No upload-approved TIFF.</h1><p class="lead">This page explains the portal workflow for a future validated candidate. Four GeoTIFFs now exist in the repository (H54-A, H54-B, H1 and the CGRC relay file). None is cleared for upload. H54-A, H54-B and H1 fail uniqueness or the holdout gate. The CGRC file is recorded as OK TO DOWNLOAD by the registry, while the README says not to download any file. That conflict is open, so treat every file as not cleared for download or submission.</p></section>
 
   <section class="status-banner" aria-labelledby="upload-state">
     <div class="status-icon" aria-hidden="true">!</div>
-    <div><h2 id="upload-state">Current status: DO NOT UPLOAD</h2><p>Neither pre-placement surface screen cleared the lane gate, and no compliant whole-segment HOLDOUT-DTI exists. The archived H54-A raster passes local grid/dtype/in-footprint range checks but fails the current conservative outside-footprint null/NaN check, and the literal overlap checker flags it as duplicate against three dense registry rasters. No weekly slot was used. See the <a href="data/run-card.json">current negative run card</a> and <a href="../evidence/h54a-archive-strict-revalidation.json">archive revalidation receipt</a>.</p></div>
+    <div><h2 id="upload-state">Current status: DO NOT UPLOAD</h2><p>No file passes all gates. H54-A (the best holdout, 0.0483) is not unique. H54-B is not unique. H1 (cross-gradient, holdout 0.0120) is NEGATIVE on the holdout, and its lane verdict depends on which definition applies (IR-54-063). All three fail the strict outside-footprint NaN check because they store zeros. No weekly slot was used. See the <a href="../registry/run_card_v3_h1.json">H1 run card</a>, the <a href="../evidence/uniqueness_gems54-h1-crossgradient-q095.json">H1 uniqueness receipt</a>, and the <a href="../evidence/holdout_segment_cv_v1_c5.json">C5 holdout receipt</a>.</p></div>
   </section>
 
   <section class="section two-col">
@@ -30,12 +30,13 @@
       </ul>
     </div>
     <aside class="card">
-      <span class="label">Archived H54-A artifact — inspection only</span>
+      <span class="label">Archived H54-A artifact (and H1) — inspection only</span>
       <h3>gems54-undercomplement-q200.tif</h3>
       <p class="detail">Grid/dtype/in-footprint checks pass, but the conservative outside-footprint null/NaN check and literal lane checker fail; there is no compliant HOLDOUT-DTI. The official format page was not re-fetched. Do not upload it based on this review.</p>
+      <p class="detail"><strong>Also in the repository (not cleared):</strong> <a href="downloads/gems54-h1-crossgradient-q095.tif" download>H1 gems54-h1-crossgradient-q095.tif</a> (SHA-256 <code>006e912b…f26d05</code>; holdout NEGATIVE; zeros outside footprint). Suggested note if it is ever approved (113 characters): <code>H1 cross-gradient ridge: min(pct rank tmi_hg, pct rank |iso grav hgrad|), q=0.95, 200m dots, &gt;300m from catalogue</code></p>
       <a class="button" href="downloads/gems54-undercomplement-q200.tif" download>Download archive for inspection only</a>
       <p class="small" style="margin-top:14px">SHA-256: <code>b430615afe94c317d147122f274c85d2d96f2f35369b25ee1116c12c79a3efd8</code></p>
-      <p class="small">No current-session TIFF or note exists. Weekly-slot selection is separate and was not made here.</p>
+      <p class="small">The H1 file is a current-session candidate and is not cleared. Weekly-slot selection is separate and was not made here.</p>
     </aside>
   </section>
 

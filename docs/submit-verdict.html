@@ -14,8 +14,8 @@
 <main>
   <section class="page-title">
     <div class="eyebrow">Executive summary · submit guide · DOE GEMS Prize (DrivenData competition 306)</div>
-    <h1>Two GeoTIFFs are downloadable. Neither is cleared for upload.</h1>
-    <p class="lead">The rules allow you to submit your own model's output. Your uniqueness requirement is not met by either file. The file with the best holdout result is not unique. The unique file is weaker than it. Under the protocol, no slot is recommended. Choosing a slot is your decision.</p>
+    <h1>Four GeoTIFFs are in the repository. None is cleared for upload, and the download status of one is in conflict.</h1>
+    <p class="lead"><strong>Download conflict:</strong> <code>registry/submissions.json</code> marks the CGRC relay file (<code>gems54-cgrc-relay-v1.tif</code>, from a parallel 2026-10-09 session) as &ldquo;OK TO DOWNLOAD&rdquo;, while the 2026-10-09 README section says not to download any file. The repository does not resolve this. Treat it as not cleared until the owner decides. See the <a href="../README.md">README status block</a> and <a href="cgrc.html">the CGRC run page</a>. The rules allow you to submit your own model's output. No file meets your uniqueness requirement under the literal lane rule. The best holdout file (H54-A) is not unique. The newest file (H1, cross-gradient) fails the holdout gate and its lane verdict is disputed. Under the protocol, no slot is recommended. Choosing a slot is your decision.</p>
   </section>
 
   <section class="section" aria-labelledby="files">
@@ -37,6 +37,15 @@
         <p><strong>Uniqueness: byte-unique, lane FAIL.</strong> Rank ρ 0.11 (passes). Overlap 81.6 % with GEMSDOE40's <code>h8-asa-spi-depthkde</code> and 75.7 % with GEMSDOE46's <code>dfa-corroborated</code> (limit 70 %).</p>
         <p><strong>Not for upload.</strong> Run card: <a href="../registry/run_card_v2_magedge.json">registry/run_card_v2_magedge.json</a> (negative).</p>
       </div>
+      <div class="card">
+        <h3>H1 · <code>gems54-h1-crossgradient-q095.tif</code></h3>
+        <p><a class="button" href="downloads/gems54-h1-crossgradient-q095.tif">Download (92,984 bytes)</a></p>
+        <p class="small">SHA-256 <code>006e912b85b73e764ad151cb7228de61aa02485ffca769439022d2b124e26f05</code><br>21,371 positive cells · float32 · EPSG:32611 · 3730 × 3292 · values {0, 1} · <strong>zeros outside the footprint</strong></p>
+        <p><strong>Holdout (HOLDOUT-DTI):</strong> 0.0120 [0.0098, 0.0146]. Not above the chance control (paired +0.0016, CI [−0.0011, +0.0045]). Significantly below H54-A (−0.0363).</p>
+        <p><strong>Uniqueness: disputed.</strong> The literal registry test flags it (r13_lattice 99.8 %, r11 77.7 %, r14 75.9 %, limit 70 %). The sibling scan on 1,149 files gives max ρ 0.05 and, excluding 119 dense rasters, max overlap 0.67. These two readings conflict (IR-54-063).</p>
+        <p><strong>Format: fails one check.</strong> Zeros outside the footprint, not NaN (7,111,787 cells). See the format note in section 3.</p>
+        <p><strong>Not for upload.</strong> Run card: <a href="../registry/run_card_v3_h1.json">registry/run_card_v3_h1.json</a> (negative).</p>
+      </div>
     </div>
   </section>
 
@@ -46,8 +55,8 @@
       <thead><tr><th>Gate</th><th>Verdict</th><th>Basis</th></tr></thead>
       <tbody>
         <tr><td><strong>Official rules</strong></td><td><strong>Conditionally yes</strong>, as your own model output by an eligible competitor who signs the certification and discloses generative-AI use.</td><td>§3.2 (single GeoTIFF of your model's predictions; AI disclosure), §1.3 and A.1 (eligibility; certification), A.5(1) (original work). Quoted on the <a href="rules-gate.html">rules gate</a>.</td></tr>
-        <tr><td><strong>Your uniqueness requirement</strong></td><td><strong>No.</strong> Neither file is unlike the GEMSDOE artefacts.</td><td>Full scan of 1,177 grid-aligned sibling rasters: <a href="../evidence/uniqueness_gems54-undercomplement-q200.json">H54-A</a>, <a href="../evidence/uniqueness_gems54-magedge-hgrad-ridge.json">H54-B</a>.</td></tr>
-        <tr><td><strong>Holdout rule (do not spend a slot unless the holdout best is beaten)</strong></td><td><strong>No slot recommended.</strong> H54-B does not beat H54-A, and H54-A is not unique.</td><td><a href="holdout.html">Holdout</a>, with paired CIs, controls, canary and nulls.</td></tr>
+        <tr><td><strong>Your uniqueness requirement</strong></td><td><strong>No (literal rule).</strong> H54-A and H54-B are not unlike the GEMSDOE artefacts. H1 is disputed: it passes the rank test and, if dense rasters are excluded, the overlap test.</td><td>Sibling scans of 1,177 grid-aligned rasters: <a href="../evidence/uniqueness_gems54-undercomplement-q200.json">H54-A</a>, <a href="../evidence/uniqueness_gems54-magedge-hgrad-ridge.json">H54-B</a>; 1,149 files for H1: <a href="../evidence/uniqueness_gems54-h1-crossgradient-q095.json">H1</a>.</td></tr>
+        <tr><td><strong>Holdout rule (do not spend a slot unless the holdout best is beaten)</strong></td><td><strong>No slot recommended.</strong> H54-B and H1 do not beat H54-A. H54-A is not unique.</td><td><a href="holdout.html">Holdout</a>, with paired CIs, controls, canary and nulls.</td></tr>
       </tbody>
     </table></div>
   </section>
@@ -57,10 +66,10 @@
     <ol class="list">
       <li><span class="step-num">1</span> <strong>Register</strong> on DrivenData, join the competition, and accept its rules (§3.1). Competition page: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">drivendata.org/…/competition-doe-gems</a>. End date: Dec. 3, 2026, 11:59 p.m. UTC.</li>
       <li><strong>Confirm eligibility</strong> under §1.3 and be ready to sign the certification in §1.3 and A.1. Only you can do this.</li>
-      <li><strong>Download</strong> the file and check its hash: <code>sha256sum gems54-undercomplement-q200.tif</code> must print <code>b430615a…efd8</code> for H54-A (or <code>6d086c09…8d9e</code> for H54-B).</li>
+      <li><strong>Download</strong> the file and check its hash: <code>sha256sum gems54-undercomplement-q200.tif</code> must print <code>b430615a…efd8</code> for H54-A, <code>6d086c09…8d9e</code> for H54-B, or <code>006e912b…f26d05</code> for H1.</li>
       <li><strong>Validate</strong> the format: <code>python scripts/validate_submission.py &lt;file&gt; --out check.json</code>. Format checks must all pass.</li>
       <li><strong>Note</strong> (≤140 characters). H54-A: <code>GEMSDOE54 undercomplement-q200: SGMC state-map complement of catalogue, d&gt;300m, linearity gate, 200m dots</code> (105 characters). H54-B: <code>GEMSDOE54 magedge-hgrad-ridge: tmi_hg magnetic gradient ridges, &gt;300m from catalogue, linearity gate, 200m dots</code> (111 characters).</li>
-      <li><strong>Upload</strong> one GeoTIFF on the submission page. Format (DrivenData, format section): EPSG:32611, 100 m, same bounds, float32, single layer, values in [0, 1], NaN or null outside the bounds.</li>
+      <li><strong>Upload</strong> one GeoTIFF on the submission page. Format (DrivenData, format section): EPSG:32611, 100 m, same bounds, float32, single layer, values in [0, 1], NaN or null outside the bounds. <strong>Format note:</strong> all three shipped files store 0 outside the footprint, not NaN. The page says NaN or null, and the strict check here fails for every file. The &ldquo;Predicted values must be in range [0, 1]&rdquo; error has not been reproduced from any repository file. Ask the organizers before uploading (IR-54-053, IR-54-054).</li>
       <li><strong>Narrative</strong>: include the generative-AI disclosure from <a href="../docs/AI_DISCLOSURE.md">AI_DISCLOSURE.md</a> (§3.2).</li>
       <li><strong>Limits</strong>: at most three submissions per week (§3.2, §3.4), and one final submission selected before the deadline (§3.4).</li>
       <li><strong>Finalists</strong>: supply complete code and documentation (§3.5). The builder, the receipts, and the holdout evaluator are in this repository.</li>
@@ -72,7 +81,7 @@
     <div class="section-head"><h2 id="route">4. What would make a file upload-ready</h2></div>
     <ul class="list">
       <li><strong>A new lane.</strong> The SGMC-complement lane is taken (sibling sgmc-gap submissions) and the magnetic-edge lane is crowded (GEMSDOE40, GEMSDOE46). A candidate needs dot placement that is not a near-copy of a sibling's dots. This session did not find one that is also validated.</li>
-      <li><strong>A holdout that beats the best.</strong> Any new file must beat H54-A's holdout (0.0483) under the same evaluator, with non-overlapping CIs.</li>
+      <li><strong>A holdout that beats the best.</strong> Any new file must beat H54-A's holdout (0.0483) under the same evaluator, with non-overlapping CIs. In this session the holdout scored four candidates (C1 SGMC complement, C2 geodetic shear, C3 magnetic gradient, C4 cross-gradient, which is H1) and a fifth, C5 basement-step, which is not a file. The C4 and C5 holdout runs were the last two of the three-experiment budget. None beats H54-A, and C5 is at the chance control (0.0103 [0.0076, 0.0133]).</li>
       <li><strong>Organizer confirmation</strong> of label source and sample format (IR-54-030, IR-54-032), and a check of the submission count (IR-54-040).</li>
     </ul>
   </section>
@@ -83,12 +92,13 @@
       <thead><tr><th>Check</th><th>Result</th><th>Evidence</th></tr></thead>
       <tbody>
         <tr><td>Rebuild from the builder reproduces H54-A byte-for-byte</td><td>PASS (SHA-256 b430615a…)</td><td>scripts/build_submission.py; IR-54-049</td></tr>
-        <tr><td>Format validator, H54-A (9 of 9)</td><td>PASS</td><td><a href="../evidence/validator_output.json">validator_output.json</a></td></tr>
+        <tr><td>Format validator, H54-A</td><td>9 of 9 original checks PASS; strict outside-footprint NaN check FAILS (zeros used)</td><td><a href="../evidence/validator_output.json">validator_output.json</a></td></tr>
+        <tr><td>Format validator, H1</td><td>FAIL on one check (outside-footprint NaN; zeros used)</td><td><a href="../evidence/validator_output_h1.json">validator_output_h1.json</a></td></tr>
         <tr><td>Format validator, H54-B</td><td>PASS</td><td><a href="../evidence/validator_output_magedge.json">validator_output_magedge.json</a></td></tr>
         <tr><td>Uniqueness across 1,177 sibling rasters</td><td>H54-A FAIL; H54-B FAIL (lane)</td><td>evidence/uniqueness_*.json</td></tr>
-        <tr><td>Holdout (HOLDOUT-DTI)</td><td>H54-A 0.0483; H54-B 0.0148; chance control 0.0104</td><td><a href="holdout.html">holdout.html</a></td></tr>
+        <tr><td>Holdout (HOLDOUT-DTI)</td><td>H54-A 0.0483; H54-B 0.0148; H1 (C4) 0.0120; C5 0.0103; chance control 0.0104</td><td><a href="holdout.html">holdout.html</a></td></tr>
         <tr><td>Metric identity (zero-credit deletion)</td><td>Checked numerically</td><td><a href="top-artefact.html">top-artefact.html</a></td></tr>
-        <tr><td>Test suite</td><td>39 tests pass</td><td>tests/</td></tr>
+        <tr><td>Test suite</td><td>77 tests pass</td><td>tests/</td></tr>
       </tbody>
     </table></div>
     <p class="small">Labels: <strong>HOLDOUT-DTI</strong> = whole-segment holdout receipt with evaluator, withheld positives and 95 % CI. <strong>ORGANIZER-CONFIRMED</strong> = none. <strong>BOARD-UNVERIFIED</strong> = user-reported board values, including 0.2778 and 0.2750. <strong>MODEL</strong> = inference. The DrivenData leaderboard cannot be read, and the brief gives the top value as both 0.3774 and 0.3195 (IR-54-036).</p>
