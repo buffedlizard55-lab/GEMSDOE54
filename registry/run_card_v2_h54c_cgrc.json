@@ -13,19 +13,35 @@
     "design": "whole fault segments withheld in 4 spatial quadrant folds + 300 m buffer; features from visible catalogue only (pixel-exact); pooled DTI alpha 0.2 beta 0.8 300 m triangular kernel; whole-segment cluster bootstrap n=2000; bootstrap algebra self-checked to reproduce the organizer metric exactly (full-draw replicate == headline, 1e-6); receipt passes scripts/analyse_holdout_receipt.py",
     "value": 0.091536,
     "value_arm": "B (SGMC corroboration - the shipped arm)",
-    "ci95": [0.087617, 0.094855],
+    "ci95": [
+      0.087617,
+      0.094855
+    ],
     "withheld_positives": 60834,
     "independent_units_whole_segments": 3118,
     "n_dots": 32529,
     "arm_A_pure_catalogue": 0.090341,
-    "arm_A_ci95": [0.086457, 0.09367],
+    "arm_A_ci95": [
+      0.086457,
+      0.09367
+    ],
     "arm_B_with_sgmc_weight": 0.091536,
-    "arm_B_ci95": [0.087617, 0.094855],
+    "arm_B_ci95": [
+      0.087617,
+      0.094855
+    ],
     "arm_A_minus_B": -0.001182,
-    "arm_A_minus_B_ci95": [-0.002163, -0.000204],
+    "arm_A_minus_B_ci95": [
+      -0.002163,
+      -0.000204
+    ],
     "sgmc_contrast_significant": true,
     "random_control_mass_matched": 0.061014,
-    "random_control_dti_by_seed": [0.0622, 0.059891, 0.060951],
+    "random_control_dti_by_seed": [
+      0.0622,
+      0.059891,
+      0.060951
+    ],
     "mechanism_lift_vs_random_arm_B": 1.5002,
     "mechanism_lift_vs_random_arm_A": 1.4807,
     "baseline_1500m_extent": 0.075312,
@@ -61,9 +77,21 @@
     "overlap_limit": 0.7,
     "closest_non_vacuous_registry": "hedge_v2_01563.tif (0.5613 at 2.5 km extent, two-sided continuation)",
     "flagged_vacuous_registry": [
-      {"raster": "r11_greedy_mp.tif", "frac3px": 0.8328, "footprint_coverage_3px": 0.7397},
-      {"raster": "r13_lattice_s5_00904.tif", "frac3px": 0.998, "footprint_coverage_3px": 0.9987},
-      {"raster": "r14_union_tips10_lat6.tif", "frac3px": 0.8571, "footprint_coverage_3px": 0.762}
+      {
+        "raster": "r11_greedy_mp.tif",
+        "frac3px": 0.8328,
+        "footprint_coverage_3px": 0.7397
+      },
+      {
+        "raster": "r13_lattice_s5_00904.tif",
+        "frac3px": 0.998,
+        "footprint_coverage_3px": 0.9987
+      },
+      {
+        "raster": "r14_union_tips10_lat6.tif",
+        "frac3px": 0.8571,
+        "footprint_coverage_3px": 0.762
+      }
     ],
     "vacuity_proof": "The three flagged rasters blanket 73.97% / 99.87% / 76.20% of the study footprint within 3 px of their dots (evidence/cgrc_submission_receipt.json, lane_infeasibility_proof). Satisfying the 70% rule against r13 would require >30% of a submission's dots to sit in the 0.13% of the footprint outside r13's 3-px zone - a degenerate boundary sliver no non-degenerate fault prediction can occupy. The rule is therefore unsatisfiable by any real submission against these three rasters (a protocol defect flagged in docs/audit/irregularities.md, IR-54-016); the operational lane test is the rank-correlation condition (max |rho| = 0.0422, 21x below the 0.90 limit) plus the 3-px rule against the nine non-vacuous rasters (all pass, max 0.5613).",
     "checked_on_surface_and_final_dots": true,
@@ -97,7 +125,10 @@
   "score_model_range": {
     "label": "MODEL (not a score, not a projection written as a score)",
     "assumptions": "hidden truth mass G ~ 11,583 cells (algebraic inverse of two owner-recorded, unreceipted board rows on the dotted family - see docs/research/why-h33.md); credit coverage on the hidden truth at the proxy-measured level. The catalogue-truth proxy understates an off-catalogue method, so the true board value is uncertain and could be above or below the proxy.",
-    "dti_range": [0.09, 0.18],
+    "dti_range": [
+      0.09,
+      0.18
+    ],
     "note": "Below the corpus best (0.2778) and the prompt's 0.3195 target; the proxy cannot certify the off-catalogue gaps/continuations, so the range is wide."
   },
   "verdict": "negative",
@@ -117,7 +148,16 @@
     "The parallel-run lane rule's 3-px overlap condition is unsatisfiable against the three near-blanking registry rasters (r11/r13/r14 cover 74-99.87% of the footprint within 3 px); any submission, whatever its method, trips it. Flagged as a protocol defect (IR-54-016); the rank-correlation condition is the operational method-similarity test."
   ],
   "inputs": {
-    "labels": {"path": "data/grid/labels.tif", "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093", "origin": "owner-mirrored, not organizer-authenticated"},
-    "sgmc": {"path": "data/external/derived_sgmc_faults_100m_u8.tif", "sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c", "origin": "owner-mirrored USGS SGMC rasterisation, not organizer-authenticated"}
-  }
+    "labels": {
+      "path": "data/grid/labels.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093",
+      "origin": "owner-mirrored, not organizer-authenticated"
+    },
+    "sgmc": {
+      "path": "data/external/derived_sgmc_faults_100m_u8.tif",
+      "sha256": "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c",
+      "origin": "owner-mirrored USGS SGMC rasterisation, not organizer-authenticated"
+    }
+  },
+  "superseded_note_2026_10_09": "SUPERSEDED 2026-10-09: the lane verdict here ('distinct' via a 'vacuous' exclusion of r11/r13/r14) is withdrawn; the literal rule FAILS (validator: DUPLICATE - STOP). Current verdict: NOT CLEARED. See docs/data/run-card-cgrc.json (v3) and IR-54-050 to IR-54-066 in docs/irregularities.html."
 }

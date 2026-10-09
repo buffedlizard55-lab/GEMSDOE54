@@ -30,7 +30,7 @@
       "status": "UNIQUE LOCAL ARTIFACT (generated this run) - no submission-page receipt; OK TO DOWNLOAD; a weekly slot may be spent only as a selector-approved, labelled diversity experiment",
       "positive_cells": 32369,
       "format_validated": true,
-      "current_review_disposition": "OK TO DOWNLOAD (unique, format-valid, lane-clean, fully receipted). HOLDOUT-DTI 0.0915 < corpus holdout best 0.1793 => promotion verdict NEGATIVE; protocol does not recommend spending a slot this week. Catalogue-truth proxy penalizes off-catalogue mass, so the holdout is a lower bound on the off-catalogue task.",
+      "current_review_disposition": "NOT CLEARED (2026-10-09). Download for inspection only; do not submit. Literal lane FAIL (validator: DUPLICATE - STOP; r11 0.833, r13 0.998, r14 0.857; siblings 0.935, 0.769, 0.733). Primary fails the outside-footprint null/NaN contract; the NaN twin passes format. Holdout gate NOT MET (HOLDOUT-DTI v2 same folds: B 0.091536 vs C 0.147192). The earlier 'corpus holdout best 0.1793' is withdrawn (no receipt). Run card: docs/data/run-card-cgrc.json (v3).",
       "current_literal_lane_status": "DUPLICATE - STOP on the literal 70% overlap gate, which is PROVEN unsatisfiable for ANY submission against near-covering rasters r11/r13/r14 (IR-54-016); operational distinct-lane PASS (max |rho| 0.0422 < 0.90)",
       "safe_to_upload_current_review": false,
       "holdout_dti": "0.091536 [0.087617, 0.094855] (SGMC-corroborated arm, the shipped arm); Arm A (pure catalogue) 0.090341; SGMC contrast CI [-0.002163, -0.000204] excludes 0; 1.50x mass-matched random (0.0610 @32,529 dots); 60,834 withheld positives, 3,118 whole fault segments; passes analyse_holdout_receipt.py",

@@ -1,110 +1,56 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Why the top-scoring GEMSDOE32 artefact (H33-2-B2) is plausibly scored as it is, what is verified, and whether beating it is achievable.">
-  <title>The top artefact: mechanism, algebra, limits | GEMSDOE54</title>
-  <link rel="stylesheet" href="assets/audit-site.css">
-</head>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Why the 0.2778 GEMSDOE32 h33-h33-2-b2 artefact may score as it does, what is verified, and what is not (2026-10-09).">
+<title>The 0.2778 question — GEMSDOE54 (2026-10-09)</title>
+<link rel="stylesheet" href="assets/audit-site.css"></head>
 <body>
-<header class="site-header"><div class="header-inner">
-  <a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
-  <nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="submit-verdict.html">Submit guide</a><a href="rules-gate.html">Rules gate</a><a href="holdout.html">Holdout</a><a aria-current="page" href="top-artefact.html">Top artefact</a><a href="hypotheses-holdout.html">Hypotheses</a><a href="research.html">Research</a><a href="sources.html">Sources</a><a href="irregularities.html">Audit</a></nav>
-</div></header>
+<header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
+<nav aria-label="Main navigation"><a href="index.html">Overview</a><a href="executive-summary.html">Submit guide</a><a href="submit-verdict.html">Verdicts</a><a href="cgrc.html">CGRC run</a><a aria-current="page" href="top-artefact.html">0.2778 question</a><a href="holdout.html">Holdout</a><a href="hypotheses.html">Hypotheses</a><a href="irregularities.html">Audit</a></nav></div></header>
 <main>
-  <section class="page-title">
-    <div class="eyebrow">Study of the top-scoring GEMSDOE32 artefact · learning only, not a submission</div>
-    <h1>Why H33-2-B2 scored 0.2778, and whether 0.2778 can be beaten</h1>
-    <p class="lead">Short answer. The mechanism is algebraically sound and verified on a synthetic grid. The 0.2778 value itself has no organizer receipt, and the owner's own audit is internally inconsistent. Beating 0.2778 is possible in principle. Nothing in this repository establishes it.</p>
-  </section>
 
-  <section class="callout danger">
-    <p><strong>Learning only.</strong> This artefact is another team's file. Under Appendix A.5(1) a submission must be the competitor's original work, so this file must not be submitted. The registry in this repository holds a byte-identical copy for lane checks only (IR-54-033).</p>
-  </section>
+<section class="page-title"><div class="eyebrow">Why 0.2778? · 2026-10-09</div>
+<h1>0.2778 is not the top score on the board, and its link to this repository is unverified.</h1>
+<p class="lead">The brief said 0.2778 (GEMSDOE32, h33-h33-2-b2) scored highest, and that 0.3195 is the highest. Both are wrong on the live public page. We can explain the mechanism that could raise such a score. We cannot confirm the value or its size.</p></section>
 
-  <section class="section">
-    <div class="section-head"><h2>1. Facts, with the evidence class of each</h2><p class="small">Class key: REGISTRY-VERIFIED (we hashed or counted the bytes), OWNER-RECORDED (the owner's public files), BOARD-UNVERIFIED (user-reported board value), ALGEBRA-CHECKED (identity verified in code).</p></div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Quantity</th><th>Value</th><th>Class</th><th>Source</th></tr></thead>
-      <tbody>
-        <tr><td>Parent raster 0.2708: positive cells</td><td>40,199</td><td>REGISTRY-VERIFIED</td><td><code>registry/registry_rasters/dotted_d2_8_02708.tif</code>; owner README (“40,199 dots”)</td></tr>
-        <tr><td>Parent raster SHA-256</td><td><code>ab023001…a73</code></td><td>REGISTRY-VERIFIED</td><td>same file</td></tr>
-        <tr><td>Reference raster 0.2600: positive cells</td><td>44,090</td><td>REGISTRY-VERIFIED</td><td><code>dotted_d2_8_02600.tif</code> (the 44,090 count belongs to this raster, not to the 0.2708 parent)</td></tr>
-        <tr><td>H33-2-B2: positive cells</td><td>37,654</td><td>REGISTRY-VERIFIED</td><td><code>dotted_b2_prune_02778.tif</code>; owner manifest</td></tr>
-        <tr><td>H33-2-B2: SHA-256</td><td><code>c55bafc4…ab6fa9</code></td><td>REGISTRY-VERIFIED</td><td>identical to the owner's <code>…-zeros.tif</code> (owner manifest <code>zeros_tif.sha256</code>)</td></tr>
-        <tr><td>Dots deleted by the owner's prune</td><td>2,545 = 40,199 − 37,654</td><td>OWNER-RECORDED + REGISTRY-VERIFIED</td><td>Owner README: “minus every dot within 2 px (200 m) of the published catalogue”</td></tr>
-        <tr><td>Board value, parent</td><td>0.2708</td><td>BOARD-UNVERIFIED</td><td>User brief; registry manifest “published_public_score … not verified”</td></tr>
-        <tr><td>Board value, H33-2-B2</td><td>0.2778</td><td>BOARD-UNVERIFIED</td><td>User brief. The owner's manifest labels the entry <em>UNSCORED</em></td></tr>
-        <tr><td>Owner's projection, not a score</td><td>0.27467</td><td>OWNER-RECORDED (projection)</td><td><code>holdout_metrics.predicted_leaderboard_dti</code></td></tr>
-      </tbody>
-    </table></div>
-  </section>
+<section class="section" aria-labelledby="board"><div class="eyebrow">Board facts (public page, fetched 2026-10-09)</div><h2 id="board">Displayed values, not organizer receipts</h2>
+<div class="table-wrap"><table><thead><tr><th>Rank</th><th>Entry</th><th>Displayed value</th></tr></thead><tbody>
+<tr><td>1</td><td>xiaofanhu</td><td><strong>0.3774</strong></td></tr>
+<tr><td>7</td><td>DARD</td><td>0.3195</td></tr>
+<tr><td>13</td><td>extradr19</td><td>0.2778</td></tr>
+<tr><td>17</td><td>wbg1</td><td>0.2750</td></tr>
+</tbody></table></div>
+<p class="small">Source: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData leaderboard</a>. Public scores may differ from the private final scores (rules §3.2).</p></section>
 
-  <section class="section">
-    <div class="section-head"><h2>2. The algebra (ALGEBRA-CHECKED)</h2></div>
-    <div class="panel">
-      <p>The organizer's definitions for unit-valued dots (DrivenData metric page, quoted in the repository's metric notes): TP<sub>w</sub> = Σ<sub>g</sub> max<sub>x</sub> k(d(x,g)); FP<sub>w</sub> = Σ<sub>x</sub> [1 − max<sub>g</sub> k(d(x,g))]; FN<sub>w</sub> = Σ<sub>g</sub> [1 − max<sub>x</sub> k(d(x,g))]; DTI = TP<sub>w</sub> / (TP<sub>w</sub> + 0.2·FP<sub>w</sub> + 0.8·FN<sub>w</sub>); k(d) = max(1 − d/300 m, 0).</p>
-      <p><strong>Lemma.</strong> Deleting a dot x whose kernel mass m<sub>x</sub> = max<sub>g</sub> k(d(x,g)) is zero changes neither TP<sub>w</sub> nor FN<sub>w</sub>, and lowers FP<sub>w</sub> by exactly 1. Therefore DTI rises to T / (T + 0.2(FP<sub>w</sub> − k) + 0.8·FN<sub>w</sub>), where k is the number of deleted zero-credit dots.</p>
-      <p><strong>Check.</strong> <code>tests/test_segment_cv.py::test_deleting_zero_credit_dots_only_changes_fp</code> and <code>scripts/top_artefact_analysis.py</code> reproduce this on a synthetic grid. TP and FN are unchanged, the FP drop equals the deleted count (28 of 28), and the closed form matches the grid metric to 10<sup>−9</sup>.</p>
-      <p><strong>Limit of the lemma.</strong> If a deleted dot has m<sub>x</sub> &gt; 0, its removal can also lower TP<sub>w</sub>, so the net effect is ambiguous. The observed increase is consistent with the deleted dots having little or no hidden-truth credit, but it does not prove that.</p>
-    </div>
-  </section>
+<section class="section" aria-labelledby="facts"><div class="eyebrow">Verified artefact facts</div><h2 id="facts">What the repository can show</h2>
+<div class="card"><ul class="list">
+<li><span class="bullet">01</span><span>The registry raster <code>dotted_b2_prune_02778.tif</code> has 37,654 positive cells and SHA-256 <code>c55bafc4…ab6fa9</code>. It is byte-identical to the owner's <code>zeros</code> file in GEMSDOE32.</span></li>
+<li><span class="bullet">02</span><span>Its stated base is <code>dotted_d2_8_02708.tif</code> (40,199 dots, owner-recorded board 0.2708). The prune deletes <strong>2,545</strong> dots (40,199 − 37,654). The 2026-10-08 CGRC page's figure of 6,436 deleted dots was wrong; 2,545 is the value in the analysis receipt.</span></li>
+<li><span class="bullet">03</span><span>The owner's manifest labels the artefact <em>UNSCORED</em>. The owner's audit is internally inconsistent: per-quadrant mean 0.267921 vs recorded mean 0.0046 (evidence/top_artefact_analysis.json). The owner's own predicted leaderboard DTI is 0.27467.</span></li>
+<li><span class="bullet">04</span><span>The user-reported 0.2778 is not linked to this raster by any organizer receipt. The public page does not link it either.</span></li>
+</ul></div></section>
 
-  <section class="section">
-    <div class="section-head"><h2>3. What the two board values imply (MODEL, conditional)</h2></div>
-    <div class="panel">
-      <p>Solving the identity above for the credited truth mass T, using only the two board values and k = 2,545 (assuming every deleted dot earned zero credit and both board values are exact):</p>
-      <p><strong>T = 0.2·k / (1/0.2708 − 1/0.2778) ≈ 5,470 credited cells.</strong> The denominator at the parent, 0.2·FP<sub>w</sub> + 0.8·FN<sub>w</sub> ≈ 14,730.</p>
-      <p>If only a fraction f of the deleted dots had zero credit, the implied T scales with f: f = 0.9 gives 4,923; f = 0.75 gives 4,103; f = 0.5 gives 2,735. The sensitivity shows that the inference is fragile to the zero-credit assumption. Treat T as a model quantity, not a measurement.</p>
-    </div>
-  </section>
+<section class="section two-col" aria-labelledby="mech"><div><div class="eyebrow">The mechanism (algebra, not proof)</div><h2 id="mech">Why deleting dots can raise the score</h2>
+<p>For unit dots, the organizer metric reduces to DTI = T / (T + 0.2·(FP − k) + 0.8·FN) when the k deleted dots earned zero credit. Deleting a dot that earns no credit lowers the false-positive mass and leaves T unchanged, so DTI rises. Deleting a dot that carried unique credit lowers T and can lower DTI. Whether the 2,545 deleted dots earned zero credit on the hidden truth is unknown.</p>
+<p>The repository's sensitivity table (evidence/top_artefact_analysis.json, our analysis, not the owner's) shows how the implied credit T moves with the zero-credit fraction: 5,470 at 100%, 4,923 at 90%, 4,103 at 75%, 2,735 at 50%. That is a sensitivity range, not a measurement (the analysis itself says it depends on the unreceipted pair).</p></div>
+<aside class="card"><span class="label">Verified vs not</span><h3>Verified</h3><p class="detail">The metric equations (organizer page). The file hashes and dot counts (repository bytes). The algebra (re-derived in scripts/gems_metric.py).</p><h3>Not verified</h3><p class="detail">The 0.2778 value, its link to GEMSDOE32, the zero-credit fraction, and any hidden-truth gain. The 2026-10-08 “6,436 deleted” statement is also not supported.</p></aside></section>
 
-  <section class="section">
-    <div class="section-head"><h2>4. Why it scored where it did (ranked, with the evidence for each)</h2></div>
-    <div class="grid">
-      <div class="card"><h3>a. The parent already had credit per dot</h3><p>The 0.2708 parent carries 40,199 dots and scores 0.2708 on the board (user-reported). Its precision is the starting point. Pruning can only raise the score when it removes dots that earn no credit, so the parent had to be credit-dense before pruning.</p><p class="small">Evidence class: BOARD-UNVERIFIED for the score; REGISTRY-VERIFIED for the count.</p></div>
-      <div class="card"><h3>b. The pruned dots were close to the catalogue</h3><p>All 2,545 deleted dots lie within 200 m of the published catalogue. The hidden expert set is by construction absent from that catalogue, so dots hugging catalogue traces are plausibly the least likely to earn hidden-truth credit. This is a hypothesis, not a result: a deleted dot that lies within 300 m of a hidden fault would have earned credit.</p><p class="small">Evidence class: OWNER-RECORDED geometry; credit is not observed.</p></div>
-      <div class="card"><h3>c. The reported gain exceeds the owner's own projection</h3><p>The reported gain is 0.2778 − 0.2708 = 0.0070. The owner's recorded live-mirror gain is +0.00487, and the owner's projection is 0.27467. The reported value is 0.0031 above the owner's projection. Either the organizer split behaves differently from the owner's mirror, or the owner's calibration is off. The owner's file does not resolve which.</p><p class="small">Evidence class: BOARD-UNVERIFIED versus OWNER-RECORDED.</p></div>
-    </div>
-  </section>
+<section class="section" aria-labelledby="proxy"><div class="eyebrow">Proxy check (not a ranking)</div><h2 id="proxy">The six owner-recorded artefacts and our SGMC proxy</h2>
+<div class="table-wrap"><table><thead><tr><th>Artefact (registry)</th><th>Dots</th><th>Proxy DTI (circular)</th><th>Owner-recorded board value (unreceipted)</th></tr></thead><tbody>
+<tr><td>dotted_b2_prune_02778</td><td>37,654</td><td>0.093946</td><td>0.2778</td></tr>
+<tr><td>dotted_d2_8_02600</td><td>44,090</td><td>0.092727</td><td>0.2600</td></tr>
+<tr><td>dotted_d2_8_02708</td><td>40,199</td><td>0.093836</td><td>0.2708</td></tr>
+<tr><td>hedge_v2_01563</td><td>227,507</td><td>0.088371</td><td>0.1563</td></tr>
+<tr><td>r13_lattice_s5_00904</td><td>206,895</td><td>0.247784</td><td>0.0904</td></tr>
+<tr><td>tip_stepover_r30_02632</td><td>41,865</td><td>0.094213</td><td>0.2632</td></tr>
+</tbody></table></div>
+<p class="small">Spearman rho(proxy, board) = −0.0286, p = 0.957, n = 6 (evidence/proxy_audit.json). The proxy does not rank the board. The 2026-10-08 README table was wrong (IR-54-062).</p></section>
 
-  <section class="section">
-    <div class="section-head"><h2>5. The owner's audit is not reliable evidence</h2></div>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Check</th><th>Recorded</th><th>Recomputed</th><th>Consistent?</th></tr></thead>
-      <tbody>
-        <tr><td>Mean of the four per-quadrant hidden values vs. <code>catalogue_hidden_mean</code></td><td>0.0046</td><td>0.2679</td><td><strong>No</strong> (IR-54-034)</td></tr>
-        <tr><td>Parent + recorded live-mirror gain vs. projection</td><td>0.27467</td><td>0.27567</td><td><strong>No</strong> (IR-54-034)</td></tr>
-        <tr><td>Drift-corrected mean vs. its per-quadrant values</td><td>0.04504 (per-quadrant identical to uncorrected)</td><td>n/a</td><td><strong>No</strong> (IR-54-034)</td></tr>
-      </tbody>
-    </table></div>
-    <p class="small">Full output: <a href="../evidence/top_artefact_analysis.json">evidence/top_artefact_analysis.json</a>. Owner files: <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">GEMSDOE32 repository</a>.</p>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><h2>6. Can a submission score above 0.2778?</h2></div>
-    <div class="panel">
-      <p><strong>In principle, yes.</strong> DTI is bounded above by 1. Removing dots that provably earn no credit can only raise it, and a method can raise it by earning more credit per dot. Nothing in the metric caps the score at 0.2778.</p>
-      <p><strong>Not established by any evidence here.</strong> Three obstacles stand in the way.</p>
-      <ol>
-        <li><strong>Zero-credit is unobservable on the hidden set.</strong> Further pruning risks deleting credited dots, and every credited dot lost lowers TP<sub>w</sub>.</li>
-        <li><strong>Our holdout is not the organizer's test set.</strong> It recovers catalogue faults, which are better mapped than the newly identified faults in the hidden set. Its DTI values are on a different truth set and cannot be compared with the board. The best-performing candidate here (C1, the H54-A rule) scores far below 0.2778 on the holdout, so the holdout cannot say whether it would exceed 0.2778 on the hidden set.</li>
-        <li><strong>The top artefact cannot be re-evaluated here.</strong> Its prune uses the full published catalogue, and its parent emission is not reproducible from the inputs in this repository. It is therefore not a holdout candidate.</li>
-      </ol>
-      <p><strong>Verdict on achievability.</strong> A score above 0.2778 is achievable only if a method earns more credited hidden-truth mass per dot than the parent. This repository has no receipt that shows that, and the only organizer-grade test is a submission. Whether to spend a slot is a decision for the user. This page does not make it.</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="section-head"><h2>7. Links</h2></div>
-    <div class="cta-row">
-      <a class="button" href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">DrivenData metric page</a>
-      <a class="button" href="https://docs.nlr.gov/docs/fy26osti/96647.pdf">NLR official rules</a>
-      <a class="button" href="https://github.com/buffedlizard55-lab/GEMSDOE32">Owner's GEMSDOE32 repository</a>
-      <a class="button" href="holdout.html">Holdout results</a>
-    </div>
-  </section>
+<section class="section" aria-labelledby="answer"><div class="eyebrow">Answer</div><h2 id="answer">What we can and cannot say</h2>
+<div class="card"><p><strong>Can say:</strong> a deletion-based prune can raise DTI at fixed credit, by algebra. The 0.2778 premise is not the board's top, and the GEMSDOE32 link is unverified.</p>
+<p><strong>Cannot say:</strong> that 0.2778 scored highest, that the prune found a new fault, or how many points it gained. We also cannot say that GEMSDOE54 can beat 0.2778, 0.3195 or 0.3774.</p>
+<p class="small">Full derivation and caveats: <a href="research/why-h33.md">research/why-h33.md</a> (its premise and some numbers predate this check; read the corrections here first).</p></div></section>
 </main>
-<footer class="footer"><div class="footer-inner"><span>Learning and audit only. Numbers are labelled by evidence class. Not legal advice.</span></div></footer>
+<footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a></p></div></footer>
 </body>
 </html>

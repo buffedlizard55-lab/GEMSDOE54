@@ -1,0 +1,24 @@
+{
+  "candidate": {
+    "path": "docs/downloads/gems54-undercomplement-q200.tif",
+    "dots": 15907,
+    "dtype": "float32",
+    "nodata": null,
+    "shape_matches_grid": true,
+    "transform_matches_grid": true
+  },
+  "witness": {
+    "path": "/tmp/sib/repos/GEMSDOE3/docs/downloads/gapfinder-v2-sgmc-gap-20260925T045014Z-7251c22bb4.tif",
+    "dots": 61664,
+    "dtype": "float32",
+    "nodata": NaN,
+    "shape_matches_grid": true,
+    "transform_matches_grid": true
+  },
+  "overlap_candidate_dots_within_3px_of_witness": 0.988496,
+  "overlap_witness_dots_within_3px_of_candidate": 0.254995,
+  "witness_3px_coverage_of_footprint": 0.011933,
+  "excess_over_chance": 0.988357,
+  "overlap_limit": 0.7,
+  "lane_verdict_vs_witness": "FAIL (duplicate)"
+}

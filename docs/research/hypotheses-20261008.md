@@ -42,3 +42,20 @@ Two surface-only lane preflights are now recorded. Experiment 1 tested catalogue
 - [NASA ASF Sentinel-1 search](https://search.asf.alaska.edu/) and [Copernicus Data Space](https://dataspace.copernicus.eu/) — source leads; coverage and access not checked.
 
 A link is provided for manual review, not as evidence that the data are obtainable, licensed for the competition, or present in this checkout.
+
+
+## Status update 2026-10-09 (after the three-experiment budget)
+
+Budget: 3 of 3 experiments used. No submission slot was selected. The ranking above is unchanged; the status of each entry is:
+
+| Rank | Hypothesis | Status 2026-10-09 | Receipt |
+|---|---|---|---|
+| 1 | Magnetic–gravity cross-gradient coupling | **Tested, did not beat the gate.** Same folds: DTI 0.055637 [0.050279, 0.061440], pooled 26,783 dots against a 32,529 budget (not mass-matched; inadmissible). Canary clear (AUC 0.5426). Feature bands used: band 2 (reduced-to-pole magnetic) and band 13 (isostatic gravity), taken from the owner mirror. Band names match the official reference notebook for bands 1–18. | evidence/cgrc_holdout_samefolds_v4_xgrad.json |
+| 2 | Depth-persistent magnetotelluric conductivity | Not run. No MT product was present in the checkout, and none was fetched this session. | — |
+| 3 | SGMC state-map topology nodes | The SGMC-linearity placement (arm C, the H54-A rule) is the strongest same-folds proxy at 0.1472. It is a **lane duplicate**: 98.85% of its dots lie within 3 px of GEMSDOE3 `gapfinder-v2-sgmc-gap`. Any future topology idea must show a distinct lane first. | evidence/witness_h54a_vs_gapfinder_gemsdoe3.json; evidence/cgrc_holdout_samefolds_v3_h54a.json |
+| 4 | Multi-scale 1 m DEM scarp curvature | Not run. No 1 m DEM tile index in the checkout. The USGS 3DEP source is not reachable from this sandbox (egress limited to GitHub, npm and PyPI). | — |
+| 5 | InSAR deformation discontinuities | Not run. Sentinel-1 sources (NASA ASF, Copernicus Data Space) are not reachable from this sandbox. Obtainability is unverified. | — |
+
+Free official sources named for obtainability checks (not fetched this session): USGS 3DEP (DEM), NASA ASF DAAC and Copernicus Data Space (Sentinel-1), USGS GeoDAWN (already the competition's feature source), DOE/INGENIOUS GDR 1391 (label source). No external data was downloaded.
+
+Decision: nothing in this ranking is promoted. The next experiment needs a new budget and a pre-registered rule that includes a lane-distinctness requirement from the start.
