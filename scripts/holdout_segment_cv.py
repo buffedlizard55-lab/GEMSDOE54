@@ -32,6 +32,12 @@ submission builder):
   C1  SGMC state-map complement (the H54-A rule):  SGMC cells outside E_k.
   C2  Geodetic shear-rate ridge, count matched to C1 in every fold.
   C3  Horizontal magnetic-gradient ridge (tmi_hg), count matched to C1 in every fold.
+  C5  Basement-depth step ridge (H6, added 2026-10-08): percentile rank of the gradient magnitude of
+      depth_to_base_surf (hole-filled from the nearest valid cell), count matched to C1. No RNG draws.
+  C4  Cross-gradient coincidence ridge (H1, added 2026-10-08): per-cell min of the percentile
+      ranks of tmi_hg (magnetic) and |iso_grav_anom_hg| (gravity), count matched to C1. Ranks are
+      catalogue-independent and computed once over the footprint, so no visible-catalogue leakage
+      enters the score. C4 uses no random draws, so C0-C3 are unchanged by its addition.
 
 The feature bands come from the owner's bridge (SHA-256 pinned in data/bridge manifest). Their
 provenance is owner-claimed; nothing here is organizer-authenticated. The result is labelled
@@ -125,6 +131,42 @@ def ridge_matched(feat: np.ndarray, admissible: np.ndarray, target: int, dist_m:
     return best
 
 
+def coincidence_score(tmihg: np.ndarray, gravhg: np.ndarray, foot: np.ndarray) -> np.ndarray:
+    """H1 score: min of footprint percentile ranks of the magnetic and gravity horizontal gradients.
+
+    Both inputs are ranked over the footprint only (never over visible-catalogue geometry). A cell
+    scores high only when BOTH families are high, which is the cross-gradient coincidence rule.
+    """
+    from scipy.stats import rankdata
+
+    out = np.full(tmihg.shape, np.nan, dtype=np.float64)
+    fin = foot & np.isfinite(tmihg) & np.isfinite(gravhg)
+    a = np.abs(gravhg[fin]).astype(np.float64)
+    b = tmihg[fin].astype(np.float64)
+    ra = rankdata(a) / a.size
+    rb = rankdata(b) / b.size
+    out[fin] = np.minimum(ra, rb)
+    return out
+
+
+def basement_step_score(depth: np.ndarray, foot: np.ndarray) -> np.ndarray:
+    """H6 score: footprint percentile rank of |grad| of basement depth.
+
+    Invalid cells (sentinel holes inside the footprint) are filled from the nearest valid cell
+    before differentiating, so a hole does not create an artificial edge. Ranks are footprint-only.
+    """
+    from scipy.stats import rankdata
+
+    valid = foot & np.isfinite(depth)
+    idx = distance_transform_edt(~valid, return_distances=False, return_indices=True)
+    filled = depth[tuple(idx)].astype(np.float64)
+    gy, gx = np.gradient(filled)
+    mag = np.hypot(gy, gx)
+    out = np.full(depth.shape, np.nan, dtype=np.float64)
+    out[valid] = rankdata(mag[valid]) / float(valid.sum())
+    return out
+
+
 class FoldScorer:
     """Exact per-fold decomposition of the organizer metric for unit-valued dots."""
 
@@ -200,8 +242,15 @@ def main() -> int:
     shear = load_band(feat_path, band_names.index("geod_shearrate") + 1)
     tmihg = load_band(feat_path, band_names.index("tmi_hg") + 1)
     feat_valid = foot & np.isfinite(shear) & np.isfinite(tmihg)
+    gravhg = load_band(feat_path, band_names.index("iso_grav_anom_hg") + 1)
+    coinc = coincidence_score(tmihg, gravhg, foot)
+    coinc_valid = foot & np.isfinite(coinc)
+    depth = load_band(feat_path, band_names.index("depth_to_base_surf") + 1)
+    basestep = basement_step_score(depth, foot)
+    basestep_valid = foot & np.isfinite(basestep)
 
-    names = ["C0_random_admissible_control", "C1_sgmc_complement", "C2_geodetic_shear_ridge", "C3_magnetic_hgrad_ridge"]
+    names = ["C0_random_admissible_control", "C1_sgmc_complement", "C2_geodetic_shear_ridge",
+             "C3_magnetic_hgrad_ridge", "C4_crossgradient_coincidence_ridge", "C5_basement_step_ridge"]
     per_fold = []
     t0 = datetime.now(timezone.utc)
     for k in range(K_FOLDS):
@@ -226,6 +275,8 @@ def main() -> int:
         target = int(c1.sum())
         c2 = ridge_matched(shear, adm & feat_valid, target, dist_m)
         c3 = ridge_matched(tmihg, adm & feat_valid, target, dist_m)
+        c4 = ridge_matched(coinc, adm & coinc_valid, target, dist_m)
+        c5 = ridge_matched(basestep, adm & basestep_valid, target, dist_m)
         # C0: chance control. Uniformly random admissible cells, same count as C1, same exclusion
         # E_k. It isolates how much of any score comes from the buffer/exclusion geometry alone.
         rng_c0 = np.random.default_rng(SEED + 1000 + k)
@@ -233,7 +284,8 @@ def main() -> int:
         c0 = np.zeros(adm.size, dtype=bool)
         c0[rng_c0.choice(adm_idx, size=target, replace=False)] = True
         c0 = c0.reshape(adm.shape)
-        dots_by = {names[0]: c0, names[1]: c1, names[2]: c2["dots"], names[3]: c3["dots"]}
+        dots_by = {names[0]: c0, names[1]: c1, names[2]: c2["dots"], names[3]: c3["dots"],
+                   names[4]: c4["dots"], names[5]: c5["dots"]}
         fold_rec = {
             "fold": k, "withheld_segments": int(segs_k.size), "withheld_positive_cells": int(W.sum()),
             "buffer_collar_cells": int(collar.sum()), "visible_catalogue_cells": int(V.sum()),
@@ -241,6 +293,8 @@ def main() -> int:
             "target_dots_C1": target, "C0_dots": int(c0.sum()),
             "C2_match": {"dots": c2["n"], "quantile": c2["quantile"], "threshold": c2["threshold"]},
             "C3_match": {"dots": c3["n"], "quantile": c3["quantile"], "threshold": c3["threshold"]},
+            "C4_match": {"dots": c4["n"], "quantile": c4["quantile"], "threshold": c4["threshold"]},
+            "C5_match": {"dots": c5["n"], "quantile": c5["quantile"], "threshold": c5["threshold"]},
             "candidates": {}, "canary": {},
         }
 
@@ -288,12 +342,34 @@ def main() -> int:
             sc = scorer.score(shifted, with_D=False)
             nulls.append((sc["TP"], sc["FP"], sc["FN"]))
         fold_rec["null_C1_shift_components"] = [list(map(float, x)) for x in nulls]
+        rng_c4 = np.random.default_rng(SEED + 3000 + k)
+        nulls4 = []
+        for s in range(args.shifts):
+            dy = int(rng_c4.integers(-(foot.shape[0] - 1), foot.shape[0]))
+            dx = int(rng_c4.integers(-(foot.shape[1] - 1), foot.shape[1]))
+            shifted = np.roll(np.roll(dots_by[names[4]], dy, axis=0), dx, axis=1)
+            sc = scorer.score(shifted, with_D=False)
+            nulls4.append((sc["TP"], sc["FP"], sc["FN"]))
+        fold_rec["null_C4_shift_components"] = [list(map(float, x)) for x in nulls4]
+        rng_c5 = np.random.default_rng(SEED + 4000 + k)
+        nulls5 = []
+        for s in range(args.shifts):
+            dy = int(rng_c5.integers(-(foot.shape[0] - 1), foot.shape[0]))
+            dx = int(rng_c5.integers(-(foot.shape[1] - 1), foot.shape[1]))
+            shifted = np.roll(np.roll(dots_by[names[5]], dy, axis=0), dx, axis=1)
+            sc = scorer.score(shifted, with_D=False)
+            nulls5.append((sc["TP"], sc["FP"], sc["FN"]))
+        fold_rec["null_C5_shift_components"] = [list(map(float, x)) for x in nulls5]
 
         # --- canary: alone-AUC per fold for each band and the visible-catalogue distance ---
         for bi, bn in enumerate(band_names, start=1):
             arr = load_band(feat_path, bi)
             fold_rec["canary"][bn] = round(single_feature_auc(arr, W, valid=S), 6)
             del arr
+        fold_rec["canary"]["coincidence_score_H1"] = round(
+            single_feature_auc(coinc.astype(np.float32), W, valid=S), 6)
+        fold_rec["canary"]["basement_step_score_H6"] = round(
+            single_feature_auc(basestep.astype(np.float32), W, valid=S), 6)
         fold_rec["canary"]["dist_to_visible_catalogue_m"] = round(
             single_feature_auc(dist_m.astype(np.float32), W, valid=S), 6)
         # the SGMC layer is itself a feature of C1; its alone-AUC is reported like any other
@@ -326,7 +402,9 @@ def main() -> int:
         }
     paired = {}
     for a, b in [(names[1], names[0]), (names[2], names[0]), (names[3], names[0]),
-                 (names[1], names[2]), (names[1], names[3])]:
+                 (names[1], names[2]), (names[1], names[3]),
+                 (names[4], names[0]), (names[4], names[1]), (names[4], names[3]),
+                 (names[5], names[0]), (names[5], names[1]), (names[5], names[3]), (names[5], names[4])]:
         d = pooled_boot[a] - pooled_boot[b]
         point = cand_out[a]["pooled_dti_point"] - cand_out[b]["pooled_dti_point"]
         se = float(d.std(ddof=1))
@@ -344,19 +422,38 @@ def main() -> int:
         nfn = sum(f["null_C1_shift_components"][s][2] for f in per_fold)
         null_vals.append(dti_from(ntp, nfp, nfn))
     null_vals = np.array(null_vals)
+    null4 = []
+    for s in range(args.shifts):
+        ntp = sum(f["null_C4_shift_components"][s][0] for f in per_fold)
+        nfp = sum(f["null_C4_shift_components"][s][1] for f in per_fold)
+        nfn = sum(f["null_C4_shift_components"][s][2] for f in per_fold)
+        null4.append(dti_from(ntp, nfp, nfn))
+    null4 = np.array(null4)
+    null5 = []
+    for s in range(args.shifts):
+        ntp = sum(f["null_C5_shift_components"][s][0] for f in per_fold)
+        nfp = sum(f["null_C5_shift_components"][s][1] for f in per_fold)
+        nfn = sum(f["null_C5_shift_components"][s][2] for f in per_fold)
+        null5.append(dti_from(ntp, nfp, nfn))
+    null5 = np.array(null5)
 
     # canary summary (max over folds)
     canary = {}
-    for bn in band_names + ["dist_to_visible_catalogue_m", "sgmc_state_map_fault"]:
+    for bn in band_names + ["dist_to_visible_catalogue_m", "sgmc_state_map_fault", "coincidence_score_H1",
+                            "basement_step_score_H6"]:
         aucs = [f["canary"][bn] for f in per_fold]
         canary[bn] = {"max_auc_over_folds": round(max(aucs), 6), "mean_auc": round(float(np.mean(aucs)), 6),
                       "flag": "LEAKAGE" if max(aucs) > AUC_CUT else "clear"}
     flags = [k for k, v in canary.items() if v["flag"] == "LEAKAGE"]
+    # the C4 score's own alone-AUC is the leakage test for H1 (a function of two bands)
     source_of = {names[0]: "none (chance control)",
                  names[1]: "data/external/derived_sgmc_faults_100m_u8.tif (SGMC, catalogue-derived)",
-                 names[2]: "geod_shearrate", names[3]: "tmi_hg"}
+                 names[2]: "geod_shearrate", names[3]: "tmi_hg",
+                 names[4]: "tmi_hg x iso_grav_anom_hg (min of percentile ranks)",
+                 names[5]: "depth_to_base_surf gradient magnitude (percentile rank)"}
     feat_key = {names[0]: None, names[1]: "sgmc_state_map_fault",
-                names[2]: "geod_shearrate", names[3]: "tmi_hg"}
+                names[2]: "geod_shearrate", names[3]: "tmi_hg", names[4]: "coincidence_score_H1",
+                names[5]: "basement_step_score_H6"}
     status = {}
     for nm in names:
         if feat_key[nm] is None:
@@ -393,6 +490,14 @@ def main() -> int:
                           "sd": round(float(null_vals.std(ddof=1)), 6),
                           "p95": round(float(np.percentile(null_vals, 95)), 6),
                           "max": round(float(null_vals.max()), 6)},
+        "shift_null_C5": {"n": int(args.shifts), "mean": round(float(null5.mean()), 6),
+                          "sd": round(float(null5.std(ddof=1)), 6),
+                          "p95": round(float(np.percentile(null5, 95)), 6),
+                          "max": round(float(null5.max()), 6)},
+        "shift_null_C4": {"n": int(args.shifts), "mean": round(float(null4.mean()), 6),
+                          "sd": round(float(null4.std(ddof=1)), 6),
+                          "p95": round(float(np.percentile(null4, 95)), 6),
+                          "max": round(float(null4.max()), 6)},
         "power": {
             "cohen_d_min_80pct_alpha05_units_total": round(d_units_total, 5),
             "cohen_d_min_80pct_alpha05_units_per_fold": round(d_units_fold, 5),

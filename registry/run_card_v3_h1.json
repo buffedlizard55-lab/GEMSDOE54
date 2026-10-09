@@ -1,0 +1,237 @@
+{
+  "run_card_version": "parallel-run protocol v2 (whole-segment holdout, evaluator gemsdoe54-segment-cv v1)",
+  "generated_utc": "2026-10-09T00:53:30+00:00",
+  "experiment": {
+    "id": "H1",
+    "slug": "gems54-h1-crossgradient-q095",
+    "candidate_key_in_holdout": "C4_crossgradient_coincidence_ridge",
+    "status": "re-evaluated under the whole-segment holdout; not an organizer score"
+  },
+  "hypothesis": "A buried or weakly expressed fault that separates rock bodies of different density and magnetization produces co-located horizontal-gradient maxima in BOTH the magnetic anomaly (tmi_hg) and the isostatic gravity anomaly (iso_grav_anom_hg). Cells where both families exceed their footprint percentile are candidate boundaries, thinned by the linearity gate.",
+  "mechanism": "Cross-gradient coincidence rather than either gradient alone. A cell scores min(rank_mag, rank_grav), so a single-family maximum (e.g. a magnetic dike with no density contrast) does not score. Visible catalogue cells and their 300 m collar are excluded; the rest is thinned to 200 m dots by the builder rules.",
+  "mimic_process": "Lithologic contacts and intrusive margins that carry both a susceptibility and a density contrast, basin margins, and survey-line seams common to the magnetic and gravity grids. None of these need a fault.",
+  "holdout": {
+    "label": "HOLDOUT-DTI (evaluator gemsdoe54-segment-cv v1; catalogue-recovery truth, not hidden-test labels)",
+    "evaluator": {
+      "name": "gemsdoe54-segment-cv",
+      "version": "v1",
+      "metric": "organizer DTI alpha=0.2 beta=0.8 kernel=300 m triangular",
+      "script_sha256": "941dc2e0f59efe97fb60f2ce2f1ba32fb309b79239985d9d2c19e85c2dc78c81",
+      "seed": 20261008,
+      "bootstrap_replicates": 1000,
+      "shift_nulls": 30
+    },
+    "candidate": "C4_crossgradient_coincidence_ridge",
+    "pooled_dti": 0.012041,
+    "ci95_percentile": [
+      0.009816,
+      0.014586
+    ],
+    "bootstrap_sd": 0.00124,
+    "withheld_positive_cells": 60988,
+    "independent_units_segments": 3199,
+    "folds": 5,
+    "controls": {
+      "C0_random_admissible_control": {
+        "pooled_dti": 0.010413,
+        "ci95_percentile": [
+          0.009081,
+          0.011744
+        ]
+      }
+    },
+    "paired_vs_control": {
+      "point": 0.001628,
+      "bootstrap_se": 0.001418,
+      "ci95_percentile": [
+        -0.001139,
+        0.004476
+      ],
+      "mde_raw_80pct_two_sided": 0.003974,
+      "bootstrap_sign_p": 0.258
+    },
+    "paired_vs_rivals": {
+      "C1_sgmc_complement": {
+        "point": -0.036297,
+        "bootstrap_se": 0.003338,
+        "ci95_percentile": [
+          -0.042684,
+          -0.029721
+        ],
+        "mde_raw_80pct_two_sided": 0.009353,
+        "bootstrap_sign_p": 0.0
+      },
+      "C2_geodetic_shear_ridge": {
+        "ci95_percentile": null,
+        "note": "pair not in receipt"
+      },
+      "C3_magnetic_hgrad_ridge": {
+        "point": -0.002791,
+        "bootstrap_se": 0.002028,
+        "ci95_percentile": [
+          -0.00704,
+          0.001125
+        ],
+        "mde_raw_80pct_two_sided": 0.005683,
+        "bootstrap_sign_p": 0.164
+      }
+    },
+    "shift_null_C4": {
+      "n": 30,
+      "mean": 0.004709,
+      "sd": 0.001329,
+      "p95": 0.006565,
+      "max": 0.008734
+    },
+    "shift_null_scope": "computed for C4 only",
+    "canary_flagged_features": [],
+    "candidate_leakage_status": "CLEAR",
+    "cohen_d_min_units_total": 0.04955,
+    "cohen_d_min_units_per_fold": 0.111,
+    "mde_raw_from_paired_bootstrap_se": {
+      "C1_sgmc_complement minus C0_random_admissible_control": 0.008236,
+      "C2_geodetic_shear_ridge minus C0_random_admissible_control": 0.004509,
+      "C3_magnetic_hgrad_ridge minus C0_random_admissible_control": 0.004874,
+      "C1_sgmc_complement minus C2_geodetic_shear_ridge": 0.009361,
+      "C1_sgmc_complement minus C3_magnetic_hgrad_ridge": 0.009546,
+      "C4_crossgradient_coincidence_ridge minus C0_random_admissible_control": 0.003974,
+      "C4_crossgradient_coincidence_ridge minus C1_sgmc_complement": 0.009353,
+      "C4_crossgradient_coincidence_ridge minus C3_magnetic_hgrad_ridge": 0.005683
+    },
+    "limitations": [
+      "Truth is the owner-mirrored catalogue (labels==1), not the organizer's hidden expert set.",
+      "Hidden test faults are by construction absent from the catalogue; catalogue faults are better mapped.",
+      "Feature rasters are owner-claimed bridge copies (hash-consistent, not organizer-authenticated)."
+    ]
+  },
+  "overlap_vs_registry": {
+    "scope": "every grid-aligned sibling raster in the GEMSDOE family (not only the 11 registry rasters)",
+    "siblings_scanned": {
+      "files_seen": 1217,
+      "grid_rasters": 1194,
+      "off_grid_skipped": 23,
+      "unreadable": 0,
+      "submission_like": 1149,
+      "self_excluded": 0,
+      "sibling_repos": 54
+    },
+    "exact_file_matches": [],
+    "exact_decoded_matches": [],
+    "max_spearman_rho": 0.050466,
+    "max_spearman_rho_source": "GEMSDOE40/docs/downloads/gems40-euler-si0-depthcluster-crossfamily-continuous-20261005-f3e0ed7a.tif",
+    "max_overlap_cand_in_sib_all": 1.0,
+    "max_overlap_cand_in_sib_nondegenerate": 0.66637,
+    "max_overlap_source": "17GEMSDOE/docs/downloads/17GEMSDOE_E-proba-multiscale_20260930T044527Z.tif",
+    "overlap_degenerate_siblings_count": 119,
+    "siblings_with_overlap_above_limit": 110,
+    "lane_check": "PASS",
+    "protocol": {
+      "rank_rho_limit": 0.9,
+      "dot_overlap_limit": 0.7,
+      "dot_radius_px": 3.0,
+      "rank_sample_cells": 200000,
+      "rank_sample_seed": 20261008
+    }
+  },
+  "submission_file": {
+    "path": "docs/downloads/gems54-h1-crossgradient-q095.tif",
+    "sha256": "006e912b85b73e764ad151cb7228de61aa02485ffca769439022d2b124e26f05",
+    "bytes": 92984,
+    "driver": "GTiff",
+    "bands": 1,
+    "dtype": "float32",
+    "nodata": null,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nan_cells": 0,
+    "unique_values_in_footprint": [
+      0.0,
+      1.0
+    ],
+    "positive_cells": 21371,
+    "min_in_footprint": 0.0,
+    "max_in_footprint": 1.0,
+    "nonzero_outside_footprint": 0
+  },
+  "builder_receipt_ref": "registry/gems54-undercomplement-q200.build.json",
+  "builder_receipt_summary": {},
+  "validator_output": {
+    "path": "evidence/validator_output_h1.json",
+    "format_passed": false,
+    "format_checks": {
+      "single_band": {
+        "ok": true,
+        "detail": "count=1"
+      },
+      "dtype_float32": {
+        "ok": true,
+        "detail": "dtype=float32"
+      },
+      "crs": {
+        "ok": true,
+        "detail": "crs=EPSG:32611"
+      },
+      "shape": {
+        "ok": true,
+        "detail": "shape=(3730,3292)"
+      },
+      "transform_100m_same_bounds": {
+        "ok": true,
+        "detail": "transform=(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)"
+      },
+      "labels_shape": {
+        "ok": true,
+        "detail": "labels_shape=(3730, 3292); submission_shape=(3730, 3292)"
+      },
+      "label_nodata_defined": {
+        "ok": true,
+        "detail": "nodata=-1.0"
+      },
+      "footprint_cells": {
+        "ok": true,
+        "detail": "cells=5167373"
+      },
+      "no_nan_inside_footprint": {
+        "ok": true,
+        "detail": "non_finite_inside=0"
+      },
+      "in_footprint_in_range": {
+        "ok": true,
+        "detail": "finite range=[0.0, 1.0]"
+      },
+      "outside_footprint_null_or_nan": {
+        "ok": false,
+        "detail": "non_nan_outside=7111787"
+      }
+    },
+    "format_failures": [
+      "outside_footprint_null_or_nan: non_nan_outside=7111787"
+    ],
+    "lane_verdict": "DUPLICATE - STOP"
+  },
+  "note": "H1 cross-gradient ridge: min(pct rank tmi_hg, pct rank |iso grav hgrad|), q=0.95, 200m dots, >300m from catalogue",
+  "note_chars": 113,
+  "note_within_limit": true,
+  "verdict_rule_checks": {
+    "1_validator_all_pass": false,
+    "2_lane_check_pass": true,
+    "3_candidate_canary_clear": true,
+    "4_pooled_ci_lower_above_control_ci_upper": false,
+    "5_paired_vs_control_ci_lower_above_0": false,
+    "6_no_rival_significantly_better": false
+  },
+  "verdict": "negative",
+  "verdict_meaning": "does not pass the pre-registered holdout gates",
+  "labels_policy": "HOLDOUT-DTI = whole-segment holdout receipt with evaluator, withheld positives and 95% CI. ORGANIZER-CONFIRMED = none for this artefact. MODEL/PROXY values are not scores."
+}

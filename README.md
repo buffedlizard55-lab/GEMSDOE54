@@ -7,12 +7,13 @@
 
 ## ⬇️ SUBMISSION STATUS — read this before anything else (updated 2026-10-08)
 
-**Verdict: no file in this repository is cleared for upload.** Both GeoTIFFs below are format-valid, but neither passes the uniqueness requirement. The executive summary is at [`docs/submit-verdict.html`](docs/submit-verdict.html).
+**Verdict: no file in this repository is cleared for upload.** Three GeoTIFFs are downloadable for inspection. None passes all gates. H54-A and H54-B fail uniqueness. H1 fails the holdout gate (NEGATIVE) and has a disputed lane verdict. The executive summary is at [`docs/submit-verdict.html`](docs/submit-verdict.html).
 
 | File | Holdout (HOLDOUT-DTI, whole-segment) | Lane / uniqueness | Run card |
 |---|---|---|---|
 | [`docs/downloads/gems54-undercomplement-q200.tif`](docs/downloads/gems54-undercomplement-q200.tif) (H54-A, SGMC complement) · SHA-256 `b430615a…efd8` · 15,907 dots | **0.0483** [0.0424, 0.0541] (best tested; control 0.0104) | **FAIL.** 100 % of its dots lie within 3 px of GEMSDOE3's `gapfinder-v2-sgmc-gap` (ρ 0.51) | [`registry/run_card_v2_h54a.json`](registry/run_card_v2_h54a.json): negative |
 | [`docs/downloads/gems54-magedge-hgrad-ridge.tif`](docs/downloads/gems54-magedge-hgrad-ridge.tif) (H54-B, magnetic gradient ridge) · SHA-256 `6d086c09…8d9e` · 19,197 dots | 0.0148 [0.0118, 0.0180] (beats control, below H54-A) | **FAIL.** 81.6 % overlap with GEMSDOE40 `h8-asa-spi-depthkde`; 75.7 % with GEMSDOE46 `dfa-corroborated` | [`registry/run_card_v2_magedge.json`](registry/run_card_v2_magedge.json): negative |
+| [`docs/downloads/gems54-h1-crossgradient-q095.tif`](docs/downloads/gems54-h1-crossgradient-q095.tif) (H1, cross-gradient coincidence ridge) · SHA-256 `006e912b…f26d05` · 21,371 dots · zeros outside footprint | 0.0120 [0.0098, 0.0146]; **not** above the chance control (paired +0.0016 [−0.0011, +0.0045]); below H54-A (−0.0363) | **Disputed.** Literal registry test: DUPLICATE (r13 99.8 %, r11 77.7 %, r14 75.9 %). Sibling scan on 1,149 files: max ρ 0.05; max overlap 0.67 after excluding 119 dense rasters (IR-54-063). Format: fails the outside-footprint NaN check | [`registry/run_card_v3_h1.json`](registry/run_card_v3_h1.json): **negative** |
 
 **Official rules (verified verbatim, [`docs/rules-gate.html`](docs/rules-gate.html)).** You may submit *your own model's* single-band GeoTIFF (§3.2; original work, A.5(1)) if you are eligible (§1.3) and you sign the certification (§1.3, A.1). You must disclose generative-AI use in the narrative (§3.2). Three submissions per week at most (§3.2, §3.4). Copying another team's file is not permitted, and this includes every GEMSDOE sibling artefact.
 
@@ -50,6 +51,29 @@ Two surface-only screens are recorded: the earlier endpoint-continuation screen 
 The top-ranked cross-gradient hypothesis is blocked: the full feature stack is absent locally and the owner-maintained public cache is not organizer-authenticated. The local checkout also lacks the requested `evaluate_holdout.py` and `submission_writer.py`; the inspected owner-template tree instead exposes a spatial-block evaluator and `submission_io.py`, which do not meet the whole-segment protocol. See [`docs/research/hypotheses-20261008.md`](docs/research/hypotheses-20261008.md) and [`docs/audit/current-review.md`](docs/audit/current-review.md).
 
 Score-labeling policy: report a performance score only as **HOLDOUT-DTI** with evaluator version, withheld-positive count, and paired 95% CI, or as **ORGANIZER-CONFIRMED** copied from a submission-page receipt. User- or owner-reported values are not receipts. Proxy outputs are **PROXY-DTI**, and projections are **MODEL**, never scores.
+
+---
+
+## Second pass (2026-10-08 / 09 UTC): H1, C4, C5 and the experiment budget
+
+**Experiment budget: 3 of 3 used.** Experiment 1 was the v1 holdout (C0 to C3); experiment 2 was the C4 holdout (H1); experiment 3 was the C5 holdout (H6). Uniqueness scans, validator runs, and the earlier surface-only lane preflights (labelled "experiment 1" and "experiment 2" in the hypotheses note) are not holdout experiments and are not counted here. No further holdout experiment should run without a new budget decision.
+
+| Candidate (HOLDOUT-DTI, evaluator `gemsdoe54-segment-cv` v1) | Pooled DTI, 95 % CI | Paired vs chance control C0 | Verdict |
+|---|---:|---:|---|
+| C0 · random admissible control | 0.0104 [0.0091, 0.0117] | — | control |
+| C1 · SGMC complement (H54-A) | 0.0483 [0.0424, 0.0541] | +0.0379 | best tested; not unique |
+| C2 · geodetic shear ridge | 0.0098 [0.0072, 0.0128] | not significant | no signal |
+| C3 · magnetic horizontal-gradient ridge (H54-B) | 0.0148 [0.0118, 0.0180] | +0.0044 | below C1 |
+| C4 · cross-gradient coincidence ridge (H1) | 0.0120 [0.0098, 0.0146] | +0.0016 [−0.0011, +0.0045] | **NEGATIVE** |
+| C5 · basement-step ridge (H6) | 0.0103 [0.0076, 0.0133] | −0.0001 [−0.0032, +0.0031] | **NEGATIVE** (at chance) |
+
+Receipts: [`evidence/holdout_segment_cv_v1_c4.json`](evidence/holdout_segment_cv_v1_c4.json) and [`evidence/holdout_segment_cv_v1_c5.json`](evidence/holdout_segment_cv_v1_c5.json). C0 to C4 reproduce the earlier receipts exactly. C5's canary (`basement_step_score_H6`) is clear, and the maximum single-feature AUC across all candidates is 0.756 (distance to visible catalogue, a withholding artefact). C5 is significantly below C1 (−0.0381) and C3 (−0.0046). Rule 6 of the run card is not fully evaluable for C2 (no C4−C2 pair; IR-54-065), but rule 5 already fails for H1.
+
+**Verdicts.** H1 (C4) run card: `negative`, failing rules 1 (format: outside-footprint NaN), 4 and 5 (holdout). Lane rule 2 reads PASS in the sibling scanner and DUPLICATE in the literal validator; this conflict is unresolved (IR-54-063). Proposal for the protocol owner: adopt a chance-corrected overlap statistic, and state explicitly whether dense rasters are excluded. No file was promoted, and no slot was selected.
+
+**Power.** The 0.0028 board gap is still NOT CLASSIFIABLE. Segment-unit floor 0.0496 (Cohen d, 80 % power, α 0.05), so the raw paired minimum detectable effects in the receipts are about 0.004 to 0.005 (for example C4 vs C0 0.0040; C5 vs C0 0.0046). See [`evidence/power_floor_check_20261008.json`](evidence/power_floor_check_20261008.json).
+
+**Remaining work (ordered).** (1) Owner decision on the lane definition and the NaN-versus-zero convention (IR-54-051, IR-54-054, IR-54-063). (2) Organizer confirmation of the format and of the `Predicted values must be in range [0, 1]` error; the user must provide the file name, SHA-256 and full message (IR-54-053). (3) Complete the C4−C2 paired difference (IR-54-065). (4) A count-matched rerun (IR-54-058). (5) An SGMC-excluded second endpoint, since C1 may reflect co-location (IR-54-057). (6) Licence and organizer-origin check of the owner feature cube (IR-54-055). (7) Any new candidate needs a new budget decision, since no holdout experiments remain in this session.
 
 ---
 
