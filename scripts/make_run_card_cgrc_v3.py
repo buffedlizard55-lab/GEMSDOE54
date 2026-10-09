@@ -250,7 +250,7 @@ def main() -> int:
             "lane": "FAIL (literal rule): DUPLICATE - STOP",
             "holdout_gate": "NOT MET (B %.6f < C %.6f on the same folds)" % (b["pooled_dti"], best_same),
             "format": "primary FAILS the outside-footprint null/NaN contract; twin PASSES",
-            "download_for_inspection": ("OK for inspection only (format-valid twin, not a copy of any sibling). "
+            "download_for_inspection": ("NOT CLEARED. Audit copy only (the twin is format-valid; the lane FAILS). "
                                         "Do NOT submit either file."),
             "submit_into_a_slot": "NO. Lane duplicate; holdout does not beat the best same-evaluator arm.",
             "rationale": ("Lane: literal rule fails against registry rasters r11 (0.833), r13 (0.998), r14 (0.857) "

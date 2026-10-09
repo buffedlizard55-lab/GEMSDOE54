@@ -20,7 +20,11 @@
   </section>
 
   <section class="callout">
-    <p><strong>Receipt.</strong> <a href="../evidence/holdout_segment_cv_v1.json">evidence/holdout_segment_cv_v1.json</a> · script SHA-256 <code>2c856141f4e4e742…</code> · 5 folds · <strong>60,988 withheld positive cells</strong> in <strong>3,199 whole segments</strong> · 1,000 stratified cluster-bootstrap replicates · 30 torus-shift nulls · seed 20261008 · feature raster SHA-256 <code>4371c82e…</code> (owner-claimed copy) · labels <code>7ba308cc…</code> (owner-mirrored).</p>
+    <p><strong>Receipts.</strong> <a href="../evidence/holdout_segment_cv_v1.json">evidence/holdout_segment_cv_v1.json</a> (C0 to C3) · <a href="../evidence/holdout_segment_cv_v1_c4.json">v1_c4</a> (adds C4 H1) · <a href="../evidence/holdout_segment_cv_v1_c5.json">v1_c5</a> (adds C5 H6; C0 to C4 reproduce v1_c4 exactly). Shared-evaluator details below refer to v1.</p>
+  </section>
+
+  <section class="callout">
+    <p><strong>Receipt (v1).</strong> <a href="../evidence/holdout_segment_cv_v1.json">evidence/holdout_segment_cv_v1.json</a> · script SHA-256 <code>2c856141f4e4e742…</code> · 5 folds · <strong>60,988 withheld positive cells</strong> in <strong>3,199 whole segments</strong> · 1,000 stratified cluster-bootstrap replicates · 30 torus-shift nulls · seed 20261008 · feature raster SHA-256 <code>4371c82e…</code> (owner-claimed copy) · labels <code>7ba308cc…</code> (owner-mirrored).</p>
   </section>
 
   <section class="section">
@@ -32,6 +36,8 @@
         <tr><td><strong>C1</strong> SGMC complement (the H54-A rule)</td><td>USGS SGMC derived raster</td><td><strong>0.0483 [0.0424, 0.0541]</strong></td><td>+0.0379 [+0.0317, +0.0437]</td><td>0.526 (clear)</td><td>Best on holdout. <strong>Lane FAIL: 100 % overlap with GEMSDOE3 sgmc-gap, so not unique.</strong></td></tr>
         <tr><td><strong>C3</strong> magnetic horizontal-gradient ridge</td><td>official feature <code>tmi_hg</code></td><td>0.0148 [0.0118, 0.0180]</td><td>+0.0044 [+0.0012, +0.0082]</td><td>0.544 (clear)</td><td>Beats chance, below C1. Basis of H54-B: byte-unique, but lane FAIL (81.6 % overlap with GEMSDOE40).</td></tr>
         <tr><td><strong>C2</strong> geodetic shear-rate ridge</td><td>official feature <code>geod_shearrate</code></td><td>0.0098 [0.0072, 0.0128]</td><td>−0.0006 [−0.0037, +0.0027]</td><td>0.581 (clear)</td><td>Indistinguishable from chance.</td></tr>
+        <tr><td><strong>C4</strong> cross-gradient coincidence ridge (H1)</td><td>min(percentile of <code>tmi_hg</code>, percentile of |iso_grav_anom_hg|), q 0.95</td><td>0.0120 [0.0098, 0.0146]</td><td>+0.0016 [−0.0011, +0.0045]</td><td>0.534 (clear)</td><td><strong>NEGATIVE</strong>: not above chance; below C1 by 0.0363 [−0.0427, −0.0297]. Receipt <a href="../evidence/holdout_segment_cv_v1_c4.json">v1_c4</a>.</td></tr>
+        <tr><td><strong>C5</strong> basement-step ridge (H6)</td><td>footprint percentile of |grad| of <code>depth_to_base_surf</code></td><td>0.0103 [0.0076, 0.0133]</td><td>−0.0001 [−0.0032, +0.0031]</td><td>0.549 (clear)</td><td><strong>NEGATIVE</strong>: at chance; below C1 by 0.0381 and below C3 by 0.0046. Receipt <a href="../evidence/holdout_segment_cv_v1_c5.json">v1_c5</a>.</td></tr>
       </tbody>
     </table></div>
     <p class="small">Paired differences among candidates: C1 minus C2 +0.0385 [+0.0319, +0.0449]; C1 minus C3 +0.0335 [+0.0267, +0.0400]. Both exclude zero.</p>

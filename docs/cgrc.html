@@ -14,7 +14,7 @@
 <p class="lead">This page replaces the 2026-10-08 CGRC page. That page said “download YES / PASS” and cited a lane distinctness that depended on excluding three rasters, and a holdout comparison that mixed evaluators. Both are withdrawn (IR-54-066, IR-54-067). Every number below is traced to a receipt in the repository.</p></section>
 
 <section class="status-banner" aria-labelledby="cgrc-state"><div class="status-icon" aria-hidden="true">!</div><div>
-<h2 id="cgrc-state">Submit: NO · Download: for inspection only</h2>
+<h2 id="cgrc-state">Submit: NO · Download: NOT CLEARED (audit copy only)</h2>
 <p>Lane: <strong>FAIL</strong> under the literal rule (validator: DUPLICATE – STOP). Holdout: <strong>NOT MET</strong> (B 0.091536 vs C 0.147192, same folds). Format: primary FAIL on outside-footprint null/NaN, twin PASS. Canary: clear. Experiments 3 of 3. Submissions 0.</p></div></section>
 
 <section class="section two-col" aria-labelledby="files"><div><div class="eyebrow">The files</div><h2 id="files">Primary and twin</h2>
@@ -24,7 +24,7 @@
 <li><span class="bullet">03</span><span><strong>Grid</strong>: EPSG:32611, 3,730 × 3,292, transform (100, 0, 243350, 0, −100, 4508550). Labels footprint 5,167,373 cells.</span></li>
 <li><span class="bullet">04</span><span><strong>Name</strong> <code>gems54-cgrc-relay-v1</code>. <strong>Comment</strong> (107 characters): “GEMSDOE54 CGRC v1: catalogue tip-relay gaps and continuations, 200 m catalogue exclusion, 300 m dot spacing”.</span></li>
 </ul></div>
-<aside class="card"><span class="label">Inspection copy</span><h3>gems54-cgrc-relay-v1 (twin, NaN outside)</h3><p class="detail">Format-valid. Not a copy of any sibling. Lane DUPLICATE. Do not submit.</p><a class="button" href="downloads/gems54-cgrc-relay-v1-nan.tif" download>Download for inspection</a><p class="small" style="margin-top:14px"><a href="data/run-card-cgrc.json">Run card v3</a> · <a href="../evidence/lane_summary_cgrc_v1.json">Lane summary</a> · <a href="../evidence/cgrc_holdout_receipt.json">Holdout receipt</a> · <a href="../evidence/cgrc_holdout_samefolds_v4_xgrad.json">Same-folds receipt</a></p></aside></section>
+<aside class="card"><span class="label">Audit copy</span><h3>gems54-cgrc-relay-v1 (twin, NaN outside)</h3><p class="detail">Format-valid. Not a copy of any sibling. Lane DUPLICATE. Do not submit.</p><a class="button" href="downloads/gems54-cgrc-relay-v1-nan.tif" download>Audit copy (not cleared)</a><p class="small" style="margin-top:14px"><a href="data/run-card-cgrc.json">Run card v3</a> · <a href="../evidence/lane_summary_cgrc_v1.json">Lane summary</a> · <a href="../evidence/cgrc_holdout_receipt.json">Holdout receipt</a> · <a href="../evidence/cgrc_holdout_samefolds_v4_xgrad.json">Same-folds receipt</a></p></aside></section>
 
 <section class="section" aria-labelledby="lane"><div class="eyebrow">Parallel-run lane (literal rule)</div><h2 id="lane">Overlap and rank correlation, final dots</h2>
 <div class="table-wrap"><table><thead><tr><th>Registry raster (validator)</th><th>Coverage of footprint within 3 px</th><th>Dots within 3 px of ours</th><th>Chance-corrected excess</th><th>Rule</th></tr></thead><tbody>
@@ -56,6 +56,8 @@
 <p><strong>Paired contrasts (bootstrap, same segment draws):</strong> B − C = −0.055656 [−0.068896, −0.041997]; A − C = −0.056851 [−0.070242, −0.043026]; X − C = −0.091555 [−0.104537, −0.077115]; A − B = −0.001195 point, paired bootstrap CI [−0.002163, −0.000204] (excludes 0; the SGMC weight helps by about 0.0012 DTI, a small effect).</p>
 <p><strong>Gate:</strong> the candidate must beat the best same-evaluator, same-folds arm. That arm is C at 0.147192. B at 0.091536 does not. <strong>NOT MET.</strong></p>
 <p class="small">The receipt's “observed” delta of −0.001182 is the bootstrap mean; the point difference is −0.001195. The 2026-10-08 “CGRC beats H54-A” claim (0.0915 vs 0.0483) mixed evaluators and folds and is withdrawn (IR-54-067). The 0.1793 “corpus best” is unsourced and withdrawn (IR-54-068).</p></section>
+
+<section class="section" aria-labelledby="gate-caveat"><div class="eyebrow">Caveat on the gate</div><h2 id="gate-caveat">The 0.1472 benchmark may be inflated by SGMC co-location</h2><p>Main (IR-54-038, IR-54-057) reports that the H54-A rule may win through co-location with withheld catalogue faults. That makes the holdout gate weak evidence. The verdict rests on the lane failure, which does not depend on the holdout.</p></section>
 
 <section class="section two-col" aria-labelledby="canary"><div><div class="eyebrow">Leakage canary and power</div><h2 id="canary">Single-feature AUC (cutoff 0.90) and the 0.0028 question</h2>
 <ul class="list">

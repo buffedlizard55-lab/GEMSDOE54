@@ -49,10 +49,48 @@ NOTES = {
     "C3_magnetic_hgrad_ridge": ("GEMSDOE54 magedge-hgrad-ridge: tmi_hg magnetic gradient ridges, >300m from "
                                 "catalogue, linearity gate, 200m dots"),
 }
+NOTES["C4_crossgradient_coincidence_ridge"] = (
+    "H1 cross-gradient ridge: min(pct rank tmi_hg, pct rank |iso grav hgrad|), q=0.95, 200m dots, >300m from catalogue")
+EXP_ID = {"C1_sgmc_complement": "H54-A", "C3_magnetic_hgrad_ridge": "H54-B",
+          "C4_crossgradient_coincidence_ridge": "H1"}
+# Per-candidate scientific text. C1 and C3 keep the wording used for their existing cards (see below).
+CAND_TEXT = {
+    "C4_crossgradient_coincidence_ridge": {
+        "hypothesis": (
+            "A buried or weakly expressed fault that separates rock bodies of different density and magnetization "
+            "produces co-located horizontal-gradient maxima in BOTH the magnetic anomaly (tmi_hg) and the isostatic "
+            "gravity anomaly (iso_grav_anom_hg). Cells where both families exceed their footprint percentile are "
+            "candidate boundaries, thinned by the linearity gate."),
+        "mechanism": (
+            "Cross-gradient coincidence rather than either gradient alone. A cell scores min(rank_mag, rank_grav), "
+            "so a single-family maximum (e.g. a magnetic dike with no density contrast) does not score. Visible "
+            "catalogue cells and their 300 m collar are excluded; the rest is thinned to 200 m dots by the builder rules."),
+        "mimic_process": (
+            "Lithologic contacts and intrusive margins that carry both a susceptibility and a density contrast, basin "
+            "margins, and survey-line seams common to the magnetic and gravity grids. None of these need a fault."),
+    },
+}
+DEFAULT_TEXT = {
+    "hypothesis": (
+        "Faults absent from the competition catalogue are most likely to be mapped on the USGS State "
+        "Geologic Map Compilation (SGMC) as linework lying more than one kernel width (300 m) from every "
+        "catalogue cell. A linearity gate and 200 m dot spacing turn that linework into a sparse "
+        "prediction with low false-positive mass."),
+    "mechanism": (
+        "Visible-catalogue exclusion (300 m) removes linework whose credit is already claimed; the "
+        "linearity gate keeps long traces and drops blob-shaped map artefacts; spaced dots reduce "
+        "redundant false positives. Under the organizer metric, dots that earn zero credit only raise "
+        "the FP term (see scripts/holdout_segment_cv.py docstring and tests/test_segment_cv.py)."),
+    "mimic_process": (
+        "Map linework that is not a Quaternary fault: pre-Quaternary faults without scarps, dikes and "
+        "veins digitised as lines, lithologic contacts, and neatlines. The linearity gate removes only "
+        "blob-shaped artefacts; it does not remove long non-fault contacts."),
+}
 NOTE_LIMIT = 140
 DEFAULT_CANDIDATE = "C1_sgmc_complement"
 CONTROL = "C0_random_admissible_control"
-ALL_CANDIDATES = ("C1_sgmc_complement", "C2_geodetic_shear_ridge", "C3_magnetic_hgrad_ridge")
+ALL_CANDIDATES = ("C1_sgmc_complement", "C2_geodetic_shear_ridge", "C3_magnetic_hgrad_ridge",
+                  "C4_crossgradient_coincidence_ridge")
 
 
 def sha256_file(path: Path) -> str:
@@ -102,7 +140,9 @@ def main() -> int:
     ap.add_argument("--candidate", default=DEFAULT_CANDIDATE, choices=ALL_CANDIDATES)
     args = ap.parse_args()
     CANDIDATE = args.candidate
-    RIVALS = tuple(c for c in ALL_CANDIDATES if c != CANDIDATE)
+    # rivals are the candidates present in the holdout receipt (the v1 receipt has C1-C3 only;
+    # C4 is compared only in the v1 C4 receipt). A missing pair makes rule 6 fail, it does not crash.
+    RIVALS = tuple(c for c in ALL_CANDIDATES if c != CANDIDATE and c in json.loads(Path(args.holdout).read_text())["candidates"])
     NOTE = NOTES.get(CANDIDATE, NOTES["C1_sgmc_complement"])
 
     sub = submission_facts(Path(args.submission), Path(args.labels))
@@ -114,7 +154,8 @@ def main() -> int:
     cands = ho["candidates"]
     c1 = cands[CANDIDATE]
     paired = ho["paired_differences"]
-    null = ho["shift_null_C1"]
+    null_key = "shift_null_" + CANDIDATE.split("_")[0]
+    null = ho.get(null_key)
     canary = ho["canary"]["features"]
     status = ho["candidate_leakage_status"]
 
@@ -140,7 +181,8 @@ def main() -> int:
         "3_candidate_canary_clear": status[CANDIDATE] == "CLEAR",
         "4_pooled_ci_lower_above_control_ci_upper": c1["ci95_percentile"][0] > cands[CONTROL]["ci95_percentile"][1],
         "5_paired_vs_control_ci_lower_above_0": vs_control["ci95_percentile"][0] > 0,
-        "6_no_rival_significantly_better": all(rc is not None and rc["ci95_percentile"][1] >= 0
+        "6_no_rival_significantly_better": all(rc is not None and rc.get("ci95_percentile") is not None
+                                              and rc["ci95_percentile"][1] >= 0
                                               for rc in rival_checks.values()),
     }
     promote = all(checks.values())
@@ -149,25 +191,14 @@ def main() -> int:
         "run_card_version": "parallel-run protocol v2 (whole-segment holdout, evaluator gemsdoe54-segment-cv v1)",
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "experiment": {
-            "id": "H54-A" if CANDIDATE == DEFAULT_CANDIDATE else "H54-B",
+            "id": EXP_ID.get(CANDIDATE, "H54-A" if CANDIDATE == DEFAULT_CANDIDATE else "H54-B"),
             "slug": Path(args.submission).stem,
             "candidate_key_in_holdout": CANDIDATE,
             "status": "re-evaluated under the whole-segment holdout; not an organizer score",
         },
-        "hypothesis": (
-            "Faults absent from the competition catalogue are most likely to be mapped on the USGS State "
-            "Geologic Map Compilation (SGMC) as linework lying more than one kernel width (300 m) from every "
-            "catalogue cell. A linearity gate and 200 m dot spacing turn that linework into a sparse "
-            "prediction with low false-positive mass."),
-        "mechanism": (
-            "Visible-catalogue exclusion (300 m) removes linework whose credit is already claimed; the "
-            "linearity gate keeps long traces and drops blob-shaped map artefacts; spaced dots reduce "
-            "redundant false positives. Under the organizer metric, dots that earn zero credit only raise "
-            "the FP term (see scripts/holdout_segment_cv.py docstring and tests/test_segment_cv.py)."),
-        "mimic_process": (
-            "Map linework that is not a Quaternary fault: pre-Quaternary faults without scarps, dikes and "
-            "veins digitised as lines, lithologic contacts, and neatlines. The linearity gate removes only "
-            "blob-shaped artefacts; it does not remove long non-fault contacts."),
+        "hypothesis": CAND_TEXT.get(CANDIDATE, DEFAULT_TEXT)["hypothesis"],
+        "mechanism": CAND_TEXT.get(CANDIDATE, DEFAULT_TEXT)["mechanism"],
+        "mimic_process": CAND_TEXT.get(CANDIDATE, DEFAULT_TEXT)["mimic_process"],
         "holdout": {
             "label": ho["label"],
             "evaluator": ho["evaluator"],
@@ -182,8 +213,8 @@ def main() -> int:
                                    "ci95_percentile": cands[CONTROL]["ci95_percentile"]}},
             "paired_vs_control": vs_control,
             "paired_vs_rivals": rival_checks,
-            "shift_null_C1": null,
-            "shift_null_scope": "computed for C1 (SGMC-complement dot pattern) only",
+            null_key: null,
+            "shift_null_scope": f"computed for {CANDIDATE.split('_')[0]} only",
             "canary_flagged_features": ho["canary"]["flagged"],
             "candidate_leakage_status": status[CANDIDATE],
             "cohen_d_min_units_total": ho["power"]["cohen_d_min_80pct_alpha05_units_total"],
@@ -213,7 +244,7 @@ def main() -> int:
         "submission_file": sub,
         "builder_receipt_ref": "registry/gems54-undercomplement-q200.build.json",
         "builder_receipt_summary": {k: build.get(k) for k in ("slug", "emitted_dots", "dots") if k in build},
-        "validator_output": {"path": "evidence/validator_output.json",
+        "validator_output": {"path": Path(args.validator).resolve().relative_to(ROOT).as_posix(),
                              "format_passed": val["format"]["passed"],
                              "format_checks": val["format"]["checks"],
                              "format_failures": val["format"]["failures"],

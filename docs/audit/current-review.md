@@ -58,6 +58,14 @@ The five current geological hypotheses and exact availability caveats are in [`.
 5. Generate, validate, hash, and link a new GeoTIFF only after the above gates pass. Keep promotion/slot selection separate and within the current cap shown on the submission page.
 6. Refresh the organizer leaderboard from an authenticated or otherwise official source and record receipts; do not transform owner-site claims into confirmed scores.
 
+## Addendum — second pass (2026-10-08 / 09 UTC)
+
+- **One candidate TIFF generated and not cleared:** `docs/downloads/gems54-h1-crossgradient-q095.tif` (H1, SHA-256 `006e912b…f26d05`, 21,371 dots, zeros outside footprint). Run card: `registry/run_card_v3_h1.json` (negative).
+- **Holdout (HOLDOUT-DTI, evaluator v1):** H1 (C4) 0.0120 [0.0098, 0.0146], not above the chance control; C5 (H6, basement-step) 0.0103 [0.0076, 0.0133], at chance. Receipts: `evidence/holdout_segment_cv_v1_c4.json`, `evidence/holdout_segment_cv_v1_c5.json`. Experiment budget (3 holdout runs) is spent.
+- **Uniqueness:** H1 sibling scan `evidence/uniqueness_gems54-h1-crossgradient-q095.json` (1,149 submission-like rasters). Literal registry test: DUPLICATE. Sibling scanner's own exclusion rule: lane PASS. The two readings conflict (IR-54-063); owner decision needed.
+- **Format:** H1 fails the outside-footprint NaN check (zeros). H54-A and H54-B store zeros too; the verdict page now says so.
+- **Corrected in this pass:** make_run_card.py validator path label (IR-54-064); verdict, index and holdout pages updated to remove stale "no TIFF" and "no holdout" statements.
+- **Still open:** lane-definition decision; NaN-versus-zero convention and the `[0, 1]` upload error (needs the user's file name, hash and full message); C4−C2 paired difference; count-matched rerun; SGMC-excluded endpoint; licence and organizer-origin check of the feature cube.
 
 ## Review pass 2026-10-09 (three-experiment session)
 

@@ -45,8 +45,13 @@ def minimum_detectable_cohen_d(
 
     def achieved_power(d: float) -> float:
         noncentrality = d * np.sqrt(n)
-        return float(nct.cdf(-critical, df, noncentrality) +
-                     nct.sf(critical, df, noncentrality))
+        value = float(nct.cdf(-critical, df, noncentrality) + nct.sf(critical, df, noncentrality))
+        if not np.isfinite(value):
+            # SciPy's noncentral-t CDF returns NaN for large df with small d (e.g. n = 60,988 pixels).
+            # With df this large the t law is numerically normal, so use the normal-shift power.
+            # Fixed 2026-10-08 (IR-54-050); regression test tests/test_power.py::test_large_n_small_d_is_finite.
+            value = float(norm.cdf(noncentrality - critical) + norm.cdf(-critical - noncentrality))
+        return value
 
     upper = 0.1
     # Bracket adaptively. Very large, unnecessary noncentrality parameters can make scipy's

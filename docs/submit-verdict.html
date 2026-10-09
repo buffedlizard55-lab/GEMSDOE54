@@ -31,6 +31,13 @@
 </tbody></table></div>
 <p class="small">The H54-B holdout (0.0148) was produced with the earlier evaluator (gemsdoe54-segment-cv v1). It is not on the same folds as the v2 comparison and is not compared here.</p></section>
 
+<section class="section" aria-labelledby="parallel"><div class="eyebrow">Parallel work on main (2026-10-09, integrated)</div><h2 id="parallel">Two open questions that bear on the verdict</h2>
+<ul class="list">
+<li><span class="bullet">A</span><span><strong>Lane definition is disputed.</strong> The literal 70% test is degenerate against dense registries: r13 covers 99.87% of the footprint within 3 px, so almost any candidate is flagged. Main records this as blocking (IR-54-051) and notes that two lane tests are in use (IR-54-063). Our verdict applies the rule as written. CGRC still FAILS if the rasters with 50% or more coverage are exempted, because three non-degenerate siblings exceed 0.70 (0.935, 0.769, 0.733). The verdict does not depend on the disputed exemption.</span></li>
+<li><span class="bullet">B</span><span><strong>The holdout benchmark may be inflated.</strong> Main reports that the H54-A rule (our arm C, 0.1472) may win through SGMC co-location with withheld faults (IR-54-038, IR-54-057): 33% of catalogue positives lie within 3 px of an SGMC cell. The holdout gate is therefore weak evidence on its own. The lane failure alone is sufficient for NOT CLEARED.</span></li>
+<li><span class="bullet">C</span><span><strong>H1 and C4/C5 on main are negative.</strong> On main's v1 evaluator (gemsdoe54-segment-cv v1): C4 cross-gradient ridge 0.0120 [0.0098, 0.0146]; C5 basement-step ridge 0.0103 [0.0076, 0.0133]; C1 SGMC complement 0.0483 [0.0424, 0.0541]; random control 0.0104. Neither C4 nor C5 is above chance. Our arm X is a different construction on a different evaluator (cgrc-holdout v2). Both fail the gate.</span></li>
+</ul></section>
+
 <section class="section" aria-labelledby="slots"><div class="eyebrow">Weekly slots</div><h2 id="slots">What this means for a slot</h2>
 <div class="card"><p>No slot is recommended. The agent does not select submissions. Slot selection is a separate, owner-level decision made with the run card and receipts in hand. A lane duplicate of a sibling submission also conflicts with this project's uniqueness requirement (do not copy previous submissions). The copy-prohibition wording of the rules was not re-verified in this session.</p></div></section>
 
