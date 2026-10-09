@@ -1,0 +1,152 @@
+{
+  "run_id": "H54-C-review-2026-10-09",
+  "date_utc": "2026-10-09",
+  "label_policy": "HOLDOUT-DTI = local catalogue-truth proxy (not organizer). ORGANIZER-PUBLIC = public leaderboard page (not a submission-page receipt). Nothing here is a projection.",
+  "scope": "Review of the CGRC v1 candidate, the 0.2778 registry pair, the detection-floor question, hypothesis ranking, and the submission gates. No submission was made and no weekly slot was chosen.",
+  "hypothesis": "Catalogue-tip relay: continue mapped fault traces past their tips along strike (two-sided outward continuations, gap and extension capped at 2,500 m), place 300 m-spaced dots on the continuations, and weight placement by SGMC corroboration.",
+  "mechanism": "Straight-line extrapolation of mapped tips along local trend, scored by the distance-weighted Tversky index on new faults; the SGMC layer is used only as a placement weight.",
+  "named_non_fault_mimic": "Tip continuations that follow aligned basin-margin or topographic lineaments rather than faults (a straight extension of a mapped trace can run along a basin edge with no fault).",
+  "holdout": {
+    "label": "HOLDOUT-DTI (catalogue-truth proxy; cannot reward genuinely new faults)",
+    "evaluator": "gemsdoe54.cgrc-holdout.v2",
+    "design": "whole-segment hide-and-recover, 4 spatial-quadrant folds, 300 m buffer, 200 m catalogue exclusion, 2,500 m gap and extension caps",
+    "arm_B_SGMC_weight_pooled_DTI": 0.091536,
+    "arm_B_ci95": [
+      0.087617,
+      0.094855
+    ],
+    "arm_A_pure_geometry_pooled_DTI": 0.090341,
+    "arm_A_ci95": [
+      0.086457,
+      0.09367
+    ],
+    "random_mass_matched_control_DTI": 0.061014,
+    "paired_delta_A_minus_B": -0.001182,
+    "paired_delta_ci95": [
+      -0.002163,
+      -0.000204
+    ],
+    "withheld_positive_count": 60834,
+    "independent_whole_segment_units": 3118,
+    "reproduced_2026_10_09": "all headline values reproduced exactly with the frozen 2,500 m design (evidence/cgrc_holdout_receipt_rerun_20261009.json)",
+    "leakage_canary": {
+      "sgmc_binary_auc": 0.522821,
+      "sgmc_continuous_auc_vs_withheld": 0.65447,
+      "cut": 0.9,
+      "flag": false
+    },
+    "promotion_comparator": "Not cited. The 'corpus holdout best 0.1793' in earlier run cards has no receipt (IR-54-088)."
+  },
+  "overlap_vs_registry": {
+    "local_registry_11_rasters": "literal 70% rule: r13 0.9980 (coverage 0.9987), r11 0.8328 (coverage 0.7397), r14 0.8571 (coverage 0.7620) FAIL; all others <= 0.5613 (hedge_v2)",
+    "full_sibling_corpus": "1,198 sibling rasters after excluding the candidate's own twin: 124 rows above 70% (116 blanket entries (74 distinct files in 13 repositories) with coverage >= 0.5; 3 distinct sparse files at 0.733, 0.769, 0.935). Max |rho| 0.101. No exact or decoded copy.",
+    "evidence": [
+      "evidence/validator_output_cgrc-relay-v1.json",
+      "evidence/uniqueness_gems54-cgrc-relay-v1.json",
+      "evidence/lane_summary_cgrc-relay-v1.json"
+    ]
+  },
+  "rasters": {
+    "primary": {
+      "path": "docs/downloads/gems54-cgrc-relay-v1.tif",
+      "sha256": "e6f82d42c751e77f93f79d0c62c6ac0574daf9e35c827b1566753fe26b0984ef",
+      "bytes": 135170,
+      "encoding": "all-finite; zeros outside footprint"
+    },
+    "twin": {
+      "path": "docs/downloads/gems54-cgrc-relay-v1-nan.tif",
+      "sha256": "9b4cf4450bbc6c13b307e5ec89f0dd2d2f0a54245b1757287541079098fba0de",
+      "bytes": 179360,
+      "encoding": "NaN outside footprint"
+    },
+    "reproducibility": "rebuilt with scripts/build_cgrc_submission.py on 2026-10-09: both sha256 identical"
+  },
+  "validator_output": {
+    "primary": {
+      "format_passed": false,
+      "failures": [
+        "outside_footprint_null_or_nan: non_nan_outside=7111787"
+      ],
+      "lane": "DUPLICATE - STOP (r11_greedy_mp, r13_lattice_s5_00904, r14_union_tips10_lat6)"
+    },
+    "twin": {
+      "format_passed": true,
+      "failures": [],
+      "lane": "DUPLICATE - STOP (same three)"
+    },
+    "in_footprint": {
+      "finite_range": [
+        0.0,
+        1.0
+      ],
+      "nan_inside": 0,
+      "positive_cells": 32369,
+      "distinct_positive_values": 1
+    }
+  },
+  "submission": {
+    "name": "GEMS54-CGRC-relay-v1",
+    "note": "Catalogue-tip relay dots, SGMC-weighted. NOT OK to submit: lane DUPLICATE (r11/r13/r14; 3 sparse siblings). Audit copy only.",
+    "note_length": 124,
+    "decision_download": "NOT OK to download for submission (audit copy kept for review only)",
+    "decision_submit": "NOT OK",
+    "upload_state": "not uploaded; no slot chosen"
+  },
+  "power": {
+    "board_gap": {
+      "value": 0.0028,
+      "pair": "0.2778 minus 0.2750 (ORGANIZER-PUBLIC)",
+      "verdict": "NOT CLASSIFIABLE on this holdout (no published unit count or per-unit contributions)"
+    },
+    "cross_family_raw_MDE_range": [
+      0.0045,
+      0.0095
+    ],
+    "same_family_raw_MDE_range": [
+      0.0015,
+      0.0022
+    ],
+    "evidence": [
+      "evidence/detection_floor_segments.json",
+      "evidence/detection_floor.json (not reproducible here, IR-54-091)"
+    ]
+  },
+  "board_0278_mechanism": {
+    "owner_raster_relation": "dotted_b2_prune_02778 is a strict subset of dotted_d2_8_02708: 2,545 dots removed, 0 added; every removed dot lies within 200 m of the USGS catalogue; no kept dot does.",
+    "catalogue_proxy_DTI": {
+      "02708": 0.049095,
+      "02778": 0.006709
+    },
+    "marginal_rule": "deleting a dot raises DTI iff t < 0.2*DTI*(1+t-k); verified on 80 sampled dots (80/80; closed-form error 8.6e-15)",
+    "link_to_extradr19": "UNVERIFIED (IR-54-096)"
+  },
+  "hypotheses": {
+    "ranked": [
+      "cross-gradient corroboration (BLOCKED)",
+      "depth-persistent conductivity (BLOCKED)",
+      "seismicity lineaments (BLOCKED)",
+      "state-map node topology (feasible but circular)",
+      "1 m DEM scarps (BLOCKED)"
+    ],
+    "validated_top_hypothesis": "NONE. Validation needs the authenticated official feature file, which is absent. No slot used."
+  },
+  "verdict": "negative",
+  "verdict_detail": "Negative for promotion and submission. The verdict rests on the lane gate (DUPLICATE under the literal and non-degenerate readings), not on the holdout.",
+  "decisions_required": [
+    "D1 lane-rule scope (IR-54-084, IR-54-102, IR-54-103, IR-54-105)",
+    "D2 outside-bounds encoding (IR-54-097, IR-54-098)",
+    "D3 promotion comparator (IR-54-088)"
+  ],
+  "irregularities": [
+    "IR-54-083 to IR-54-106"
+  ],
+  "sources": "docs/data/source-register.json",
+  "budget": {
+    "experiments": [
+      "E1 full-corpus lane scan (CGRC v1; H54-A scan stopped, receipt pre-fix)",
+      "E2 registry-pair mechanism and marginal rule",
+      "E3 detection-floor re-run (receipt-only)"
+    ],
+    "limit": "3 experiments or 2 hours"
+  }
+}

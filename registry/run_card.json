@@ -135,5 +135,7 @@
     "failed_check": "outside_footprint_null_or_nan",
     "evidence": "evidence/h54a-archive-strict-revalidation.json",
     "detail": "Archived raster stores finite zeroes outside the cached label footprint."
-  }
+  },
+  "superseded_by": "docs/data/run-card-2026-10-09.json",
+  "superseded_reason": "2026-10-09: lane verdicts in this file use the pre-fix logic (name-based exclusions or non-literal overlap). See IR-54-085, IR-54-087, IR-54-104."
 }

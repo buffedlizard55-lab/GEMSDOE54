@@ -192,6 +192,20 @@ The owner-maintained `GEMSDOE` bridge at pinned commit `dcbbb192e56b2b32c0a131eb
 
 ---
 
+## Additional verified checks on this branch (2026-10-09; IR-54-083 to IR-54-106)
+
+These checks were run on branch `arena/a2c15068-gemsdoe54` and do not change main's verdict. Full detail: [`docs/data/run-card-2026-10-09.json`](docs/data/run-card-2026-10-09.json) and [`docs/audit/irregularities.md`](docs/audit/irregularities.md).
+
+- **Copy and lane over the full corpus.** `gems54-cgrc-relay-v1` is not a copy of any sibling file (1,198 compared; the candidate's own NaN twin is excluded). Max |Spearman ρ| 0.101. The literal lane test FAILS on three sparse public rasters at overlaps 0.733 to 0.935 (`gems7-halo15-gbt-v1`, `gems7-strike30x3-v2`, `gems10-h25-ctx-ridge`) and on 116 blanket entries (74 distinct files) that cover 50% to 100% of the footprint. The literal rule is therefore unsatisfiable for any candidate (IR-54-103, IR-54-104). Evidence: `evidence/uniqueness_gems54-cgrc-relay-v1.json`, `evidence/lane_summary_cgrc-relay-v1.json`, `evidence/uniqueness_table_cgrc-relay-v1.json`.
+- **0.2778: verified mechanism only.** Owner raster `dotted_b2_prune_02778` equals `dotted_d2_8_02708` minus exactly 2,545 dots, all within 200 m of the USGS catalogue, and none of the kept dots is. On the catalogue proxy, DTI falls from 0.0491 to 0.0067, so the proxy ranks them opposite to a test of new faults. The exact marginal rule agrees on 80 of 80 sampled dots (closed-form error 8.6e-15). Whether this is extradr19's board submission is **unverified** (IR-54-096). Evidence: `evidence/registry_pair_0278_mechanism.json`.
+- **Holdout reproducibility.** The receipt's configuration (2,500 m gap and extension caps) is now the script default. A re-run with that design reproduces every headline value (`evidence/cgrc_holdout_receipt_rerun_20261009.json`). The committed receipt is unchanged. It contains three blocks that the script does not write (IR-54-090).
+- **Leakage canary.** The binary SGMC AUC (0.523) cannot reach the 0.90 cut. The continuous form is 0.654 against the withheld catalogue and 0.654 against the full catalogue. Neither fires (IR-54-089).
+- **Power correction.** The 0.001395 floor is for a same-method paired contrast. Cross-family contrasts have raw floors of 0.0045 to 0.0095 (`evidence/detection_floor_segments.json`), so the 0.0028 gap lies inside them. Same-family near-identical pairs have floors of 0.0015 to 0.0022 (`evidence/detection_floor.json`; not reproducible in this checkout, IR-54-091). The board gap stays NOT CLASSIFIABLE (IR-54-094).
+- **Builder gates.** `scripts/build_cgrc_submission.py` now reports the literal format and lane results, with no excused failure and no name-based exclusion (IR-54-086, IR-54-087, IR-54-106). A rebuild reproduces both TIFs byte-for-byte (sha256 `e6f82d42…`, `9b4cf445…`).
+- **Tests.** Three regression tests were added (`tests/test_marginal_rule.py`, `tests/test_lane_summary.py`) on top of the existing suite.
+
+---
+
 ## 1. The standing prompt
 
 The following is the project brief. It is reproduced in full so that every session

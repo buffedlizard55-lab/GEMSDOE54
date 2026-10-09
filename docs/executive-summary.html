@@ -70,6 +70,18 @@
 <li>Assess SGMC co-location in the H54-A gate arm (main IR-54-057). The lane failure is the operative reason for NOT CLEARED.</li>
 </ul></section>
 </main>
+<div class="wrap">
+<section class="section" id="additional-checks">
+<h2>Additional verified checks (branch arena/a2c15068-gemsdoe54, 2026-10-09)</h2>
+<ul>
+<li><b>Full-corpus lane.</b> CGRC v1 is not a copy of any sibling file (1,198 compared; own twin excluded). Max |ρ| 0.101. Literal lane FAIL on three sparse public rasters (overlap 0.733 to 0.935) and on 116 blanket entries (74 distinct files). The literal rule cannot be met by any candidate (IR-54-103, IR-54-104). Evidence: <code>evidence/lane_summary_cgrc-relay-v1.json</code>.</li>
+<li><b>0.2778 mechanism (verified, not attributed).</b> Owner raster 02778 is 02708 minus exactly 2,545 dots within 200 m of the USGS catalogue. Catalogue-proxy DTI falls from 0.0491 to 0.0067, so the proxy ranks them opposite to a test of new faults. Whether this is extradr19's board submission is unverified (IR-54-096). Evidence: <code>evidence/registry_pair_0278_mechanism.json</code>.</li>
+<li><b>Power correction.</b> The 0.001395 floor applies to same-method contrasts only. Cross-family floors are 0.0045 to 0.0095, so 0.0028 is inside them. Same-family near-identical pairs have floors of 0.0015 to 0.0022. The board gap is NOT CLASSIFIABLE (IR-54-094).</li>
+<li><b>Leakage canary.</b> The binary SGMC AUC (0.523) cannot reach 0.90. The continuous form is 0.654 against withheld and full catalogue. Neither fires (IR-54-089).</li>
+<li><b>Verdict unchanged.</b> NOT OK to download and submit. Audit copies are kept for review only. Decisions D1 to D3 are on the <a href="submit-verdict.html">submit verdict</a> page.</li>
+</ul>
+</section>
+</div>
 <footer class="footer"><div class="footer-inner"><p><a href="index.html">Back to overview</a> · <a href="submit-verdict.html">Verdicts</a></p></div></footer>
 </body>
 </html>

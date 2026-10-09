@@ -57,6 +57,7 @@ from pathlib import Path
 import numpy as np
 import rasterio
 from scipy.ndimage import distance_transform_edt, label
+from scipy.stats import rankdata
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
@@ -394,6 +395,15 @@ def main() -> int:
     neg = foot & ~all_truth
     p0 = float(sgmc[neg].mean())
     auc_sgmc = 0.5 * (p1 + (1.0 - p0))
+    # Continuous form of the same canary (added 2026-10-09). The binary form above is the balanced accuracy
+    # of ONE threshold on SGMC cells and cannot exceed ~0.5 + enrichment/2, so it cannot reach the 0.90 cut.
+    # The continuous score (-distance to SGMC) is the test that can fire.
+    _d_sgmc = distance_transform_edt(~sgmc)
+    _pos = -_d_sgmc[all_truth]
+    _neg = -_d_sgmc[neg]
+    _r = rankdata(np.concatenate([_pos, _neg]))
+    _npos, _nneg = _pos.size, _neg.size
+    auc_sgmc_cont = float((_r[:_npos].sum() - _npos * (_npos + 1) / 2.0) / (_npos * _nneg))
     vis_all = cat & ~all_truth  # background control feature (should be ~0.5)
     p1v = float(vis_all[all_truth].mean())
     p0v = float(vis_all[neg].mean())
@@ -410,6 +420,7 @@ def main() -> int:
 
     receipt = {
         "schema": "gemsdoe54.holdout-receipt.v1",
+        "cli_args": {k: (v if not isinstance(v, Path) else str(v)) for k, v in vars(args).items()},
         "evaluator": {
             "version": EVALUATOR_VERSION,
             "metric": {"name": "DTI", "alpha": ALPHA_M, "beta": BETA_M,
@@ -501,10 +512,13 @@ def main() -> int:
             "sgmc_alone_auc_vs_withheld_catalogue": round(auc_sgmc, 6),
             "p_sgmc_given_withheld_truth": round(p1, 6),
             "p_sgmc_given_background": round(p0, 6),
+            "sgmc_alone_auc_continuous_neg_distance_vs_withheld_catalogue": round(auc_sgmc_cont, 6),
             "visible_catalogue_alone_auc_control": round(auc_visible, 6),
             "flags": (["LEAKAGE: SGMC alone AUC > 0.90 vs withheld catalogue (expected circularity: "
                        "SGMC independently maps the same structures the catalogue holds)"]
-                      if auc_sgmc > 0.90 else []),
+                      if auc_sgmc > 0.90 else [])
+                     + (["LEAKAGE: continuous SGMC-distance AUC > 0.90 vs withheld catalogue"]
+                        if auc_sgmc_cont > 0.90 else []),
             "note": ("Catalogue-truth holdout: any layer that independently maps catalogue faults "
                      "will score high. This measures circularity, not hidden-label skill."),
         },
