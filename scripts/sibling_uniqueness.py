@@ -61,6 +61,29 @@ DEGENERATE_COVERAGE = 0.50
 SAMPLE_CELLS = 200_000
 SAMPLE_SEED = 20261008
 
+# Shared input layers (hash-pinned mirrors of organizer/USGS/GDR data and their
+# derived masks).  These are research INPUTS, not competing prediction lanes:
+# every team is allowed to use the USGS geology map or the GeoDAWN stack.  A
+# candidate that sits on SGMC cells therefore "overlaps" the SGMC source raster
+# at 100 % by construction, which says nothing about lane drift.  Rows whose
+# bytes match one of these pins are classified ``input_layer`` and excluded from
+# the lane verdict (reported separately, IR-54-051).
+KNOWN_INPUT_SHA256 = {
+    "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093": "labels mirror",
+    "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc": "sample-submission mirror (label mask)",
+    "26d142c4c93282cd94f6950ab96f22aeff59fbbea523d43d662e76fa1b161b5c": "derived SGMC faults (USGS state geology)",
+    "d6a3609bd7943fa5f1126a3cc688441aeceee261a76cd6a90a206830400066a4": "derived GDR paleo geothermal (sinter/tufa)",
+    "c219bd644e6f7a4071dc429e29b909a2296967b0657bf456bb6675413ee76cb2": "derived GDR Q volcanics (vents+flows)",
+    "7ac3cfdf2412f7f8a8b82d928115888c510f106f0254fb0b3988448db2f3b6ec": "derived GDR 2 m temperature probes",
+    "d580bb8bdcdb941e32fefb8b38044bc5bf04e199bf2e83498c3576e6fc465568": "lidar scarp feature stack (12 bands)",
+    "a35a9c6d2a14786f4dab85481ee59769213072f5dab5b2535ea82ae4d9bb7d9b": "GeoDAWN extensions stack (4 bands)",
+    "c22420f75999030d7cc65c9e31e50d232ea6158423bca051613a18a8b20ba682": "GeoDAWN radiometrics stack (4 bands)",
+}
+INPUT_PATH_PARTS = ("/fixture/", "tests/", "external_gdr1391", "source_mirrors",
+                    "/bridge/", "audit_sources")
+INPUT_NAME_HINTS = ("eval_labels", "train_labels", "labels_catalogue", "template-mask",
+                    "sample_submission", "labels.tif", "fixture_features")
+
 
 def sha256_file(path: Path) -> str:
     h = hashlib.sha256()
@@ -72,6 +95,28 @@ def sha256_file(path: Path) -> str:
 
 def decoded_sha(arr: np.ndarray) -> str:
     return hashlib.sha256(np.ascontiguousarray(np.nan_to_num(arr, nan=0.0), dtype="<f4").tobytes()).hexdigest()
+
+
+def classify_raster(rel_path: str, sha: str, decoded: str, n_bands: int,
+                    decoded_inputs: set[str]) -> str:
+    """Classify a sibling raster as shared input data or a competing prediction.
+
+    Input layers (organizer/USGS/GDR mirrors, feature stacks, label/template
+    mirrors) are every team's raw material, not another lane's submission;
+    they are excluded from the lane verdict and reported separately (IR-54-051).
+    """
+    if sha in KNOWN_INPUT_SHA256:
+        return f"input_layer:{KNOWN_INPUT_SHA256[sha]}"
+    if decoded in decoded_inputs:
+        return "input_layer:decoded_match_known_input"
+    if n_bands > 1:
+        return "input_layer:multiband_feature_stack"
+    low = rel_path.lower()
+    if any(h in low for h in INPUT_NAME_HINTS):
+        return "input_layer:name_hint"
+    if any(p in low for p in INPUT_PATH_PARTS):
+        return "input_layer:path_hint"
+    return "prediction"
 
 
 def spearman_with_ranks(ra: np.ndarray, b: np.ndarray) -> float:
@@ -123,6 +168,18 @@ def main() -> int:
     fp_idx = np.flatnonzero(foot.ravel())
     sample = np.sort(rng.choice(fp_idx, size=min(SAMPLE_CELLS, fp_idx.size), replace=False))
 
+    # Decoded fingerprints of the known shared inputs present in this checkout, so
+    # re-encoded mirrors of the labels/template/masks classify as input layers too.
+    decoded_inputs: set[str] = set()
+    for inp in [Path(args.labels), ROOT / "data/grid/MIRROR_sample_submission_template.tif",
+                ROOT / "data/external/derived_sgmc_faults_100m_u8.tif",
+                ROOT / "data/external/derived_gdr_paleo_100m_u8.tif",
+                ROOT / "data/external/derived_gdr_volcanics_100m_u8.tif",
+                ROOT / "data/external/derived_gdr_2m_probes_100m_u8.tif"]:
+        if inp.exists():
+            with rasterio.open(inp) as ds:
+                decoded_inputs.add(decoded_sha(ds.read(1).astype(np.float32)))
+
     cand_path = Path(args.candidate)
     with rasterio.open(cand_path) as src:
         assert (src.height, src.width) == EXPECTED_SHAPE and str(src.crs) == EXPECTED_CRS
@@ -143,7 +200,7 @@ def main() -> int:
 
     rows = []
     counts = {"files_seen": 0, "grid_rasters": 0, "off_grid_skipped": 0, "unreadable": 0,
-              "submission_like": 0, "self_excluded": 0}
+              "submission_like": 0, "self_excluded": 0, "input_layers": 0}
     tmp_root = Path(tempfile.mkdtemp(prefix="sibuniq_"))
     for repo, rel, path in iter_rasters(Path(args.siblings), tmp_root):
         counts["files_seen"] += 1
@@ -155,6 +212,7 @@ def main() -> int:
                 if (ds.height, ds.width) != EXPECTED_SHAPE or str(ds.crs) != EXPECTED_CRS:
                     counts["off_grid_skipped"] += 1
                     continue
+                n_bands = ds.count
                 arr = ds.read(1).astype(np.float32)
                 nodata = ds.nodata
         except Exception:  # noqa: BLE001 - record and continue; never silently drop
@@ -165,6 +223,10 @@ def main() -> int:
         if repo == args.self_repo and sha == cand_sha:
             counts["self_excluded"] += 1
             continue
+        decoded = decoded_sha(arr)
+        kind = classify_raster(rel, sha, decoded, n_bands, decoded_inputs)
+        if kind != "prediction":
+            counts["input_layers"] += 1
         if nodata is not None and np.isfinite(nodata):
             arr = np.where(arr == np.float32(nodata), np.float32(0.0), arr)
         fp_vals = arr[foot]
@@ -173,10 +235,12 @@ def main() -> int:
         out_vals = arr[~foot]
         out_nonzero = int(np.count_nonzero(np.nan_to_num(out_vals, nan=0.0)))
         n_pos_fp = int(np.count_nonzero(fp_vals > 0))
-        submission_like = in_range and n_pos_fp > 0 and float(fp_vals.std()) > 0
+        stat_worthy = in_range and n_pos_fp > 0 and float(fp_vals.std()) > 0
+        submission_like = kind == "prediction" and stat_worthy
         row = {
             "repo": repo, "path": rel, "blob_sha": inventory.get((repo, rel)),
-            "bytes": path.stat().st_size, "sha256": sha, "decoded_sha256": decoded_sha(arr),
+            "bytes": path.stat().st_size, "sha256": sha, "decoded_sha256": decoded,
+            "kind": kind,
             "finite_in_footprint": finite_fp, "in_range_0_1": in_range,
             "positive_cells_in_footprint": n_pos_fp, "nonzero_outside_footprint": out_nonzero,
             "submission_like": submission_like,
@@ -185,6 +249,7 @@ def main() -> int:
         }
         if submission_like:
             counts["submission_like"] += 1
+        if stat_worthy:
             row["spearman_rho"] = round(spearman_with_ranks(cand_rank, arr.ravel()[sample]), 6)
             sib_dots = (arr > 0) & foot
             sy, sx = np.nonzero(sib_dots)
@@ -268,6 +333,16 @@ def main() -> int:
         "top10_by_rho": [slim(r) for r in top_rho],
         "top10_by_overlap": [slim(r) for r in top_ov],
         "submission_like_count": len(sub),
+        "input_layers_excluded_from_lane_verdict": [
+            {"repo": r["repo"], "path": r["path"], "sha256": r["sha256"], "kind": r["kind"]}
+            for r in rows if str(r.get("kind", "")).startswith("input_layer")
+        ],
+        "lane_registry_note": (
+            "Lane verdict is computed over prediction-like rasters only (kind == 'prediction'). "
+            "Shared input layers (USGS/SGMC, GeoDAWN stacks, GDR manifestation masks, label and "
+            "template mirrors) are excluded: overlapping an input every team may use is not lane "
+            "drift. Their overlaps are still computed per row for audit (IR-54-051)."
+        ),
         "generated_utc": datetime.now(timezone.utc).isoformat(timespec="seconds"),
         "method_note": ("Spearman over a seeded 200k-cell subsample of the study area; "
                         "dot overlap is an exact EDT test on the full grid. Sibling files are read "

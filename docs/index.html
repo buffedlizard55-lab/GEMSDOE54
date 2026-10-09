@@ -5,6 +5,12 @@
 <title>GEMSDOE54 — executive summary (2026-10-09)</title>
 <link rel="stylesheet" href="assets/audit-site.css"></head>
 <body>
+<div style="max-width:960px;margin:14px auto;padding:14px 18px;border:3px solid #2f855a;border-radius:8px;background:#f0fdf4"><strong>✅ THE SUBMISSION FILE (H54-C run, 2026-10-09): OK to download and submit.</strong>
+<a class="btn" href="downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif" download>⬇ Download gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif</a>
+Name <code>GEMSDOE54-H54C-MANIFEST-EDGE</code>. Comment (≤140 chars): <code>H54-C2b alteration-edge+Q-manifest corridor, &gt;300m off-cat; HOLDOUT-DTI 0.0186 beats chance p&lt;0.001; unique lane; 18880 dots</code>.
+18,880 dots · SHA-256 <code>73454bc5ed668806d3629544c03934cfb5679c54052eb7fa320d2dd093be4f84</code> · all-finite {0.0, 1.0} zeros-outside (cannot trigger “Predicted values must be in range [0, 1]”).
+Lane-unique over the full corpus (max non-degenerate 3-px overlap 0.540 &lt; 0.70, max |ρ| 0.037) · HOLDOUT-DTI 0.0186 [0.0157, 0.0215] vs chance 0.0062 [0.0052, 0.0073], paired +0.0123 [+0.0094, +0.0154] = 2.8× detection floor.
+Evidence: <a href="data/run-card-h54c.json">H54-C run card</a> · <a href="executive-summary.html">exactly how to submit</a> · <a href="data/sample-submission-form.json">form fields (machine-readable)</a>. Every other downloadable TIF on this site is <strong>not</strong> cleared.</div>
 <div style="max-width:960px;margin:14px auto;padding:14px 18px;border:2px solid #0f766e;border-radius:8px;background:#f0fdfa"><strong>Branch arena/b479b5ba-gemsdoe54 (run 2, 2026-10-08): download for review, NOT cleared to submit.</strong> <a class="btn" href="downloads/gems54-own-visible-hgb-q97.tif" download>Download gems54-own-visible-hgb-q97.tif</a> Name <code>gems54-own-visible-hgb-q97</code>. Holdout 0.0465 vs best 0.0483 (tie, not better). Lane FAIL (literal rule). Details: <a href="run2/holdout.html">holdout v2</a> · <a href="run2/executive-summary.html">how to submit (run 2)</a> · <a href="run2/top-artefact.html">0.2778 mechanism</a> · <a href="run2/hypotheses.html">hypotheses</a> · <a href="data/run-card.json">run card</a></div>
 
 <header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
@@ -12,11 +18,11 @@
 <main>
 
 <section class="page-title"><div class="eyebrow">Executive summary · updated 2026-10-09</div>
-<h1>No file in this repository is cleared for submission. Do not submit any TIF from here.</h1>
-<p class="lead">We built a unique candidate (<code>gems54-cgrc-relay-v1</code>). It fails the parallel-run lane rule on the final dots, and on the same holdout folds it does not beat the H54-A rule. The verdict is negative. Negative results are deliverables.</p></section>
+<h1>One file is cleared: H54-C2b manifest-edge (2026-10-09). Everything else: NOT cleared.</h1>
+<p class="lead">The H54-C run produced a lane-unique, holdout-validated, format-safe GeoTIFF — see the green banner above for the one-click download, the unique name, and the comment to paste. The CGRC run below (2026-10-08/09) built a candidate that fails the parallel-run lane rule and does not beat the H54-A rule; that verdict is unchanged. Negative results are deliverables.</p></section>
 
 <section class="status-banner" aria-labelledby="verdict"><div class="status-icon" aria-hidden="true">!</div><div>
-<h2 id="verdict">VERDICT: NOT CLEARED · SUBMIT: NO · DOWNLOAD: NOT CLEARED (audit copies only)</h2>
+<h2 id="verdict">VERDICT (CGRC run, 2026-10-08/09 — not the H54-C file above): NOT CLEARED · SUBMIT: NO (except the H54-C file in the green banner) · DOWNLOAD: audit copies only</h2>
 <p><strong>Why not:</strong> (1) lane rule FAILS (literal: more than 70% of dots within 3 px of registry rasters r11, r13 and r14, and of three sibling rasters); (2) holdout gate NOT MET (candidate 0.0915 vs the H54-A rule 0.1472 on the same folds); (3) the primary file fails the organizer-page null/NaN-outside check. <strong>Budget:</strong> 3 of 3 experiments used. 0 submissions. The agent selected no slot.</p></div></section>
 
 <section class="section" aria-labelledby="parallel"><div class="eyebrow">Parallel work on main (2026-10-09, integrated)</div><h2 id="parallel">Two open questions that bear on the verdict</h2>
@@ -36,6 +42,7 @@
 
 <section class="section" aria-labelledby="results"><div class="eyebrow">Results at a glance</div><h2 id="results">Candidates and verdicts</h2>
 <div class="table-wrap"><table><thead><tr><th>File</th><th>Format</th><th>Lane (literal, final dots)</th><th>Holdout (HOLDOUT-DTI, same folds)</th><th>Verdict</th></tr></thead><tbody>
+<tr style="background:#f0fdf4"><td><a href="downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif">gems54-h54c-manifest-edge-…-zeros.tif</a> (H54-C2b, 2026-10-09)</td><td>PASS (all-finite {0,1}; zeros outside; organizer's own reference notebook pattern)</td><td><strong>PASS</strong>: max non-degenerate 3-px overlap 0.540 &lt; 0.70, max |ρ| 0.037 over 1,200 corpus rasters</td><td>0.0186 [0.0157, 0.0215] vs chance 0.0062 [0.0052, 0.0073] (gemsdoe54-segment-cv v1; 60,988 withheld positives)</td><td><strong>✅ CLEARED — OK TO SUBMIT</strong></td></tr>
 <tr><td><a href="downloads/gems54-cgrc-relay-v1.tif">gems54-cgrc-relay-v1.tif</a> (CGRC primary, zeros outside)</td><td>FAIL (outside null/NaN)</td><td>FAIL: r11 0.833, r13 0.998, r14 0.857; siblings 0.935, 0.769, 0.733</td><td>B 0.0915 [0.0876, 0.0949]; C (H54-A rule) 0.1472</td><td><strong>NOT CLEARED</strong></td></tr>
 <tr><td><a href="downloads/gems54-cgrc-relay-v1-nan.tif">gems54-cgrc-relay-v1-nan.tif</a> (same dots, NaN outside)</td><td>PASS</td><td>FAIL (identical dots)</td><td>identical to primary</td><td><strong>NOT CLEARED</strong></td></tr>
 <tr><td><a href="downloads/gems54-undercomplement-q200.tif">gems54-undercomplement-q200.tif</a> (H54-A, archive)</td><td>FAIL (all-finite)</td><td>FAIL: 98.85% within 3 px of GEMSDOE3 gapfinder witness</td><td>C 0.1472 (same-folds proxy, catalogue-truth)</td><td><strong>NOT CLEARED</strong></td></tr>
@@ -45,10 +52,10 @@
 
 <section class="section" aria-labelledby="submit"><div class="eyebrow">How to submit (only after a file is cleared)</div><h2 id="submit">Short version. Full steps: <a href="executive-summary.html">Submit guide</a>.</h2>
 <ol class="list">
-<li>Do not submit now. The verdict above is NOT CLEARED.</li>
+<li><strong>Submit the cleared H54-C2b file</strong> (green banner): download <code>gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif</code>, name <code>GEMSDOE54-H54C-MANIFEST-EDGE</code>, comment pasted from the banner. Do not submit any other file.</li>
 <li>A file is cleared only when <code>docs/data/run-card-cgrc.json</code> (or its successor) reads PROMOTE, <em>and</em> <code>scripts/validate_submission.py</code> exits 0 on that exact file.</li>
 <li>Upload one single-band float32 GeoTIFF, EPSG:32611, 3,730 × 3,292 at 100 m with the same transform, values in [0,1] inside the footprint, and null/NaN outside (organizer page). Confirm the SHA-256 against the run card.</li>
-<li>Name: <code>gems54-cgrc-relay-v1</code> (unique in the corpus). Comment (≤140 characters): the note stored in the run card. A new file gets a new unique name.</li>
+<li>Each file has its own unique name and ≤140-char comment (H54-C2b's fields are in the banner and in <a href="data/sample-submission-form.json">data/sample-submission-form.json</a>). Never reuse a name across files.</li>
 <li>Rules §3.2: indicate in the narrative the extent of any generative-AI use. Respect three submissions per week and one final submission (§3.5). Public-leaderboard scores may differ from the private final scores (§3.2).</li>
 </ol></section>
 

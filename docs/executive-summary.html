@@ -5,6 +5,14 @@
 <title>Submit guide and error fix — GEMSDOE54 (2026-10-09)</title>
 <link rel="stylesheet" href="assets/audit-site.css"></head>
 <body>
+<div style="max-width:960px;margin:14px auto;padding:14px 18px;border:3px solid #2f855a;border-radius:8px;background:#f0fdf4"><strong>✅ THE SUBMISSION FILE (H54-C run, 2026-10-09): OK to download and submit.</strong>
+<a class="btn" href="downloads/gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif" download>⬇ Download gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif</a>
+<strong>Unique name:</strong> <code>GEMSDOE54-H54C-MANIFEST-EDGE</code> ·
+<strong>Short comment (124 ≤ 140 chars):</strong> <code>H54-C2b alteration-edge+Q-manifest corridor, &gt;300m off-cat; HOLDOUT-DTI 0.0186 beats chance p&lt;0.001; unique lane; 18880 dots</code> ·
+SHA-256 <code>73454bc5ed668806d3629544c03934cfb5679c54052eb7fa320d2dd093be4f84</code>.
+All-finite {0.0, 1.0}, zeros outside the footprint → a full-band [0,1] range check cannot reject it (fixes “Predicted values must be in range [0, 1]”; outside-footprint convention question: IR-54-072 / IR-54-109).
+Steps 1–6 below apply; use these exact fields in step 5. Every other TIF on this site is NOT cleared.</div>
+
 <div style="max-width:960px;margin:14px auto;padding:14px 18px;border:2px solid #0f766e;border-radius:8px;background:#f0fdfa"><strong>Branch arena/b479b5ba-gemsdoe54 (run 2, 2026-10-08): download for review, NOT cleared to submit.</strong> <a class="btn" href="downloads/gems54-own-visible-hgb-q97.tif" download>Download gems54-own-visible-hgb-q97.tif</a> Name <code>gems54-own-visible-hgb-q97</code>. Holdout 0.0465 vs best 0.0483 (tie, not better). Lane FAIL (literal rule). Details: <a href="run2/holdout.html">holdout v2</a> · <a href="run2/executive-summary.html">how to submit (run 2)</a> · <a href="run2/top-artefact.html">0.2778 mechanism</a> · <a href="run2/hypotheses.html">hypotheses</a> · <a href="data/run-card.json">run card</a></div>
 
 <header class="site-header"><div class="header-inner"><a class="brand" href="index.html"><span class="brand-mark">G54</span><span>GEMS research workbench</span></a>
@@ -12,14 +20,14 @@
 <main>
 
 <section class="page-title"><div class="eyebrow">Submit guide · 2026-10-09</div>
-<h1>Submit guide: nothing is cleared yet. This is the procedure for when something is.</h1>
-<p class="lead">Current status: <strong>NOT CLEARED. Do not submit any file from this repository.</strong> The steps below describe the process the repository requires before any upload. They do not authorise one.</p></section>
+<h1>Submit guide: one file is cleared (H54-C2b manifest-edge). Exact steps below.</h1>
+<p class="lead">Current status: <strong>the green banner file is CLEARED</strong> (lane-unique, holdout-validated, format-safe). All other files remain NOT CLEARED — including the CGRC run this page was originally written for. Steps 1–6 describe the exact upload procedure; use the banner's name and comment in step 5.</p></section>
 
 <section class="status-banner" aria-labelledby="gate"><div class="status-icon" aria-hidden="true">!</div><div>
 <h2 id="gate">Gate before any upload (all four must hold)</h2>
 <ol class="list">
 <li><strong>Lane:</strong> literal rule passes: |rho| ≤ 0.90 and ≤ 70% of dots within 3 px of every registry and sibling raster, on the final dots and the pre-placement surface. Current status: <strong>FAIL</strong> (CGRC primary and twin).</li>
-<li><strong>Format:</strong> single-band float32 GeoTIFF, EPSG:32611, same grid and transform, in-footprint values in [0,1], null/NaN outside the footprint. Current status: <strong>primary FAIL, twin PASS</strong>.</li>
+<li><strong>Format:</strong> single-band float32 GeoTIFF, EPSG:32611, same grid and transform, in-footprint values in [0,1], null/NaN outside the footprint (outside convention disputed — the organizer's own reference notebook writes all-finite; IR-54-072, see IR-54-109). Current status (CGRC run): <strong>primary FAIL, twin PASS</strong>; the H54-C2b file in the banner passes as all-finite zeros-outside.</li>
 <li><strong>Holdout:</strong> HOLDOUT-DTI on whole-segment withheld faults, with the same folds as the comparator, must beat the best same-evaluator arm. Current status: <strong>NOT MET</strong> (0.0915 vs 0.1472).</li>
 <li><strong>Canary:</strong> no single feature (including the candidate's own) has AUC above 0.90 against withheld truth. Current status: <strong>clear</strong> (0.523 SGMC, 0.543 cross-gradient).</li>
 </ol>

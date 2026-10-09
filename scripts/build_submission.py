@@ -189,7 +189,7 @@ def main() -> int:
 
     values = np.zeros(foot.shape, dtype=np.float64)
     values[dots] = 1.0
-    write_submission(args.out, values, footprint=foot)
+    write_submission(args.out, values, footprint=foot, outside="zeros")  # all-finite zeros outside (IR-54-051)
 
     # --- independent re-read of what was actually written -------------------
     back, _ = read_band(args.out)

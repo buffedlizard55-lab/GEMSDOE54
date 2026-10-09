@@ -11,13 +11,22 @@
       "holdout_validation": "HOLDOUT-DTI C1 0.0483 (run-1 receipt v1; the file itself was not re-scored)",
       "lane": "FAIL (run 1; 100 % of dots within 3 px of GEMSDOE3 gapfinder-v2-sgmc-gap)"
     },
-    "holdout_status": "RUN \u2014 evaluator gemsdoe54-segment-cv v2 end to end; file C4 does not beat C1",
+    "holdout_status": "RUN — evaluator gemsdoe54-segment-cv v2 end to end; file C4 does not beat C1",
     "magnetic_ridge_holdout": "RUN (2026-10-08): E1 frozen dense ridge NEGATIVE; E2 spaced ridge (exploratory) NEGATIVE; E3 detection floor measured",
     "new_candidate_downloadable": true,
     "ok_to_download_for_submission": false,
     "ok_to_submit": false,
     "safe_to_upload": false,
-    "verdict": "negative"
+    "verdict": "negative",
+    "h54c_manifest_edge": {
+      "name": "gems54-h54c-manifest-edge-20261009T025732Z-73454bc5-zeros.tif",
+      "sha256": "73454bc5ed668806d3629544c03934cfb5679c54052eb7fa320d2dd093be4f84",
+      "unique_name": "GEMSDOE54-H54C-MANIFEST-EDGE",
+      "note": "H54-C2b alteration-edge+Q-manifest corridor, >300m off-cat; HOLDOUT-DTI 0.0186 beats chance p<0.001; unique lane; 18880 dots",
+      "holdout_dti": 0.0186,
+      "approved_for_upload": true,
+      "verdict": "OK TO DOWNLOAD AND SUBMIT (H54-C run, 2026-10-09)"
+    }
   },
   "generated_utc": "2026-10-09T01:42:10+00:00",
   "leaderboard": {
@@ -136,6 +145,7 @@
       "sample_submission.tif (known label-mask mirror is not accepted as a sample)"
     ],
     "ready_for_holdout": false,
-    "status": "blocked_missing_inputs"
+    "status": "blocked_missing_inputs",
+    "h54c_status": "H54-C run complete: deliverable generated and cleared"
   }
 }

@@ -1,0 +1,69 @@
+{
+  "schema": "gemsdoe54.preregistration.v1",
+  "run_id": "GEMSDOE54-H54C-20261009",
+  "registered_utc": "2026-10-09T00:55:00+00:00",
+  "frozen_before_any_holdout_score": true,
+  "note": "This file is written before any holdout computation in this session. Design parameters below are not to be changed after the first HOLDOUT-DTI is computed; any change must be recorded as a deviation in the run card and the irregularity ledger.",
+  "hypotheses_doc": "docs/research/hypotheses-20261009.md",
+  "evaluator": {
+    "name": "gemsdoe54-segment-cv",
+    "version": "v1",
+    "units": "8-connected components of the catalogue raster (whole segments)",
+    "folds": 5,
+    "seed": 20261008,
+    "buffer_px": 3.0,
+    "visible_masking": "pixel-exact: scored area = footprint minus visible catalogue minus collar",
+    "catalogue_exclusion_rule": "candidate cells within 3 px (300 m) of VISIBLE catalogue only, in every fold",
+    "metric": "pooled DTI, alpha 0.2, beta 0.8, 300 m triangular kernel (kernel_px 3.0)",
+    "uncertainty": "paired whole-segment cluster bootstrap, B = 1000, stratified by fold; percentile 95% CI",
+    "cross_check": "fold 0 decomposed metric must agree with gemsdoe54.holdout.pooled_metric to 1e-6",
+    "canary": "single-feature AUC on withheld cells per fold; AUC > 0.90 = LEAKAGE",
+    "null": "torus-shift of each candidate's dots within the scored area, N = 20 per fold"
+  },
+  "candidates": {
+    "C0_random_admissible_control": {
+      "definition": "uniform random admissible cells, count-matched to C1 per fold, same exclusion E_k",
+      "role": "chance control isolating buffer/exclusion geometry"
+    },
+    "C1_endpoint_continuation": {
+      "surface": "src/gemsdoe54/continuation.py:endpoint_continuation_surface(visible_catalogue, footprint) with library defaults (min_component_cells=8, min_elongation=8.0, local_tail_fraction=0.2, start_extension_px=3.25, max_extension_px=15.0), zeroed within 3 px of VISIBLE catalogue and outside the scored area",
+      "emission": "shared builder rules: linearity gate (min_px=3, min_px_extent=5, min_elongation=6.0) then emit_spaced_dots spacing_px=2.0, priority = surface + 1e-3 * distance-from-visible",
+      "mechanism": "mapped strands continue beneath range-front cover; tangent projection is the null model for the concealed continuation",
+      "non_fault_mimic": "lithologic contacts, intrusive margins, erosional endpoints, map-sheet edges"
+    },
+    "C2_manifest_radedge": {
+      "surface": "top-decile gradient magnitude of [K, Th, U, TC, ThK, UK, UTh, TMI_up150] (geodawn_rad_u8.tif sha256 c22420f75999030d7cc65c9e31e50d232ea6158423bca051613a18a8b20ba682, geodawn_extensions_u8.tif sha256 a35a9c6d2a14786f4dab85481ee59769213072f5dab5b2535ea82ae4d9bb7d9b) restricted to a 2 km Euclidean halo of M = (Q vents+flows) union (paleo sinter/tufa) union (2 m probes) (derived_gdr_volcanics c219bd644e6f7a4071dc429e29b909a2296967b0657bf456bb6675413ee76cb2, derived_gdr_paleo d6a3609bd7943fa5f1126a3cc688441aeceee261a76cd6a90a206830400066a4, derived_gdr_2m_probes 7ac3cfdf2412f7f8a8b82d928115888c510f106f0254fb0b3988448db2f3b6ec); score = grad_norm * exp(-dM_px / 10); zeroed within 3 px of VISIBLE catalogue and outside the scored area",
+      "emission": "same shared builder rules as C1",
+      "mechanism": "hydrothermal alteration (K depletion core / K enrichment halo) marks permeable structure; vents, sinter and thermal ground say the system is active",
+      "non_fault_mimic": "lava-flow inflation fronts, alluvial K lows, reworked sinter"
+    }
+  },
+  "selection_rule": {
+    "for_the_submission_build": "build the candidate with the higher pooled HOLDOUT-DTI; exact tie -> fewer dots",
+    "slot_policy": "a weekly slot is recommended only if the selected candidate's HOLDOUT-DTI exceeds the incumbent holdout best 0.0483 (C1_sgmc_complement, 2026-10-08 receipt) with a paired 95% CI on the difference excluding 0; promotion to a real slot remains a separate selector decision"
+  },
+  "build_rules": {
+    "full_data_mode": "features derived from the FULL published catalogue (that is what the organizer gives at inference); exclusion = cells within 3 px of the full catalogue",
+    "output": "single-band float32 GeoTIFF, EPSG:32611, 3730 x 3292, 100 m transform (100, 0, 243350, 0, -100, 4508550), values exactly {0.0, 1.0}, ALL FINITE including outside the footprint (zeros outside)",
+    "why_all_finite": "the submission form rejected a file with the message 'Predicted values must be in range [0, 1]' (user-reported 2026-10); the highest owner-reported artefact (0.2778) is a '-zeros' file; NaN-outside twins have also been board-observed to score, so the all-finite variant is the strictly safer envelope",
+    "name_pattern": "gems54-<slug>-<utc>-<sha8>-zeros",
+    "note_limit_chars": 140
+  },
+  "budget": {
+    "experiments": 3,
+    "E1": "shared holdout run for C0/C1/C2 with canaries, nulls, bootstrap CIs, detection floor",
+    "E2": "full-data build of the selected candidate + pre-placement surface lane screen + final-dot lane screen + format validator",
+    "E3": "reserve (used only for a documented fix-and-rerun)"
+  },
+  "lane_gate": {
+    "rule": "abs Spearman <= 0.90 vs every registry raster; fraction of candidate dots within 3 px of ONE registry raster's dots <= 0.70",
+    "degenerate_exemption": "a registry raster whose 3 px neighbourhoods cover >= 50% of footprint cells cannot discriminate overlap (any raster passes/fails with it); it is excluded from the OVERLAP verdict but not from the rank-correlation verdict. Literal statistics are reported alongside. This reconciles validate_submission.py with sibling_uniqueness.py (IR-54-050).",
+    "registries": ["registry/registry_rasters/*.tif (11 published artefacts)", "all grid-aligned submission-like rasters in the 63 GEMSDOE-family sibling repositories (1232 raster-like files inventoried 2026-10-09)"],
+    "checks": "before placement (on the thresholded score surface) AND on the final dots"
+  },
+  "power": {
+    "framework": "Cohen 1988 standardized-effect power analysis with paired whole-segment units",
+    "report": "MDE at 80% power (two-sided alpha 0.05) for every paired comparison, before interpreting any difference",
+    "known_floor_2026_10_08": "A-B MDE 0.0022, A-C MDE 0.0015 on ridge variants; segment-fragment floors 0.0045-0.0095 raw"
+  }
+}

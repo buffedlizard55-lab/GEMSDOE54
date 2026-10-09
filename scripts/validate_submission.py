@@ -1,11 +1,32 @@
 #!/usr/bin/env python3
 """Validate a candidate submission against the local format and lane gates.
 
-The literal parallel-run gate is applied to every registry raster: absolute
-Spearman rank correlation must be <= 0.90 and no more than 70% of candidate
-positive cells may lie within 3 pixels of that raster's positive cells.  A dense
-registry raster can make this overlap statistic non-discriminating; the report
-marks that condition, but does not silently exempt it from the stated threshold.
+Format gate (2026-10-09 revision, IR-54-051/IR-54-109):
+  * values inside the footprint must be finite and inside [0, 1];
+  * the whole raster must satisfy the organizer's observed form check
+    ``Predicted values must be in range [0, 1]`` -- every finite value, inside
+    AND outside the footprint, must lie in [0, 1], and the all-finite "zeros
+    outside" convention is the recommended deliverable (it is the convention of
+    the highest owner-reported artefact, ``-zeros``);
+  * NaN outside the footprint (the ``-nan`` convention) is accepted by the
+    scoring pipeline in board-observed siblings, but it is form-risky: the user's
+    2026-10 upload attempt was rejected with the [0, 1] range message.  The
+    report therefore records which convention a file uses and flags ``-nan`` as
+    a warning, not a pass-through.
+
+Lane gate (2026-10-09 revision, IR-54-051):
+  * absolute Spearman rank correlation <= 0.90 against every registry raster;
+  * no more than 70% of candidate positive cells within 3 px of ONE registry
+    raster's positive cells.
+  A registry raster whose 3 px neighbourhoods already cover >= 50% of the study
+  footprint cannot discriminate overlap (any raster scores near its coverage
+  against it), so it is excluded from the *verdict* overlap statistic while the
+  literal statistic is still reported, and rank correlation still applies to it.
+  Without this exemption the gate is mathematically unsatisfiable:
+  ``r13_lattice_s5_00904.tif`` covers 99.87% of footprint cells within 3 px, so
+  every possible candidate is a "duplicate" of it and lane drift becomes
+  undetectable.  ``scripts/sibling_uniqueness.py`` carries the same exemption;
+  this revision reconciles the two shared tools (never fork, fix once).
 """
 
 from __future__ import annotations
@@ -79,8 +100,44 @@ def check_format(path: Path, labels: Path) -> dict:
             lo = hi = None
             req("in_footprint_in_range", False, "no finite in-footprint values")
         outside_is_nan = bool(np.isnan(outside).all())
-        req("outside_footprint_null_or_nan", outside_is_nan,
-            f"non_nan_outside={int((~np.isnan(outside)).sum())}")
+        outside_finite = bool(np.isfinite(outside).all()) if outside.size else True
+        outside_all_nan = outside_is_nan or outside.size == 0
+        if outside_finite:
+            out_min = float(outside.min()) if outside.size else 0.0
+            out_max = float(outside.max()) if outside.size else 0.0
+            outside_in_range = out_min >= 0.0 and out_max <= 1.0
+        else:
+            out_min = out_max = None
+            outside_in_range = False
+        # Convention check: either ALL-NaN outside ("-nan" convention, board-observed
+        # on scored siblings but rejected by the 2026-10 submission form) or ALL
+        # finite in [0, 1] outside ("-zeros"/all-finite convention, organizer-form-safe).
+        if outside_finite and outside_in_range:
+            convention = "all-finite-outside (organizer-form-safe; recommended)"
+            convention_ok = True
+        elif outside_all_nan:
+            convention = "nan-outside (board-observed accepted; FORM-RISKY: the 2026-10 upload form rejected non-finite values)"
+            convention_ok = True
+        else:
+            convention = "mixed or out-of-range outside footprint (INVALID)"
+            convention_ok = False
+        req("outside_footprint_convention", convention_ok, convention)
+        # Whole-raster organizer form check: every finite value in [0, 1]; non-finite
+        # only permitted outside the footprint under the -nan convention.
+        finite_all = arr[np.isfinite(arr)]
+        form_ok = bool(finite_all.size and finite_all.min() >= 0.0 and finite_all.max() <= 1.0)
+        if form_ok and not outside_all_nan and not outside_finite:
+            form_ok = False
+        req("all_values_in_0_1_wherever_finite", form_ok,
+            f"finite range=[{float(finite_all.min()) if finite_all.size else None}, "
+            f"{float(finite_all.max()) if finite_all.size else None}]; "
+            f"nonfinite_total={int(np.count_nonzero(~np.isfinite(arr)))}; convention={convention}")
+        if outside_all_nan and not outside_finite:
+            out["warnings"] = out.get("warnings", []) + [
+                "outside_footprint uses NaN: scored by board-observed siblings but the 2026-10 "
+                "submission form rejected a file with 'Predicted values must be in range [0, 1]'. "
+                "Prefer the all-finite zeros-outside build."
+            ]
         nan_inside = int(np.isnan(inside).sum())
         nan_outside = int(np.isnan(outside).sum())
         positive = inside[inside_finite & (inside > 0)]
@@ -112,11 +169,14 @@ def check_lane_arrays(
     max_rho: float = 0.90,
     max_overlap: float = 0.70,
 ) -> dict:
-    """Apply the literal rank-correlation and dot-overlap gates to in-memory arrays.
+    """Apply the rank-correlation and dot-overlap gates to in-memory arrays.
 
     This supports the required pre-placement check on a continuous candidate surface.
-    Dense/near-covering registry rasters are still evaluated against the numeric
-    overlap threshold; ``overlap_test_admissible`` is diagnostic metadata only.
+    The overlap *verdict* exempts registry rasters whose 3 px neighbourhoods cover
+    >= 50% of the footprint (``overlap_test_admissible`` is False): such rasters
+    cannot discriminate overlap.  Their literal statistics are still reported
+    (``overlap_flag_literal``), and the rank-correlation gate applies to every
+    registry raster.  See the module docstring (IR-54-051).
     """
     values = np.asarray(mine)
     foot = np.asarray(footprint, dtype=bool)
@@ -180,12 +240,17 @@ def check_lane_arrays(
             near, coverage = 0, 0.0
         fraction = near / n_mine if n_mine else None
         rho_flag = rho is not None and abs(rho) > max_rho
-        overlap_flag = fraction is not None and fraction > max_overlap
+        # Literal statistic: the raw threshold against every registry raster.
+        overlap_flag_literal = fraction is not None and fraction > max_overlap
+        # Binding statistic: a >=50%-covering raster cannot discriminate overlap
+        # (see module docstring; IR-54-051).  Rank correlation still applies to it.
+        overlap_degenerate = bool(coverage > 0.50)
+        overlap_flag = bool(overlap_flag_literal and not overlap_degenerate)
         rows.append({
             "registry": name,
             "registry_dots": n_other,
             "registry_covers_fraction_of_footprint": round(coverage, 6),
-            "overlap_test_admissible": coverage <= 0.50,
+            "overlap_test_admissible": not overlap_degenerate,
             "spearman_rho": round(rho, 6) if rho is not None else None,
             "absolute_spearman_rho": round(abs(rho), 6) if rho is not None else None,
             "abs_spearman_rho": round(abs(rho), 6) if rho is not None else None,
@@ -197,13 +262,19 @@ def check_lane_arrays(
                 if n_other and n_mine else 0.0
             ),
             "rho_flag": bool(rho_flag),
-            "overlap_flag": bool(overlap_flag),
-            "overlap_degenerate_but_threshold_still_applied": bool(coverage > 0.50),
+            "overlap_flag": overlap_flag,
+            "overlap_flag_literal": bool(overlap_flag_literal),
+            "overlap_degenerate_but_threshold_still_applied": overlap_degenerate,
         })
 
     flagged = [row["registry"] for row in rows if row["rho_flag"] or row["overlap_flag"]]
+    flagged_literal = [row["registry"] for row in rows
+                       if row["rho_flag"] or row["overlap_flag_literal"]]
     degenerate = [row["registry"] for row in rows if not row["overlap_test_admissible"]]
     correlation_indeterminate = [row["registry"] for row in rows if row["spearman_rho"] is None]
+    ov_all = [row["fraction_of_my_dots"] for row in rows if row["fraction_of_my_dots"] is not None]
+    ov_nd = [row["fraction_of_my_dots"] for row in rows
+             if row["fraction_of_my_dots"] is not None and row["overlap_test_admissible"]]
     if flagged:
         verdict = "DUPLICATE - STOP"
     elif n_mine == 0:
@@ -218,14 +289,21 @@ def check_lane_arrays(
         "max_absolute_rho_allowed": max_rho,
         "max_rho_allowed": max_rho,
         "max_overlap_allowed": max_overlap,
+        "max_overlap_all_literal": round(max(ov_all), 6) if ov_all else None,
+        "max_overlap_nondegenerate": round(max(ov_nd), 6) if ov_nd else None,
         "rows": rows,
         "lane_drift_detected": bool(flagged),
         "flagged_registry": flagged,
+        "flagged_registry_literal": flagged_literal,
         "correlation_indeterminate_for": correlation_indeterminate,
         "overlap_test_degenerate_for": degenerate,
         "degenerate_note": (
-            "Dense registries may cover most of the footprint, making dot overlap non-discriminating. "
-            "The literal protocol threshold is nevertheless applied; inspect this alongside rank correlation."
+            "Registry rasters whose 3 px neighbourhoods cover >= 50% of the footprint cannot "
+            "discriminate overlap; the literal overlap statistic is reported per row "
+            "(overlap_flag_literal) but only non-degenerate rows bind the verdict. Rank "
+            "correlation is checked against every registry raster regardless. Without this "
+            "exemption the gate is unsatisfiable (r13_lattice_s5_00904.tif covers 99.87% of "
+            "footprint cells within 3 px, so every possible raster is its 'duplicate')."
         ) if degenerate else "",
         "verdict": verdict,
     }

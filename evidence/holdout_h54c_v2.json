@@ -1,0 +1,246 @@
+{
+  "evaluator": {
+    "name": "gemsdoe54-segment-cv",
+    "version": "v1",
+    "metric": "organizer DTI alpha=0.2 beta=0.8 kernel=300 m triangular",
+    "seed": 20261008,
+    "bootstrap_replicates": 1000,
+    "shift_nulls": 20,
+    "script_sha256": "2226b259231766def51592b7b65ef76491a2f2ac28463b96b1726ecb28852757",
+    "preregistration": "evidence/preregistration_h54c.json"
+  },
+  "label": "HOLDOUT-DTI (evaluator gemsdoe54-segment-cv v1; catalogue-recovery truth, not hidden-test labels)",
+  "inputs": {
+    "labels": {
+      "path": "/home/user/GEMSDOE54/data/grid/labels.tif",
+      "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+    },
+    "paths": {
+      "volcanics": {
+        "path": "/home/user/GEMSDOE54/data/external/derived_gdr_volcanics_100m_u8.tif",
+        "sha256": "c219bd644e6f7a4071dc429e29b909a2296967b0657bf456bb6675413ee76cb2"
+      },
+      "paleo": {
+        "path": "/home/user/GEMSDOE54/data/external/derived_gdr_paleo_100m_u8.tif",
+        "sha256": "d6a3609bd7943fa5f1126a3cc688441aeceee261a76cd6a90a206830400066a4"
+      },
+      "probes": {
+        "path": "/home/user/GEMSDOE54/data/external/derived_gdr_2m_probes_100m_u8.tif",
+        "sha256": "7ac3cfdf2412f7f8a8b82d928115888c510f106f0254fb0b3988448db2f3b6ec"
+      },
+      "rad": {
+        "path": "/home/user/GEMSDOE54/data/external/geodawn_rad_u8.tif",
+        "sha256": "c22420f75999030d7cc65c9e31e50d232ea6158423bca051613a18a8b20ba682"
+      },
+      "ext": {
+        "path": "/home/user/GEMSDOE54/data/external/geodawn_extensions_u8.tif",
+        "sha256": "a35a9c6d2a14786f4dab85481ee59769213072f5dab5b2535ea82ae4d9bb7d9b"
+      }
+    },
+    "footprint_cells": 5167373,
+    "footprint_expected": 5167373
+  },
+  "design": {
+    "folds": 5,
+    "unit": "8-connected catalogue component (whole segment)",
+    "buffer_m": 300,
+    "scored_area": "footprint minus visible catalogue minus buffer collar",
+    "visible_only_features": true,
+    "pixel_exact_visible_mask": true,
+    "emission": "linearity gate (3,5,6) + 2 px spacing, priority = surface + 1e-3*dist_visible_px"
+  },
+  "units": {
+    "catalogue_segments_total": 3199,
+    "segments_per_fold": [
+      640,
+      640,
+      640,
+      640,
+      639
+    ],
+    "withheld_positive_cells_total": 60988,
+    "withheld_positive_cells_per_fold": [
+      11665,
+      12099,
+      11719,
+      13171,
+      12334
+    ]
+  },
+  "candidates": {
+    "C0_random_admissible_control": {
+      "pooled_dti_point": 0.006246,
+      "pooled_tp_w": 367.363,
+      "pooled_fp_w": 49759.0,
+      "pooled_fn_w": 60620.637,
+      "dots_total": 49891,
+      "bootstrap_sd": 0.000575,
+      "ci95_percentile": [
+        0.005161,
+        0.007341
+      ],
+      "label": "HOLDOUT-DTI"
+    },
+    "C1_endpoint_continuation": {
+      "pooled_dti_point": 0.031711,
+      "pooled_tp_w": 1850.0925,
+      "pooled_fp_w": 45906.0,
+      "pooled_fn_w": 59137.9075,
+      "dots_total": 46698,
+      "bootstrap_sd": 0.001522,
+      "ci95_percentile": [
+        0.028724,
+        0.034627
+      ],
+      "label": "HOLDOUT-DTI"
+    },
+    "C2_manifest_radedge": {
+      "pooled_dti_point": 0.002826,
+      "pooled_tp_w": 145.2264,
+      "pooled_fp_w": 12895.0,
+      "pooled_fn_w": 60842.7736,
+      "dots_total": 12948,
+      "bootstrap_sd": 0.000535,
+      "ci95_percentile": [
+        0.001772,
+        0.003858
+      ],
+      "label": "HOLDOUT-DTI"
+    },
+    "C2b_manifest_radedge_ungated": {
+      "pooled_dti_point": 0.018596,
+      "pooled_tp_w": 1262.1746,
+      "pooled_fp_w": 94153.0,
+      "pooled_fn_w": 59725.8254,
+      "dots_total": 94616,
+      "bootstrap_sd": 0.001474,
+      "ci95_percentile": [
+        0.01571,
+        0.021525
+      ],
+      "label": "HOLDOUT-DTI"
+    }
+  },
+  "paired_differences": {
+    "C1_endpoint_continuation minus C0_random_admissible_control": {
+      "point": 0.025465,
+      "bootstrap_se": 0.001626,
+      "ci95_percentile": [
+        0.022485,
+        0.028758
+      ],
+      "mde_raw_80pct_two_sided": 0.004554,
+      "bootstrap_sign_p": 0.0
+    },
+    "C2_manifest_radedge minus C0_random_admissible_control": {
+      "point": -0.00342,
+      "bootstrap_se": 0.000772,
+      "ci95_percentile": [
+        -0.004985,
+        -0.00191
+      ],
+      "mde_raw_80pct_two_sided": 0.002163,
+      "bootstrap_sign_p": 0.0
+    },
+    "C1_endpoint_continuation minus C2_manifest_radedge": {
+      "point": 0.028885,
+      "bootstrap_se": 0.001629,
+      "ci95_percentile": [
+        0.025653,
+        0.031982
+      ],
+      "mde_raw_80pct_two_sided": 0.004564,
+      "bootstrap_sign_p": 0.0
+    },
+    "C2b_manifest_radedge_ungated minus C0_random_admissible_control": {
+      "point": 0.01235,
+      "bootstrap_se": 0.001567,
+      "ci95_percentile": [
+        0.009431,
+        0.015379
+      ],
+      "mde_raw_80pct_two_sided": 0.00439,
+      "bootstrap_sign_p": 0.0
+    },
+    "C2b_manifest_radedge_ungated minus C2_manifest_radedge": {
+      "point": 0.01577,
+      "bootstrap_se": 0.001309,
+      "ci95_percentile": [
+        0.013162,
+        0.018317
+      ],
+      "mde_raw_80pct_two_sided": 0.003668,
+      "bootstrap_sign_p": 0.0
+    },
+    "C2b_manifest_radedge_ungated minus C1_endpoint_continuation": {
+      "point": -0.013115,
+      "bootstrap_se": 0.002071,
+      "ci95_percentile": [
+        -0.017036,
+        -0.009221
+      ],
+      "mde_raw_80pct_two_sided": 0.005803,
+      "bootstrap_sign_p": 0.0
+    }
+  },
+  "shift_nulls": {
+    "C0_random_admissible_control": {
+      "n": 20,
+      "mean": 0.002379,
+      "sd": 0.000503,
+      "p95": 0.003494,
+      "max": 0.003521
+    },
+    "C1_endpoint_continuation": {
+      "n": 20,
+      "mean": 0.002578,
+      "sd": 0.000538,
+      "p95": 0.003399,
+      "max": 0.003576
+    },
+    "C2_manifest_radedge": {
+      "n": 20,
+      "mean": 0.000703,
+      "sd": 0.000266,
+      "p95": 0.001089,
+      "max": 0.001181
+    },
+    "C2b_manifest_radedge_ungated": {
+      "n": 20,
+      "mean": 0.004971,
+      "sd": 0.001019,
+      "p95": 0.006315,
+      "max": 0.006875
+    }
+  },
+  "canary": {
+    "C1_endpoint_surface": {
+      "max_auc_over_folds": 0.519297,
+      "mean_auc": 0.516885,
+      "flag": "clear"
+    },
+    "C2_grad_mag": {
+      "max_auc_over_folds": 0.524468,
+      "mean_auc": 0.514578,
+      "flag": "clear"
+    },
+    "C2_d_manifest_px": {
+      "max_auc_over_folds": 0.548723,
+      "mean_auc": 0.519584,
+      "flag": "clear"
+    },
+    "dist_to_visible_catalogue_m": {
+      "max_auc_over_folds": 0.756236,
+      "mean_auc": 0.744297,
+      "flag": "clear"
+    }
+  },
+  "power": {
+    "cohen_d_min_80pct_alpha05_units_total": 0.04955,
+    "cohen_d_min_80pct_alpha05_units_per_fold": 0.111,
+    "paired_mde_reported_per_comparison": true,
+    "note": "Units are whole segments; paired MDEs come from the cluster bootstrap SE (2.80*SE)."
+  },
+  "selection_rule": "preregistered: higher pooled HOLDOUT-DTI wins; exact tie -> fewer dots",
+  "generated_utc": "2026-10-09T02:55:22+00:00"
+}

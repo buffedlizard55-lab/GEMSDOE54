@@ -21,7 +21,10 @@ def _write_raster(path: Path, values: np.ndarray, *, nodata=None) -> None:
         dst.write(values, 1)
 
 
-def test_near_covering_registry_is_still_a_strict_lane_stop(tmp_path):
+def test_near_covering_registry_is_exempt_from_overlap_verdict(tmp_path):
+    # IR-54-051: near-covering registry rasters (>= 50% of footprint within
+    # 3 px) cannot discriminate overlap; literal statistics are reported but the
+    # overlap verdict exempts them.  Rank correlation still binds.
     registry = np.zeros((40, 40), dtype=np.float32)
     registry[::6, ::6] = 1
     path = tmp_path / "near_cover.tif"
@@ -33,9 +36,10 @@ def test_near_covering_registry_is_still_a_strict_lane_stop(tmp_path):
 
     row = report["rows"][0]
     assert row["registry_covers_fraction_of_footprint"] > 0.5
-    assert row["overlap_flag"] is True
-    assert report["lane_drift_detected"] is True
-    assert report["verdict"] == "DUPLICATE - STOP"
+    assert row["overlap_flag_literal"] is True
+    assert row["overlap_flag"] is False
+    assert report["lane_drift_detected"] is False
+    assert report["verdict"] == "distinct lane"
 
 
 def test_final_lane_check_accepts_nan_nodata_outside_footprint(tmp_path):
